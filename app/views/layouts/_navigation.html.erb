@@ -2,7 +2,7 @@
 <ul class="nav">
   <% if user_signed_in? %>
     <li>
-    Logged in as <%= current_user.name %>
+    <%= link_to 'Logged in as ' + current_user.name, users_path %>
     </li>
     <li>
     <%= link_to 'Logout', signout_path %>

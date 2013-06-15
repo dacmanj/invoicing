@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Description:</b>
+  <%= @line.description %>
+</p>
+
+<p>
+  <b>Item:</b>
+  <%= @line.item_id %>
+</p>
+
+<p>
+  <b>Quantity:</b>
+  <%= @line.quantity %>
+</p>
+
+<p>
+  <b>Unit price:</b>
+  <%= @line.unit_price %>
+</p>
+
+
+<%= link_to 'Edit', edit_line_path(@line) %> |
+<%= link_to 'Back', lines_path %>

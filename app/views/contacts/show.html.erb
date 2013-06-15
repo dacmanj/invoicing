@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b><%= Contact.human_attribute_name('first_name') %>:</b>
+  <%= @contact.first_name %>
+</p>
+
+<p>
+  <b><%= Contact.human_attribute_name('last_name') %>:</b>
+  <%= @contact.last_name %>
+</p>
+
+<p>
+  <b><%= Contact.human_attribute_name('company_id') %>:</b>
+  <%= @contact.company_id %>
+</p>
+
+<p>
+  <b><%= Contact.human_attribute_name('address') %>:</b>
+  <%= render @contact.addresses, :collection => @addresses %>
+</p>
+
+<p>
+  <b><%= Contact.human_attribute_name('active') %>:</b>
+  <%= @contact.active %>
+</p>
+
+<p>
+  <b><%= Contact.human_attribute_name('database_id')%>:</b>
+  <%= @contact.database_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_contact_path(@contact) %> |
+<%= link_to 'Back', contacts_path %>

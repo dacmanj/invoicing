@@ -1,4 +1,25 @@
 Invoicing::Application.routes.draw do
+  resources :addresses
+
+
+  resources :invoices
+
+
+  resources :payments
+
+
+  resources :contacts
+
+
+  resources :companies
+
+
+  resources :lines
+
+
+  resources :items
+
+
   root :to => "home#index"
   resources :users, :only => [:index, :show, :edit, :update ]
   match '/auth/:provider/callback' => 'sessions#create'

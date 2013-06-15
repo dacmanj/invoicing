@@ -1,0 +1,11 @@
+    <%= f.simple_fields_for :addresses do |a| %>
+	    <%= a.input :address_line_1 %>
+	    <%= a.input :address_line_2 %>
+	    <%= a.input :address_line_3 %>
+	    <%= a.input :city %>
+	    <%= a.input :state %>
+	    <%= a.input :zip %>
+	    <%= a.input :email %>
+	    <%= a.input :phone %>
+	    <%= a.input :fax %>
+    <% end %>

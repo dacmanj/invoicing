@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Description:</b>
+  <%= @item.description %>
+</p>
+
+<p>
+  <b>Revenue gl code:</b>
+  <%= @item.revenue_gl_code %>
+</p>
+
+<p>
+  <b>Receivable gl code:</b>
+  <%= @item.receivable_gl_code %>
+</p>
+
+<p>
+  <b>Quantity:</b>
+  <%= @item.quantity %>
+</p>
+
+<p>
+  <b>Unit price:</b>
+  <%= @item.unit_price %>
+</p>
+
+<p>
+  <b>Item image url:</b>
+  <%= @item.item_image_url %>
+</p>
+
+
+<%= link_to 'Edit', edit_item_path(@item) %> |
+<%= link_to 'Back', items_path %>

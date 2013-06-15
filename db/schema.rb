@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130614211618) do
+ActiveRecord::Schema.define(:version => 20130615152647) do
 
   create_table "addresses", :force => true do |t|
     t.string   "address_line_1"
@@ -50,15 +50,8 @@ ActiveRecord::Schema.define(:version => 20130614211618) do
   end
 
   create_table "contacts_invoices", :id => false, :force => true do |t|
-    t.integer "contacts_id"
-    t.integer "invoices_id"
-  end
-
-  create_table "invoice_contacts", :force => true do |t|
-    t.string   "invoice_id"
-    t.string   "contact_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer "contact_id"
+    t.integer "invoice_id"
   end
 
   create_table "invoices", :force => true do |t|
@@ -87,6 +80,7 @@ ActiveRecord::Schema.define(:version => 20130614211618) do
     t.decimal  "unit_price"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "invoice_id"
   end
 
   create_table "payments", :force => true do |t|

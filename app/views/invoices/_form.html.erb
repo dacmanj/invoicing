@@ -5,6 +5,16 @@
     <%= f.association :company %>
     <%= f.association :contacts %>
     <%= f.association :user %>
+
+  <div class="well"><%=f.simple_fields_for :lines do |assets_form| %>
+	<%=   assets_form.input :description, label: 'Line Text', as: :text %>
+	<%=   assets_form.input :item_id, collection: Item.all, label_method: :description %>
+	<%=	  assets_form.input :quantity, :input_html => { min: 0 } %>
+	<%=	  assets_form.input :unit_price, :input_html => { min: 0 } %>
+	<% end %>
+  </div>
+
+
   </div>
 
   <div class="form-actions">

@@ -25,6 +25,7 @@ class InvoicesController < ApplicationController
   # GET /invoices/new.json
   def new
     @invoice = Invoice.new
+    @invoice.lines.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,6 +36,8 @@ class InvoicesController < ApplicationController
   # GET /invoices/1/edit
   def edit
     @invoice = Invoice.find(params[:id])
+    @invoice.lines.build
+
   end
 
   # POST /invoices

@@ -1,8 +1,8 @@
 class ContactsInvoices < ActiveRecord::Migration
   def up
   	create_table 'contacts_invoices', :id => false do |t|
-	    t.column :contacts_id, :integer
-	    t.column :invoices_id, :integer
+	    t.column :contact_id, :integer
+	    t.column :invoice_id, :integer
 	end
   end
 

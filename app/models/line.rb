@@ -9,8 +9,16 @@
 #  unit_price  :decimal(, )
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  invoice_id  :integer
 #
 
 class Line < ActiveRecord::Base
-  attr_accessible :description, :item_id, :quantity, :unit_price
+	belongs_to :invoice
+	belongs_to :item
+
+  attr_accessible :description, :item_id, :quantity, :unit_price, :invoice_id
+
+  def item
+  	@item
+  end
 end

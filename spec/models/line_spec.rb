@@ -9,6 +9,7 @@
 #  unit_price  :decimal(, )
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  invoice_id  :integer
 #
 
 require 'spec_helper'

@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130615152647) do
+ActiveRecord::Schema.define(:version => 20130618124312) do
+
+  create_table "accounts", :force => true do |t|
+    t.string   "name"
+    t.string   "default_account_ar_account"
+    t.integer  "contact_id"
+    t.integer  "address_id"
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+    t.string   "database_id"
+  end
 
   create_table "addresses", :force => true do |t|
     t.string   "address_line_1"
@@ -28,20 +38,18 @@ ActiveRecord::Schema.define(:version => 20130615152647) do
     t.integer  "contact_id"
   end
 
-  create_table "companies", :force => true do |t|
-    t.string   "name"
-    t.string   "default_account_ar_account"
-    t.integer  "contact_id"
-    t.integer  "address_id"
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
-    t.string   "database_id"
+  create_table "codes", :force => true do |t|
+    t.string   "category"
+    t.string   "code"
+    t.string   "value"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "contacts", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
-    t.integer  "company_id"
+    t.integer  "account_id"
     t.integer  "address_id"
     t.boolean  "active"
     t.string   "database_id"
@@ -56,7 +64,7 @@ ActiveRecord::Schema.define(:version => 20130615152647) do
 
   create_table "invoices", :force => true do |t|
     t.integer  "contact_id"
-    t.integer  "company_id"
+    t.integer  "account_id"
     t.integer  "user_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -65,12 +73,11 @@ ActiveRecord::Schema.define(:version => 20130615152647) do
   create_table "items", :force => true do |t|
     t.string   "description"
     t.string   "revenue_gl_code"
-    t.string   "receivable_gl_code"
     t.decimal  "quantity"
     t.decimal  "unit_price"
     t.string   "item_image_url"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "lines", :force => true do |t|
@@ -85,7 +92,7 @@ ActiveRecord::Schema.define(:version => 20130615152647) do
 
   create_table "payments", :force => true do |t|
     t.integer  "invoice_id"
-    t.integer  "company_id"
+    t.integer  "account_id"
     t.date     "payment_date"
     t.string   "payment_type"
     t.string   "reference_number"

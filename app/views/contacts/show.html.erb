@@ -11,8 +11,8 @@
 </p>
 
 <p>
-  <b><%= Contact.human_attribute_name('company_id') %>:</b>
-  <%= @contact.company_id %>
+  <b><%= Contact.human_attribute_name('account') %>:</b>
+  <%= @contact.account.name unless @contact.account.nil? %>
 </p>
 
 <p>

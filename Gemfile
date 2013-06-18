@@ -13,6 +13,7 @@ gem "database_cleaner", ">= 1.0.0.RC1", :group => :test
 gem "email_spec", ">= 1.4.0", :group => :test
 gem "factory_girl_rails", ">= 4.2.0", :group => [:development, :test]
 gem "bootstrap-sass", ">= 2.3.0.0"
+gem 'bootstrap-generators', '~> 2.3'
 gem "omniauth", ">= 1.1.3"
 gem "omniauth-google-oauth2"
 gem "simple_form", ">= 2.1.0"

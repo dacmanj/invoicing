@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @account.name %>
+</p>
+
+<p>
+  <b>Default account ar account:</b>
+  <%= @account.default_account_ar_account %>
+</p>
+
+<p>
+  <b>Contacts:</b>
+  <%= render @account.contacts %>
+</p>
+
+<%= link_to 'Edit', edit_account_path(@account) %> |
+<%= link_to 'Back', accounts_path %>

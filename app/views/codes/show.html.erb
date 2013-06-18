@@ -1,0 +1,23 @@
+<div class="page-header">
+  <%= link_to codes_path, :class => 'btn' do %>
+    <i class="icon-list-alt"></i>
+    Back
+  <% end %>
+  <%= link_to edit_code_path(@code), :class => 'btn btn-primary' do %>
+    <i class="icon-pencil icon-white"></i>
+    Edit
+  <% end %>
+  <h1>Listing codes</h1>
+</div>
+
+<dl>
+  <dt>Category:</dt>
+  <dd><%= @code.category %></dd>
+
+  <dt>Code:</dt>
+  <dd><%= @code.code %></dd>
+
+  <dt>Value:</dt>
+  <dd><%= @code.value %></dd>
+
+</dl>

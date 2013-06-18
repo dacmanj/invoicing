@@ -1,6 +1,6 @@
-class CreateCompanies < ActiveRecord::Migration
+class CreateAccounts < ActiveRecord::Migration
   def change
-    create_table :companies do |t|
+    create_table :accounts do |t|
       t.string :name
       t.string :default_account_ar_account
       t.integer :contact_id

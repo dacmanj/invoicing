@@ -1,4 +1,7 @@
 Invoicing::Application.routes.draw do
+  resources :codes
+
+
   resources :addresses
 
 
@@ -11,7 +14,7 @@ Invoicing::Application.routes.draw do
   resources :contacts
 
 
-  resources :companies
+  resources :accounts
 
 
   resources :lines

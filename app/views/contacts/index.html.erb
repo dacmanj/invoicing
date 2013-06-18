@@ -1,6 +1,13 @@
-<h1>Listing contacts</h1>
+<div class="page-header">
+  <%= link_to new_contact_path, :class => 'btn btn-primary' do %>
+    <i class="icon-plus icon-white"></i>
+    New Contact
+  <% end %>
+  <h1>Listing Contacts</h1>
+</div>
 
-<table>
+
+<table class="table table-bordered table-striped">
   <tr>
     <th>First name</th>
     <th>Last name</th>
@@ -17,7 +24,7 @@
   <tr>
     <td><%= contact.first_name %></td>
     <td><%= contact.last_name %></td>
-    <td><%= contact.company_id %></td>
+    <td><%= contact.account.name unless contact.account.nil? %></td>
     <td><%= contact.address_id %></td>
     <td><%= contact.active %></td>
     <td><%= contact.database_id %></td>

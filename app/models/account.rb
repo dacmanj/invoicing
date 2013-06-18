@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: companies
+# Table name: account
 #
 #  id                         :integer          not null, primary key
 #  name                       :string(255)
@@ -12,7 +12,7 @@
 #  database_id                :string(255)
 #
 
-class Company < ActiveRecord::Base
+class Account < ActiveRecord::Base
 	has_many :contacts
 	has_many :invoices
 	

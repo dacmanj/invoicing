@@ -1,0 +1,33 @@
+<div class="page-header">
+  <%= link_to new_code_path, :class => 'btn btn-primary' do %>
+    <i class="icon-plus icon-white"></i>
+    New Code
+  <% end %>
+  <h1>Listing codes</h1>
+</div>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Code</th>
+      <th>Value</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+<% @codes.each do |code| %>
+    <tr>
+      <td><%= code.category %></td>
+      <td><%= code.code %></td>
+      <td><%= code.value %></td>
+      <td><%= link_to 'Show', code %></td>
+      <td><%= link_to 'Edit', edit_code_path(code) %></td>
+      <td><%= link_to 'Destroy', code, confirm: 'Are you sure?', method: :delete %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

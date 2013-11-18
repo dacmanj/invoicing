@@ -4,7 +4,7 @@
 #
 #  id               :integer          not null, primary key
 #  invoice_id       :integer
-#  company_id       :integer
+#  account_id       :integer
 #  payment_date     :date
 #  payment_type     :string(255)
 #  reference_number :string(255)

@@ -4,8 +4,9 @@
   <div class="form-inputs">
     <%= f.input :first_name %>
     <%= f.input :last_name %>
+    <%= f.input :title %>
     <%= f.association :account %>
-      <%= render 'addresses', :f => f %>
+      <%= render 'addresses/form', :f => f %>
     <%= f.input :active %>
     <%= f.input :database_id %>
   </div>

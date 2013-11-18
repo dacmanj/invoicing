@@ -7,6 +7,9 @@ Invoicing::Application.routes.draw do
 
   resources :invoices
 
+  resources :invoices do
+    resources :lines, only: :destroy
+  end
 
   resources :payments
 

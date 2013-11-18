@@ -25,7 +25,6 @@ class ContactsController < ApplicationController
   # GET /contacts/new.json
   def new
     @contact = Contact.new
-    @contact.addresses.build
 
     @contact.active = true
 
@@ -38,7 +37,7 @@ class ContactsController < ApplicationController
   # GET /contacts/1/edit
   def edit
     @contact = Contact.find(params[:id])
-    @contact.addresses.build
+    @address = @contact.address || Address.new
 
   end
 

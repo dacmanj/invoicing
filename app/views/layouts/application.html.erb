@@ -14,6 +14,8 @@
 
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
+  <%= tinymce_assets %>
+  <%= tinymce %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -25,7 +27,6 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </a>
-        <%= link_to "Project name", "#", :class => "brand" %>
         <div class="nav-collapse">
           <%= render "layouts/navigation" %>
         </div>

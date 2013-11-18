@@ -1,19 +1,40 @@
-<p id="notice"><%= notice %></p>
+    <div class="row">
+      <div class="col-md-2 col-md-offset-2" id="logo">
+        <%=image_tag("logo.png", width: '158', height: '153')%>
+      </div>
 
-<p>
-  <b>Contact:</b>
-  <%= @invoice.contact_id %>
-</p>
+      <div class="col-md-4" id="pflag_address">
+        <center>
+          <h4>PFLAG National</h4>
+          <h4><i>Moving equality forward…</i></h4>
+          <h4>TAX ID # 95-3750694</h4>
+          <p>
+            1828 L St NW, Ste 660<br>Washington, DC 20036<br>
+            (202) 467-8180 | Fax: (202) 467-8194<br>
+            <a href="mailto:info@pflag.org">INFO@PFLAG.ORG</a> | <a href="http://www.pflag.org">WWW.PFLAG.ORG</a>
+          </p>
+        </center>
+      </div>
+      <div id="invoice_info" class="col-md-2" style="text-align: right;">
+        <h2 style="color: gray;">INVOICE</h2>
+        <p>Invoice #<span id="invoicenumber"><%= @invoice.id %></span></p>
+        <p>Date: <span id="invoicedate"><%= l @invoice.date, :format => "%m/%d/%Y" %></span></p>
 
-<p>
-  <b>Company:</b>
-  <%= @invoice.company_id %>
-</p>
+      </div>
+    </div>
+    <div class="row">
+	    <div class="col-md-offset-2 col-md-4">
+	    	<%= render 'contact', :contact => @invoice.contacts.first %>
 
-<p>
-  <b>User:</b>
-  <%= @invoice.user_id %>
-</p>
+	    </div>
+	    <div class="col-md-4">
+	    	<p style="font-weight: bold;">MAKE CHECKS/REMITTANCE PAYABLE TO:<br>
+			PFLAG National</p>
+			<p>If you have any questions concerning this invoice, contact us at (202)-467-8180 or <a href="mailto:invoice@pflag.org">invoices@pflag.org</a></p>
 
-<%= link_to 'Edit', edit_invoice_path(@invoice) %> |
-<%= link_to 'Back', invoices_path %>
+	    </div>
+
+    </div>
+    <div class="row">
+    	<%= render "lines", :lines => @invoice.lines %>
+	</div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130618124312) do
+ActiveRecord::Schema.define(:version => 20131118225017) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -24,18 +24,16 @@ ActiveRecord::Schema.define(:version => 20130618124312) do
   end
 
   create_table "addresses", :force => true do |t|
-    t.string   "address_line_1"
-    t.string   "address_line_2"
-    t.string   "address_line_3"
     t.string   "city"
     t.string   "state"
     t.string   "zip"
     t.string   "email"
     t.string   "phone"
     t.string   "fax"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
     t.integer  "contact_id"
+    t.text     "address_lines"
   end
 
   create_table "codes", :force => true do |t|
@@ -55,6 +53,7 @@ ActiveRecord::Schema.define(:version => 20130618124312) do
     t.string   "database_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.string   "title"
   end
 
   create_table "contacts_invoices", :id => false, :force => true do |t|
@@ -68,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20130618124312) do
     t.integer  "user_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.date     "date"
   end
 
   create_table "items", :force => true do |t|
@@ -81,13 +81,14 @@ ActiveRecord::Schema.define(:version => 20130618124312) do
   end
 
   create_table "lines", :force => true do |t|
-    t.string   "description"
+    t.text     "description"
     t.integer  "item_id"
     t.decimal  "quantity"
     t.decimal  "unit_price"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.integer  "invoice_id"
+    t.boolean  "hidden"
   end
 
   create_table "payments", :force => true do |t|

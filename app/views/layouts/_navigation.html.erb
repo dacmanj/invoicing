@@ -1,17 +1,6 @@
 <%= link_to "Invoicing", root_path, :class => 'brand' %>
 <ul class="nav">
-  <% if user_signed_in? %>
-    <li>
-    <%= link_to 'Logged in as ' + current_user.name, users_path %>
-    </li>
-    <li>
-    <%= link_to 'Logout', signout_path %>
-    </li>
-  <% else %>
-    <li>
-    <%= link_to 'Login', signin_path %>
-    </li>
-  <% end %>
+
   <li>
     <%= link_to 'Invoices', invoices_path %>
   </li>
@@ -27,5 +16,16 @@
   <li>
     <%= link_to 'Users', users_path %>
   </li>
-
+  <% if user_signed_in? %>
+    <li>
+    <%= link_to 'Logged in as ' + current_user.name, users_path %>
+    </li>
+    <li>
+    <%= link_to 'Logout', signout_path %>
+    </li>
+  <% else %>
+    <li>
+    <%= link_to 'Login', signin_path %>
+    </li>
+  <% end %>
 </ul>

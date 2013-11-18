@@ -1,35 +1,9 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Address line 1:</b>
-  <%= @address.address_line_1 %>
+  <b>Address:</b>
+  <%= simple_format [@address.address_lines, @address.city_state_zip].join("\n") %>
 </p>
-
-<p>
-  <b>Address line 2:</b>
-  <%= @address.address_line_2 %>
-</p>
-
-<p>
-  <b>Address line 3:</b>
-  <%= @address.address_line_3 %>
-</p>
-
-<p>
-  <b>City:</b>
-  <%= @address.city %>
-</p>
-
-<p>
-  <b>State:</b>
-  <%= @address.state %>
-</p>
-
-<p>
-  <b>Zip:</b>
-  <%= @address.zip %>
-</p>
-
 <p>
   <b>Email:</b>
   <%= @address.email %>

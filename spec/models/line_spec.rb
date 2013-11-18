@@ -3,13 +3,14 @@
 # Table name: lines
 #
 #  id          :integer          not null, primary key
-#  description :string(255)
+#  description :text
 #  item_id     :integer
 #  quantity    :decimal(, )
 #  unit_price  :decimal(, )
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  invoice_id  :integer
+#  hidden      :boolean
 #
 
 require 'spec_helper'

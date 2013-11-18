@@ -25,16 +25,17 @@
     <td><%= contact.first_name %></td>
     <td><%= contact.last_name %></td>
     <td><%= contact.account.name unless contact.account.nil? %></td>
-    <td><%= contact.address_id %></td>
+    <td><%= link_to (simple_format(truncate(contact.address.address_lines,length: 30))), edit_address_path(contact.address.id) unless contact.address.blank? %></td>
     <td><%= contact.active %></td>
     <td><%= contact.database_id %></td>
     <td><%= link_to 'Show', contact %></td>
     <td><%= link_to 'Edit', edit_contact_path(contact) %></td>
-    <td><%= link_to 'Destroy', contact, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
+    <td><%= link_to content_tag(:i, "", class: "glyphicon glyphicon-trash glyphicon-trash-white"), contact, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Contact', new_contact_path %>
+<%= link_to 'New Contact', new_contact_path, :class => "btn btn-primary" %>

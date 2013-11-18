@@ -7,22 +7,27 @@
 
 <table class="table table-bordered table-striped">
   <tr>
-    <th>Contact</th>
+    <th>Invoice #</th>
     <th>Company</th>
-    <th>User</th>
-    <th></th>
-    <th></th>
+    <th>Contact</th>
     <th></th>
   </tr>
 
 <% @invoices.each do |invoice| %>
   <tr>
-    <td><%= invoice.contact_id %></td>
-    <td><%= invoice.company_id %></td>
-    <td><%= invoice.user_id %></td>
-    <td><%= link_to 'Show', invoice %></td>
-    <td><%= link_to 'Edit', edit_invoice_path(invoice) %></td>
-    <td><%= link_to 'Destroy', invoice, confirm: 'Are you sure?', method: :delete %></td>
+    <td><%= link_to invoice.id, edit_invoice_path(invoice.id) %></td>
+    <td>
+      <% unless invoice.account.blank? %>
+        <%= link_to invoice.account.name, edit_account_path(invoice.account) %>
+      <% end %>
+    </td>
+    <td>
+      <% unless invoice.contacts.blank? %>
+        <%= link_to invoice.contacts.first.name, edit_contact_path(invoice.contacts.first) %>
+      <% end %>
+    </td>
+    <td><%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-file"), invoice, :class => "btn btn-primary" %>
+    <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-trash"), invoice, confirm: 'Are you sure?', method: :delete, :class => "btn btn-danger" %></td>
   </tr>
 <% end %>
 </table>

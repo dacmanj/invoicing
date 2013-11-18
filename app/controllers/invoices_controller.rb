@@ -16,7 +16,7 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { render layout: "invoice"}
       format.json { render json: @invoice }
     end
   end

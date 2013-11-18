@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: account
+# Table name: accounts
 #
 #  id                         :integer          not null, primary key
 #  name                       :string(255)

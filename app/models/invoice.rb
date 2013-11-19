@@ -31,4 +31,13 @@ class Invoice < ActiveRecord::Base
   	t
   end
 
+  def contact_email
+  	emails = []
+  	self.contacts.each do |c|
+  		emails.push c.address.email unless c.address.blank?
+  	end
+
+  	emails.join(",")
+  end
+
 end

@@ -3,35 +3,34 @@
     <i class="icon-plus icon-white"></i>
     New Contact
   <% end %>
-  <h1>Listing Contacts</h1>
+  <h1>Contacts</h1>
 </div>
 
 
 <table class="table table-bordered table-striped">
   <tr>
-    <th>First name</th>
-    <th>Last name</th>
+    <th>Name</th>
     <th>Company</th>
     <th>Address</th>
     <th>Active</th>
     <th>Database</th>
     <th></th>
-    <th></th>
-    <th></th>
   </tr>
 
 <% @contacts.each do |contact| %>
   <tr>
-    <td><%= contact.first_name %></td>
-    <td><%= contact.last_name %></td>
-    <td><%= contact.account.name unless contact.account.nil? %></td>
+    <td><%= link_to "#{contact.first_name} #{contact.last_name}", edit_contact_path(contact.id) %>
+    <td><%= link_to "#{contact.account.name}", edit_account_path(contact.account.id) unless contact.account.nil? %></td>
     <td><%= link_to (simple_format(truncate(contact.address.address_lines,length: 30))), edit_address_path(contact.address.id) unless contact.address.blank? %></td>
     <td><%= contact.active %></td>
     <td><%= contact.database_id %></td>
-    <td><%= link_to 'Show', contact %></td>
-    <td><%= link_to 'Edit', edit_contact_path(contact) %></td>
 
-    <td><%= link_to content_tag(:i, "", class: "glyphicon glyphicon-trash glyphicon-trash-white"), contact, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %></td>
+
+    </td>
+
+    <td>
+    <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-pencil"), {:id => contact.id,:action => "edit"}, :class => "btn btn-primary" %>
+    <%= link_to content_tag(:i, "", class: "glyphicon glyphicon-trash"), contact, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %></td>
   </tr>
 <% end %>
 </table>

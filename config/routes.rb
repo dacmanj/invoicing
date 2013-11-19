@@ -28,6 +28,8 @@ Invoicing::Application.routes.draw do
 
   root :to => "home#index"
   resources :users, :only => [:index, :show, :edit, :update ]
+  match '/invoices/:id/email' => 'invoices#email'
+  match '/invoices/:id/send_email' => 'invoices#send_email'
   match '/auth/:provider/callback' => 'sessions#create'
   match '/signin' => 'sessions#new', :as => :signin
   match '/signout' => 'sessions#destroy', :as => :signout

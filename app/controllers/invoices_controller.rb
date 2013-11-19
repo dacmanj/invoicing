@@ -25,6 +25,16 @@ class InvoicesController < ApplicationController
     end
   end
 
+  def email
+    @invoice = Invoice.find(params[:id])
+  end
+
+  def send_email
+    @invoice = Invoice.find(params[:id])
+    InvoiceMailer.send_invoice(@invoice,params).deliver
+    redirect_to invoices_url, notice: "Invoice #{params[:id]} was successfully sent to #{params[:email]}." 
+  end
+
   # GET /invoices/new
   # GET /invoices/new.json
   def new
@@ -67,7 +77,7 @@ class InvoicesController < ApplicationController
 
     respond_to do |format|
       if @invoice.update_attributes(params[:invoice])
-        format.html { redirect_to @invoice, notice: 'Invoice was successfully updated.' }
+        format.html { redirect_to invoices_url, notice: 'Invoice was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

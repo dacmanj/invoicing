@@ -12,39 +12,33 @@
     <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
 
-  <%= stylesheet_link_tag    "application" %>
+   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
+
   <%= tinymce_assets %>
   <%= tinymce %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-      <div class="container">
-        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </a>
-        <div class="nav-collapse">
+  <div class="container">
           <%= render "layouts/navigation" %>
-        </div>
-      </div>
+    <div class="row">
+
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, :class => "alert #{name == :error ? "alert-error" : "alert-success" }" do %>
+          <a class="close" data-dismiss="alert" href="#">×</a>
+          <%= msg %>
+        <% end %>
+      <% end %>
+      <%= yield %>
+    </div>
+
+
+    <div class="row">
+      <footer>
+      </footer>
     </div>
   </div>
-  <div class="container">
-    <% flash.each do |name, msg| %>
-      <%= content_tag :div, :class => "alert #{name == :error ? "alert-error" : "alert-success" }" do %>
-        <a class="close" data-dismiss="alert" href="#">×</a>
-        <%= msg %>
-      <% end %>
-    <% end %>
-    <%= yield %>
-    <hr>
-    <footer>
-      <p>&copy; David Manuel 2013</p>
-    </footer>
-  </div>
+
 </body>
 </html>

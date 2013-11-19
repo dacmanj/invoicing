@@ -1,4 +1,7 @@
 Invoicing::Application.routes.draw do
+  resources :email_templates
+
+
   resources :codes
 
 

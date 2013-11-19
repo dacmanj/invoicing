@@ -31,6 +31,21 @@ class Invoice < ActiveRecord::Base
   	t
   end
 
+  def parse_template(msg)
+    msg % { :account_name => (self.account.name unless account.blank?) || "",
+                :contact_name => (self.contacts.first.name unless self.contacts.first.blank?) || "", 
+                :contact_first_name => (self.contacts.first.first_name unless self.contacts.first.blank?) || "", 
+                :contact_last_name => (self.contacts.first.last_name unless self.contacts.first.blank?) || "", 
+                :invoice_number => self.id,
+                :invoice_total => self.total
+                 }
+
+  end
+
+  def templates_json
+    templates = Hash[EmailTemplate.all.to_a.each_with_object({}){|c,h| h[c.id] = { :name => c.name, :message => parse_template(c.message), :subject => parse_template(c.subject) }}].to_json
+  end
+
   def contact_email
   	emails = []
   	self.contacts.each do |c|

@@ -1,0 +1,15 @@
+	    <div class="col-md-offset-2 col-md-5">
+	    	<h5>Description</h5>
+	    </div>
+	    <div class="col-md-1">
+	    	<h5>Quantity</h5>
+	    </div>
+	    <div class="col-md-1">
+	    	<h5>Unit Price</h5>
+	    </div>
+	    <div class="col-md-1">
+	    	<h5>Sub Total</h5>
+	    </div>
+		<% lines.each do |line| %>
+			<%= render "line", :line => line %>
+		<% end %>

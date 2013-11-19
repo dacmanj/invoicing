@@ -1,6 +1,6 @@
-    <div class="row">
+    <div class="row well">
       <div class="col-md-2 col-md-offset-2" id="logo">
-        <%=image_tag("logo.png", width: '158', height: '153')%>
+        <%=image_tag("logo.png", width: '158', height: '147')%>
       </div>
 
       <div class="col-md-4" id="pflag_address">
@@ -37,4 +37,10 @@
     </div>
     <div class="row">
     	<%= render "lines", :lines => @invoice.lines %>
+	</div>
+    <div class="row well">
+	    <div class="col-md-offset-8 col-md-4">
+	    	<h3>Total: <%=number_to_currency @invoice.total%></h3>
+
+		</div>
 	</div>

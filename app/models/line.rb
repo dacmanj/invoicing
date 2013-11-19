@@ -24,7 +24,11 @@ class Line < ActiveRecord::Base
   end
 
   def total
-  	self.quantity * self.unit_price
+  	t = 0
+  	unless self.quantity.blank? || self.unit_price.blank?
+  		t = self.quantity * self.unit_price 
+  	end
+  	t
   end
 
 end

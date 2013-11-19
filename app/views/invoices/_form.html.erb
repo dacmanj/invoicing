@@ -18,7 +18,6 @@
       <%=   lines_form.input :hidden %> 
       
       <% if lines_form.object.new_record? %>
-
         <%= link_to content_tag(:i, "", class: "glyphicon glyphicon-trash"), '', :remote => true , :class => 'destroy_duplicate_nested_form btn btn-danger'%>
       <% else %>
         <%= link_to content_tag(:i, "", class: "glyphicon glyphicon-trash glyphicon-trash-white"), invoice_line_path(@invoice, lines_form.object), :method => :delete, :remote => true, :class => 'destroy_duplicate_nested_form btn btn-danger' %>

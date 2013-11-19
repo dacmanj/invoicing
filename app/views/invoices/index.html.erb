@@ -16,7 +16,7 @@
 
 <% @invoices.each do |invoice| %>
   <tr>
-    <td><%= link_to invoice.id, edit_invoice_path(invoice.id) %></td>
+    <td><%= link_to content_tag(:i, invoice.id, :class => "glyphicon glyphicon-pencil"), edit_invoice_path(invoice.id) %></td>
     <td>
       <% unless invoice.account.blank? %>
         <%= link_to invoice.account.name, edit_account_path(invoice.account) %>

@@ -11,8 +11,6 @@ jQuery ($) ->
 
   	if templates?
   	  append_template tmpl for tmpl in templates
-
-  	for id,t of templates
-  	  append_template id, t
-
-  	$(".send_invoice_email").delegate "select#template", "change", use_template
+  	  for id,t of templates
+  	    append_template id, t
+  	  $(".send_invoice_email").delegate "select#template", "change", use_template

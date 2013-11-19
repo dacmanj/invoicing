@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <%= @message.html_safe %>
+
+
+    <hr>
+
+      <table width="100%">
+      <tbody>
+        <tr>
+          <td>
+            <%=wicked_pdf_image_tag("logo.png", width: '129', height: '120')%>
+          </td>
+          <td>
+            <center>
+              <h4>PFLAG National<br>
+              <i>Moving equality forward&hellip;</i><br>
+              TAX ID # 95-3750694</h4>
+              <p>
+                1828 L St NW, Ste 660<br>Washington, DC 20036<br>
+                (202) 467-8180 | Fax: (202) 467-8194<br>
+                <a href="mailto:info@pflag.org">INFO@PFLAG.ORG</a> | <a href="http://www.pflag.org">WWW.PFLAG.ORG</a>
+              </p>
+            </center>
+          </td>
+          <td id="invoice_info" class="col-xs-2" style="text-align: right;">
+            <h2 style="color: gray;">INVOICE</h2>
+            <p>Invoice #<span id="invoicenumber"><%= @invoice.id %></span></p>
+            <p>Date: <span id="invoicedate"><%= l @invoice.date, :format => "%m/%d/%Y" %></span></p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td width="55%">
+            <%= render 'invoices/contact', :contact => @invoice.contacts.first %>
+          </td>
+          <td width="45%">
+            <p style="font-weight: bold;">MAKE CHECKS/REMITTANCE PAYABLE TO:<br>
+            PFLAG National</p>
+            <p>If you have any questions concerning this invoice, contact us at (202)-467-8180 or <a href="mailto:invoice@pflag.org">invoices@pflag.org</a></p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table width="100%" class="lines">
+          <%= render "invoices/lines", :lines => @invoice.lines %>      
+    </table>
+
+    <div style="text-align: right; background-color: #cccccc; padding: 5px;">
+        <h3>Total: <%=number_to_currency @invoice.total%></h3>
+    </div>
+
+
+  </body>
+</html>

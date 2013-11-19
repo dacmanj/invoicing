@@ -1,0 +1,31 @@
+<div class="page-header">
+  <%= link_to new_email_template_path, :class => 'btn btn-primary' do %>
+    <i class="glyphicon glyphicon-plus"></i>
+    New Template
+  <% end %>
+  <h1>Email Templates</h1>
+</div>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Subject</th>
+      <th>Message</th>
+      <th></th>
+  </thead>
+
+  <tbody>
+<% @templates.each do |template| %>
+    <tr>
+      <td><%= template.name %></td>
+      <td><%= template.subject %></td>
+      <td><%= template.message.html_safe %></td>
+      <td>
+        <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-pencil"), edit_email_template_path(template.id), :class => "btn btn-primary" %>
+        <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-trash"), template, confirm: 'Are you sure?', method: :delete, :class => "btn btn-danger" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

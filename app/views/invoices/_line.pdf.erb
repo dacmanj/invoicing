@@ -1,0 +1,14 @@
+	<tr>
+	    <td>
+	    	<%= line.description.html_safe %>   	
+	    </td>
+	    <td class="number">
+	    	<%= line.quantity %>    	
+	    </td>
+	    <td>
+	    	<%= number_to_currency line.unit_price %>
+	    </td>
+	    <td>
+	    	<%= number_to_currency line.total %>    	
+	    </td>
+	</tr>

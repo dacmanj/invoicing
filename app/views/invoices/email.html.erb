@@ -1,0 +1,41 @@
+<script type="text/javascript">
+  <%= "var templates = ".html_safe + @invoice.templates_json.html_safe %>
+</script>
+
+<%= form_tag({controller: "invoices", action: "send_email"}, method: "post", :role => "form", :class => "send_invoice_email") do %>
+  <div class="form-group">
+    <label for="email">Email address</label>
+    <input type="email" class="form-control" id="email" name="email" value="<%= @invoice.contact_email%>">
+
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email address (cc)</label>
+    <input type="email" class="form-control" id="email" name="email" value="<%= @invoice.user.email %>">
+
+  </div>
+
+  <div class="form-group">
+    <label for="template">Template</label>
+    <select class="form-control" id="template">
+      <option></option>
+    </select>
+
+  </div>
+
+  <div class="form-group">
+    <label for="subject">Subject</label>
+    <input type="text" class="form-control" id="subject" name="subject" placeholder="Enter subject">
+  </div>
+
+  <div class="form-group">
+    <label for="message">Message</label>
+    <textarea class="form-control tinymce" id="message" name="message" placeholder="Email"></textarea>
+  </div>
+
+  <p> Attachment: <%= link_to "Invoice.pdf ".html_safe + content_tag(:i, "", :class => "glyphicon glyphicon-file"), invoice_path(@invoice, :format => :pdf).html_safe %> </p> 
+
+
+
+  <button type="submit" class="btn btn-default">Send</button>
+<% end %>

@@ -20,7 +20,7 @@
       <% if lines_form.object.new_record? %>
         <%= link_to content_tag(:i, "", class: "glyphicon glyphicon-trash"), '', :remote => true , :class => 'destroy_duplicate_nested_form btn btn-danger'%>
       <% else %>
-        <%= link_to content_tag(:i, "", class: "glyphicon glyphicon-trash glyphicon-trash-white"), invoice_line_path(@invoice, lines_form.object), :method => :delete, :remote => true, :class => 'destroy_duplicate_nested_form btn btn-danger' %>
+        <%= link_to content_tag(:i, "", class: "glyphicon glyphicon-trash"), invoice_line_path(@invoice, lines_form.object), :method => :delete, :remote => true, :class => 'destroy_duplicate_nested_form btn btn-danger' %>
         <%= lines_form.input :id, as: :hidden %>
       <% end %>
 
@@ -30,11 +30,9 @@
 
 
   <%= link_to 'New Line Item', '', :class => "duplicate_nested_form btn btn-primary" %>
+  <%= f.button :submit, :class => "btn btn-primary" %>
 
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, :class => "btn-primary" %>
-  </div>
 
 <% end %>

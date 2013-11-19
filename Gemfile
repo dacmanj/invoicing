@@ -22,11 +22,11 @@ gem "omniauth", ">= 1.1.3"
 gem "omniauth-google-oauth2"
 gem "simple_form", ">= 2.1.0"
 gem "figaro", ">= 0.6.3"
-gem "binding_of_caller", ">= 0.7.1", :group => :development, :platforms => [:mri_19, :rbx]
-
+gem 'wicked_pdf'
 gem 'pg', :group => :production
 
 group :development do
+  gem "binding_of_caller"
   gem 'webrick', '~> 1.3.1'
   gem 'pg'
   gem "better_errors", ">= 0.7.2"

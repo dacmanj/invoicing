@@ -18,6 +18,10 @@ class InvoicesController < ApplicationController
     respond_to do |format|
       format.html { render layout: "invoice"}
       format.json { render json: @invoice }
+      format.pdf do
+        render :pdf => "invoices", :layout => "pdf.html", :zoom => 0.85, :show_as_html => params[:debug].present?
+        #, :show_as_html => true
+      end
     end
   end
 

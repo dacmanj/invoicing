@@ -81,5 +81,5 @@ SimpleForm.setup do |config|
     b.use :error, wrap_with: { tag: 'span', class: 'help-block has-error' }
   end
 
-  config.default_wrapper = :bootstrap3
+  config.default_wrapper = :group
 end

@@ -25,6 +25,7 @@ class ContactsController < ApplicationController
   # GET /contacts/new.json
   def new
     @contact = Contact.new
+    @contact.address = @contact.build_address
 
     @contact.active = true
 

@@ -11,7 +11,7 @@
 
   <div class="form-group">
     <label for="email">Email address (cc)</label>
-    <input type="email" class="form-control" id="email" name="email" value="<%= @invoice.user.email %>">
+    <input type="email" class="form-control" id="email" name="email" value="<%= @invoice.user.email unless @invoice.user.blank? %>">
 
   </div>
 
@@ -33,7 +33,7 @@
     <textarea class="form-control tinymce" id="message" name="message" placeholder="Email"></textarea>
   </div>
 
-  <p> Attachment: <%= link_to "Invoice.pdf ".html_safe + content_tag(:i, "", :class => "glyphicon glyphicon-file"), invoice_path(@invoice, :format => :pdf).html_safe %> </p> 
+  <p> Attachment: <%= link_to "Invoice.pdf ".html_safe + content_tag(:i, "", :class => "glyphicon glyphicon-file"), invoice_path(@invoice, :format => :pdf).html_safe, :target => "_BLANK" %> </p> 
 
 
 

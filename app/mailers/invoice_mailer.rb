@@ -5,7 +5,7 @@ class InvoiceMailer < ActionMailer::Base
     @invoice = invoice
 
     @subject = params[:subject]
-    @message = parse_template(params[:message], invoice)
+    @message = params[:message]
     @email = params[:email]
 
   	mail(:subject => @subject, :to =>  @email) do |format|

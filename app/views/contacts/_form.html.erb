@@ -6,12 +6,12 @@
     <%= f.input :last_name %>
     <%= f.input :title %>
     <%= f.association :account %>
-      <%= render 'addresses/form', :f => f %>
+    <%= render 'address', :f => f %> 
     <%= f.input :active %>
     <%= f.input :database_id %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.button :submit, :class => "btn btn-primary" %>
   </div>
 <% end %>

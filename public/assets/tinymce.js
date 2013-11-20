@@ -1,894 +1,19134 @@
-window.tinymce=window.tinymce||{base:"/assets/tinymce",suffix:""},function(e,t){"use strict";function n(e,t){for(var n,i=[],o=0;o<e.length;++o){if(n=a[e[o]]||r(e[o]),!n)throw"module definition dependecy not found: "+e[o];i.push(n)}t.apply(null,i)}function i(e,i,r){if("string"!=typeof e)throw"invalid module definition, module id must be defined and be a string";if(i===t)throw"invalid module definition, dependencies must be specified";if(r===t)throw"invalid module definition, definition function must be specified";n(i,function(){a[e]=r.apply(null,arguments)})}function r(t){for(var n=e,i=t.split(/[.\/]/),r=0;r<i.length;++r){if(!n[i[r]])return;n=n[i[r]]}return n}function o(n){for(var i=0;i<n.length;i++){for(var r=e,o=n[i],s=o.split(/[.\/]/),l=0;l<s.length-1;++l)r[s[l]]===t&&(r[s[l]]={}),r=r[s[l]];r[s[s.length-1]]=a[o]}}var a={};/**
- * EventUtils.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/dom/EventUtils",[],function(){function e(e,t,n,i){e.addEventListener?e.addEventListener(t,n,i||!1):e.attachEvent&&e.attachEvent("on"+t,n)}function t(e,t,n,i){e.removeEventListener?e.removeEventListener(t,n,i||!1):e.detachEvent&&e.detachEvent("on"+t,n)}function n(e,t){function n(){return!1}function i(){return!0}var r,o,l=t||{};for(r in e)s[r]||(l[r]=e[r]);if(l.target||(l.target=l.srcElement||document),e&&a.test(e.type)&&e.pageX===o&&e.clientX!==o){var c=l.target.ownerDocument||document,u=c.documentElement,d=c.body;l.pageX=e.clientX+(u&&u.scrollLeft||d&&d.scrollLeft||0)-(u&&u.clientLeft||d&&d.clientLeft||0),l.pageY=e.clientY+(u&&u.scrollTop||d&&d.scrollTop||0)-(u&&u.clientTop||d&&d.clientTop||0)}return l.preventDefault=function(){l.isDefaultPrevented=i,e&&(e.preventDefault?e.preventDefault():e.returnValue=!1)},l.stopPropagation=function(){l.isPropagationStopped=i,e&&(e.stopPropagation?e.stopPropagation():e.cancelBubble=!0)},l.stopImmediatePropagation=function(){l.isImmediatePropagationStopped=i,l.stopPropagation()},l.isDefaultPrevented||(l.isDefaultPrevented=n,l.isPropagationStopped=n,l.isImmediatePropagationStopped=n),l}function i(n,i,r){function o(){r.domLoaded||(r.domLoaded=!0,i(c))}function a(){"complete"===l.readyState&&(t(l,"readystatechange",a),o())}function s(){try{l.documentElement.doScroll("left")}catch(e){return setTimeout(s,0),void 0}o()}var l=n.document,c={type:"ready"};return r.domLoaded?(i(c),void 0):(l.addEventListener?"complete"===l.readyState?o():e(n,"DOMContentLoaded",o):(e(l,"readystatechange",a),l.documentElement.doScroll&&n===n.top&&s()),e(n,"load",o),void 0)}function r(){function r(e,t){var n,i,r,o,a=f[t];if(n=a&&a[e.type])for(i=0,r=n.length;r>i;i++)if(o=n[i],o&&o.func.call(o.scope,e)===!1&&e.preventDefault(),e.isImmediatePropagationStopped())return}var a,s,l,c,u,d=this,f={};s=o+(+new Date).toString(32),c="onmouseenter"in document.documentElement,l="onfocusin"in document.documentElement,u={mouseenter:"mouseover",mouseleave:"mouseout"},a=1,d.domLoaded=!1,d.events=f,d.bind=function(t,o,m,p){function h(e){r(n(e||_.event),g)}var g,v,y,b,C,x,w,_=window;if(t&&3!==t.nodeType&&8!==t.nodeType){for(t[s]?g=t[s]:(g=a++,t[s]=g,f[g]={}),p=p||t,o=o.split(" "),y=o.length;y--;)b=o[y],x=h,C=w=!1,"DOMContentLoaded"===b&&(b="ready"),d.domLoaded&&"ready"===b&&"complete"==t.readyState?m.call(p,n({type:b})):(c||(C=u[b],C&&(x=function(e){var t,i;if(t=e.currentTarget,i=e.relatedTarget,i&&t.contains)i=t.contains(i);else for(;i&&i!==t;)i=i.parentNode;i||(e=n(e||_.event),e.type="mouseout"===e.type?"mouseleave":"mouseenter",e.target=t,r(e,g))})),l||"focusin"!==b&&"focusout"!==b||(w=!0,C="focusin"===b?"focus":"blur",x=function(e){e=n(e||_.event),e.type="focus"===e.type?"focusin":"focusout",r(e,g)}),v=f[g][b],v?"ready"===b&&d.domLoaded?m({type:b}):v.push({func:m,scope:p}):(f[g][b]=v=[{func:m,scope:p}],v.fakeName=C,v.capture=w,v.nativeHandler=x,"ready"===b?i(t,x,d):e(t,C||b,x,w)));return t=v=0,m}},d.unbind=function(e,n,i){var r,o,a,l,c,u;if(!e||3===e.nodeType||8===e.nodeType)return d;if(r=e[s]){if(u=f[r],n){for(n=n.split(" "),a=n.length;a--;)if(c=n[a],o=u[c]){if(i)for(l=o.length;l--;)if(o[l].func===i){var m=o.nativeHandler;o=o.slice(0,l).concat(o.slice(l+1)),o.nativeHandler=m,u[c]=o}i&&0!==o.length||(delete u[c],t(e,o.fakeName||c,o.nativeHandler,o.capture))}}else{for(c in u)o=u[c],t(e,o.fakeName||c,o.nativeHandler,o.capture);u={}}for(c in u)return d;delete f[r];try{delete e[s]}catch(p){e[s]=null}}return d},d.fire=function(e,t,i){var o;if(!e||3===e.nodeType||8===e.nodeType)return d;i=n(null,i),i.type=t,i.target=e;do o=e[s],o&&r(i,o),e=e.parentNode||e.ownerDocument||e.defaultView||e.parentWindow;while(e&&!i.isPropagationStopped());return d},d.clean=function(e){var t,n,i=d.unbind;if(!e||3===e.nodeType||8===e.nodeType)return d;if(e[s]&&i(e),e.getElementsByTagName||(e=e.document),e&&e.getElementsByTagName)for(i(e),n=e.getElementsByTagName("*"),t=n.length;t--;)e=n[t],e[s]&&i(e);return d},d.destroy=function(){f={}},d.cancel=function(e){return e&&(e.preventDefault(),e.stopImmediatePropagation()),!1}}var o="mce-data-",a=/^(?:mouse|contextmenu)|click/,s={keyLocation:1,layerX:1,layerY:1,returnValue:1};return r.Event=new r,r.Event.bind(window,"ready",function(){}),r}),/**
- * Sizzle.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- *
- * @ignore-file
- */
+window.tinyMCEPreInit = window.tinyMCEPreInit || {
+  base:   '/assets/tinymce',
+  query:  '3.5.9',
+  suffix: ''
+};
+// FILE IS GENERATED BY COMBINING THE SOURCES IN THE "classes" DIRECTORY SO DON'T MODIFY THIS FILE DIRECTLY
+(function(win) {
+	var whiteSpaceRe = /^\s*|\s*$/g,
+		undef, isRegExpBroken = 'B'.replace(/A(.)|B/, '$1') === '$1';
+
+	var tinymce = {
+		majorVersion : '3',
+
+		minorVersion : '5.9',
+
+		releaseDate : '2013-10-10',
+
+		_init : function() {
+			var t = this, d = document, na = navigator, ua = na.userAgent, i, nl, n, base, p, v;
+
+			t.isIE11 = ua.indexOf('Trident/') != -1 && ua.indexOf('rv:') != -1;
+
+			t.isOpera = win.opera && opera.buildNumber;
+
+			t.isWebKit = /WebKit/.test(ua);
+
+			t.isIE = !t.isWebKit && !t.isOpera && (/MSIE/gi).test(ua) && (/Explorer/gi).test(na.appName) || t.isIE11;
+
+			t.isIE6 = t.isIE && /MSIE [56]/.test(ua);
+
+			t.isIE7 = t.isIE && /MSIE [7]/.test(ua);
+
+			t.isIE8 = t.isIE && /MSIE [8]/.test(ua);
+
+			t.isIE9 = t.isIE && /MSIE [9]/.test(ua);
+
+			t.isGecko = !t.isWebKit && !t.isIE11 && /Gecko/.test(ua);
+
+			t.isMac = ua.indexOf('Mac') != -1;
+
+			t.isAir = /adobeair/i.test(ua);
+
+			t.isIDevice = /(iPad|iPhone)/.test(ua);
+			
+			t.isIOS5 = t.isIDevice && ua.match(/AppleWebKit\/(\d*)/)[1]>=534;
+
+			// TinyMCE .NET webcontrol might be setting the values for TinyMCE
+			if (win.tinyMCEPreInit) {
+				t.suffix = tinyMCEPreInit.suffix;
+				t.baseURL = tinyMCEPreInit.base;
+				t.query = tinyMCEPreInit.query;
+				return;
+			}
+
+			// Get suffix and base
+			t.suffix = '';
+
+			// If base element found, add that infront of baseURL
+			nl = d.getElementsByTagName('base');
+			for (i=0; i<nl.length; i++) {
+				v = nl[i].href;
+				if (v) {
+					// Host only value like http://site.com or http://site.com:8008
+					if (/^https?:\/\/[^\/]+$/.test(v))
+						v += '/';
+
+					base = v ? v.match(/.*\//)[0] : ''; // Get only directory
+				}
+			}
+
+			function getBase(n) {
+				if (n.src && /tiny_mce(|_gzip|_jquery|_prototype|_full)(_dev|_src)?.js/.test(n.src)) {
+					if (/_(src|dev)\.js/g.test(n.src))
+						t.suffix = '_src';
+
+					if ((p = n.src.indexOf('?')) != -1)
+						t.query = n.src.substring(p + 1);
+
+					t.baseURL = n.src.substring(0, n.src.lastIndexOf('/'));
+
+					// If path to script is relative and a base href was found add that one infront
+					// the src property will always be an absolute one on non IE browsers and IE 8
+					// so this logic will basically only be executed on older IE versions
+					if (base && t.baseURL.indexOf('://') == -1 && t.baseURL.indexOf('/') !== 0)
+						t.baseURL = base + t.baseURL;
+
+					return t.baseURL;
+				}
+
+				return null;
+			};
+
+			// Check document
+			nl = d.getElementsByTagName('script');
+			for (i=0; i<nl.length; i++) {
+				if (getBase(nl[i]))
+					return;
+			}
+
+			// Check head
+			n = d.getElementsByTagName('head')[0];
+			if (n) {
+				nl = n.getElementsByTagName('script');
+				for (i=0; i<nl.length; i++) {
+					if (getBase(nl[i]))
+						return;
+				}
+			}
+
+			return;
+		},
+
+		is : function(o, t) {
+			if (!t)
+				return o !== undef;
+
+			if (t == 'array' && tinymce.isArray(o))
+				return true;
+
+			return typeof(o) == t;
+		},
+
+		isArray: Array.isArray || function(obj) {
+			return Object.prototype.toString.call(obj) === "[object Array]";
+		},
+
+		makeMap : function(items, delim, map) {
+			var i;
+
+			items = items || [];
+			delim = delim || ',';
+
+			if (typeof(items) == "string")
+				items = items.split(delim);
+
+			map = map || {};
+
+			i = items.length;
+			while (i--)
+				map[items[i]] = {};
+
+			return map;
+		},
+
+		each : function(o, cb, s) {
+			var n, l;
+
+			if (!o)
+				return 0;
+
+			s = s || o;
+
+			if (o.length !== undef) {
+				// Indexed arrays, needed for Safari
+				for (n=0, l = o.length; n < l; n++) {
+					if (cb.call(s, o[n], n, o) === false)
+						return 0;
+				}
+			} else {
+				// Hashtables
+				for (n in o) {
+					if (o.hasOwnProperty(n)) {
+						if (cb.call(s, o[n], n, o) === false)
+							return 0;
+					}
+				}
+			}
+
+			return 1;
+		},
+
+
+		map : function(a, f) {
+			var o = [];
+
+			tinymce.each(a, function(v) {
+				o.push(f(v));
+			});
+
+			return o;
+		},
+
+		grep : function(a, f) {
+			var o = [];
+
+			tinymce.each(a, function(v) {
+				if (!f || f(v))
+					o.push(v);
+			});
+
+			return o;
+		},
+
+		inArray : function(a, v) {
+			var i, l;
+
+			if (a) {
+				for (i = 0, l = a.length; i < l; i++) {
+					if (a[i] === v)
+						return i;
+				}
+			}
+
+			return -1;
+		},
+
+		extend : function(obj, ext) {
+			var i, l, name, args = arguments, value;
+
+			for (i = 1, l = args.length; i < l; i++) {
+				ext = args[i];
+				for (name in ext) {
+					if (ext.hasOwnProperty(name)) {
+						value = ext[name];
+
+						if (value !== undef) {
+							obj[name] = value;
+						}
+					}
+				}
+			}
+
+			return obj;
+		},
+
+
+		trim : function(s) {
+			return (s ? '' + s : '').replace(whiteSpaceRe, '');
+		},
+
+		create : function(s, p, root) {
+			var t = this, sp, ns, cn, scn, c, de = 0;
+
+			// Parse : <prefix> <class>:<super class>
+			s = /^((static) )?([\w.]+)(:([\w.]+))?/.exec(s);
+			cn = s[3].match(/(^|\.)(\w+)$/i)[2]; // Class name
+
+			// Create namespace for new class
+			ns = t.createNS(s[3].replace(/\.\w+$/, ''), root);
+
+			// Class already exists
+			if (ns[cn])
+				return;
+
+			// Make pure static class
+			if (s[2] == 'static') {
+				ns[cn] = p;
+
+				if (this.onCreate)
+					this.onCreate(s[2], s[3], ns[cn]);
+
+				return;
+			}
+
+			// Create default constructor
+			if (!p[cn]) {
+				p[cn] = function() {};
+				de = 1;
+			}
+
+			// Add constructor and methods
+			ns[cn] = p[cn];
+			t.extend(ns[cn].prototype, p);
+
+			// Extend
+			if (s[5]) {
+				sp = t.resolve(s[5]).prototype;
+				scn = s[5].match(/\.(\w+)$/i)[1]; // Class name
+
+				// Extend constructor
+				c = ns[cn];
+				if (de) {
+					// Add passthrough constructor
+					ns[cn] = function() {
+						return sp[scn].apply(this, arguments);
+					};
+				} else {
+					// Add inherit constructor
+					ns[cn] = function() {
+						this.parent = sp[scn];
+						return c.apply(this, arguments);
+					};
+				}
+				ns[cn].prototype[cn] = ns[cn];
+
+				// Add super methods
+				t.each(sp, function(f, n) {
+					ns[cn].prototype[n] = sp[n];
+				});
+
+				// Add overridden methods
+				t.each(p, function(f, n) {
+					// Extend methods if needed
+					if (sp[n]) {
+						ns[cn].prototype[n] = function() {
+							this.parent = sp[n];
+							return f.apply(this, arguments);
+						};
+					} else {
+						if (n != cn)
+							ns[cn].prototype[n] = f;
+					}
+				});
+			}
+
+			// Add static methods
+			t.each(p['static'], function(f, n) {
+				ns[cn][n] = f;
+			});
+
+			if (this.onCreate)
+				this.onCreate(s[2], s[3], ns[cn].prototype);
+		},
+
+		walk : function(o, f, n, s) {
+			s = s || this;
+
+			if (o) {
+				if (n)
+					o = o[n];
+
+				tinymce.each(o, function(o, i) {
+					if (f.call(s, o, i, n) === false)
+						return false;
+
+					tinymce.walk(o, f, n, s);
+				});
+			}
+		},
+
+		createNS : function(n, o) {
+			var i, v;
+
+			o = o || win;
+
+			n = n.split('.');
+			for (i=0; i<n.length; i++) {
+				v = n[i];
+
+				if (!o[v])
+					o[v] = {};
+
+				o = o[v];
+			}
+
+			return o;
+		},
+
+		resolve : function(n, o) {
+			var i, l;
+
+			o = o || win;
+
+			n = n.split('.');
+			for (i = 0, l = n.length; i < l; i++) {
+				o = o[n[i]];
+
+				if (!o)
+					break;
+			}
+
+			return o;
+		},
+
+		addUnload : function(f, s) {
+			var t = this, unload;
+
+			unload = function() {
+				var li = t.unloads, o, n;
+
+				if (li) {
+					// Call unload handlers
+					for (n in li) {
+						o = li[n];
+
+						if (o && o.func)
+							o.func.call(o.scope, 1); // Send in one arg to distinct unload and user destroy
+					}
+
+					// Detach unload function
+					if (win.detachEvent) {
+						win.detachEvent('onbeforeunload', fakeUnload);
+						win.detachEvent('onunload', unload);
+					} else if (win.removeEventListener)
+						win.removeEventListener('unload', unload, false);
+
+					// Destroy references
+					t.unloads = o = li = w = unload = 0;
+
+					// Run garbarge collector on IE
+					if (win.CollectGarbage)
+						CollectGarbage();
+				}
+			};
+
+			function fakeUnload() {
+				var d = document;
+
+				function stop() {
+					// Prevent memory leak
+					d.detachEvent('onstop', stop);
+
+					// Call unload handler
+					if (unload)
+						unload();
+
+					d = 0;
+				};
+
+				// Is there things still loading, then do some magic
+				if (d.readyState == 'interactive') {
+					// Fire unload when the currently loading page is stopped
+					if (d)
+						d.attachEvent('onstop', stop);
+
+					// Remove onstop listener after a while to prevent the unload function
+					// to execute if the user presses cancel in an onbeforeunload
+					// confirm dialog and then presses the browser stop button
+					win.setTimeout(function() {
+						if (d)
+							d.detachEvent('onstop', stop);
+					}, 0);
+				}
+			};
+
+			f = {func : f, scope : s || this};
+
+			if (!t.unloads) {
+				// Attach unload handler
+				if (win.attachEvent) {
+					win.attachEvent('onunload', unload);
+					win.attachEvent('onbeforeunload', fakeUnload);
+				} else if (win.addEventListener)
+					win.addEventListener('unload', unload, false);
+
+				// Setup initial unload handler array
+				t.unloads = [f];
+			} else
+				t.unloads.push(f);
+
+			return f;
+		},
+
+		removeUnload : function(f) {
+			var u = this.unloads, r = null;
+
+			tinymce.each(u, function(o, i) {
+				if (o && o.func == f) {
+					u.splice(i, 1);
+					r = f;
+					return false;
+				}
+			});
+
+			return r;
+		},
+
+		explode : function(s, d) {
+			if (!s || tinymce.is(s, 'array')) {
+				return s;
+			}
+
+			return tinymce.map(s.split(d || ','), tinymce.trim);
+		},
+
+		_addVer : function(u) {
+			var v;
+
+			if (!this.query)
+				return u;
+
+			v = (u.indexOf('?') == -1 ? '?' : '&') + this.query;
+
+			if (u.indexOf('#') == -1)
+				return u + v;
+
+			return u.replace('#', v + '#');
+		},
+
+		// Fix function for IE 9 where regexps isn't working correctly
+		// Todo: remove me once MS fixes the bug
+		_replace : function(find, replace, str) {
+			// On IE9 we have to fake $x replacement
+			if (isRegExpBroken) {
+				return str.replace(find, function() {
+					var val = replace, args = arguments, i;
+
+					for (i = 0; i < args.length - 2; i++) {
+						if (args[i] === undef) {
+							val = val.replace(new RegExp('\\$' + i, 'g'), '');
+						} else {
+							val = val.replace(new RegExp('\\$' + i, 'g'), args[i]);
+						}
+					}
+
+					return val;
+				});
+			}
+
+			return str.replace(find, replace);
+		}
+
+		};
+
+	// Initialize the API
+	tinymce._init();
+
+	// Expose tinymce namespace to the global namespace (window)
+	win.tinymce = win.tinyMCE = tinymce;
+
+	// Describe the different namespaces
+
+	})(window);
+
+
+
+tinymce.create('tinymce.util.Dispatcher', {
+	scope : null,
+	listeners : null,
+	inDispatch: false,
+
+	Dispatcher : function(scope) {
+		this.scope = scope || this;
+		this.listeners = [];
+	},
+
+	add : function(callback, scope) {
+		this.listeners.push({cb : callback, scope : scope || this.scope});
+
+		return callback;
+	},
+
+	addToTop : function(callback, scope) {
+		var self = this, listener = {cb : callback, scope : scope || self.scope};
+
+		// Create new listeners if addToTop is executed in a dispatch loop
+		if (self.inDispatch) {
+			self.listeners = [listener].concat(self.listeners);
+		} else {
+			self.listeners.unshift(listener);
+		}
+
+		return callback;
+	},
+
+	remove : function(callback) {
+		var listeners = this.listeners, output = null;
+
+		tinymce.each(listeners, function(listener, i) {
+			if (callback == listener.cb) {
+				output = listener;
+				listeners.splice(i, 1);
+				return false;
+			}
+		});
+
+		return output;
+	},
+
+	dispatch : function() {
+		var self = this, returnValue, args = arguments, i, listeners = self.listeners, listener;
+
+		self.inDispatch = true;
+		
+		// Needs to be a real loop since the listener count might change while looping
+		// And this is also more efficient
+		for (i = 0; i < listeners.length; i++) {
+			listener = listeners[i];
+			returnValue = listener.cb.apply(listener.scope, args.length > 0 ? args : [listener.scope]);
+
+			if (returnValue === false)
+				break;
+		}
+
+		self.inDispatch = false;
+
+		return returnValue;
+	}
+
+	});
+
+(function() {
+	var each = tinymce.each;
+
+	tinymce.create('tinymce.util.URI', {
+		URI : function(u, s) {
+			var t = this, o, a, b, base_url;
+
+			// Trim whitespace
+			u = tinymce.trim(u);
+
+			// Default settings
+			s = t.settings = s || {};
+
+			// Strange app protocol that isn't http/https or local anchor
+			// For example: mailto,skype,tel etc.
+			if (/^([\w\-]+):([^\/]{2})/i.test(u) || /^\s*#/.test(u)) {
+				t.source = u;
+				return;
+			}
+
+			// Absolute path with no host, fake host and protocol
+			if (u.indexOf('/') === 0 && u.indexOf('//') !== 0)
+				u = (s.base_uri ? s.base_uri.protocol || 'http' : 'http') + '://mce_host' + u;
+
+			// Relative path http:// or protocol relative //path
+			if (!/^[\w\-]*:?\/\//.test(u)) {
+				base_url = s.base_uri ? s.base_uri.path : new tinymce.util.URI(location.href).directory;
+				u = ((s.base_uri && s.base_uri.protocol) || 'http') + '://mce_host' + t.toAbsPath(base_url, u);
+			}
+
+			// Parse URL (Credits goes to Steave, http://blog.stevenlevithan.com/archives/parseuri)
+			u = u.replace(/@@/g, '(mce_at)'); // Zope 3 workaround, they use @@something
+			u = /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@\/]*):?([^:@\/]*))?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/.exec(u);
+			each(["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"], function(v, i) {
+				var s = u[i];
+
+				// Zope 3 workaround, they use @@something
+				if (s)
+					s = s.replace(/\(mce_at\)/g, '@@');
+
+				t[v] = s;
+			});
+
+			b = s.base_uri;
+			if (b) {
+				if (!t.protocol)
+					t.protocol = b.protocol;
+
+				if (!t.userInfo)
+					t.userInfo = b.userInfo;
+
+				if (!t.port && t.host === 'mce_host')
+					t.port = b.port;
+
+				if (!t.host || t.host === 'mce_host')
+					t.host = b.host;
+
+				t.source = '';
+			}
+
+			//t.path = t.path || '/';
+		},
+
+		setPath : function(p) {
+			var t = this;
+
+			p = /^(.*?)\/?(\w+)?$/.exec(p);
+
+			// Update path parts
+			t.path = p[0];
+			t.directory = p[1];
+			t.file = p[2];
+
+			// Rebuild source
+			t.source = '';
+			t.getURI();
+		},
+
+		toRelative : function(u) {
+			var t = this, o;
+
+			if (u === "./")
+				return u;
+
+			u = new tinymce.util.URI(u, {base_uri : t});
+
+			// Not on same domain/port or protocol
+			if ((u.host != 'mce_host' && t.host != u.host && u.host) || t.port != u.port || t.protocol != u.protocol)
+				return u.getURI();
+
+			var tu = t.getURI(), uu = u.getURI();
+			
+			// Allow usage of the base_uri when relative_urls = true
+			if(tu == uu || (tu.charAt(tu.length - 1) == "/" && tu.substr(0, tu.length - 1) == uu))
+				return tu;
+
+			o = t.toRelPath(t.path, u.path);
+
+			// Add query
+			if (u.query)
+				o += '?' + u.query;
+
+			// Add anchor
+			if (u.anchor)
+				o += '#' + u.anchor;
+
+			return o;
+		},
+	
+		toAbsolute : function(u, nh) {
+			u = new tinymce.util.URI(u, {base_uri : this});
+
+			return u.getURI(this.host == u.host && this.protocol == u.protocol ? nh : 0);
+		},
+
+		toRelPath : function(base, path) {
+			var items, bp = 0, out = '', i, l;
+
+			// Split the paths
+			base = base.substring(0, base.lastIndexOf('/'));
+			base = base.split('/');
+			items = path.split('/');
+
+			if (base.length >= items.length) {
+				for (i = 0, l = base.length; i < l; i++) {
+					if (i >= items.length || base[i] != items[i]) {
+						bp = i + 1;
+						break;
+					}
+				}
+			}
+
+			if (base.length < items.length) {
+				for (i = 0, l = items.length; i < l; i++) {
+					if (i >= base.length || base[i] != items[i]) {
+						bp = i + 1;
+						break;
+					}
+				}
+			}
+
+			if (bp === 1)
+				return path;
+
+			for (i = 0, l = base.length - (bp - 1); i < l; i++)
+				out += "../";
+
+			for (i = bp - 1, l = items.length; i < l; i++) {
+				if (i != bp - 1)
+					out += "/" + items[i];
+				else
+					out += items[i];
+			}
+
+			return out;
+		},
+
+		toAbsPath : function(base, path) {
+			var i, nb = 0, o = [], tr, outPath;
+
+			// Split paths
+			tr = /\/$/.test(path) ? '/' : '';
+			base = base.split('/');
+			path = path.split('/');
+
+			// Remove empty chunks
+			each(base, function(k) {
+				if (k)
+					o.push(k);
+			});
+
+			base = o;
+
+			// Merge relURLParts chunks
+			for (i = path.length - 1, o = []; i >= 0; i--) {
+				// Ignore empty or .
+				if (path[i].length === 0 || path[i] === ".")
+					continue;
+
+				// Is parent
+				if (path[i] === '..') {
+					nb++;
+					continue;
+				}
+
+				// Move up
+				if (nb > 0) {
+					nb--;
+					continue;
+				}
+
+				o.push(path[i]);
+			}
+
+			i = base.length - nb;
+
+			// If /a/b/c or /
+			if (i <= 0)
+				outPath = o.reverse().join('/');
+			else
+				outPath = base.slice(0, i).join('/') + '/' + o.reverse().join('/');
+
+			// Add front / if it's needed
+			if (outPath.indexOf('/') !== 0)
+				outPath = '/' + outPath;
+
+			// Add traling / if it's needed
+			if (tr && outPath.lastIndexOf('/') !== outPath.length - 1)
+				outPath += tr;
+
+			return outPath;
+		},
+
+		getURI : function(nh) {
+			var s, t = this;
+
+			// Rebuild source
+			if (!t.source || nh) {
+				s = '';
+
+				if (!nh) {
+					if (t.protocol)
+						s += t.protocol + '://';
+
+					if (t.userInfo)
+						s += t.userInfo + '@';
+
+					if (t.host)
+						s += t.host;
+
+					if (t.port)
+						s += ':' + t.port;
+				}
+
+				if (t.path)
+					s += t.path;
+
+				if (t.query)
+					s += '?' + t.query;
+
+				if (t.anchor)
+					s += '#' + t.anchor;
+
+				t.source = s;
+			}
+
+			return t.source;
+		}
+	});
+})();
+
+(function() {
+	var each = tinymce.each;
+
+	tinymce.create('static tinymce.util.Cookie', {
+		getHash : function(n) {
+			var v = this.get(n), h;
+
+			if (v) {
+				each(v.split('&'), function(v) {
+					v = v.split('=');
+					h = h || {};
+					h[unescape(v[0])] = unescape(v[1]);
+				});
+			}
+
+			return h;
+		},
+
+		setHash : function(n, v, e, p, d, s) {
+			var o = '';
+
+			each(v, function(v, k) {
+				o += (!o ? '' : '&') + escape(k) + '=' + escape(v);
+			});
+
+			this.set(n, o, e, p, d, s);
+		},
+
+		get : function(n) {
+			var c = document.cookie, e, p = n + "=", b;
+
+			// Strict mode
+			if (!c)
+				return;
+
+			b = c.indexOf("; " + p);
+
+			if (b == -1) {
+				b = c.indexOf(p);
+
+				if (b !== 0)
+					return null;
+			} else
+				b += 2;
+
+			e = c.indexOf(";", b);
+
+			if (e == -1)
+				e = c.length;
+
+			return unescape(c.substring(b + p.length, e));
+		},
+
+		set : function(n, v, e, p, d, s) {
+			document.cookie = n + "=" + escape(v) +
+				((e) ? "; expires=" + e.toGMTString() : "") +
+				((p) ? "; path=" + escape(p) : "") +
+				((d) ? "; domain=" + d : "") +
+				((s) ? "; secure" : "");
+		},
+
+		remove : function(name, path, domain) {
+			var date = new Date();
+
+			date.setTime(date.getTime() - 1000);
+
+			this.set(name, '', date, path, domain);
+		}
+	});
+})();
+
+(function() {
+	function serialize(o, quote) {
+		var i, v, t, name;
+
+		quote = quote || '"';
+
+		if (o == null)
+			return 'null';
+
+		t = typeof o;
+
+		if (t == 'string') {
+			v = '\bb\tt\nn\ff\rr\""\'\'\\\\';
+
+			return quote + o.replace(/([\u0080-\uFFFF\x00-\x1f\"\'\\])/g, function(a, b) {
+				// Make sure single quotes never get encoded inside double quotes for JSON compatibility
+				if (quote === '"' && a === "'")
+					return a;
+
+				i = v.indexOf(b);
+
+				if (i + 1)
+					return '\\' + v.charAt(i + 1);
+
+				a = b.charCodeAt().toString(16);
+
+				return '\\u' + '0000'.substring(a.length) + a;
+			}) + quote;
+		}
+
+		if (t == 'object') {
+			if (o.hasOwnProperty && Object.prototype.toString.call(o) === '[object Array]') {
+					for (i=0, v = '['; i<o.length; i++)
+						v += (i > 0 ? ',' : '') + serialize(o[i], quote);
+
+					return v + ']';
+				}
+
+				v = '{';
+
+				for (name in o) {
+					if (o.hasOwnProperty(name)) {
+						v += typeof o[name] != 'function' ? (v.length > 1 ? ',' + quote : quote) + name + quote +':' + serialize(o[name], quote) : '';
+					}
+				}
+
+				return v + '}';
+		}
+
+		return '' + o;
+	};
+
+	tinymce.util.JSON = {
+		serialize: serialize,
+
+		parse: function(s) {
+			try {
+				return eval('(' + s + ')');
+			} catch (ex) {
+				// Ignore
+			}
+		}
+
+		};
+})();
+
+tinymce.create('static tinymce.util.XHR', {
+	send : function(o) {
+		var x, t, w = window, c = 0;
+
+		function ready() {
+			if (!o.async || x.readyState == 4 || c++ > 10000) {
+				if (o.success && c < 10000 && x.status == 200)
+					o.success.call(o.success_scope, '' + x.responseText, x, o);
+				else if (o.error)
+					o.error.call(o.error_scope, c > 10000 ? 'TIMED_OUT' : 'GENERAL', x, o);
+
+				x = null;
+			} else
+				w.setTimeout(ready, 10);
+		};
+
+		// Default settings
+		o.scope = o.scope || this;
+		o.success_scope = o.success_scope || o.scope;
+		o.error_scope = o.error_scope || o.scope;
+		o.async = o.async === false ? false : true;
+		o.data = o.data || '';
+
+		function get(s) {
+			x = 0;
+
+			try {
+				x = new ActiveXObject(s);
+			} catch (ex) {
+			}
+
+			return x;
+		};
+
+		x = w.XMLHttpRequest ? new XMLHttpRequest() : get('Microsoft.XMLHTTP') || get('Msxml2.XMLHTTP');
+
+		if (x) {
+			if (x.overrideMimeType)
+				x.overrideMimeType(o.content_type);
+
+			x.open(o.type || (o.data ? 'POST' : 'GET'), o.url, o.async);
+
+			if (o.content_type)
+				x.setRequestHeader('Content-Type', o.content_type);
+
+			x.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+			x.send(o.data);
+
+			// Syncronous request
+			if (!o.async)
+				return ready();
+
+			// Wait for response, onReadyStateChange can not be used since it leaks memory in IE
+			t = w.setTimeout(ready, 10);
+		}
+	}
+});
+
+(function() {
+	var extend = tinymce.extend, JSON = tinymce.util.JSON, XHR = tinymce.util.XHR;
+
+	tinymce.create('tinymce.util.JSONRequest', {
+		JSONRequest : function(s) {
+			this.settings = extend({
+			}, s);
+			this.count = 0;
+		},
+
+		send : function(o) {
+			var ecb = o.error, scb = o.success;
+
+			o = extend(this.settings, o);
+
+			o.success = function(c, x) {
+				c = JSON.parse(c);
+
+				if (typeof(c) == 'undefined') {
+					c = {
+						error : 'JSON Parse error.'
+					};
+				}
+
+				if (c.error)
+					ecb.call(o.error_scope || o.scope, c.error, x);
+				else
+					scb.call(o.success_scope || o.scope, c.result);
+			};
+
+			o.error = function(ty, x) {
+				if (ecb)
+					ecb.call(o.error_scope || o.scope, ty, x);
+			};
+
+			o.data = JSON.serialize({
+				id : o.id || 'c' + (this.count++),
+				method : o.method,
+				params : o.params
+			});
+
+			// JSON content type for Ruby on rails. Bug: #1883287
+			o.content_type = 'application/json';
+
+			XHR.send(o);
+		},
+
+		'static' : {
+			sendRPC : function(o) {
+				return new tinymce.util.JSONRequest().send(o);
+			}
+		}
+	});
+}());
+(function(tinymce){
+	tinymce.VK = {
+		BACKSPACE: 8,
+		DELETE: 46,
+		DOWN: 40,
+		ENTER: 13,
+		LEFT: 37,
+		RIGHT: 39,
+		SPACEBAR: 32,
+		TAB: 9,
+		UP: 38,
+
+		modifierPressed: function (e) {
+			return e.shiftKey || e.ctrlKey || e.altKey;
+		},
+
+		metaKeyPressed: function(e) {
+			// Check if ctrl or meta key is pressed also check if alt is false for Polish users
+			return tinymce.isMac ? e.metaKey : e.ctrlKey && !e.altKey;
+		}
+	};
+})(tinymce);
+
+tinymce.util.Quirks = function(editor) {
+	var VK = tinymce.VK, BACKSPACE = VK.BACKSPACE, DELETE = VK.DELETE, dom = editor.dom, selection = editor.selection,
+		settings = editor.settings, parser = editor.parser, serializer = editor.serializer, each = tinymce.each;
+
+	function setEditorCommandState(cmd, state) {
+		try {
+			editor.getDoc().execCommand(cmd, false, state);
+		} catch (ex) {
+			// Ignore
+		}
+	}
+
+	function getDocumentMode() {
+		var documentMode = editor.getDoc().documentMode;
+
+		return documentMode ? documentMode : 6;
+	};
+
+	function isDefaultPrevented(e) {
+		return e.isDefaultPrevented();
+	};
+
+	function cleanupStylesWhenDeleting() {
+		function removeMergedFormatSpans(isDelete) {
+			var rng, blockElm, wrapperElm, bookmark, container, offset, elm;
+
+			function isAtStartOrEndOfElm() {
+				if (container.nodeType == 3) {
+					if (isDelete && offset == container.length) {
+						return true;
+					}
+
+					if (!isDelete && offset === 0) {
+						return true;
+					}
+				}
+			}
+
+			rng = selection.getRng();
+			var tmpRng = [rng.startContainer, rng.startOffset, rng.endContainer, rng.endOffset];
+
+			if (!rng.collapsed) {
+				isDelete = true;
+			}
+
+			container = rng[(isDelete ? 'start' : 'end') + 'Container'];
+			offset = rng[(isDelete ? 'start' : 'end') + 'Offset'];
+
+			if (container.nodeType == 3) {
+				blockElm = dom.getParent(rng.startContainer, dom.isBlock);
+
+				// On delete clone the root span of the next block element
+				if (isDelete) {
+					blockElm = dom.getNext(blockElm, dom.isBlock);
+				}
+
+				if (blockElm && (isAtStartOrEndOfElm() || !rng.collapsed)) {
+					// Wrap children of block in a EM and let WebKit stick is
+					// runtime styles junk into that EM
+					wrapperElm = dom.create('em', {'id': '__mceDel'});
+
+					each(tinymce.grep(blockElm.childNodes), function(node) {
+						wrapperElm.appendChild(node);
+					});
+
+					blockElm.appendChild(wrapperElm);
+				}
+			}
+
+			// Do the backspace/delete action
+			rng = dom.createRng();
+			rng.setStart(tmpRng[0], tmpRng[1]);
+			rng.setEnd(tmpRng[2], tmpRng[3]);
+			selection.setRng(rng);
+			editor.getDoc().execCommand(isDelete ? 'ForwardDelete' : 'Delete', false, null);
+
+			// Remove temp wrapper element
+			if (wrapperElm) {
+				bookmark = selection.getBookmark();
+
+				while (elm = dom.get('__mceDel')) {
+					dom.remove(elm, true);
+				}
+
+				selection.moveToBookmark(bookmark);
+			}
+		}
+
+		editor.onKeyDown.add(function(editor, e) {
+			var isDelete;
+
+			isDelete = e.keyCode == DELETE;
+			if (!isDefaultPrevented(e) && (isDelete || e.keyCode == BACKSPACE) && !VK.modifierPressed(e)) {
+				e.preventDefault();
+				removeMergedFormatSpans(isDelete);
+			}
+		});
+
+		editor.addCommand('Delete', function() {removeMergedFormatSpans();});
+	};
+	
+	function emptyEditorWhenDeleting() {
+		function serializeRng(rng) {
+			var body = dom.create("body");
+			var contents = rng.cloneContents();
+			body.appendChild(contents);
+			return selection.serializer.serialize(body, {format: 'html'});
+		}
+
+		function allContentsSelected(rng) {
+			var selection = serializeRng(rng);
+
+			var allRng = dom.createRng();
+			allRng.selectNode(editor.getBody());
+
+			var allSelection = serializeRng(allRng);
+			return selection === allSelection;
+		}
+
+		editor.onKeyDown.add(function(editor, e) {
+			var keyCode = e.keyCode, isCollapsed;
+
+			// Empty the editor if it's needed for example backspace at <p><b>|</b></p>
+			if (!isDefaultPrevented(e) && (keyCode == DELETE || keyCode == BACKSPACE)) {
+				isCollapsed = editor.selection.isCollapsed();
+
+				// Selection is collapsed but the editor isn't empty
+				if (isCollapsed && !dom.isEmpty(editor.getBody())) {
+					return;
+				}
+
+				// IE deletes all contents correctly when everything is selected
+				if (tinymce.isIE && !isCollapsed) {
+					return;
+				}
+
+				// Selection isn't collapsed but not all the contents is selected
+				if (!isCollapsed && !allContentsSelected(editor.selection.getRng())) {
+					return;
+				}
+
+				// Manually empty the editor
+				editor.setContent('');
+				editor.selection.setCursorLocation(editor.getBody(), 0);
+				editor.nodeChanged();
+			}
+		});
+	};
+
+	function selectAll() {
+		editor.onKeyDown.add(function(editor, e) {
+			if (!isDefaultPrevented(e) && e.keyCode == 65 && VK.metaKeyPressed(e)) {
+				e.preventDefault();
+				editor.execCommand('SelectAll');
+			}
+		});
+	};
+
+	function inputMethodFocus() {
+		if (!editor.settings.content_editable) {
+			// Case 1 IME doesn't initialize if you focus the document
+			dom.bind(editor.getDoc(), 'focusin', function(e) {
+				selection.setRng(selection.getRng());
+			});
+
+			// Case 2 IME doesn't initialize if you click the documentElement it also doesn't properly fire the focusin event
+			dom.bind(editor.getDoc(), 'mousedown', function(e) {
+				if (e.target == editor.getDoc().documentElement) {
+					editor.getWin().focus();
+					selection.setRng(selection.getRng());
+				}
+			});
+		}
+	};
+
+	function removeHrOnBackspace() {
+		editor.onKeyDown.add(function(editor, e) {
+			if (!isDefaultPrevented(e) && e.keyCode === BACKSPACE) {
+				if (selection.isCollapsed() && selection.getRng(true).startOffset === 0) {
+					var node = selection.getNode();
+					var previousSibling = node.previousSibling;
+
+					if (previousSibling && previousSibling.nodeName && previousSibling.nodeName.toLowerCase() === "hr") {
+						dom.remove(previousSibling);
+						tinymce.dom.Event.cancel(e);
+					}
+				}
+			}
+		})
+	}
+
+	function focusBody() {
+		// Fix for a focus bug in FF 3.x where the body element
+		// wouldn't get proper focus if the user clicked on the HTML element
+		if (!Range.prototype.getClientRects) { // Detect getClientRects got introduced in FF 4
+			editor.onMouseDown.add(function(editor, e) {
+				if (!isDefaultPrevented(e) && e.target.nodeName === "HTML") {
+					var body = editor.getBody();
+
+					// Blur the body it's focused but not correctly focused
+					body.blur();
+
+					// Refocus the body after a little while
+					setTimeout(function() {
+						body.focus();
+					}, 0);
+				}
+			});
+		}
+	};
+
+	function selectControlElements() {
+		editor.onClick.add(function(editor, e) {
+			e = e.target;
+
+			// Workaround for bug, http://bugs.webkit.org/show_bug.cgi?id=12250
+			// WebKit can't even do simple things like selecting an image
+			// Needs tobe the setBaseAndExtend or it will fail to select floated images
+			if (/^(IMG|HR)$/.test(e.nodeName)) {
+				selection.getSel().setBaseAndExtent(e, 0, e, 1);
+			}
+
+			if (e.nodeName == 'A' && dom.hasClass(e, 'mceItemAnchor')) {
+				selection.select(e);
+			}
+
+			editor.nodeChanged();
+		});
+	};
+
+	function removeStylesWhenDeletingAccrossBlockElements() {
+		function getAttributeApplyFunction() {
+			var template = dom.getAttribs(selection.getStart().cloneNode(false));
+
+			return function() {
+				var target = selection.getStart();
+
+				if (target !== editor.getBody()) {
+					dom.setAttrib(target, "style", null);
+
+					each(template, function(attr) {
+						target.setAttributeNode(attr.cloneNode(true));
+					});
+				}
+			};
+		}
+
+		function isSelectionAcrossElements() {
+			return !selection.isCollapsed() && dom.getParent(selection.getStart(), dom.isBlock) != dom.getParent(selection.getEnd(), dom.isBlock);
+		}
+
+		function blockEvent(editor, e) {
+			e.preventDefault();
+			return false;
+		}
+
+		editor.onKeyPress.add(function(editor, e) {
+			var applyAttributes;
+
+			if (!isDefaultPrevented(e) && (e.keyCode == 8 || e.keyCode == 46) && isSelectionAcrossElements()) {
+				applyAttributes = getAttributeApplyFunction();
+				editor.getDoc().execCommand('delete', false, null);
+				applyAttributes();
+				e.preventDefault();
+				return false;
+			}
+		});
+
+		dom.bind(editor.getDoc(), 'cut', function(e) {
+			var applyAttributes;
+
+			if (!isDefaultPrevented(e) && isSelectionAcrossElements()) {
+				applyAttributes = getAttributeApplyFunction();
+				editor.onKeyUp.addToTop(blockEvent);
+
+				setTimeout(function() {
+					applyAttributes();
+					editor.onKeyUp.remove(blockEvent);
+				}, 0);
+			}
+		});
+	}
+
+	function selectionChangeNodeChanged() {
+		var lastRng, selectionTimer;
+
+		dom.bind(editor.getDoc(), 'selectionchange', function() {
+			if (selectionTimer) {
+				clearTimeout(selectionTimer);
+				selectionTimer = 0;
+			}
+
+			selectionTimer = window.setTimeout(function() {
+				var rng = selection.getRng();
+
+				// Compare the ranges to see if it was a real change or not
+				if (!lastRng || !tinymce.dom.RangeUtils.compareRanges(rng, lastRng)) {
+					editor.nodeChanged();
+					lastRng = rng;
+				}
+			}, 50);
+		});
+	}
+
+	function ensureBodyHasRoleApplication() {
+		document.body.setAttribute("role", "application");
+	}
+
+	function disableBackspaceIntoATable() {
+		editor.onKeyDown.add(function(editor, e) {
+			if (!isDefaultPrevented(e) && e.keyCode === BACKSPACE) {
+				if (selection.isCollapsed() && selection.getRng(true).startOffset === 0) {
+					var previousSibling = selection.getNode().previousSibling;
+					if (previousSibling && previousSibling.nodeName && previousSibling.nodeName.toLowerCase() === "table") {
+						return tinymce.dom.Event.cancel(e);
+					}
+				}
+			}
+		})
+	}
+
+	function addNewLinesBeforeBrInPre() {
+		// IE8+ rendering mode does the right thing with BR in PRE
+		if (getDocumentMode() > 7) {
+			return;
+		}
+
+		 // Enable display: none in area and add a specific class that hides all BR elements in PRE to
+		 // avoid the caret from getting stuck at the BR elements while pressing the right arrow key
+		setEditorCommandState('RespectVisibilityInDesign', true);
+		editor.contentStyles.push('.mceHideBrInPre pre br {display: none}');
+		dom.addClass(editor.getBody(), 'mceHideBrInPre');
+
+		// Adds a \n before all BR elements in PRE to get them visual
+		parser.addNodeFilter('pre', function(nodes, name) {
+			var i = nodes.length, brNodes, j, brElm, sibling;
+
+			while (i--) {
+				brNodes = nodes[i].getAll('br');
+				j = brNodes.length;
+				while (j--) {
+					brElm = brNodes[j];
+
+					// Add \n before BR in PRE elements on older IE:s so the new lines get rendered
+					sibling = brElm.prev;
+					if (sibling && sibling.type === 3 && sibling.value.charAt(sibling.value - 1) != '\n') {
+						sibling.value += '\n';
+					} else {
+						brElm.parent.insert(new tinymce.html.Node('#text', 3), brElm, true).value = '\n';
+					}
+				}
+			}
+		});
+
+		// Removes any \n before BR elements in PRE since other browsers and in contentEditable=false mode they will be visible
+		serializer.addNodeFilter('pre', function(nodes, name) {
+			var i = nodes.length, brNodes, j, brElm, sibling;
+
+			while (i--) {
+				brNodes = nodes[i].getAll('br');
+				j = brNodes.length;
+				while (j--) {
+					brElm = brNodes[j];
+					sibling = brElm.prev;
+					if (sibling && sibling.type == 3) {
+						sibling.value = sibling.value.replace(/\r?\n$/, '');
+					}
+				}
+			}
+		});
+	}
+
+	function removePreSerializedStylesWhenSelectingControls() {
+		dom.bind(editor.getBody(), 'mouseup', function(e) {
+			var value, node = selection.getNode();
+
+			// Moved styles to attributes on IMG eements
+			if (node.nodeName == 'IMG') {
+				// Convert style width to width attribute
+				if (value = dom.getStyle(node, 'width')) {
+					dom.setAttrib(node, 'width', value.replace(/[^0-9%]+/g, ''));
+					dom.setStyle(node, 'width', '');
+				}
+
+				// Convert style height to height attribute
+				if (value = dom.getStyle(node, 'height')) {
+					dom.setAttrib(node, 'height', value.replace(/[^0-9%]+/g, ''));
+					dom.setStyle(node, 'height', '');
+				}
+			}
+		});
+	}
+
+	function keepInlineElementOnDeleteBackspace() {
+		editor.onKeyDown.add(function(editor, e) {
+			var isDelete, rng, container, offset, brElm, sibling, collapsed;
+
+			isDelete = e.keyCode == DELETE;
+			if (!isDefaultPrevented(e) && (isDelete || e.keyCode == BACKSPACE) && !VK.modifierPressed(e)) {
+				rng = selection.getRng();
+				container = rng.startContainer;
+				offset = rng.startOffset;
+				collapsed = rng.collapsed;
+
+				// Override delete if the start container is a text node and is at the beginning of text or
+				// just before/after the last character to be deleted in collapsed mode
+				if (container.nodeType == 3 && container.nodeValue.length > 0 && ((offset === 0 && !collapsed) || (collapsed && offset === (isDelete ? 0 : 1)))) {
+					// Edge case when deleting <p><b><img> |x</b></p>
+					sibling = container.previousSibling;
+					if (sibling && sibling.nodeName == "IMG") {
+						return;
+					}
+
+					nonEmptyElements = editor.schema.getNonEmptyElements();
+
+					// Prevent default logic since it's broken
+					e.preventDefault();
+
+					// Insert a BR before the text node this will prevent the containing element from being deleted/converted
+					brElm = dom.create('br', {id: '__tmp'});
+					container.parentNode.insertBefore(brElm, container);
+
+					// Do the browser delete
+					editor.getDoc().execCommand(isDelete ? 'ForwardDelete' : 'Delete', false, null);
+
+					// Check if the previous sibling is empty after deleting for example: <p><b></b>|</p>
+					container = selection.getRng().startContainer;
+					sibling = container.previousSibling;
+					if (sibling && sibling.nodeType == 1 && !dom.isBlock(sibling) && dom.isEmpty(sibling) && !nonEmptyElements[sibling.nodeName.toLowerCase()]) {
+						dom.remove(sibling);
+					}
+
+					// Remove the temp element we inserted
+					dom.remove('__tmp');
+				}
+			}
+		});
+	}
+
+	function removeBlockQuoteOnBackSpace() {
+		// Add block quote deletion handler
+		editor.onKeyDown.add(function(editor, e) {
+			var rng, container, offset, root, parent;
+
+			if (isDefaultPrevented(e) || e.keyCode != VK.BACKSPACE) {
+				return;
+			}
+
+			rng = selection.getRng();
+			container = rng.startContainer;
+			offset = rng.startOffset;
+			root = dom.getRoot();
+			parent = container;
+
+			if (!rng.collapsed || offset !== 0) {
+				return;
+			}
+
+			while (parent && parent.parentNode && parent.parentNode.firstChild == parent && parent.parentNode != root) {
+				parent = parent.parentNode;
+			}
+
+			// Is the cursor at the beginning of a blockquote?
+			if (parent.tagName === 'BLOCKQUOTE') {
+				// Remove the blockquote
+				editor.formatter.toggle('blockquote', null, parent);
+
+				// Move the caret to the beginning of container
+				rng = dom.createRng();
+				rng.setStart(container, 0);
+				rng.setEnd(container, 0);
+				selection.setRng(rng);
+			}
+		});
+	};
+
+	function setGeckoEditingOptions() {
+		function setOpts() {
+			editor._refreshContentEditable();
+
+			setEditorCommandState("StyleWithCSS", false);
+			setEditorCommandState("enableInlineTableEditing", false);
+
+			if (!settings.object_resizing) {
+				setEditorCommandState("enableObjectResizing", false);
+			}
+		};
+
+		if (!settings.readonly) {
+			editor.onBeforeExecCommand.add(setOpts);
+			editor.onMouseDown.add(setOpts);
+		}
+	};
+
+	function addBrAfterLastLinks() {
+		function fixLinks(editor, o) {
+			each(dom.select('a'), function(node) {
+				var parentNode = node.parentNode, root = dom.getRoot();
+
+				if (parentNode.lastChild === node) {
+					while (parentNode && !dom.isBlock(parentNode)) {
+						if (parentNode.parentNode.lastChild !== parentNode || parentNode === root) {
+							return;
+						}
+
+						parentNode = parentNode.parentNode;
+					}
+
+					dom.add(parentNode, 'br', {'data-mce-bogus' : 1});
+				}
+			});
+		};
+
+		editor.onExecCommand.add(function(editor, cmd) {
+			if (cmd === 'CreateLink') {
+				fixLinks(editor);
+			}
+		});
+
+		editor.onSetContent.add(selection.onSetContent.add(fixLinks));
+	};
+
+	function setDefaultBlockType() {
+		if (settings.forced_root_block) {
+			editor.onInit.add(function() {
+				setEditorCommandState('DefaultParagraphSeparator', settings.forced_root_block);
+			});
+		}
+	}
+
+	function removeGhostSelection() {
+		function repaint(sender, args) {
+			if (!sender || !args.initial) {
+				editor.execCommand('mceRepaint');
+			}
+		};
+
+		editor.onUndo.add(repaint);
+		editor.onRedo.add(repaint);
+		editor.onSetContent.add(repaint);
+	};
+
+	function deleteControlItemOnBackSpace() {
+		editor.onKeyDown.add(function(editor, e) {
+			var rng;
+
+			if (!isDefaultPrevented(e) && e.keyCode == BACKSPACE) {
+				rng = editor.getDoc().selection.createRange();
+				if (rng && rng.item) {
+					e.preventDefault();
+					editor.undoManager.beforeChange();
+					dom.remove(rng.item(0));
+					editor.undoManager.add();
+				}
+			}
+		});
+	};
+
+	function renderEmptyBlocksFix() {
+		var emptyBlocksCSS;
+
+		// IE10+
+		if (getDocumentMode() >= 10) {
+			emptyBlocksCSS = '';
+			each('p div h1 h2 h3 h4 h5 h6'.split(' '), function(name, i) {
+				emptyBlocksCSS += (i > 0 ? ',' : '') + name + ':empty';
+			});
+
+			editor.contentStyles.push(emptyBlocksCSS + '{padding-right: 1px !important}');
+		}
+	};
+
+	function fakeImageResize() {
+		var selectedElmX, selectedElmY, selectedElm, selectedElmGhost, selectedHandle, startX, startY, startW, startH, ratio,
+			resizeHandles, width, height, rootDocument = document, editableDoc = editor.getDoc();
+
+		if (!settings.object_resizing || settings.webkit_fake_resize === false) {
+			return;
+		}
+
+		// Try disabling object resizing if WebKit implements resizing in the future
+		setEditorCommandState("enableObjectResizing", false);
+
+		// Details about each resize handle how to scale etc
+		resizeHandles = {
+			// Name: x multiplier, y multiplier, delta size x, delta size y
+			n: [.5, 0, 0, -1],
+			e: [1, .5, 1, 0],
+			s: [.5, 1, 0, 1],
+			w: [0, .5, -1, 0],
+			nw: [0, 0, -1, -1],
+			ne: [1, 0, 1, -1],
+			se: [1, 1, 1, 1],
+			sw : [0, 1, -1, 1]
+		};
+
+		function resizeElement(e) {
+			var deltaX, deltaY;
+
+			// Calc new width/height
+			deltaX = e.screenX - startX;
+			deltaY = e.screenY - startY;
+
+			// Calc new size
+			width = deltaX * selectedHandle[2] + startW;
+			height = deltaY * selectedHandle[3] + startH;
+
+			// Never scale down lower than 5 pixels
+			width = width < 5 ? 5 : width;
+			height = height < 5 ? 5 : height;
+
+			// Constrain proportions when modifier key is pressed or if the nw, ne, sw, se corners are moved on an image
+			if (VK.modifierPressed(e) || (selectedElm.nodeName == "IMG" && selectedHandle[2] * selectedHandle[3] !== 0)) {
+				width = Math.round(height / ratio);
+				height = Math.round(width * ratio);
+			}
+
+			// Update ghost size
+			dom.setStyles(selectedElmGhost, {
+				width: width,
+				height: height
+			});
+
+			// Update ghost X position if needed
+			if (selectedHandle[2] < 0 && selectedElmGhost.clientWidth <= width) {
+				dom.setStyle(selectedElmGhost, 'left', selectedElmX + (startW - width));
+			}
+
+			// Update ghost Y position if needed
+			if (selectedHandle[3] < 0 && selectedElmGhost.clientHeight <= height) {
+				dom.setStyle(selectedElmGhost, 'top', selectedElmY + (startH - height));
+			}
+		}
+
+		function endResize() {
+			function setSizeProp(name, value) {
+				if (value) {
+					// Resize by using style or attribute
+					if (selectedElm.style[name] || !editor.schema.isValid(selectedElm.nodeName.toLowerCase(), name)) {
+						dom.setStyle(selectedElm, name, value);
+					} else {
+						dom.setAttrib(selectedElm, name, value);
+					}
+				}
+			}
+
+			// Set width/height properties
+			setSizeProp('width', width);
+			setSizeProp('height', height);
+
+			dom.unbind(editableDoc, 'mousemove', resizeElement);
+			dom.unbind(editableDoc, 'mouseup', endResize);
+
+			if (rootDocument != editableDoc) {
+				dom.unbind(rootDocument, 'mousemove', resizeElement);
+				dom.unbind(rootDocument, 'mouseup', endResize);
+			}
+
+			// Remove ghost and update resize handle positions
+			dom.remove(selectedElmGhost);
+			showResizeRect(selectedElm);
+		}
+
+		function showResizeRect(targetElm) {
+			var position, targetWidth, targetHeight;
+
+			hideResizeRect();
+
+			// Get position and size of target
+			position = dom.getPos(targetElm);
+			selectedElmX = position.x;
+			selectedElmY = position.y;
+			targetWidth = targetElm.offsetWidth;
+			targetHeight = targetElm.offsetHeight;
+
+			// Reset width/height if user selects a new image/table
+			if (selectedElm != targetElm) {
+				selectedElm = targetElm;
+				width = height = 0;
+			}
+
+			each(resizeHandles, function(handle, name) {
+				var handleElm;
+
+				// Get existing or render resize handle
+				handleElm = dom.get('mceResizeHandle' + name);
+				if (!handleElm) {
+					handleElm = dom.add(editableDoc.documentElement, 'div', {
+						id: 'mceResizeHandle' + name,
+						'class': 'mceResizeHandle',
+						style: 'cursor:' + name + '-resize; margin:0; padding:0'
+					});
+
+					dom.bind(handleElm, 'mousedown', function(e) {
+						e.preventDefault();
+
+						endResize();
+
+						startX = e.screenX;
+						startY = e.screenY;
+						startW = selectedElm.clientWidth;
+						startH = selectedElm.clientHeight;
+						ratio = startH / startW;
+						selectedHandle = handle;
+
+						selectedElmGhost = selectedElm.cloneNode(true);
+						dom.addClass(selectedElmGhost, 'mceClonedResizable');
+						dom.setStyles(selectedElmGhost, {
+							left: selectedElmX,
+							top: selectedElmY,
+							margin: 0
+						});
+
+						editableDoc.documentElement.appendChild(selectedElmGhost);
+
+						dom.bind(editableDoc, 'mousemove', resizeElement);
+						dom.bind(editableDoc, 'mouseup', endResize);
+
+						if (rootDocument != editableDoc) {
+							dom.bind(rootDocument, 'mousemove', resizeElement);
+							dom.bind(rootDocument, 'mouseup', endResize);
+						}
+					});
+				} else {
+					dom.show(handleElm);
+				}
+
+				// Position element
+				dom.setStyles(handleElm, {
+					left: (targetWidth * handle[0] + selectedElmX) - (handleElm.offsetWidth / 2),
+					top: (targetHeight * handle[1] + selectedElmY) - (handleElm.offsetHeight / 2)
+				});
+			});
+
+			// Only add resize rectangle on WebKit and only on images
+			if (!tinymce.isOpera && selectedElm.nodeName == "IMG") {
+				selectedElm.setAttribute('data-mce-selected', '1');
+			}
+		}
+
+		function hideResizeRect() {
+			if (selectedElm) {
+				selectedElm.removeAttribute('data-mce-selected');
+			}
+
+			for (var name in resizeHandles) {
+				dom.hide('mceResizeHandle' + name);
+			}
+		}
+
+		// Add CSS for resize handles, cloned element and selected
+		editor.contentStyles.push(
+			'.mceResizeHandle {' +
+				'position: absolute;' +
+				'border: 1px solid black;' +
+				'background: #FFF;' +
+				'width: 5px;' +
+				'height: 5px;' +
+				'z-index: 10000' +
+			'}' +
+			'.mceResizeHandle:hover {' +
+				'background: #000' +
+			'}' +
+			'img[data-mce-selected] {' +
+				'outline: 1px solid black' +
+			'}' +
+			'img.mceClonedResizable, table.mceClonedResizable {' +
+				'position: absolute;' +
+				'outline: 1px dashed black;' +
+				'opacity: .5;' +
+				'z-index: 10000' +
+			'}'
+		);
+
+		function updateResizeRect() {
+			var controlElm = dom.getParent(selection.getNode(), 'table,img');
+
+			// Remove data-mce-selected from all elements since they might have been copied using Ctrl+c/v
+			each(dom.select('img[data-mce-selected]'), function(img) {
+				img.removeAttribute('data-mce-selected');
+			});
+
+			if (controlElm) {
+				showResizeRect(controlElm);
+			} else {
+				hideResizeRect();
+			}
+		}
+
+		// Show/hide resize rect when image is selected
+		editor.onNodeChange.add(updateResizeRect);
+
+		// Fixes WebKit quirk where it returns IMG on getNode if caret is after last image in container
+		dom.bind(editableDoc, 'selectionchange', updateResizeRect);
+
+		// Remove the internal attribute when serializing the DOM
+		editor.serializer.addAttributeFilter('data-mce-selected', function(nodes, name) {
+			var i = nodes.length;
+
+			while (i--) {
+				nodes[i].attr(name, null);
+			}
+		});
+	}
+
+	function keepNoScriptContents() {
+		if (getDocumentMode() < 9) {
+			parser.addNodeFilter('noscript', function(nodes) {
+				var i = nodes.length, node, textNode;
+
+				while (i--) {
+					node = nodes[i];
+					textNode = node.firstChild;
+
+					if (textNode) {
+						node.attr('data-mce-innertext', textNode.value);
+					}
+				}
+			});
+
+			serializer.addNodeFilter('noscript', function(nodes) {
+				var i = nodes.length, node, textNode, value;
+
+				while (i--) {
+					node = nodes[i];
+					textNode = nodes[i].firstChild;
+
+					if (textNode) {
+						textNode.value = tinymce.html.Entities.decode(textNode.value);
+					} else {
+						// Old IE can't retain noscript value so an attribute is used to store it
+						value = node.attributes.map['data-mce-innertext'];
+						if (value) {
+							node.attr('data-mce-innertext', null);
+							textNode = new tinymce.html.Node('#text', 3);
+							textNode.value = value;
+							textNode.raw = true;
+							node.append(textNode);
+						}
+					}
+				}
+			});
+		}
+	}
+
+	function bodyHeight() {
+		editor.contentStyles.push('body {min-height: 100px}');
+		editor.onClick.add(function(ed, e) {
+			if (e.target.nodeName == 'HTML') {
+				editor.execCommand('SelectAll');
+				editor.selection.collapse(true);
+				editor.nodeChanged();
+			}
+		});
+	}
+
+	// All browsers
+	disableBackspaceIntoATable();
+	removeBlockQuoteOnBackSpace();
+	emptyEditorWhenDeleting();
+
+	// WebKit
+	if (tinymce.isWebKit) {
+		keepInlineElementOnDeleteBackspace();
+		cleanupStylesWhenDeleting();
+		inputMethodFocus();
+		selectControlElements();
+		setDefaultBlockType();
+
+		// iOS
+		if (tinymce.isIDevice) {
+			selectionChangeNodeChanged();
+		} else {
+			fakeImageResize();
+			selectAll();
+		}
+	}
+
+	// IE
+	if (tinymce.isIE && !tinymce.isIE11) {
+		removeHrOnBackspace();
+		ensureBodyHasRoleApplication();
+		addNewLinesBeforeBrInPre();
+		removePreSerializedStylesWhenSelectingControls();
+		deleteControlItemOnBackSpace();
+		renderEmptyBlocksFix();
+		keepNoScriptContents();
+	}
+
+	// IE 11+
+	if (tinymce.isIE11) {
+		bodyHeight();
+	}
+
+	// Gecko
+	if (tinymce.isGecko && !tinymce.isIE11) {
+		removeHrOnBackspace();
+		focusBody();
+		removeStylesWhenDeletingAccrossBlockElements();
+		setGeckoEditingOptions();
+		addBrAfterLastLinks();
+		removeGhostSelection();
+	}
+
+	// Opera
+	if (tinymce.isOpera) {
+		fakeImageResize();
+	}
+};
+(function(tinymce) {
+	var namedEntities, baseEntities, reverseEntities,
+		attrsCharsRegExp = /[&<>\"\u007E-\uD7FF\uE000-\uFFEF]|[\uD800-\uDBFF][\uDC00-\uDFFF]/g,
+		textCharsRegExp = /[<>&\u007E-\uD7FF\uE000-\uFFEF]|[\uD800-\uDBFF][\uDC00-\uDFFF]/g,
+		rawCharsRegExp = /[<>&\"\']/g,
+		entityRegExp = /&(#x|#)?([\w]+);/g,
+		asciiMap = {
+				128 : "\u20AC", 130 : "\u201A", 131 : "\u0192", 132 : "\u201E", 133 : "\u2026", 134 : "\u2020",
+				135 : "\u2021", 136 : "\u02C6", 137 : "\u2030", 138 : "\u0160", 139 : "\u2039", 140 : "\u0152",
+				142 : "\u017D", 145 : "\u2018", 146 : "\u2019", 147 : "\u201C", 148 : "\u201D", 149 : "\u2022",
+				150 : "\u2013", 151 : "\u2014", 152 : "\u02DC", 153 : "\u2122", 154 : "\u0161", 155 : "\u203A",
+				156 : "\u0153", 158 : "\u017E", 159 : "\u0178"
+		};
+
+	// Raw entities
+	baseEntities = {
+		'\"' : '&quot;', // Needs to be escaped since the YUI compressor would otherwise break the code
+		"'" : '&#39;',
+		'<' : '&lt;',
+		'>' : '&gt;',
+		'&' : '&amp;'
+	};
+
+	// Reverse lookup table for raw entities
+	reverseEntities = {
+		'&lt;' : '<',
+		'&gt;' : '>',
+		'&amp;' : '&',
+		'&quot;' : '"',
+		'&apos;' : "'"
+	};
+
+	// Decodes text by using the browser
+	function nativeDecode(text) {
+		var elm;
+
+		elm = document.createElement("div");
+		elm.innerHTML = text;
+
+		return elm.textContent || elm.innerText || text;
+	};
+
+	// Build a two way lookup table for the entities
+	function buildEntitiesLookup(items, radix) {
+		var i, chr, entity, lookup = {};
+
+		if (items) {
+			items = items.split(',');
+			radix = radix || 10;
+
+			// Build entities lookup table
+			for (i = 0; i < items.length; i += 2) {
+				chr = String.fromCharCode(parseInt(items[i], radix));
+
+				// Only add non base entities
+				if (!baseEntities[chr]) {
+					entity = '&' + items[i + 1] + ';';
+					lookup[chr] = entity;
+					lookup[entity] = chr;
+				}
+			}
+
+			return lookup;
+		}
+	};
+
+	// Unpack entities lookup where the numbers are in radix 32 to reduce the size
+	namedEntities = buildEntitiesLookup(
+		'50,nbsp,51,iexcl,52,cent,53,pound,54,curren,55,yen,56,brvbar,57,sect,58,uml,59,copy,' +
+		'5a,ordf,5b,laquo,5c,not,5d,shy,5e,reg,5f,macr,5g,deg,5h,plusmn,5i,sup2,5j,sup3,5k,acute,' +
+		'5l,micro,5m,para,5n,middot,5o,cedil,5p,sup1,5q,ordm,5r,raquo,5s,frac14,5t,frac12,5u,frac34,' +
+		'5v,iquest,60,Agrave,61,Aacute,62,Acirc,63,Atilde,64,Auml,65,Aring,66,AElig,67,Ccedil,' +
+		'68,Egrave,69,Eacute,6a,Ecirc,6b,Euml,6c,Igrave,6d,Iacute,6e,Icirc,6f,Iuml,6g,ETH,6h,Ntilde,' +
+		'6i,Ograve,6j,Oacute,6k,Ocirc,6l,Otilde,6m,Ouml,6n,times,6o,Oslash,6p,Ugrave,6q,Uacute,' +
+		'6r,Ucirc,6s,Uuml,6t,Yacute,6u,THORN,6v,szlig,70,agrave,71,aacute,72,acirc,73,atilde,74,auml,' +
+		'75,aring,76,aelig,77,ccedil,78,egrave,79,eacute,7a,ecirc,7b,euml,7c,igrave,7d,iacute,7e,icirc,' +
+		'7f,iuml,7g,eth,7h,ntilde,7i,ograve,7j,oacute,7k,ocirc,7l,otilde,7m,ouml,7n,divide,7o,oslash,' +
+		'7p,ugrave,7q,uacute,7r,ucirc,7s,uuml,7t,yacute,7u,thorn,7v,yuml,ci,fnof,sh,Alpha,si,Beta,' +
+		'sj,Gamma,sk,Delta,sl,Epsilon,sm,Zeta,sn,Eta,so,Theta,sp,Iota,sq,Kappa,sr,Lambda,ss,Mu,' +
+		'st,Nu,su,Xi,sv,Omicron,t0,Pi,t1,Rho,t3,Sigma,t4,Tau,t5,Upsilon,t6,Phi,t7,Chi,t8,Psi,' +
+		't9,Omega,th,alpha,ti,beta,tj,gamma,tk,delta,tl,epsilon,tm,zeta,tn,eta,to,theta,tp,iota,' +
+		'tq,kappa,tr,lambda,ts,mu,tt,nu,tu,xi,tv,omicron,u0,pi,u1,rho,u2,sigmaf,u3,sigma,u4,tau,' +
+		'u5,upsilon,u6,phi,u7,chi,u8,psi,u9,omega,uh,thetasym,ui,upsih,um,piv,812,bull,816,hellip,' +
+		'81i,prime,81j,Prime,81u,oline,824,frasl,88o,weierp,88h,image,88s,real,892,trade,89l,alefsym,' +
+		'8cg,larr,8ch,uarr,8ci,rarr,8cj,darr,8ck,harr,8dl,crarr,8eg,lArr,8eh,uArr,8ei,rArr,8ej,dArr,' +
+		'8ek,hArr,8g0,forall,8g2,part,8g3,exist,8g5,empty,8g7,nabla,8g8,isin,8g9,notin,8gb,ni,8gf,prod,' +
+		'8gh,sum,8gi,minus,8gn,lowast,8gq,radic,8gt,prop,8gu,infin,8h0,ang,8h7,and,8h8,or,8h9,cap,8ha,cup,' +
+		'8hb,int,8hk,there4,8hs,sim,8i5,cong,8i8,asymp,8j0,ne,8j1,equiv,8j4,le,8j5,ge,8k2,sub,8k3,sup,8k4,' +
+		'nsub,8k6,sube,8k7,supe,8kl,oplus,8kn,otimes,8l5,perp,8m5,sdot,8o8,lceil,8o9,rceil,8oa,lfloor,8ob,' +
+		'rfloor,8p9,lang,8pa,rang,9ea,loz,9j0,spades,9j3,clubs,9j5,hearts,9j6,diams,ai,OElig,aj,oelig,b0,' +
+		'Scaron,b1,scaron,bo,Yuml,m6,circ,ms,tilde,802,ensp,803,emsp,809,thinsp,80c,zwnj,80d,zwj,80e,lrm,' +
+		'80f,rlm,80j,ndash,80k,mdash,80o,lsquo,80p,rsquo,80q,sbquo,80s,ldquo,80t,rdquo,80u,bdquo,810,dagger,' +
+		'811,Dagger,81g,permil,81p,lsaquo,81q,rsaquo,85c,euro', 32);
+
+	tinymce.html = tinymce.html || {};
+
+	tinymce.html.Entities = {
+		encodeRaw : function(text, attr) {
+			return text.replace(attr ? attrsCharsRegExp : textCharsRegExp, function(chr) {
+				return baseEntities[chr] || chr;
+			});
+		},
+
+		encodeAllRaw : function(text) {
+			return ('' + text).replace(rawCharsRegExp, function(chr) {
+				return baseEntities[chr] || chr;
+			});
+		},
+
+		encodeNumeric : function(text, attr) {
+			return text.replace(attr ? attrsCharsRegExp : textCharsRegExp, function(chr) {
+				// Multi byte sequence convert it to a single entity
+				if (chr.length > 1)
+					return '&#' + (((chr.charCodeAt(0) - 0xD800) * 0x400) + (chr.charCodeAt(1) - 0xDC00) + 0x10000) + ';';
+
+				return baseEntities[chr] || '&#' + chr.charCodeAt(0) + ';';
+			});
+		},
+
+		encodeNamed : function(text, attr, entities) {
+			entities = entities || namedEntities;
+
+			return text.replace(attr ? attrsCharsRegExp : textCharsRegExp, function(chr) {
+				return baseEntities[chr] || entities[chr] || chr;
+			});
+		},
+
+		getEncodeFunc : function(name, entities) {
+			var Entities = tinymce.html.Entities;
+
+			entities = buildEntitiesLookup(entities) || namedEntities;
+
+			function encodeNamedAndNumeric(text, attr) {
+				return text.replace(attr ? attrsCharsRegExp : textCharsRegExp, function(chr) {
+					return baseEntities[chr] || entities[chr] || '&#' + chr.charCodeAt(0) + ';' || chr;
+				});
+			};
+
+			function encodeCustomNamed(text, attr) {
+				return Entities.encodeNamed(text, attr, entities);
+			};
+
+			// Replace + with , to be compatible with previous TinyMCE versions
+			name = tinymce.makeMap(name.replace(/\+/g, ','));
+
+			// Named and numeric encoder
+			if (name.named && name.numeric)
+				return encodeNamedAndNumeric;
+
+			// Named encoder
+			if (name.named) {
+				// Custom names
+				if (entities)
+					return encodeCustomNamed;
+
+				return Entities.encodeNamed;
+			}
+
+			// Numeric
+			if (name.numeric)
+				return Entities.encodeNumeric;
+
+			// Raw encoder
+			return Entities.encodeRaw;
+		},
+
+		decode : function(text) {
+			return text.replace(entityRegExp, function(all, numeric, value) {
+				if (numeric) {
+					value = parseInt(value, numeric.length === 2 ? 16 : 10);
+
+					// Support upper UTF
+					if (value > 0xFFFF) {
+						value -= 0x10000;
+
+						return String.fromCharCode(0xD800 + (value >> 10), 0xDC00 + (value & 0x3FF));
+					} else
+						return asciiMap[value] || String.fromCharCode(value);
+				}
+
+				return reverseEntities[all] || namedEntities[all] || nativeDecode(all);
+			});
+		}
+	};
+})(tinymce);
+
+tinymce.html.Styles = function(settings, schema) {
+	var rgbRegExp = /rgb\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)/gi,
+		urlOrStrRegExp = /(?:url(?:(?:\(\s*\"([^\"]+)\"\s*\))|(?:\(\s*\'([^\']+)\'\s*\))|(?:\(\s*([^)\s]+)\s*\))))|(?:\'([^\']+)\')|(?:\"([^\"]+)\")/gi,
+		styleRegExp = /\s*([^:]+):\s*([^;]+);?/g,
+		trimRightRegExp = /\s+$/,
+		urlColorRegExp = /rgb/,
+		undef, i, encodingLookup = {}, encodingItems;
+
+	settings = settings || {};
+
+	encodingItems = '\\" \\\' \\; \\: ; : \uFEFF'.split(' ');
+	for (i = 0; i < encodingItems.length; i++) {
+		encodingLookup[encodingItems[i]] = '\uFEFF' + i;
+		encodingLookup['\uFEFF' + i] = encodingItems[i];
+	}
+
+	function toHex(match, r, g, b) {
+		function hex(val) {
+			val = parseInt(val).toString(16);
+
+			return val.length > 1 ? val : '0' + val; // 0 -> 00
+		};
+
+		return '#' + hex(r) + hex(g) + hex(b);
+	};
+
+	return {
+		toHex : function(color) {
+			return color.replace(rgbRegExp, toHex);
+		},
+
+		parse : function(css) {
+			var styles = {}, matches, name, value, isEncoded, urlConverter = settings.url_converter, urlConverterScope = settings.url_converter_scope || this;
+
+			function compress(prefix, suffix) {
+				var top, right, bottom, left;
+
+				// IE 11 will produce a border-image: none when getting the style attribute from <p style="border: 1px solid red"></p>
+				// So lets asume it shouldn't be there
+				if (styles['border-image'] === 'none') {
+					delete styles['border-image'];
+				}
+
+				// Get values and check it it needs compressing
+				top = styles[prefix + '-top' + suffix];
+				if (!top)
+					return;
+
+				right = styles[prefix + '-right' + suffix];
+				if (top != right)
+					return;
+
+				bottom = styles[prefix + '-bottom' + suffix];
+				if (right != bottom)
+					return;
+
+				left = styles[prefix + '-left' + suffix];
+				if (bottom != left)
+					return;
+
+				// Compress
+				styles[prefix + suffix] = left;
+				delete styles[prefix + '-top' + suffix];
+				delete styles[prefix + '-right' + suffix];
+				delete styles[prefix + '-bottom' + suffix];
+				delete styles[prefix + '-left' + suffix];
+			};
+
+			function canCompress(key) {
+				var value = styles[key], i;
+
+				if (!value || value.indexOf(' ') < 0)
+					return;
+
+				value = value.split(' ');
+				i = value.length;
+				while (i--) {
+					if (value[i] !== value[0])
+						return false;
+				}
+
+				styles[key] = value[0];
+
+				return true;
+			};
+
+			function compress2(target, a, b, c) {
+				if (!canCompress(a))
+					return;
+
+				if (!canCompress(b))
+					return;
+
+				if (!canCompress(c))
+					return;
+
+				// Compress
+				styles[target] = styles[a] + ' ' + styles[b] + ' ' + styles[c];
+				delete styles[a];
+				delete styles[b];
+				delete styles[c];
+			};
+
+			// Encodes the specified string by replacing all \" \' ; : with _<num>
+			function encode(str) {
+				isEncoded = true;
+
+				return encodingLookup[str];
+			};
+
+			// Decodes the specified string by replacing all _<num> with it's original value \" \' etc
+			// It will also decode the \" \' if keep_slashes is set to fale or omitted
+			function decode(str, keep_slashes) {
+				if (isEncoded) {
+					str = str.replace(/\uFEFF[0-9]/g, function(str) {
+						return encodingLookup[str];
+					});
+				}
+
+				if (!keep_slashes)
+					str = str.replace(/\\([\'\";:])/g, "$1");
+
+				return str;
+			};
+
+			function processUrl(match, url, url2, url3, str, str2) {
+				str = str || str2;
+
+				if (str) {
+					str = decode(str);
+
+					// Force strings into single quote format
+					return "'" + str.replace(/\'/g, "\\'") + "'";
+				}
+
+				url = decode(url || url2 || url3);
+
+				// Convert the URL to relative/absolute depending on config
+				if (urlConverter)
+					url = urlConverter.call(urlConverterScope, url, 'style');
+
+				// Output new URL format
+				return "url('" + url.replace(/\'/g, "\\'") + "')";
+			};
+
+			if (css) {
+				// Encode \" \' % and ; and : inside strings so they don't interfere with the style parsing
+				css = css.replace(/\\[\"\';:\uFEFF]/g, encode).replace(/\"[^\"]+\"|\'[^\']+\'/g, function(str) {
+					return str.replace(/[;:]/g, encode);
+				});
+
+				// Parse styles
+				while (matches = styleRegExp.exec(css)) {
+					name = matches[1].replace(trimRightRegExp, '').toLowerCase();
+					value = matches[2].replace(trimRightRegExp, '');
+
+					if (name && value.length > 0) {
+						// Opera will produce 700 instead of bold in their style values
+						if (name === 'font-weight' && value === '700')
+							value = 'bold';
+						else if (name === 'color' || name === 'background-color') // Lowercase colors like RED
+							value = value.toLowerCase();		
+
+						// Convert RGB colors to HEX
+						value = value.replace(rgbRegExp, toHex);
+
+						// Convert URLs and force them into url('value') format
+						value = value.replace(urlOrStrRegExp, processUrl);
+						styles[name] = isEncoded ? decode(value, true) : value;
+					}
+
+					styleRegExp.lastIndex = matches.index + matches[0].length;
+				}
+
+				// Compress the styles to reduce it's size for example IE will expand styles
+				compress("border", "");
+				compress("border", "-width");
+				compress("border", "-color");
+				compress("border", "-style");
+				compress("padding", "");
+				compress("margin", "");
+				compress2('border', 'border-width', 'border-style', 'border-color');
+
+				// Remove pointless border, IE produces these
+				if (styles.border === 'medium none')
+					delete styles.border;
+			}
+
+			return styles;
+		},
+
+		serialize : function(styles, element_name) {
+			var css = '', name, value;
+
+			function serializeStyles(name) {
+				var styleList, i, l, value;
+
+				styleList = schema.styles[name];
+				if (styleList) {
+					for (i = 0, l = styleList.length; i < l; i++) {
+						name = styleList[i];
+						value = styles[name];
+
+						if (value !== undef && value.length > 0)
+							css += (css.length > 0 ? ' ' : '') + name + ': ' + value + ';';
+					}
+				}
+			};
+
+			// Serialize styles according to schema
+			if (element_name && schema && schema.styles) {
+				// Serialize global styles and element specific styles
+				serializeStyles('*');
+				serializeStyles(element_name);
+			} else {
+				// Output the styles in the order they are inside the object
+				for (name in styles) {
+					value = styles[name];
+
+					if (value !== undef && value.length > 0)
+						css += (css.length > 0 ? ' ' : '') + name + ': ' + value + ';';
+				}
+			}
+
+			return css;
+		}
+	};
+};
+
+(function(tinymce) {
+	var mapCache = {}, makeMap = tinymce.makeMap, each = tinymce.each;
+
+	function split(str, delim) {
+		return str.split(delim || ',');
+	};
+
+	function unpack(lookup, data) {
+		var key, elements = {};
+
+		function replace(value) {
+			return value.replace(/[A-Z]+/g, function(key) {
+				return replace(lookup[key]);
+			});
+		};
+
+		// Unpack lookup
+		for (key in lookup) {
+			if (lookup.hasOwnProperty(key))
+				lookup[key] = replace(lookup[key]);
+		}
+
+		// Unpack and parse data into object map
+		replace(data).replace(/#/g, '#text').replace(/(\w+)\[([^\]]+)\]\[([^\]]*)\]/g, function(str, name, attributes, children) {
+			attributes = split(attributes, '|');
+
+			elements[name] = {
+				attributes : makeMap(attributes),
+				attributesOrder : attributes,
+				children : makeMap(children, '|', {'#comment' : {}})
+			}
+		});
+
+		return elements;
+	};
+
+	function getHTML5() {
+		var html5 = mapCache.html5;
+
+		if (!html5) {
+			html5 = mapCache.html5 = unpack({
+					A : 'id|accesskey|class|dir|draggable|item|hidden|itemprop|role|spellcheck|style|subject|title|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup',
+					B : '#|a|abbr|area|audio|b|bdo|br|button|canvas|cite|code|command|datalist|del|dfn|em|embed|i|iframe|img|input|ins|kbd|keygen|label|link|map|mark|meta|' +
+						'meter|noscript|object|output|progress|q|ruby|samp|script|select|small|span|strong|sub|sup|svg|textarea|time|var|video|wbr',
+					C : '#|a|abbr|area|address|article|aside|audio|b|bdo|blockquote|br|button|canvas|cite|code|command|datalist|del|details|dfn|dialog|div|dl|em|embed|fieldset|' +
+						'figure|footer|form|h1|h2|h3|h4|h5|h6|header|hgroup|hr|i|iframe|img|input|ins|kbd|keygen|label|link|map|mark|menu|meta|meter|nav|noscript|ol|object|output|' +
+						'p|pre|progress|q|ruby|samp|script|section|select|small|span|strong|style|sub|sup|svg|table|textarea|time|ul|var|video'
+				}, 'html[A|manifest][body|head]' +
+					'head[A][base|command|link|meta|noscript|script|style|title]' +
+					'title[A][#]' +
+					'base[A|href|target][]' +
+					'link[A|href|rel|media|type|sizes][]' +
+					'meta[A|http-equiv|name|content|charset][]' +
+					'style[A|type|media|scoped][#]' +
+					'script[A|charset|type|src|defer|async][#]' +
+					'noscript[A][C]' +
+					'body[A][C]' +
+					'section[A][C]' +
+					'nav[A][C]' +
+					'article[A][C]' +
+					'aside[A][C]' +
+					'h1[A][B]' +
+					'h2[A][B]' +
+					'h3[A][B]' +
+					'h4[A][B]' +
+					'h5[A][B]' +
+					'h6[A][B]' +
+					'hgroup[A][h1|h2|h3|h4|h5|h6]' +
+					'header[A][C]' +
+					'footer[A][C]' +
+					'address[A][C]' +
+					'p[A][B]' +
+					'br[A][]' +
+					'pre[A][B]' +
+					'dialog[A][dd|dt]' +
+					'blockquote[A|cite][C]' +
+					'ol[A|start|reversed][li]' +
+					'ul[A][li]' +
+					'li[A|value][C]' +
+					'dl[A][dd|dt]' +
+					'dt[A][B]' +
+					'dd[A][C]' +
+					'a[A|href|target|ping|rel|media|type][B]' +
+					'em[A][B]' +
+					'strong[A][B]' +
+					'small[A][B]' +
+					'cite[A][B]' +
+					'q[A|cite][B]' +
+					'dfn[A][B]' +
+					'abbr[A][B]' +
+					'code[A][B]' +
+					'var[A][B]' +
+					'samp[A][B]' +
+					'kbd[A][B]' +
+					'sub[A][B]' +
+					'sup[A][B]' +
+					'i[A][B]' +
+					'b[A][B]' +
+					'mark[A][B]' +
+					'progress[A|value|max][B]' +
+					'meter[A|value|min|max|low|high|optimum][B]' +
+					'time[A|datetime][B]' +
+					'ruby[A][B|rt|rp]' +
+					'rt[A][B]' +
+					'rp[A][B]' +
+					'bdo[A][B]' +
+					'span[A][B]' +
+					'ins[A|cite|datetime][B]' +
+					'del[A|cite|datetime][B]' +
+					'figure[A][C|legend|figcaption]' +
+					'figcaption[A][C]' +
+					'img[A|alt|src|height|width|usemap|ismap][]' +
+					'iframe[A|name|src|height|width|sandbox|seamless][]' +
+					'embed[A|src|height|width|type][]' +
+					'object[A|data|type|height|width|usemap|name|form|classid][param]' +
+					'param[A|name|value][]' +
+					'details[A|open][C|legend]' +
+					'command[A|type|label|icon|disabled|checked|radiogroup][]' +
+					'menu[A|type|label][C|li]' +
+					'legend[A][C|B]' +
+					'div[A][C]' +
+					'source[A|src|type|media][]' +
+					'audio[A|src|autobuffer|autoplay|loop|controls][source]' +
+					'video[A|src|autobuffer|autoplay|loop|controls|width|height|poster][source]' +
+					'hr[A][]' +
+					'form[A|accept-charset|action|autocomplete|enctype|method|name|novalidate|target][C]' +
+					'fieldset[A|disabled|form|name][C|legend]' +
+					'label[A|form|for][B]' +
+					'input[A|type|accept|alt|autocomplete|autofocus|checked|disabled|form|formaction|formenctype|formmethod|formnovalidate|formtarget|height|list|max|maxlength|min|' +
+						'multiple|pattern|placeholder|readonly|required|size|src|step|width|files|value|name][]' +
+					'button[A|autofocus|disabled|form|formaction|formenctype|formmethod|formnovalidate|formtarget|name|value|type][B]' +
+					'select[A|autofocus|disabled|form|multiple|name|size][option|optgroup]' +
+					'datalist[A][B|option]' +
+					'optgroup[A|disabled|label][option]' +
+					'option[A|disabled|selected|label|value][]' +
+					'textarea[A|autofocus|disabled|form|maxlength|name|placeholder|readonly|required|rows|cols|wrap][]' +
+					'keygen[A|autofocus|challenge|disabled|form|keytype|name][]' +
+					'output[A|for|form|name][B]' +
+					'canvas[A|width|height][]' +
+					'map[A|name][B|C]' +
+					'area[A|shape|coords|href|alt|target|media|rel|ping|type][]' +
+					'mathml[A][]' +
+					'svg[A][]' +
+					'table[A|border][caption|colgroup|thead|tfoot|tbody|tr]' +
+					'caption[A][C]' +
+					'colgroup[A|span][col]' +
+					'col[A|span][]' +
+					'thead[A][tr]' +
+					'tfoot[A][tr]' +
+					'tbody[A][tr]' +
+					'tr[A][th|td]' +
+					'th[A|headers|rowspan|colspan|scope][B]' +
+					'td[A|headers|rowspan|colspan][C]' +
+					'wbr[A][]'
+			);
+		}
+
+		return html5;
+	};
+
+	function getHTML4() {
+		var html4 = mapCache.html4;
+
+		if (!html4) {
+			// This is the XHTML 1.0 transitional elements with it's attributes and children packed to reduce it's size
+			html4 = mapCache.html4 = unpack({
+				Z : 'H|K|N|O|P',
+				Y : 'X|form|R|Q',
+				ZG : 'E|span|width|align|char|charoff|valign',
+				X : 'p|T|div|U|W|isindex|fieldset|table',
+				ZF : 'E|align|char|charoff|valign',
+				W : 'pre|hr|blockquote|address|center|noframes',
+				ZE : 'abbr|axis|headers|scope|rowspan|colspan|align|char|charoff|valign|nowrap|bgcolor|width|height',
+				ZD : '[E][S]',
+				U : 'ul|ol|dl|menu|dir',
+				ZC : 'p|Y|div|U|W|table|br|span|bdo|object|applet|img|map|K|N|Q',
+				T : 'h1|h2|h3|h4|h5|h6',
+				ZB : 'X|S|Q',
+				S : 'R|P',
+				ZA : 'a|G|J|M|O|P',
+				R : 'a|H|K|N|O',
+				Q : 'noscript|P',
+				P : 'ins|del|script',
+				O : 'input|select|textarea|label|button',
+				N : 'M|L',
+				M : 'em|strong|dfn|code|q|samp|kbd|var|cite|abbr|acronym',
+				L : 'sub|sup',
+				K : 'J|I',
+				J : 'tt|i|b|u|s|strike',
+				I : 'big|small|font|basefont',
+				H : 'G|F',
+				G : 'br|span|bdo',
+				F : 'object|applet|img|map|iframe',
+				E : 'A|B|C',
+				D : 'accesskey|tabindex|onfocus|onblur',
+				C : 'onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup',
+				B : 'lang|xml:lang|dir',
+				A : 'id|class|style|title'
+			}, 'script[id|charset|type|language|src|defer|xml:space][]' + 
+				'style[B|id|type|media|title|xml:space][]' + 
+				'object[E|declare|classid|codebase|data|type|codetype|archive|standby|width|height|usemap|name|tabindex|align|border|hspace|vspace][#|param|Y]' + 
+				'param[id|name|value|valuetype|type][]' + 
+				'p[E|align][#|S]' + 
+				'a[E|D|charset|type|name|href|hreflang|rel|rev|shape|coords|target][#|Z]' + 
+				'br[A|clear][]' + 
+				'span[E][#|S]' + 
+				'bdo[A|C|B][#|S]' + 
+				'applet[A|codebase|archive|code|object|alt|name|width|height|align|hspace|vspace][#|param|Y]' + 
+				'h1[E|align][#|S]' + 
+				'img[E|src|alt|name|longdesc|width|height|usemap|ismap|align|border|hspace|vspace][]' + 
+				'map[B|C|A|name][X|form|Q|area]' + 
+				'h2[E|align][#|S]' + 
+				'iframe[A|longdesc|name|src|frameborder|marginwidth|marginheight|scrolling|align|width|height][#|Y]' + 
+				'h3[E|align][#|S]' + 
+				'tt[E][#|S]' + 
+				'i[E][#|S]' + 
+				'b[E][#|S]' + 
+				'u[E][#|S]' + 
+				's[E][#|S]' + 
+				'strike[E][#|S]' + 
+				'big[E][#|S]' + 
+				'small[E][#|S]' + 
+				'font[A|B|size|color|face][#|S]' + 
+				'basefont[id|size|color|face][]' + 
+				'em[E][#|S]' + 
+				'strong[E][#|S]' + 
+				'dfn[E][#|S]' + 
+				'code[E][#|S]' + 
+				'q[E|cite][#|S]' + 
+				'samp[E][#|S]' + 
+				'kbd[E][#|S]' + 
+				'var[E][#|S]' + 
+				'cite[E][#|S]' + 
+				'abbr[E][#|S]' + 
+				'acronym[E][#|S]' + 
+				'sub[E][#|S]' + 
+				'sup[E][#|S]' + 
+				'input[E|D|type|name|value|checked|disabled|readonly|size|maxlength|src|alt|usemap|onselect|onchange|accept|align][]' + 
+				'select[E|name|size|multiple|disabled|tabindex|onfocus|onblur|onchange][optgroup|option]' + 
+				'optgroup[E|disabled|label][option]' + 
+				'option[E|selected|disabled|label|value][]' + 
+				'textarea[E|D|name|rows|cols|disabled|readonly|onselect|onchange][]' + 
+				'label[E|for|accesskey|onfocus|onblur][#|S]' + 
+				'button[E|D|name|value|type|disabled][#|p|T|div|U|W|table|G|object|applet|img|map|K|N|Q]' + 
+				'h4[E|align][#|S]' + 
+				'ins[E|cite|datetime][#|Y]' + 
+				'h5[E|align][#|S]' + 
+				'del[E|cite|datetime][#|Y]' + 
+				'h6[E|align][#|S]' + 
+				'div[E|align][#|Y]' + 
+				'ul[E|type|compact][li]' + 
+				'li[E|type|value][#|Y]' + 
+				'ol[E|type|compact|start][li]' + 
+				'dl[E|compact][dt|dd]' + 
+				'dt[E][#|S]' + 
+				'dd[E][#|Y]' + 
+				'menu[E|compact][li]' + 
+				'dir[E|compact][li]' + 
+				'pre[E|width|xml:space][#|ZA]' + 
+				'hr[E|align|noshade|size|width][]' + 
+				'blockquote[E|cite][#|Y]' + 
+				'address[E][#|S|p]' + 
+				'center[E][#|Y]' + 
+				'noframes[E][#|Y]' + 
+				'isindex[A|B|prompt][]' + 
+				'fieldset[E][#|legend|Y]' + 
+				'legend[E|accesskey|align][#|S]' + 
+				'table[E|summary|width|border|frame|rules|cellspacing|cellpadding|align|bgcolor][caption|col|colgroup|thead|tfoot|tbody|tr]' + 
+				'caption[E|align][#|S]' + 
+				'col[ZG][]' + 
+				'colgroup[ZG][col]' + 
+				'thead[ZF][tr]' + 
+				'tr[ZF|bgcolor][th|td]' + 
+				'th[E|ZE][#|Y]' + 
+				'form[E|action|method|name|enctype|onsubmit|onreset|accept|accept-charset|target][#|X|R|Q]' + 
+				'noscript[E][#|Y]' + 
+				'td[E|ZE][#|Y]' + 
+				'tfoot[ZF][tr]' + 
+				'tbody[ZF][tr]' + 
+				'area[E|D|shape|coords|href|nohref|alt|target][]' + 
+				'base[id|href|target][]' + 
+				'body[E|onload|onunload|background|bgcolor|text|link|vlink|alink][#|Y]'
+			);
+		}
+
+		return html4;
+	};
+
+	tinymce.html.Schema = function(settings) {
+		var self = this, elements = {}, children = {}, patternElements = [], validStyles, schemaItems;
+		var whiteSpaceElementsMap, selfClosingElementsMap, shortEndedElementsMap, boolAttrMap, blockElementsMap, nonEmptyElementsMap, customElementsMap = {};
+
+		// Creates an lookup table map object for the specified option or the default value
+		function createLookupTable(option, default_value, extend) {
+			var value = settings[option];
+
+			if (!value) {
+				// Get cached default map or make it if needed
+				value = mapCache[option];
+
+				if (!value) {
+					value = makeMap(default_value, ' ', makeMap(default_value.toUpperCase(), ' '));
+					value = tinymce.extend(value, extend);
+
+					mapCache[option] = value;
+				}
+			} else {
+				// Create custom map
+				value = makeMap(value, ',', makeMap(value.toUpperCase(), ' '));
+			}
+
+			return value;
+		};
+
+		settings = settings || {};
+		schemaItems = settings.schema == "html5" ? getHTML5() : getHTML4();
+
+		// Allow all elements and attributes if verify_html is set to false
+		if (settings.verify_html === false)
+			settings.valid_elements = '*[*]';
+
+		// Build styles list
+		if (settings.valid_styles) {
+			validStyles = {};
+
+			// Convert styles into a rule list
+			each(settings.valid_styles, function(value, key) {
+				validStyles[key] = tinymce.explode(value);
+			});
+		}
+
+		// Setup map objects
+		whiteSpaceElementsMap = createLookupTable('whitespace_elements', 'pre script noscript style textarea');
+		selfClosingElementsMap = createLookupTable('self_closing_elements', 'colgroup dd dt li option p td tfoot th thead tr');
+		shortEndedElementsMap = createLookupTable('short_ended_elements', 'area base basefont br col frame hr img input isindex link meta param embed source wbr');
+		boolAttrMap = createLookupTable('boolean_attributes', 'checked compact declare defer disabled ismap multiple nohref noresize noshade nowrap readonly selected autoplay loop controls');
+		nonEmptyElementsMap = createLookupTable('non_empty_elements', 'td th iframe video audio object script', shortEndedElementsMap);
+		textBlockElementsMap = createLookupTable('text_block_elements', 'h1 h2 h3 h4 h5 h6 p div address pre form ' + 
+						'blockquote center dir fieldset header footer article section hgroup aside nav figure');
+		blockElementsMap = createLookupTable('block_elements', 'hr table tbody thead tfoot ' + 
+						'th tr td li ol ul caption dl dt dd noscript menu isindex samp option datalist select optgroup', textBlockElementsMap);
+
+		// Converts a wildcard expression string to a regexp for example *a will become /.*a/.
+		function patternToRegExp(str) {
+			return new RegExp('^' + str.replace(/([?+*])/g, '.$1') + '$');
+		};
+
+		// Parses the specified valid_elements string and adds to the current rules
+		// This function is a bit hard to read since it's heavily optimized for speed
+		function addValidElements(valid_elements) {
+			var ei, el, ai, al, yl, matches, element, attr, attrData, elementName, attrName, attrType, attributes, attributesOrder,
+				prefix, outputName, globalAttributes, globalAttributesOrder, transElement, key, childKey, value,
+				elementRuleRegExp = /^([#+\-])?([^\[\/]+)(?:\/([^\[]+))?(?:\[([^\]]+)\])?$/,
+				attrRuleRegExp = /^([!\-])?(\w+::\w+|[^=:<]+)?(?:([=:<])(.*))?$/,
+				hasPatternsRegExp = /[*?+]/;
+
+			if (valid_elements) {
+				// Split valid elements into an array with rules
+				valid_elements = split(valid_elements);
+
+				if (elements['@']) {
+					globalAttributes = elements['@'].attributes;
+					globalAttributesOrder = elements['@'].attributesOrder;
+				}
+
+				// Loop all rules
+				for (ei = 0, el = valid_elements.length; ei < el; ei++) {
+					// Parse element rule
+					matches = elementRuleRegExp.exec(valid_elements[ei]);
+					if (matches) {
+						// Setup local names for matches
+						prefix = matches[1];
+						elementName = matches[2];
+						outputName = matches[3];
+						attrData = matches[4];
+
+						// Create new attributes and attributesOrder
+						attributes = {};
+						attributesOrder = [];
+
+						// Create the new element
+						element = {
+							attributes : attributes,
+							attributesOrder : attributesOrder
+						};
+
+						// Padd empty elements prefix
+						if (prefix === '#')
+							element.paddEmpty = true;
+
+						// Remove empty elements prefix
+						if (prefix === '-')
+							element.removeEmpty = true;
+
+						// Copy attributes from global rule into current rule
+						if (globalAttributes) {
+							for (key in globalAttributes)
+								attributes[key] = globalAttributes[key];
+
+							attributesOrder.push.apply(attributesOrder, globalAttributesOrder);
+						}
+
+						// Attributes defined
+						if (attrData) {
+							attrData = split(attrData, '|');
+							for (ai = 0, al = attrData.length; ai < al; ai++) {
+								matches = attrRuleRegExp.exec(attrData[ai]);
+								if (matches) {
+									attr = {};
+									attrType = matches[1];
+									attrName = matches[2].replace(/::/g, ':');
+									prefix = matches[3];
+									value = matches[4];
+
+									// Required
+									if (attrType === '!') {
+										element.attributesRequired = element.attributesRequired || [];
+										element.attributesRequired.push(attrName);
+										attr.required = true;
+									}
+
+									// Denied from global
+									if (attrType === '-') {
+										delete attributes[attrName];
+										attributesOrder.splice(tinymce.inArray(attributesOrder, attrName), 1);
+										continue;
+									}
+
+									// Default value
+									if (prefix) {
+										// Default value
+										if (prefix === '=') {
+											element.attributesDefault = element.attributesDefault || [];
+											element.attributesDefault.push({name: attrName, value: value});
+											attr.defaultValue = value;
+										}
+
+										// Forced value
+										if (prefix === ':') {
+											element.attributesForced = element.attributesForced || [];
+											element.attributesForced.push({name: attrName, value: value});
+											attr.forcedValue = value;
+										}
+
+										// Required values
+										if (prefix === '<')
+											attr.validValues = makeMap(value, '?');
+									}
+
+									// Check for attribute patterns
+									if (hasPatternsRegExp.test(attrName)) {
+										element.attributePatterns = element.attributePatterns || [];
+										attr.pattern = patternToRegExp(attrName);
+										element.attributePatterns.push(attr);
+									} else {
+										// Add attribute to order list if it doesn't already exist
+										if (!attributes[attrName])
+											attributesOrder.push(attrName);
+
+										attributes[attrName] = attr;
+									}
+								}
+							}
+						}
+
+						// Global rule, store away these for later usage
+						if (!globalAttributes && elementName == '@') {
+							globalAttributes = attributes;
+							globalAttributesOrder = attributesOrder;
+						}
+
+						// Handle substitute elements such as b/strong
+						if (outputName) {
+							element.outputName = elementName;
+							elements[outputName] = element;
+						}
+
+						// Add pattern or exact element
+						if (hasPatternsRegExp.test(elementName)) {
+							element.pattern = patternToRegExp(elementName);
+							patternElements.push(element);
+						} else
+							elements[elementName] = element;
+					}
+				}
+			}
+		};
+
+		function setValidElements(valid_elements) {
+			elements = {};
+			patternElements = [];
+
+			addValidElements(valid_elements);
+
+			each(schemaItems, function(element, name) {
+				children[name] = element.children;
+			});
+		};
+
+		// Adds custom non HTML elements to the schema
+		function addCustomElements(custom_elements) {
+			var customElementRegExp = /^(~)?(.+)$/;
+
+			if (custom_elements) {
+				each(split(custom_elements), function(rule) {
+					var matches = customElementRegExp.exec(rule),
+						inline = matches[1] === '~',
+						cloneName = inline ? 'span' : 'div',
+						name = matches[2];
+
+					children[name] = children[cloneName];
+					customElementsMap[name] = cloneName;
+
+					// If it's not marked as inline then add it to valid block elements
+					if (!inline) {
+						blockElementsMap[name.toUpperCase()] = {};
+						blockElementsMap[name] = {};
+					}
+
+					// Add elements clone if needed
+					if (!elements[name]) {
+						elements[name] = elements[cloneName];
+					}
+
+					// Add custom elements at span/div positions
+					each(children, function(element, child) {
+						if (element[cloneName])
+							element[name] = element[cloneName];
+					});
+				});
+			}
+		};
+
+		// Adds valid children to the schema object
+		function addValidChildren(valid_children) {
+			var childRuleRegExp = /^([+\-]?)(\w+)\[([^\]]+)\]$/;
+
+			if (valid_children) {
+				each(split(valid_children), function(rule) {
+					var matches = childRuleRegExp.exec(rule), parent, prefix;
+
+					if (matches) {
+						prefix = matches[1];
+
+						// Add/remove items from default
+						if (prefix)
+							parent = children[matches[2]];
+						else
+							parent = children[matches[2]] = {'#comment' : {}};
+
+						parent = children[matches[2]];
+
+						each(split(matches[3], '|'), function(child) {
+							if (prefix === '-')
+								delete parent[child];
+							else
+								parent[child] = {};
+						});
+					}
+				});
+			}
+		};
+
+		function getElementRule(name) {
+			var element = elements[name], i;
+
+			// Exact match found
+			if (element)
+				return element;
+
+			// No exact match then try the patterns
+			i = patternElements.length;
+			while (i--) {
+				element = patternElements[i];
+
+				if (element.pattern.test(name))
+					return element;
+			}
+		};
+
+		if (!settings.valid_elements) {
+			// No valid elements defined then clone the elements from the schema spec
+			each(schemaItems, function(element, name) {
+				elements[name] = {
+					attributes : element.attributes,
+					attributesOrder : element.attributesOrder
+				};
+
+				children[name] = element.children;
+			});
+
+			// Switch these on HTML4
+			if (settings.schema != "html5") {
+				each(split('strong/b,em/i'), function(item) {
+					item = split(item, '/');
+					elements[item[1]].outputName = item[0];
+				});
+			}
+
+			// Add default alt attribute for images
+			elements.img.attributesDefault = [{name: 'alt', value: ''}];
+
+			// Remove these if they are empty by default
+			each(split('ol,ul,sub,sup,blockquote,span,font,a,table,tbody,tr,strong,em,b,i'), function(name) {
+				if (elements[name]) {
+					elements[name].removeEmpty = true;
+				}
+			});
+
+			// Padd these by default
+			each(split('p,h1,h2,h3,h4,h5,h6,th,td,pre,div,address,caption'), function(name) {
+				elements[name].paddEmpty = true;
+			});
+		} else
+			setValidElements(settings.valid_elements);
+
+		addCustomElements(settings.custom_elements);
+		addValidChildren(settings.valid_children);
+		addValidElements(settings.extended_valid_elements);
+
+		// Todo: Remove this when we fix list handling to be valid
+		addValidChildren('+ol[ul|ol],+ul[ul|ol]');
+
+		// Delete invalid elements
+		if (settings.invalid_elements) {
+			tinymce.each(tinymce.explode(settings.invalid_elements), function(item) {
+				if (elements[item])
+					delete elements[item];
+			});
+		}
+
+		// If the user didn't allow span only allow internal spans
+		if (!getElementRule('span'))
+			addValidElements('span[!data-mce-type|*]');
+
+		self.children = children;
+
+		self.styles = validStyles;
+
+		self.getBoolAttrs = function() {
+			return boolAttrMap;
+		};
+
+		self.getBlockElements = function() {
+			return blockElementsMap;
+		};
+
+		self.getTextBlockElements = function() {
+			return textBlockElementsMap;
+		};
+
+		self.getShortEndedElements = function() {
+			return shortEndedElementsMap;
+		};
+
+		self.getSelfClosingElements = function() {
+			return selfClosingElementsMap;
+		};
+
+		self.getNonEmptyElements = function() {
+			return nonEmptyElementsMap;
+		};
+
+		self.getWhiteSpaceElements = function() {
+			return whiteSpaceElementsMap;
+		};
+
+		self.isValidChild = function(name, child) {
+			var parent = children[name];
+
+			return !!(parent && parent[child]);
+		};
+
+		self.isValid = function(name, attr) {
+			var attrPatterns, i, rule = getElementRule(name);
+
+			// Check if it's a valid element
+			if (rule) {
+				if (attr) {
+					// Check if attribute name exists
+					if (rule.attributes[attr]) {
+						return true;
+					}
+
+					// Check if attribute matches a regexp pattern
+					attrPatterns = rule.attributePatterns;
+					if (attrPatterns) {
+						i = attrPatterns.length;
+						while (i--) {
+							if (attrPatterns[i].pattern.test(name)) {
+								return true;
+							}
+						}
+					}
+				} else {
+					return true;
+				}
+			}
+
+			// No match
+			return false;
+		};
+		
+		self.getElementRule = getElementRule;
+
+		self.getCustomElements = function() {
+			return customElementsMap;
+		};
+
+		self.addValidElements = addValidElements;
+
+		self.setValidElements = setValidElements;
+
+		self.addCustomElements = addCustomElements;
+
+		self.addValidChildren = addValidChildren;
+
+		self.elements = elements;
+	};
+})(tinymce);
+
+(function(tinymce) {
+	tinymce.html.SaxParser = function(settings, schema) {
+		var self = this, noop = function() {};
+
+		settings = settings || {};
+		self.schema = schema = schema || new tinymce.html.Schema();
+
+		if (settings.fix_self_closing !== false)
+			settings.fix_self_closing = true;
+
+		// Add handler functions from settings and setup default handlers
+		tinymce.each('comment cdata text start end pi doctype'.split(' '), function(name) {
+			if (name)
+				self[name] = settings[name] || noop;
+		});
+
+		self.parse = function(html) {
+			var self = this, matches, index = 0, value, endRegExp, stack = [], attrList, i, text, name, isInternalElement, removeInternalElements,
+				shortEndedElements, fillAttrsMap, isShortEnded, validate, elementRule, isValidElement, attr, attribsValue, invalidPrefixRegExp,
+				validAttributesMap, validAttributePatterns, attributesRequired, attributesDefault, attributesForced, selfClosing,
+				tokenRegExp, attrRegExp, specialElements, attrValue, idCount = 0, decode = tinymce.html.Entities.decode, fixSelfClosing, isIE;
+
+			function processEndTag(name) {
+				var pos, i;
+
+				// Find position of parent of the same type
+				pos = stack.length;
+				while (pos--) {
+					if (stack[pos].name === name)
+						break;						
+				}
+
+				// Found parent
+				if (pos >= 0) {
+					// Close all the open elements
+					for (i = stack.length - 1; i >= pos; i--) {
+						name = stack[i];
+
+						if (name.valid)
+							self.end(name.name);
+					}
+
+					// Remove the open elements from the stack
+					stack.length = pos;
+				}
+			};
+
+			function parseAttribute(match, name, value, val2, val3) {
+				var attrRule, i;
+
+				name = name.toLowerCase();
+				value = name in fillAttrsMap ? name : decode(value || val2 || val3 || ''); // Handle boolean attribute than value attribute
+
+				// Validate name and value
+				if (validate && !isInternalElement && name.indexOf('data-') !== 0) {
+					attrRule = validAttributesMap[name];
+
+					// Find rule by pattern matching
+					if (!attrRule && validAttributePatterns) {
+						i = validAttributePatterns.length;
+						while (i--) {
+							attrRule = validAttributePatterns[i];
+							if (attrRule.pattern.test(name))
+								break;
+						}
+
+						// No rule matched
+						if (i === -1)
+							attrRule = null;
+					}
+
+					// No attribute rule found
+					if (!attrRule)
+						return;
+
+					// Validate value
+					if (attrRule.validValues && !(value in attrRule.validValues))
+						return;
+				}
+
+				// Add attribute to list and map
+				attrList.map[name] = value;
+				attrList.push({
+					name: name,
+					value: value
+				});
+			};
+
+			// Precompile RegExps and map objects
+			tokenRegExp = new RegExp('<(?:' +
+				'(?:!--([\\w\\W]*?)-->)|' + // Comment
+				'(?:!\\[CDATA\\[([\\w\\W]*?)\\]\\]>)|' + // CDATA
+				'(?:!DOCTYPE([\\w\\W]*?)>)|' + // DOCTYPE
+				'(?:\\?([^\\s\\/<>]+) ?([\\w\\W]*?)[?/]>)|' + // PI
+				'(?:\\/([^>]+)>)|' + // End element
+				'(?:([A-Za-z0-9\\-\\:\\.]+)((?:\\s+[^"\'>]+(?:(?:"[^"]*")|(?:\'[^\']*\')|[^>]*))*|\\/|\\s+)>)' + // Start element
+			')', 'g');
+
+			attrRegExp = /([\w:\-]+)(?:\s*=\s*(?:(?:\"((?:[^\"])*)\")|(?:\'((?:[^\'])*)\')|([^>\s]+)))?/g;
+			specialElements = {
+				'script' : /<\/script[^>]*>/gi,
+				'style' : /<\/style[^>]*>/gi,
+				'noscript' : /<\/noscript[^>]*>/gi
+			};
+
+			// Setup lookup tables for empty elements and boolean attributes
+			shortEndedElements = schema.getShortEndedElements();
+			selfClosing = settings.self_closing_elements || schema.getSelfClosingElements();
+			fillAttrsMap = schema.getBoolAttrs();
+			validate = settings.validate;
+			removeInternalElements = settings.remove_internals;
+			fixSelfClosing = settings.fix_self_closing;
+			isIE = tinymce.isIE;
+			invalidPrefixRegExp = /^:/;
+
+			while (matches = tokenRegExp.exec(html)) {
+				// Text
+				if (index < matches.index)
+					self.text(decode(html.substr(index, matches.index - index)));
+
+				if (value = matches[6]) { // End element
+					value = value.toLowerCase();
+
+					// IE will add a ":" in front of elements it doesn't understand like custom elements or HTML5 elements
+					if (isIE && invalidPrefixRegExp.test(value))
+						value = value.substr(1);
+
+					processEndTag(value);
+				} else if (value = matches[7]) { // Start element
+					value = value.toLowerCase();
+
+					// IE will add a ":" in front of elements it doesn't understand like custom elements or HTML5 elements
+					if (isIE && invalidPrefixRegExp.test(value))
+						value = value.substr(1);
+
+					isShortEnded = value in shortEndedElements;
+
+					// Is self closing tag for example an <li> after an open <li>
+					if (fixSelfClosing && selfClosing[value] && stack.length > 0 && stack[stack.length - 1].name === value)
+						processEndTag(value);
+
+					// Validate element
+					if (!validate || (elementRule = schema.getElementRule(value))) {
+						isValidElement = true;
+
+						// Grab attributes map and patters when validation is enabled
+						if (validate) {
+							validAttributesMap = elementRule.attributes;
+							validAttributePatterns = elementRule.attributePatterns;
+						}
+
+						// Parse attributes
+						if (attribsValue = matches[8]) {
+							isInternalElement = attribsValue.indexOf('data-mce-type') !== -1; // Check if the element is an internal element
+
+							// If the element has internal attributes then remove it if we are told to do so
+							if (isInternalElement && removeInternalElements)
+								isValidElement = false;
+
+							attrList = [];
+							attrList.map = {};
+
+							attribsValue.replace(attrRegExp, parseAttribute);
+						} else {
+							attrList = [];
+							attrList.map = {};
+						}
+
+						// Process attributes if validation is enabled
+						if (validate && !isInternalElement) {
+							attributesRequired = elementRule.attributesRequired;
+							attributesDefault = elementRule.attributesDefault;
+							attributesForced = elementRule.attributesForced;
+
+							// Handle forced attributes
+							if (attributesForced) {
+								i = attributesForced.length;
+								while (i--) {
+									attr = attributesForced[i];
+									name = attr.name;
+									attrValue = attr.value;
+
+									if (attrValue === '{$uid}')
+										attrValue = 'mce_' + idCount++;
+
+									attrList.map[name] = attrValue;
+									attrList.push({name: name, value: attrValue});
+								}
+							}
+
+							// Handle default attributes
+							if (attributesDefault) {
+								i = attributesDefault.length;
+								while (i--) {
+									attr = attributesDefault[i];
+									name = attr.name;
+
+									if (!(name in attrList.map)) {
+										attrValue = attr.value;
+
+										if (attrValue === '{$uid}')
+											attrValue = 'mce_' + idCount++;
+
+										attrList.map[name] = attrValue;
+										attrList.push({name: name, value: attrValue});
+									}
+								}
+							}
+
+							// Handle required attributes
+							if (attributesRequired) {
+								i = attributesRequired.length;
+								while (i--) {
+									if (attributesRequired[i] in attrList.map)
+										break;
+								}
+
+								// None of the required attributes where found
+								if (i === -1)
+									isValidElement = false;
+							}
+
+							// Invalidate element if it's marked as bogus
+							if (attrList.map['data-mce-bogus'])
+								isValidElement = false;
+						}
+
+						if (isValidElement)
+							self.start(value, attrList, isShortEnded);
+					} else
+						isValidElement = false;
+
+					// Treat script, noscript and style a bit different since they may include code that looks like elements
+					if (endRegExp = specialElements[value]) {
+						endRegExp.lastIndex = index = matches.index + matches[0].length;
+
+						if (matches = endRegExp.exec(html)) {
+							if (isValidElement)
+								text = html.substr(index, matches.index - index);
+
+							index = matches.index + matches[0].length;
+						} else {
+							text = html.substr(index);
+							index = html.length;
+						}
+
+						if (isValidElement && text.length > 0)
+							self.text(text, true);
+
+						if (isValidElement)
+							self.end(value);
+
+						tokenRegExp.lastIndex = index;
+						continue;
+					}
+
+					// Push value on to stack
+					if (!isShortEnded) {
+						if (!attribsValue || attribsValue.indexOf('/') != attribsValue.length - 1)
+							stack.push({name: value, valid: isValidElement});
+						else if (isValidElement)
+							self.end(value);
+					}
+				} else if (value = matches[1]) { // Comment
+					self.comment(value);
+				} else if (value = matches[2]) { // CDATA
+					self.cdata(value);
+				} else if (value = matches[3]) { // DOCTYPE
+					self.doctype(value);
+				} else if (value = matches[4]) { // PI
+					self.pi(value, matches[5]);
+				}
+
+				index = matches.index + matches[0].length;
+			}
+
+			// Text
+			if (index < html.length)
+				self.text(decode(html.substr(index)));
+
+			// Close any open elements
+			for (i = stack.length - 1; i >= 0; i--) {
+				value = stack[i];
+
+				if (value.valid)
+					self.end(value.name);
+			}
+		};
+	}
+})(tinymce);
+
+(function(tinymce) {
+	var whiteSpaceRegExp = /^[ \t\r\n]*$/, typeLookup = {
+		'#text' : 3,
+		'#comment' : 8,
+		'#cdata' : 4,
+		'#pi' : 7,
+		'#doctype' : 10,
+		'#document-fragment' : 11
+	};
+
+	// Walks the tree left/right
+	function walk(node, root_node, prev) {
+		var sibling, parent, startName = prev ? 'lastChild' : 'firstChild', siblingName = prev ? 'prev' : 'next';
+
+		// Walk into nodes if it has a start
+		if (node[startName])
+			return node[startName];
+
+		// Return the sibling if it has one
+		if (node !== root_node) {
+			sibling = node[siblingName];
+
+			if (sibling)
+				return sibling;
+
+			// Walk up the parents to look for siblings
+			for (parent = node.parent; parent && parent !== root_node; parent = parent.parent) {
+				sibling = parent[siblingName];
+
+				if (sibling)
+					return sibling;
+			}
+		}
+	};
+
+	function Node(name, type) {
+		this.name = name;
+		this.type = type;
+
+		if (type === 1) {
+			this.attributes = [];
+			this.attributes.map = {};
+		}
+	}
+
+	tinymce.extend(Node.prototype, {
+		replace : function(node) {
+			var self = this;
+
+			if (node.parent)
+				node.remove();
+
+			self.insert(node, self);
+			self.remove();
+
+			return self;
+		},
+
+		attr : function(name, value) {
+			var self = this, attrs, i, undef;
+
+			if (typeof name !== "string") {
+				for (i in name)
+					self.attr(i, name[i]);
+
+				return self;
+			}
+
+			if (attrs = self.attributes) {
+				if (value !== undef) {
+					// Remove attribute
+					if (value === null) {
+						if (name in attrs.map) {
+							delete attrs.map[name];
+
+							i = attrs.length;
+							while (i--) {
+								if (attrs[i].name === name) {
+									attrs = attrs.splice(i, 1);
+									return self;
+								}
+							}
+						}
+
+						return self;
+					}
+
+					// Set attribute
+					if (name in attrs.map) {
+						// Set attribute
+						i = attrs.length;
+						while (i--) {
+							if (attrs[i].name === name) {
+								attrs[i].value = value;
+								break;
+							}
+						}
+					} else
+						attrs.push({name: name, value: value});
+
+					attrs.map[name] = value;
+
+					return self;
+				} else {
+					return attrs.map[name];
+				}
+			}
+		},
+
+		clone : function() {
+			var self = this, clone = new Node(self.name, self.type), i, l, selfAttrs, selfAttr, cloneAttrs;
+
+			// Clone element attributes
+			if (selfAttrs = self.attributes) {
+				cloneAttrs = [];
+				cloneAttrs.map = {};
+
+				for (i = 0, l = selfAttrs.length; i < l; i++) {
+					selfAttr = selfAttrs[i];
+
+					// Clone everything except id
+					if (selfAttr.name !== 'id') {
+						cloneAttrs[cloneAttrs.length] = {name: selfAttr.name, value: selfAttr.value};
+						cloneAttrs.map[selfAttr.name] = selfAttr.value;
+					}
+				}
+
+				clone.attributes = cloneAttrs;
+			}
+
+			clone.value = self.value;
+			clone.shortEnded = self.shortEnded;
+
+			return clone;
+		},
+
+		wrap : function(wrapper) {
+			var self = this;
+
+			self.parent.insert(wrapper, self);
+			wrapper.append(self);
+
+			return self;
+		},
+
+		unwrap : function() {
+			var self = this, node, next;
+
+			for (node = self.firstChild; node; ) {
+				next = node.next;
+				self.insert(node, self, true);
+				node = next;
+			}
+
+			self.remove();
+		},
+
+		remove : function() {
+			var self = this, parent = self.parent, next = self.next, prev = self.prev;
+
+			if (parent) {
+				if (parent.firstChild === self) {
+					parent.firstChild = next;
+
+					if (next)
+						next.prev = null;
+				} else {
+					prev.next = next;
+				}
+
+				if (parent.lastChild === self) {
+					parent.lastChild = prev;
+
+					if (prev)
+						prev.next = null;
+				} else {
+					next.prev = prev;
+				}
+
+				self.parent = self.next = self.prev = null;
+			}
+
+			return self;
+		},
+
+		append : function(node) {
+			var self = this, last;
+
+			if (node.parent)
+				node.remove();
+
+			last = self.lastChild;
+			if (last) {
+				last.next = node;
+				node.prev = last;
+				self.lastChild = node;
+			} else
+				self.lastChild = self.firstChild = node;
+
+			node.parent = self;
+
+			return node;
+		},
+
+		insert : function(node, ref_node, before) {
+			var parent;
+
+			if (node.parent)
+				node.remove();
+
+			parent = ref_node.parent || this;
+
+			if (before) {
+				if (ref_node === parent.firstChild)
+					parent.firstChild = node;
+				else
+					ref_node.prev.next = node;
+
+				node.prev = ref_node.prev;
+				node.next = ref_node;
+				ref_node.prev = node;
+			} else {
+				if (ref_node === parent.lastChild)
+					parent.lastChild = node;
+				else
+					ref_node.next.prev = node;
+
+				node.next = ref_node.next;
+				node.prev = ref_node;
+				ref_node.next = node;
+			}
+
+			node.parent = parent;
+
+			return node;
+		},
+
+		getAll : function(name) {
+			var self = this, node, collection = [];
+
+			for (node = self.firstChild; node; node = walk(node, self)) {
+				if (node.name === name)
+					collection.push(node);
+			}
+
+			return collection;
+		},
+
+		empty : function() {
+			var self = this, nodes, i, node;
+
+			// Remove all children
+			if (self.firstChild) {
+				nodes = [];
+
+				// Collect the children
+				for (node = self.firstChild; node; node = walk(node, self))
+					nodes.push(node);
+
+				// Remove the children
+				i = nodes.length;
+				while (i--) {
+					node = nodes[i];
+					node.parent = node.firstChild = node.lastChild = node.next = node.prev = null;
+				}
+			}
+
+			self.firstChild = self.lastChild = null;
+
+			return self;
+		},
+
+		isEmpty : function(elements) {
+			var self = this, node = self.firstChild, i, name;
+
+			if (node) {
+				do {
+					if (node.type === 1) {
+						// Ignore bogus elements
+						if (node.attributes.map['data-mce-bogus'])
+							continue;
+
+						// Keep empty elements like <img />
+						if (elements[node.name])
+							return false;
+
+						// Keep elements with data attributes or name attribute like <a name="1"></a>
+						i = node.attributes.length;
+						while (i--) {
+							name = node.attributes[i].name;
+							if (name === "name" || name.indexOf('data-mce-') === 0)
+								return false;
+						}
+					}
+
+					// Keep comments
+					if (node.type === 8)
+						return false;
+					
+					// Keep non whitespace text nodes
+					if ((node.type === 3 && !whiteSpaceRegExp.test(node.value)))
+						return false;
+				} while (node = walk(node, self));
+			}
+
+			return true;
+		},
+
+		walk : function(prev) {
+			return walk(this, null, prev);
+		}
+	});
+
+	tinymce.extend(Node, {
+		create : function(name, attrs) {
+			var node, attrName;
+
+			// Create node
+			node = new Node(name, typeLookup[name] || 1);
+
+			// Add attributes if needed
+			if (attrs) {
+				for (attrName in attrs)
+					node.attr(attrName, attrs[attrName]);
+			}
+
+			return node;
+		}
+	});
+
+	tinymce.html.Node = Node;
+})(tinymce);
+
+(function(tinymce) {
+	var Node = tinymce.html.Node;
+
+	tinymce.html.DomParser = function(settings, schema) {
+		var self = this, nodeFilters = {}, attributeFilters = [], matchedNodes = {}, matchedAttributes = {};
+
+		settings = settings || {};
+		settings.validate = "validate" in settings ? settings.validate : true;
+		settings.root_name = settings.root_name || 'body';
+		self.schema = schema = schema || new tinymce.html.Schema();
+
+		function fixInvalidChildren(nodes) {
+			var ni, node, parent, parents, newParent, currentNode, tempNode, childNode, i,
+				childClone, nonEmptyElements, nonSplitableElements, textBlockElements, sibling, nextNode;
+
+			nonSplitableElements = tinymce.makeMap('tr,td,th,tbody,thead,tfoot,table');
+			nonEmptyElements = schema.getNonEmptyElements();
+			textBlockElements = schema.getTextBlockElements();
+
+			for (ni = 0; ni < nodes.length; ni++) {
+				node = nodes[ni];
+
+				// Already removed or fixed
+				if (!node.parent || node.fixed)
+					continue;
+
+				// If the invalid element is a text block and the text block is within a parent LI element
+				// Then unwrap the first text block and convert other sibling text blocks to LI elements similar to Word/Open Office
+				if (textBlockElements[node.name] && node.parent.name == 'li') {
+					// Move sibling text blocks after LI element
+					sibling = node.next;
+					while (sibling) {
+						if (textBlockElements[sibling.name]) {
+							sibling.name = 'li';
+							sibling.fixed = true;
+							node.parent.insert(sibling, node.parent);
+						} else {
+							break;
+						}
+
+						sibling = sibling.next;
+					}
+
+					// Unwrap current text block
+					node.unwrap(node);
+					continue;
+				}
+
+				// Get list of all parent nodes until we find a valid parent to stick the child into
+				parents = [node];
+				for (parent = node.parent; parent && !schema.isValidChild(parent.name, node.name) && !nonSplitableElements[parent.name]; parent = parent.parent)
+					parents.push(parent);
+
+				// Found a suitable parent
+				if (parent && parents.length > 1) {
+					// Reverse the array since it makes looping easier
+					parents.reverse();
+
+					// Clone the related parent and insert that after the moved node
+					newParent = currentNode = self.filterNode(parents[0].clone());
+
+					// Start cloning and moving children on the left side of the target node
+					for (i = 0; i < parents.length - 1; i++) {
+						if (schema.isValidChild(currentNode.name, parents[i].name)) {
+							tempNode = self.filterNode(parents[i].clone());
+							currentNode.append(tempNode);
+						} else
+							tempNode = currentNode;
+
+						for (childNode = parents[i].firstChild; childNode && childNode != parents[i + 1]; ) {
+							nextNode = childNode.next;
+							tempNode.append(childNode);
+							childNode = nextNode;
+						}
+
+						currentNode = tempNode;
+					}
+
+					if (!newParent.isEmpty(nonEmptyElements)) {
+						parent.insert(newParent, parents[0], true);
+						parent.insert(node, newParent);
+					} else {
+						parent.insert(node, parents[0], true);
+					}
+
+					// Check if the element is empty by looking through it's contents and special treatment for <p><br /></p>
+					parent = parents[0];
+					if (parent.isEmpty(nonEmptyElements) || parent.firstChild === parent.lastChild && parent.firstChild.name === 'br') {
+						parent.empty().remove();
+					}
+				} else if (node.parent) {
+					// If it's an LI try to find a UL/OL for it or wrap it
+					if (node.name === 'li') {
+						sibling = node.prev;
+						if (sibling && (sibling.name === 'ul' || sibling.name === 'ul')) {
+							sibling.append(node);
+							continue;
+						}
+
+						sibling = node.next;
+						if (sibling && (sibling.name === 'ul' || sibling.name === 'ul')) {
+							sibling.insert(node, sibling.firstChild, true);
+							continue;
+						}
+
+						node.wrap(self.filterNode(new Node('ul', 1)));
+						continue;
+					}
+
+					// Try wrapping the element in a DIV
+					if (schema.isValidChild(node.parent.name, 'div') && schema.isValidChild('div', node.name)) {
+						node.wrap(self.filterNode(new Node('div', 1)));
+					} else {
+						// We failed wrapping it, then remove or unwrap it
+						if (node.name === 'style' || node.name === 'script')
+							node.empty().remove();
+						else
+							node.unwrap();
+					}
+				}
+			}
+		};
+
+		self.filterNode = function(node) {
+			var i, name, list;
+
+			// Run element filters
+			if (name in nodeFilters) {
+				list = matchedNodes[name];
+
+				if (list)
+					list.push(node);
+				else
+					matchedNodes[name] = [node];
+			}
+
+			// Run attribute filters
+			i = attributeFilters.length;
+			while (i--) {
+				name = attributeFilters[i].name;
+
+				if (name in node.attributes.map) {
+					list = matchedAttributes[name];
+
+					if (list)
+						list.push(node);
+					else
+						matchedAttributes[name] = [node];
+				}
+			}
+
+			return node;
+		};
+
+		self.addNodeFilter = function(name, callback) {
+			tinymce.each(tinymce.explode(name), function(name) {
+				var list = nodeFilters[name];
+
+				if (!list)
+					nodeFilters[name] = list = [];
+
+				list.push(callback);
+			});
+		};
+
+		self.addAttributeFilter = function(name, callback) {
+			tinymce.each(tinymce.explode(name), function(name) {
+				var i;
+
+				for (i = 0; i < attributeFilters.length; i++) {
+					if (attributeFilters[i].name === name) {
+						attributeFilters[i].callbacks.push(callback);
+						return;
+					}
+				}
+
+				attributeFilters.push({name: name, callbacks: [callback]});
+			});
+		};
+
+		self.parse = function(html, args) {
+			var parser, rootNode, node, nodes, i, l, fi, fl, list, name, validate,
+				blockElements, startWhiteSpaceRegExp, invalidChildren = [], isInWhiteSpacePreservedElement,
+				endWhiteSpaceRegExp, allWhiteSpaceRegExp, isAllWhiteSpaceRegExp, whiteSpaceElements, children, nonEmptyElements, rootBlockName;
+
+			args = args || {};
+			matchedNodes = {};
+			matchedAttributes = {};
+			blockElements = tinymce.extend(tinymce.makeMap('script,style,head,html,body,title,meta,param'), schema.getBlockElements());
+			nonEmptyElements = schema.getNonEmptyElements();
+			children = schema.children;
+			validate = settings.validate;
+			rootBlockName = "forced_root_block" in args ? args.forced_root_block : settings.forced_root_block;
+
+			whiteSpaceElements = schema.getWhiteSpaceElements();
+			startWhiteSpaceRegExp = /^[ \t\r\n]+/;
+			endWhiteSpaceRegExp = /[ \t\r\n]+$/;
+			allWhiteSpaceRegExp = /[ \t\r\n]+/g;
+			isAllWhiteSpaceRegExp = /^[ \t\r\n]+$/;
+
+			function addRootBlocks() {
+				var node = rootNode.firstChild, next, rootBlockNode;
+
+				while (node) {
+					next = node.next;
+
+					if (node.type == 3 || (node.type == 1 && node.name !== 'p' && !blockElements[node.name] && !node.attr('data-mce-type'))) {
+						if (!rootBlockNode) {
+							// Create a new root block element
+							rootBlockNode = createNode(rootBlockName, 1);
+							rootNode.insert(rootBlockNode, node);
+							rootBlockNode.append(node);
+						} else
+							rootBlockNode.append(node);
+					} else {
+						rootBlockNode = null;
+					}
+
+					node = next;
+				};
+			};
+
+			function createNode(name, type) {
+				var node = new Node(name, type), list;
+
+				if (name in nodeFilters) {
+					list = matchedNodes[name];
+
+					if (list)
+						list.push(node);
+					else
+						matchedNodes[name] = [node];
+				}
+
+				return node;
+			};
+
+			function removeWhitespaceBefore(node) {
+				var textNode, textVal, sibling;
+
+				for (textNode = node.prev; textNode && textNode.type === 3; ) {
+					textVal = textNode.value.replace(endWhiteSpaceRegExp, '');
+
+					if (textVal.length > 0) {
+						textNode.value = textVal;
+						textNode = textNode.prev;
+					} else {
+						sibling = textNode.prev;
+						textNode.remove();
+						textNode = sibling;
+					}
+				}
+			};
+
+			function cloneAndExcludeBlocks(input) {
+				var name, output = {};
+
+				for (name in input) {
+					if (name !== 'li' && name != 'p') {
+						output[name] = input[name];
+					}
+				}
+
+				return output;
+			};
+
+			parser = new tinymce.html.SaxParser({
+				validate : validate,
+
+				// Exclude P and LI from DOM parsing since it's treated better by the DOM parser
+				self_closing_elements: cloneAndExcludeBlocks(schema.getSelfClosingElements()),
+
+				cdata: function(text) {
+					node.append(createNode('#cdata', 4)).value = text;
+				},
+
+				text: function(text, raw) {
+					var textNode;
+
+					// Trim all redundant whitespace on non white space elements
+					if (!isInWhiteSpacePreservedElement) {
+						text = text.replace(allWhiteSpaceRegExp, ' ');
+
+						if (node.lastChild && blockElements[node.lastChild.name])
+							text = text.replace(startWhiteSpaceRegExp, '');
+					}
+
+					// Do we need to create the node
+					if (text.length !== 0) {
+						textNode = createNode('#text', 3);
+						textNode.raw = !!raw;
+						node.append(textNode).value = text;
+					}
+				},
+
+				comment: function(text) {
+					node.append(createNode('#comment', 8)).value = text;
+				},
+
+				pi: function(name, text) {
+					node.append(createNode(name, 7)).value = text;
+					removeWhitespaceBefore(node);
+				},
+
+				doctype: function(text) {
+					var newNode;
+		
+					newNode = node.append(createNode('#doctype', 10));
+					newNode.value = text;
+					removeWhitespaceBefore(node);
+				},
+
+				start: function(name, attrs, empty) {
+					var newNode, attrFiltersLen, elementRule, textNode, attrName, text, sibling, parent;
+
+					elementRule = validate ? schema.getElementRule(name) : {};
+					if (elementRule) {
+						newNode = createNode(elementRule.outputName || name, 1);
+						newNode.attributes = attrs;
+						newNode.shortEnded = empty;
+
+						node.append(newNode);
+
+						// Check if node is valid child of the parent node is the child is
+						// unknown we don't collect it since it's probably a custom element
+						parent = children[node.name];
+						if (parent && children[newNode.name] && !parent[newNode.name])
+							invalidChildren.push(newNode);
+
+						attrFiltersLen = attributeFilters.length;
+						while (attrFiltersLen--) {
+							attrName = attributeFilters[attrFiltersLen].name;
+
+							if (attrName in attrs.map) {
+								list = matchedAttributes[attrName];
+
+								if (list)
+									list.push(newNode);
+								else
+									matchedAttributes[attrName] = [newNode];
+							}
+						}
+
+						// Trim whitespace before block
+						if (blockElements[name])
+							removeWhitespaceBefore(newNode);
+
+						// Change current node if the element wasn't empty i.e not <br /> or <img />
+						if (!empty)
+							node = newNode;
+
+						// Check if we are inside a whitespace preserved element
+						if (!isInWhiteSpacePreservedElement && whiteSpaceElements[name]) {
+							isInWhiteSpacePreservedElement = true;
+						}
+					}
+				},
+
+				end: function(name) {
+					var textNode, elementRule, text, sibling, tempNode;
+
+					elementRule = validate ? schema.getElementRule(name) : {};
+					if (elementRule) {
+						if (blockElements[name]) {
+							if (!isInWhiteSpacePreservedElement) {
+								// Trim whitespace of the first node in a block
+								textNode = node.firstChild;
+								if (textNode && textNode.type === 3) {
+									text = textNode.value.replace(startWhiteSpaceRegExp, '');
+
+									// Any characters left after trim or should we remove it
+									if (text.length > 0) {
+										textNode.value = text;
+										textNode = textNode.next;
+									} else {
+										sibling = textNode.next;
+										textNode.remove();
+										textNode = sibling;
+									}
+
+									// Remove any pure whitespace siblings
+									while (textNode && textNode.type === 3) {
+										text = textNode.value;
+										sibling = textNode.next;
+
+										if (text.length === 0 || isAllWhiteSpaceRegExp.test(text)) {
+											textNode.remove();
+											textNode = sibling;
+										}
+
+										textNode = sibling;
+									}
+								}
+
+								// Trim whitespace of the last node in a block
+								textNode = node.lastChild;
+								if (textNode && textNode.type === 3) {
+									text = textNode.value.replace(endWhiteSpaceRegExp, '');
+
+									// Any characters left after trim or should we remove it
+									if (text.length > 0) {
+										textNode.value = text;
+										textNode = textNode.prev;
+									} else {
+										sibling = textNode.prev;
+										textNode.remove();
+										textNode = sibling;
+									}
+
+									// Remove any pure whitespace siblings
+									while (textNode && textNode.type === 3) {
+										text = textNode.value;
+										sibling = textNode.prev;
+
+										if (text.length === 0 || isAllWhiteSpaceRegExp.test(text)) {
+											textNode.remove();
+											textNode = sibling;
+										}
+
+										textNode = sibling;
+									}
+								}
+							}
+
+							// Trim start white space
+							// Removed due to: #5424
+							/*textNode = node.prev;
+							if (textNode && textNode.type === 3) {
+								text = textNode.value.replace(startWhiteSpaceRegExp, '');
+
+								if (text.length > 0)
+									textNode.value = text;
+								else
+									textNode.remove();
+							}*/
+						}
+
+						// Check if we exited a whitespace preserved element
+						if (isInWhiteSpacePreservedElement && whiteSpaceElements[name]) {
+							isInWhiteSpacePreservedElement = false;
+						}
+
+						// Handle empty nodes
+						if (elementRule.removeEmpty || elementRule.paddEmpty) {
+							if (node.isEmpty(nonEmptyElements)) {
+								if (elementRule.paddEmpty)
+									node.empty().append(new Node('#text', '3')).value = '\u00a0';
+								else {
+									// Leave nodes that have a name like <a name="name">
+									if (!node.attributes.map.name && !node.attributes.map.id) {
+										tempNode = node.parent;
+										node.empty().remove();
+										node = tempNode;
+										return;
+									}
+								}
+							}
+						}
+
+						node = node.parent;
+					}
+				}
+			}, schema);
+
+			rootNode = node = new Node(args.context || settings.root_name, 11);
+
+			parser.parse(html);
+
+			// Fix invalid children or report invalid children in a contextual parsing
+			if (validate && invalidChildren.length) {
+				if (!args.context)
+					fixInvalidChildren(invalidChildren);
+				else
+					args.invalid = true;
+			}
+
+			// Wrap nodes in the root into block elements if the root is body
+			if (rootBlockName && rootNode.name == 'body')
+				addRootBlocks();
+
+			// Run filters only when the contents is valid
+			if (!args.invalid) {
+				// Run node filters
+				for (name in matchedNodes) {
+					list = nodeFilters[name];
+					nodes = matchedNodes[name];
+
+					// Remove already removed children
+					fi = nodes.length;
+					while (fi--) {
+						if (!nodes[fi].parent)
+							nodes.splice(fi, 1);
+					}
+
+					for (i = 0, l = list.length; i < l; i++)
+						list[i](nodes, name, args);
+				}
+
+				// Run attribute filters
+				for (i = 0, l = attributeFilters.length; i < l; i++) {
+					list = attributeFilters[i];
+
+					if (list.name in matchedAttributes) {
+						nodes = matchedAttributes[list.name];
+
+						// Remove already removed children
+						fi = nodes.length;
+						while (fi--) {
+							if (!nodes[fi].parent)
+								nodes.splice(fi, 1);
+						}
+
+						for (fi = 0, fl = list.callbacks.length; fi < fl; fi++)
+							list.callbacks[fi](nodes, list.name, args);
+					}
+				}
+			}
+
+			return rootNode;
+		};
+
+		// Remove <br> at end of block elements Gecko and WebKit injects BR elements to
+		// make it possible to place the caret inside empty blocks. This logic tries to remove
+		// these elements and keep br elements that where intended to be there intact
+		if (settings.remove_trailing_brs) {
+			self.addNodeFilter('br', function(nodes, name) {
+				var i, l = nodes.length, node, blockElements = tinymce.extend({}, schema.getBlockElements()),
+					nonEmptyElements = schema.getNonEmptyElements(), parent, lastParent, prev, prevName;
+
+				// Remove brs from body element as well
+				blockElements.body = 1;
+
+				// Must loop forwards since it will otherwise remove all brs in <p>a<br><br><br></p>
+				for (i = 0; i < l; i++) {
+					node = nodes[i];
+					parent = node.parent;
+
+					if (blockElements[node.parent.name] && node === parent.lastChild) {
+						// Loop all nodes to the left of the current node and check for other BR elements
+						// excluding bookmarks since they are invisible
+						prev = node.prev;
+						while (prev) {
+							prevName = prev.name;
+
+							// Ignore bookmarks
+							if (prevName !== "span" || prev.attr('data-mce-type') !== 'bookmark') {
+								// Found a non BR element
+								if (prevName !== "br")
+									break;
+	
+								// Found another br it's a <br><br> structure then don't remove anything
+								if (prevName === 'br') {
+									node = null;
+									break;
+								}
+							}
+
+							prev = prev.prev;
+						}
+
+						if (node) {
+							node.remove();
+
+							// Is the parent to be considered empty after we removed the BR
+							if (parent.isEmpty(nonEmptyElements)) {
+								elementRule = schema.getElementRule(parent.name);
+
+								// Remove or padd the element depending on schema rule
+								if (elementRule) {
+									if (elementRule.removeEmpty)
+										parent.remove();
+									else if (elementRule.paddEmpty)
+										parent.empty().append(new tinymce.html.Node('#text', 3)).value = '\u00a0';
+								}
+							}
+						}
+					} else {
+						// Replaces BR elements inside inline elements like <p><b><i><br></i></b></p> so they become <p><b><i>&nbsp;</i></b></p> 
+						lastParent = node;
+						while (parent.firstChild === lastParent && parent.lastChild === lastParent) {
+							lastParent = parent;
+
+							if (blockElements[parent.name]) {
+								break;
+							}
+
+							parent = parent.parent;
+						}
+
+						if (lastParent === parent) {
+							textNode = new tinymce.html.Node('#text', 3);
+							textNode.value = '\u00a0';
+							node.replace(textNode);
+						}
+					}
+				}
+			});
+		}
+
+		// Force anchor names closed, unless the setting "allow_html_in_named_anchor" is explicitly included.
+		if (!settings.allow_html_in_named_anchor) {
+			self.addAttributeFilter('id,name', function(nodes, name) {
+				var i = nodes.length, sibling, prevSibling, parent, node;
+
+				while (i--) {
+					node = nodes[i];
+					if (node.name === 'a' && node.firstChild && !node.attr('href')) {
+						parent = node.parent;
+
+						// Move children after current node
+						sibling = node.lastChild;
+						do {
+							prevSibling = sibling.prev;
+							parent.insert(sibling, node);
+							sibling = prevSibling;
+						} while (sibling);
+					}
+				}
+			});
+		}
+	}
+})(tinymce);
+
+tinymce.html.Writer = function(settings) {
+	var html = [], indent, indentBefore, indentAfter, encode, htmlOutput;
+
+	settings = settings || {};
+	indent = settings.indent;
+	indentBefore = tinymce.makeMap(settings.indent_before || '');
+	indentAfter = tinymce.makeMap(settings.indent_after || '');
+	encode = tinymce.html.Entities.getEncodeFunc(settings.entity_encoding || 'raw', settings.entities);
+	htmlOutput = settings.element_format == "html";
+
+	return {
+		start: function(name, attrs, empty) {
+			var i, l, attr, value;
+
+			if (indent && indentBefore[name] && html.length > 0) {
+				value = html[html.length - 1];
+
+				if (value.length > 0 && value !== '\n')
+					html.push('\n');
+			}
+
+			html.push('<', name);
+
+			if (attrs) {
+				for (i = 0, l = attrs.length; i < l; i++) {
+					attr = attrs[i];
+					html.push(' ', attr.name, '="', encode(attr.value, true), '"');
+				}
+			}
+
+			if (!empty || htmlOutput)
+				html[html.length] = '>';
+			else
+				html[html.length] = ' />';
+
+			if (empty && indent && indentAfter[name] && html.length > 0) {
+				value = html[html.length - 1];
+
+				if (value.length > 0 && value !== '\n')
+					html.push('\n');
+			}
+		},
+
+		end: function(name) {
+			var value;
+
+			/*if (indent && indentBefore[name] && html.length > 0) {
+				value = html[html.length - 1];
+
+				if (value.length > 0 && value !== '\n')
+					html.push('\n');
+			}*/
+
+			html.push('</', name, '>');
+
+			if (indent && indentAfter[name] && html.length > 0) {
+				value = html[html.length - 1];
+
+				if (value.length > 0 && value !== '\n')
+					html.push('\n');
+			}
+		},
+
+		text: function(text, raw) {
+			if (text.length > 0)
+				html[html.length] = raw ? text : encode(text);
+		},
+
+		cdata: function(text) {
+			html.push('<![CDATA[', text, ']]>');
+		},
+
+		comment: function(text) {
+			html.push('<!--', text, '-->');
+		},
+
+		pi: function(name, text) {
+			if (text)
+				html.push('<?', name, ' ', text, '?>');
+			else
+				html.push('<?', name, '?>');
+
+			if (indent)
+				html.push('\n');
+		},
+
+		doctype: function(text) {
+			html.push('<!DOCTYPE', text, '>', indent ? '\n' : '');
+		},
+
+		reset: function() {
+			html.length = 0;
+		},
+
+		getContent: function() {
+			return html.join('').replace(/\n$/, '');
+		}
+	};
+};
+
+(function(tinymce) {
+	tinymce.html.Serializer = function(settings, schema) {
+		var self = this, writer = new tinymce.html.Writer(settings);
+
+		settings = settings || {};
+		settings.validate = "validate" in settings ? settings.validate : true;
+
+		self.schema = schema = schema || new tinymce.html.Schema();
+		self.writer = writer;
+
+		self.serialize = function(node) {
+			var handlers, validate;
+
+			validate = settings.validate;
+
+			handlers = {
+				// #text
+				3: function(node, raw) {
+					writer.text(node.value, node.raw);
+				},
+
+				// #comment
+				8: function(node) {
+					writer.comment(node.value);
+				},
+
+				// Processing instruction
+				7: function(node) {
+					writer.pi(node.name, node.value);
+				},
+
+				// Doctype
+				10: function(node) {
+					writer.doctype(node.value);
+				},
+
+				// CDATA
+				4: function(node) {
+					writer.cdata(node.value);
+				},
+
+				// Document fragment
+				11: function(node) {
+					if ((node = node.firstChild)) {
+						do {
+							walk(node);
+						} while (node = node.next);
+					}
+				}
+			};
+
+			writer.reset();
+
+			function walk(node) {
+				var handler = handlers[node.type], name, isEmpty, attrs, attrName, attrValue, sortedAttrs, i, l, elementRule;
+
+				if (!handler) {
+					name = node.name;
+					isEmpty = node.shortEnded;
+					attrs = node.attributes;
+
+					// Sort attributes
+					if (validate && attrs && attrs.length > 1) {
+						sortedAttrs = [];
+						sortedAttrs.map = {};
+
+						elementRule = schema.getElementRule(node.name);
+						for (i = 0, l = elementRule.attributesOrder.length; i < l; i++) {
+							attrName = elementRule.attributesOrder[i];
+
+							if (attrName in attrs.map) {
+								attrValue = attrs.map[attrName];
+								sortedAttrs.map[attrName] = attrValue;
+								sortedAttrs.push({name: attrName, value: attrValue});
+							}
+						}
+
+						for (i = 0, l = attrs.length; i < l; i++) {
+							attrName = attrs[i].name;
+
+							if (!(attrName in sortedAttrs.map)) {
+								attrValue = attrs.map[attrName];
+								sortedAttrs.map[attrName] = attrValue;
+								sortedAttrs.push({name: attrName, value: attrValue});
+							}
+						}
+
+						attrs = sortedAttrs;
+					}
+
+					writer.start(node.name, attrs, isEmpty);
+
+					if (!isEmpty) {
+						if ((node = node.firstChild)) {
+							do {
+								walk(node);
+							} while (node = node.next);
+						}
+
+						writer.end(name);
+					}
+				} else
+					handler(node);
+			}
+
+			// Serialize element and treat all non elements as fragments
+			if (node.type == 1 && !settings.inner)
+				walk(node);
+			else
+				handlers[11](node);
+
+			return writer.getContent();
+		};
+	}
+})(tinymce);
+
+// JSLint defined globals
+/*global tinymce:false, window:false */
+
+tinymce.dom = {};
+
+(function(namespace, expando) {
+	var w3cEventModel = !!document.addEventListener;
+
+	function addEvent(target, name, callback, capture) {
+		if (target.addEventListener) {
+			target.addEventListener(name, callback, capture || false);
+		} else if (target.attachEvent) {
+			target.attachEvent('on' + name, callback);
+		}
+	}
+
+	function removeEvent(target, name, callback, capture) {
+		if (target.removeEventListener) {
+			target.removeEventListener(name, callback, capture || false);
+		} else if (target.detachEvent) {
+			target.detachEvent('on' + name, callback);
+		}
+	}
+
+	function fix(original_event, data) {
+		var name, event = data || {};
+
+		// Dummy function that gets replaced on the delegation state functions
+		function returnFalse() {
+			return false;
+		}
+
+		// Dummy function that gets replaced on the delegation state functions
+		function returnTrue() {
+			return true;
+		}
+
+		// Copy all properties from the original event
+		for (name in original_event) {
+			// layerX/layerY is deprecated in Chrome and produces a warning
+			if (name !== "layerX" && name !== "layerY") {
+				event[name] = original_event[name];
+			}
+		}
+
+		// Normalize target IE uses srcElement
+		if (!event.target) {
+			event.target = event.srcElement || document;
+		}
+
+		// Add preventDefault method
+		event.preventDefault = function() {
+			event.isDefaultPrevented = returnTrue;
+
+			// Execute preventDefault on the original event object
+			if (original_event) {
+				if (original_event.preventDefault) {
+					original_event.preventDefault();
+				} else {
+					original_event.returnValue = false; // IE
+				}
+			}
+		};
+
+		// Add stopPropagation
+		event.stopPropagation = function() {
+			event.isPropagationStopped = returnTrue;
+
+			// Execute stopPropagation on the original event object
+			if (original_event) {
+				if (original_event.stopPropagation) {
+					original_event.stopPropagation();
+				} else {
+					original_event.cancelBubble = true; // IE
+				}
+			 }
+		};
+
+		// Add stopImmediatePropagation
+		event.stopImmediatePropagation = function() {
+			event.isImmediatePropagationStopped = returnTrue;
+			event.stopPropagation();
+		};
+
+		// Add event delegation states
+		if (!event.isDefaultPrevented) {
+			event.isDefaultPrevented = returnFalse;
+			event.isPropagationStopped = returnFalse;
+			event.isImmediatePropagationStopped = returnFalse;
+		}
+
+		return event;
+	}
+
+	function bindOnReady(win, callback, event_utils) {
+		var doc = win.document, event = {type: 'ready'};
+
+		// Gets called when the DOM is ready
+		function readyHandler() {
+			if (!event_utils.domLoaded) {
+				event_utils.domLoaded = true;
+				callback(event);
+			}
+		}
+
+		// Page already loaded then fire it directly
+		if (doc.readyState == "complete") {
+			readyHandler();
+			return;
+		}
+
+		// Use W3C method
+		if (w3cEventModel) {
+			addEvent(win, 'DOMContentLoaded', readyHandler);
+		} else {
+			// Use IE method
+			addEvent(doc, "readystatechange", function() {
+				if (doc.readyState === "complete") {
+					removeEvent(doc, "readystatechange", arguments.callee);
+					readyHandler();
+				}
+			});
+
+			// Wait until we can scroll, when we can the DOM is initialized
+			if (doc.documentElement.doScroll && win === win.top) {
+				(function() {
+					try {
+						// If IE is used, use the trick by Diego Perini licensed under MIT by request to the author.
+						// http://javascript.nwbox.com/IEContentLoaded/
+						doc.documentElement.doScroll("left");
+					} catch (ex) {
+						setTimeout(arguments.callee, 0);
+						return;
+					}
+
+					readyHandler();
+				})();
+			}
+		}
+
+		// Fallback if any of the above methods should fail for some odd reason
+		addEvent(win, 'load', readyHandler);
+	}
+
+	function EventUtils(proxy) {
+		var self = this, events = {}, count, isFocusBlurBound, hasFocusIn, hasMouseEnterLeave, mouseEnterLeave;
+
+		hasMouseEnterLeave = "onmouseenter" in document.documentElement;
+		hasFocusIn = "onfocusin" in document.documentElement;
+		mouseEnterLeave = {mouseenter: 'mouseover', mouseleave: 'mouseout'};
+		count = 1;
+
+		// State if the DOMContentLoaded was executed or not
+		self.domLoaded = false;
+		self.events = events;
+
+		function executeHandlers(evt, id) {
+			var callbackList, i, l, callback;
+
+			callbackList = events[id][evt.type];
+			if (callbackList) {
+				for (i = 0, l = callbackList.length; i < l; i++) {
+					callback = callbackList[i];
+					
+					// Check if callback exists might be removed if a unbind is called inside the callback
+					if (callback && callback.func.call(callback.scope, evt) === false) {
+						evt.preventDefault();
+					}
+
+					// Should we stop propagation to immediate listeners
+					if (evt.isImmediatePropagationStopped()) {
+						return;
+					}
+				}
+			}
+		}
+
+		self.bind = function(target, names, callback, scope) {
+			var id, callbackList, i, name, fakeName, nativeHandler, capture, win = window;
+
+			// Native event handler function patches the event and executes the callbacks for the expando
+			function defaultNativeHandler(evt) {
+				executeHandlers(fix(evt || win.event), id);
+			}
+
+			// Don't bind to text nodes or comments
+			if (!target || target.nodeType === 3 || target.nodeType === 8) {
+				return;
+			}
+
+			// Create or get events id for the target
+			if (!target[expando]) {
+				id = count++;
+				target[expando] = id;
+				events[id] = {};
+			} else {
+				id = target[expando];
+
+				if (!events[id]) {
+					events[id] = {};
+				}
+			}
+
+			// Setup the specified scope or use the target as a default
+			scope = scope || target;
+
+			// Split names and bind each event, enables you to bind multiple events with one call
+			names = names.split(' ');
+			i = names.length;
+			while (i--) {
+				name = names[i];
+				nativeHandler = defaultNativeHandler;
+				fakeName = capture = false;
+
+				// Use ready instead of DOMContentLoaded
+				if (name === "DOMContentLoaded") {
+					name = "ready";
+				}
+
+				// DOM is already ready
+				if ((self.domLoaded || target.readyState == 'complete') && name === "ready") {
+					self.domLoaded = true;
+					callback.call(scope, fix({type: name}));
+					continue;
+				}
+
+				// Handle mouseenter/mouseleaver
+				if (!hasMouseEnterLeave) {
+					fakeName = mouseEnterLeave[name];
+
+					if (fakeName) {
+						nativeHandler = function(evt) {
+							var current, related;
+
+							current = evt.currentTarget;
+							related = evt.relatedTarget;
+
+							// Check if related is inside the current target if it's not then the event should be ignored since it's a mouseover/mouseout inside the element
+							if (related && current.contains) {
+								// Use contains for performance
+								related = current.contains(related);
+							} else {
+								while (related && related !== current) {
+									related = related.parentNode;
+								}
+							}
+
+							// Fire fake event
+							if (!related) {
+								evt = fix(evt || win.event);
+								evt.type = evt.type === 'mouseout' ? 'mouseleave' : 'mouseenter';
+								evt.target = current;
+								executeHandlers(evt, id);
+							}
+						};
+					}
+				}
+
+				// Fake bubbeling of focusin/focusout
+				if (!hasFocusIn && (name === "focusin" || name === "focusout")) {
+					capture = true;
+					fakeName = name === "focusin" ? "focus" : "blur";
+					nativeHandler = function(evt) {
+						evt = fix(evt || win.event);
+						evt.type = evt.type === 'focus' ? 'focusin' : 'focusout';
+						executeHandlers(evt, id);
+					};
+				}
+
+				// Setup callback list and bind native event
+				callbackList = events[id][name];
+				if (!callbackList) {
+					events[id][name] = callbackList = [{func: callback, scope: scope}];
+					callbackList.fakeName = fakeName;
+					callbackList.capture = capture;
+
+					// Add the nativeHandler to the callback list so that we can later unbind it
+					callbackList.nativeHandler = nativeHandler;
+					if (!w3cEventModel) {
+						callbackList.proxyHandler = proxy(id);
+					}
+
+					// Check if the target has native events support
+					if (name === "ready") {
+						bindOnReady(target, nativeHandler, self);
+					} else {
+						addEvent(target, fakeName || name, w3cEventModel ? nativeHandler : callbackList.proxyHandler, capture);
+					}
+				} else {
+					// If it already has an native handler then just push the callback
+					callbackList.push({func: callback, scope: scope});
+				}
+			}
+
+			target = callbackList = 0; // Clean memory for IE
+
+			return callback;
+		};
+
+		self.unbind = function(target, names, callback) {
+			var id, callbackList, i, ci, name, eventMap;
+
+			// Don't bind to text nodes or comments
+			if (!target || target.nodeType === 3 || target.nodeType === 8) {
+				return self;
+			}
+
+			// Unbind event or events if the target has the expando
+			id = target[expando];
+			if (id) {
+				eventMap = events[id];
+
+				// Specific callback
+				if (names) {
+					names = names.split(' ');
+					i = names.length;
+					while (i--) {
+						name = names[i];
+						callbackList = eventMap[name];
+
+						// Unbind the event if it exists in the map
+						if (callbackList) {
+							// Remove specified callback
+							if (callback) {
+								ci = callbackList.length;
+								while (ci--) {
+									if (callbackList[ci].func === callback) {
+										callbackList.splice(ci, 1);
+									}
+								}
+							}
+
+							// Remove all callbacks if there isn't a specified callback or there is no callbacks left
+							if (!callback || callbackList.length === 0) {
+								delete eventMap[name];
+								removeEvent(target, callbackList.fakeName || name, w3cEventModel ? callbackList.nativeHandler : callbackList.proxyHandler, callbackList.capture);
+							}
+						}
+					}
+				} else {
+					// All events for a specific element
+					for (name in eventMap) {
+						callbackList = eventMap[name];
+						removeEvent(target, callbackList.fakeName || name, w3cEventModel ? callbackList.nativeHandler : callbackList.proxyHandler, callbackList.capture);
+					}
+
+					eventMap = {};
+				}
+
+				// Check if object is empty, if it isn't then we won't remove the expando map
+				for (name in eventMap) {
+					return self;
+				}
+
+				// Delete event object
+				delete events[id];
+
+				// Remove expando from target
+				try {
+					// IE will fail here since it can't delete properties from window
+					delete target[expando];
+				} catch (ex) {
+					// IE will set it to null
+					target[expando] = null;
+				}
+			}
+
+			return self;
+		};
+
+		self.fire = function(target, name, args) {
+			var id, event;
+
+			// Don't bind to text nodes or comments
+			if (!target || target.nodeType === 3 || target.nodeType === 8) {
+				return self;
+			}
+
+			// Build event object by patching the args
+			event = fix(null, args);
+			event.type = name;
+
+			do {
+				// Found an expando that means there is listeners to execute
+				id = target[expando];
+				if (id) {
+					executeHandlers(event, id);
+				}
+
+				// Walk up the DOM
+				target = target.parentNode || target.ownerDocument || target.defaultView || target.parentWindow;
+			} while (target && !event.isPropagationStopped());
+
+			return self;
+		};
+
+		self.clean = function(target) {
+			var i, children, unbind = self.unbind;
+	
+			// Don't bind to text nodes or comments
+			if (!target || target.nodeType === 3 || target.nodeType === 8) {
+				return self;
+			}
+
+			// Unbind any element on the specificed target
+			if (target[expando]) {
+				unbind(target);
+			}
+
+			// Target doesn't have getElementsByTagName it's probably a window object then use it's document to find the children
+			if (!target.getElementsByTagName) {
+				target = target.document;
+			}
+
+			// Remove events from each child element
+			if (target && target.getElementsByTagName) {
+				unbind(target);
+
+				children = target.getElementsByTagName('*');
+				i = children.length;
+				while (i--) {
+					target = children[i];
+
+					if (target[expando]) {
+						unbind(target);
+					}
+				}
+			}
+
+			return self;
+		};
+
+		self.callNativeHandler = function(id, evt) {
+			if (events) {
+				events[id][evt.type].nativeHandler(evt);
+			}
+		};
+
+		self.destory = function() {
+			events = {};
+		};
+
+		// Legacy function calls
+
+		self.add = function(target, events, func, scope) {
+			// Old API supported direct ID assignment
+			if (typeof(target) === "string") {
+				target = document.getElementById(target);
+			}
+
+			// Old API supported multiple targets
+			if (target && target instanceof Array) {
+				var i = target.length;
+
+				while (i--) {
+					self.add(target[i], events, func, scope);
+				}
+
+				return;
+			}
+
+			// Old API called ready init
+			if (events === "init") {
+				events = "ready";
+			}
+
+			return self.bind(target, events instanceof Array ? events.join(' ') : events, func, scope);
+		};
+
+		self.remove = function(target, events, func, scope) {
+			if (!target) {
+				return self;
+			}
+
+			// Old API supported direct ID assignment
+			if (typeof(target) === "string") {
+				target = document.getElementById(target);
+			}
+
+			// Old API supported multiple targets
+			if (target instanceof Array) {
+				var i = target.length;
+
+				while (i--) {
+					self.remove(target[i], events, func, scope);
+				}
+
+				return self;
+			}
+
+			return self.unbind(target, events instanceof Array ? events.join(' ') : events, func);
+		};
+
+		self.clear = function(target) {
+			// Old API supported direct ID assignment
+			if (typeof(target) === "string") {
+				target = document.getElementById(target);
+			}
+
+			return self.clean(target);
+		};
+
+		self.cancel = function(e) {
+			if (e) {
+				self.prevent(e);
+				self.stop(e);
+			}
+
+			return false;
+		};
+
+		self.prevent = function(e) {
+			if (!e.preventDefault) {
+				e = fix(e);
+			}
+
+			e.preventDefault();
+
+			return false;
+		};
+
+		self.stop = function(e) {
+			if (!e.stopPropagation) {
+				e = fix(e);
+			}
+
+			e.stopPropagation();
+
+			return false;
+		};
+	}
+
+	namespace.EventUtils = EventUtils;
+
+	namespace.Event = new EventUtils(function(id) {
+		return function(evt) {
+			tinymce.dom.Event.callNativeHandler(id, evt);
+		};
+	});
+
+	// Bind ready event when tinymce script is loaded
+	namespace.Event.bind(window, 'ready', function() {});
+
+	namespace = 0;
+})(tinymce.dom, 'data-mce-expando'); // Namespace and expando
+
+tinymce.dom.TreeWalker = function(start_node, root_node) {
+	var node = start_node;
+
+	function findSibling(node, start_name, sibling_name, shallow) {
+		var sibling, parent;
+
+		if (node) {
+			// Walk into nodes if it has a start
+			if (!shallow && node[start_name])
+				return node[start_name];
+
+			// Return the sibling if it has one
+			if (node != root_node) {
+				sibling = node[sibling_name];
+				if (sibling)
+					return sibling;
+
+				// Walk up the parents to look for siblings
+				for (parent = node.parentNode; parent && parent != root_node; parent = parent.parentNode) {
+					sibling = parent[sibling_name];
+					if (sibling)
+						return sibling;
+				}
+			}
+		}
+	};
+
+	this.current = function() {
+		return node;
+	};
+
+	this.next = function(shallow) {
+		return (node = findSibling(node, 'firstChild', 'nextSibling', shallow));
+	};
+
+	this.prev = function(shallow) {
+		return (node = findSibling(node, 'lastChild', 'previousSibling', shallow));
+	};
+};
+
+(function(tinymce) {
+	// Shorten names
+	var each = tinymce.each,
+		is = tinymce.is,
+		isWebKit = tinymce.isWebKit,
+		isIE = tinymce.isIE,
+		Entities = tinymce.html.Entities,
+		simpleSelectorRe = /^([a-z0-9],?)+$/i,
+		whiteSpaceRegExp = /^[ \t\r\n]*$/;
+
+	tinymce.create('tinymce.dom.DOMUtils', {
+		doc : null,
+		root : null,
+		files : null,
+		pixelStyles : /^(top|left|bottom|right|width|height|borderWidth)$/,
+		props : {
+			"for" : "htmlFor",
+			"class" : "className",
+			className : "className",
+			checked : "checked",
+			disabled : "disabled",
+			maxlength : "maxLength",
+			readonly : "readOnly",
+			selected : "selected",
+			value : "value",
+			id : "id",
+			name : "name",
+			type : "type"
+		},
+
+		DOMUtils : function(d, s) {
+			var t = this, globalStyle, name, blockElementsMap;
+
+			t.doc = d;
+			t.win = window;
+			t.files = {};
+			t.cssFlicker = false;
+			t.counter = 0;
+			t.stdMode = !tinymce.isIE || d.documentMode >= 8;
+			t.boxModel = !tinymce.isIE || d.compatMode == "CSS1Compat" || t.stdMode;
+			t.hasOuterHTML = "outerHTML" in d.createElement("a");
+
+			t.settings = s = tinymce.extend({
+				keep_values : false,
+				hex_colors : 1
+			}, s);
+			
+			t.schema = s.schema;
+			t.styles = new tinymce.html.Styles({
+				url_converter : s.url_converter,
+				url_converter_scope : s.url_converter_scope
+			}, s.schema);
+
+			// Fix IE6SP2 flicker and check it failed for pre SP2
+			if (tinymce.isIE6) {
+				try {
+					d.execCommand('BackgroundImageCache', false, true);
+				} catch (e) {
+					t.cssFlicker = true;
+				}
+			}
+
+			t.fixDoc(d);
+			t.events = s.ownEvents ? new tinymce.dom.EventUtils(s.proxy) : tinymce.dom.Event;
+			tinymce.addUnload(t.destroy, t);
+			blockElementsMap = s.schema ? s.schema.getBlockElements() : {};
+
+			t.isBlock = function(node) {
+				// Fix for #5446
+				if (!node) {
+					return false;
+				}
+
+				// This function is called in module pattern style since it might be executed with the wrong this scope
+				var type = node.nodeType;
+
+				// If it's a node then check the type and use the nodeName
+				if (type)
+					return !!(type === 1 && blockElementsMap[node.nodeName]);
+
+				return !!blockElementsMap[node];
+			};
+		},
+
+		fixDoc: function(doc) {
+			var settings = this.settings, name;
+
+			if (isIE && !tinymce.isIE11 && settings.schema) {
+				// Add missing HTML 4/5 elements to IE
+				('abbr article aside audio canvas ' +
+				'details figcaption figure footer ' +
+				'header hgroup mark menu meter nav ' +
+				'output progress section summary ' +
+				'time video').replace(/\w+/g, function(name) {
+					doc.createElement(name);
+				});
+
+				// Create all custom elements
+				for (name in settings.schema.getCustomElements()) {
+					doc.createElement(name);
+				}
+			}
+		},
+
+		clone: function(node, deep) {
+			var self = this, clone, doc;
+
+			// TODO: Add feature detection here in the future
+			if (!isIE || tinymce.isIE11 || node.nodeType !== 1 || deep) {
+				return node.cloneNode(deep);
+			}
+
+			doc = self.doc;
+
+			// Make a HTML5 safe shallow copy
+			if (!deep) {
+				clone = doc.createElement(node.nodeName);
+
+				// Copy attribs
+				each(self.getAttribs(node), function(attr) {
+					self.setAttrib(clone, attr.nodeName, self.getAttrib(node, attr.nodeName));
+				});
+
+				return clone;
+			}
+/*
+			// Setup HTML5 patched document fragment
+			if (!self.frag) {
+				self.frag = doc.createDocumentFragment();
+				self.fixDoc(self.frag);
+			}
+
+			// Make a deep copy by adding it to the document fragment then removing it this removed the :section
+			clone = doc.createElement('div');
+			self.frag.appendChild(clone);
+			clone.innerHTML = node.outerHTML;
+			self.frag.removeChild(clone);
+*/
+			return clone.firstChild;
+		},
+
+		getRoot : function() {
+			var t = this, s = t.settings;
+
+			return (s && t.get(s.root_element)) || t.doc.body;
+		},
+
+		getViewPort : function(w) {
+			var d, b;
+
+			w = !w ? this.win : w;
+			d = w.document;
+			b = this.boxModel ? d.documentElement : d.body;
+
+			// Returns viewport size excluding scrollbars
+			return {
+				x : w.pageXOffset || b.scrollLeft,
+				y : w.pageYOffset || b.scrollTop,
+				w : w.innerWidth || b.clientWidth,
+				h : w.innerHeight || b.clientHeight
+			};
+		},
+
+		getRect : function(e) {
+			var p, t = this, sr;
+
+			e = t.get(e);
+			p = t.getPos(e);
+			sr = t.getSize(e);
+
+			return {
+				x : p.x,
+				y : p.y,
+				w : sr.w,
+				h : sr.h
+			};
+		},
+
+		getSize : function(e) {
+			var t = this, w, h;
+
+			e = t.get(e);
+			w = t.getStyle(e, 'width');
+			h = t.getStyle(e, 'height');
+
+			// Non pixel value, then force offset/clientWidth
+			if (w.indexOf('px') === -1)
+				w = 0;
+
+			// Non pixel value, then force offset/clientWidth
+			if (h.indexOf('px') === -1)
+				h = 0;
+
+			return {
+				w : parseInt(w, 10) || e.offsetWidth || e.clientWidth,
+				h : parseInt(h, 10) || e.offsetHeight || e.clientHeight
+			};
+		},
+
+		getParent : function(n, f, r) {
+			return this.getParents(n, f, r, false);
+		},
+
+		getParents : function(n, f, r, c) {
+			var t = this, na, se = t.settings, o = [];
+
+			n = t.get(n);
+			c = c === undefined;
+
+			if (se.strict_root)
+				r = r || t.getRoot();
+
+			// Wrap node name as func
+			if (is(f, 'string')) {
+				na = f;
+
+				if (f === '*') {
+					f = function(n) {return n.nodeType == 1;};
+				} else {
+					f = function(n) {
+						return t.is(n, na);
+					};
+				}
+			}
+
+			while (n) {
+				if (n == r || !n.nodeType || n.nodeType === 9)
+					break;
+
+				if (!f || f(n)) {
+					if (c)
+						o.push(n);
+					else
+						return n;
+				}
+
+				n = n.parentNode;
+			}
+
+			return c ? o : null;
+		},
+
+		get : function(e) {
+			var n;
+
+			if (e && this.doc && typeof(e) == 'string') {
+				n = e;
+				e = this.doc.getElementById(e);
+
+				// IE and Opera returns meta elements when they match the specified input ID, but getElementsByName seems to do the trick
+				if (e && e.id !== n)
+					return this.doc.getElementsByName(n)[1];
+			}
+
+			return e;
+		},
+
+		getNext : function(node, selector) {
+			return this._findSib(node, selector, 'nextSibling');
+		},
+
+		getPrev : function(node, selector) {
+			return this._findSib(node, selector, 'previousSibling');
+		},
+
+
+		select : function(pa, s) {
+			var t = this;
+
+			return tinymce.dom.Sizzle(pa, t.get(s) || t.get(t.settings.root_element) || t.doc, []);
+		},
+
+		is : function(n, selector) {
+			var i;
+
+			// If it isn't an array then try to do some simple selectors instead of Sizzle for to boost performance
+			if (n.length === undefined) {
+				// Simple all selector
+				if (selector === '*')
+					return n.nodeType == 1;
+
+				// Simple selector just elements
+				if (simpleSelectorRe.test(selector)) {
+					selector = selector.toLowerCase().split(/,/);
+					n = n.nodeName.toLowerCase();
+
+					for (i = selector.length - 1; i >= 0; i--) {
+						if (selector[i] == n)
+							return true;
+					}
+
+					return false;
+				}
+			}
+
+			return tinymce.dom.Sizzle.matches(selector, n.nodeType ? [n] : n).length > 0;
+		},
+
+
+		add : function(p, n, a, h, c) {
+			var t = this;
+
+			return this.run(p, function(p) {
+				var e, k;
+
+				e = is(n, 'string') ? t.doc.createElement(n) : n;
+				t.setAttribs(e, a);
+
+				if (h) {
+					if (h.nodeType)
+						e.appendChild(h);
+					else
+						t.setHTML(e, h);
+				}
+
+				return !c ? p.appendChild(e) : e;
+			});
+		},
+
+		create : function(n, a, h) {
+			return this.add(this.doc.createElement(n), n, a, h, 1);
+		},
+
+		createHTML : function(n, a, h) {
+			var o = '', t = this, k;
+
+			o += '<' + n;
+
+			for (k in a) {
+				if (a.hasOwnProperty(k))
+					o += ' ' + k + '="' + t.encode(a[k]) + '"';
+			}
+
+			// A call to tinymce.is doesn't work for some odd reason on IE9 possible bug inside their JS runtime
+			if (typeof(h) != "undefined")
+				return o + '>' + h + '</' + n + '>';
+
+			return o + ' />';
+		},
+
+		remove : function(node, keep_children) {
+			return this.run(node, function(node) {
+				var child, parent = node.parentNode;
+
+				if (!parent)
+					return null;
+
+				if (keep_children) {
+					while (child = node.firstChild) {
+						// IE 8 will crash if you don't remove completely empty text nodes
+						if (!tinymce.isIE || child.nodeType !== 3 || child.nodeValue)
+							parent.insertBefore(child, node);
+						else
+							node.removeChild(child);
+					}
+				}
+
+				return parent.removeChild(node);
+			});
+		},
+
+		setStyle : function(n, na, v) {
+			var t = this;
+
+			return t.run(n, function(e) {
+				var s, i;
+
+				s = e.style;
+
+				// Camelcase it, if needed
+				na = na.replace(/-(\D)/g, function(a, b){
+					return b.toUpperCase();
+				});
+
+				// Default px suffix on these
+				if (t.pixelStyles.test(na) && (tinymce.is(v, 'number') || /^[\-0-9\.]+$/.test(v)))
+					v += 'px';
+
+				switch (na) {
+					case 'opacity':
+						// IE specific opacity
+						if (isIE && ! tinymce.isIE11) {
+							s.filter = v === '' ? '' : "alpha(opacity=" + (v * 100) + ")";
+
+							if (!n.currentStyle || !n.currentStyle.hasLayout)
+								s.display = 'inline-block';
+						}
+
+						// Fix for older browsers
+						s[na] = s['-moz-opacity'] = s['-khtml-opacity'] = v || '';
+						break;
+
+					case 'float':
+						(isIE && ! tinymce.isIE11) ? s.styleFloat = v : s.cssFloat = v;
+						break;
+					
+					default:
+						s[na] = v || '';
+				}
+
+				// Force update of the style data
+				if (t.settings.update_styles)
+					t.setAttrib(e, 'data-mce-style');
+			});
+		},
+
+		getStyle : function(n, na, c) {
+			n = this.get(n);
+
+			if (!n)
+				return;
+
+			// Gecko
+			if (this.doc.defaultView && c) {
+				// Remove camelcase
+				na = na.replace(/[A-Z]/g, function(a){
+					return '-' + a;
+				});
+
+				try {
+					return this.doc.defaultView.getComputedStyle(n, null).getPropertyValue(na);
+				} catch (ex) {
+					// Old safari might fail
+					return null;
+				}
+			}
+
+			// Camelcase it, if needed
+			na = na.replace(/-(\D)/g, function(a, b){
+				return b.toUpperCase();
+			});
+
+			if (na == 'float')
+				na = isIE ? 'styleFloat' : 'cssFloat';
+
+			// IE & Opera
+			if (n.currentStyle && c)
+				return n.currentStyle[na];
+
+			return n.style ? n.style[na] : undefined;
+		},
+
+		setStyles : function(e, o) {
+			var t = this, s = t.settings, ol;
+
+			ol = s.update_styles;
+			s.update_styles = 0;
+
+			each(o, function(v, n) {
+				t.setStyle(e, n, v);
+			});
+
+			// Update style info
+			s.update_styles = ol;
+			if (s.update_styles)
+				t.setAttrib(e, s.cssText);
+		},
+
+		removeAllAttribs: function(e) {
+			return this.run(e, function(e) {
+				var i, attrs = e.attributes;
+				for (i = attrs.length - 1; i >= 0; i--) {
+					e.removeAttributeNode(attrs.item(i));
+				}
+			});
+		},
+
+		setAttrib : function(e, n, v) {
+			var t = this;
+
+			// Whats the point
+			if (!e || !n)
+				return;
+
+			// Strict XML mode
+			if (t.settings.strict)
+				n = n.toLowerCase();
+
+			return this.run(e, function(e) {
+				var s = t.settings;
+				var originalValue = e.getAttribute(n);
+				if (v !== null) {
+					switch (n) {
+						case "style":
+							if (!is(v, 'string')) {
+								each(v, function(v, n) {
+									t.setStyle(e, n, v);
+								});
+
+								return;
+							}
+
+							// No mce_style for elements with these since they might get resized by the user
+							if (s.keep_values) {
+								if (v && !t._isRes(v))
+									e.setAttribute('data-mce-style', v, 2);
+								else
+									e.removeAttribute('data-mce-style', 2);
+							}
+
+							e.style.cssText = v;
+							break;
+
+						case "class":
+							e.className = v || ''; // Fix IE null bug
+							break;
+
+						case "src":
+						case "href":
+							if (s.keep_values) {
+								if (s.url_converter)
+									v = s.url_converter.call(s.url_converter_scope || t, v, n, e);
+
+								t.setAttrib(e, 'data-mce-' + n, v, 2);
+							}
+
+							break;
+
+						case "shape":
+							e.setAttribute('data-mce-style', v);
+							break;
+					}
+				}
+				if (is(v) && v !== null && v.length !== 0)
+					e.setAttribute(n, '' + v, 2);
+				else
+					e.removeAttribute(n, 2);
+
+				// fire onChangeAttrib event for attributes that have changed
+				if (tinyMCE.activeEditor && originalValue != v) {
+					var ed = tinyMCE.activeEditor;
+					ed.onSetAttrib.dispatch(ed, e, n, v);
+				}
+			});
+		},
+
+		setAttribs : function(e, o) {
+			var t = this;
+
+			return this.run(e, function(e) {
+				each(o, function(v, n) {
+					t.setAttrib(e, n, v);
+				});
+			});
+		},
+
+		getAttrib : function(e, n, dv) {
+			var v, t = this, undef;
+
+			e = t.get(e);
+
+			if (!e || e.nodeType !== 1)
+				return dv === undef ? false : dv;
+
+			if (!is(dv))
+				dv = '';
+
+			// Try the mce variant for these
+			if (/^(src|href|style|coords|shape)$/.test(n)) {
+				v = e.getAttribute("data-mce-" + n);
+
+				if (v)
+					return v;
+			}
+
+			if (isIE && t.props[n]) {
+				v = e[t.props[n]];
+				v = v && v.nodeValue ? v.nodeValue : v;
+			}
+
+			if (!v)
+				v = e.getAttribute(n, 2);
+
+			// Check boolean attribs
+			if (/^(checked|compact|declare|defer|disabled|ismap|multiple|nohref|noshade|nowrap|readonly|selected)$/.test(n)) {
+				if (e[t.props[n]] === true && v === '')
+					return n;
+
+				return v ? n : '';
+			}
+
+			// Inner input elements will override attributes on form elements
+			if (e.nodeName === "FORM" && e.getAttributeNode(n))
+				return e.getAttributeNode(n).nodeValue;
+
+			if (n === 'style') {
+				v = v || e.style.cssText;
+
+				if (v) {
+					v = t.serializeStyle(t.parseStyle(v), e.nodeName);
+
+					if (t.settings.keep_values && !t._isRes(v))
+						e.setAttribute('data-mce-style', v);
+				}
+			}
+
+			// Remove Apple and WebKit stuff
+			if (isWebKit && n === "class" && v)
+				v = v.replace(/(apple|webkit)\-[a-z\-]+/gi, '');
+
+			// Handle IE issues
+			if (isIE) {
+				switch (n) {
+					case 'rowspan':
+					case 'colspan':
+						// IE returns 1 as default value
+						if (v === 1)
+							v = '';
+
+						break;
+
+					case 'size':
+						// IE returns +0 as default value for size
+						if (v === '+0' || v === 20 || v === 0)
+							v = '';
+
+						break;
+
+					case 'width':
+					case 'height':
+					case 'vspace':
+					case 'checked':
+					case 'disabled':
+					case 'readonly':
+						if (v === 0)
+							v = '';
+
+						break;
+
+					case 'hspace':
+						// IE returns -1 as default value
+						if (v === -1)
+							v = '';
+
+						break;
+
+					case 'maxlength':
+					case 'tabindex':
+						// IE returns default value
+						if (v === 32768 || v === 2147483647 || v === '32768')
+							v = '';
+
+						break;
+
+					case 'multiple':
+					case 'compact':
+					case 'noshade':
+					case 'nowrap':
+						if (v === 65535)
+							return n;
+
+						return dv;
+
+					case 'shape':
+						v = v.toLowerCase();
+						break;
+
+					default:
+						// IE has odd anonymous function for event attributes
+						if (n.indexOf('on') === 0 && v)
+							v = tinymce._replace(/^function\s+\w+\(\)\s+\{\s+(.*)\s+\}$/, '$1', '' + v);
+				}
+			}
+
+			return (v !== undef && v !== null && v !== '') ? '' + v : dv;
+		},
+
+		getPos : function(n, ro) {
+			var t = this, x = 0, y = 0, e, d = t.doc, r;
+
+			n = t.get(n);
+			ro = ro || d.body;
+
+			if (n) {
+				// Use getBoundingClientRect if it exists since it's faster than looping offset nodes
+				if (n.getBoundingClientRect) {
+					n = n.getBoundingClientRect();
+					e = t.boxModel ? d.documentElement : d.body;
+
+					// Add scroll offsets from documentElement or body since IE with the wrong box model will use d.body and so do WebKit
+					// Also remove the body/documentelement clientTop/clientLeft on IE 6, 7 since they offset the position
+					x = n.left + (d.documentElement.scrollLeft || d.body.scrollLeft) - e.clientTop;
+					y = n.top + (d.documentElement.scrollTop || d.body.scrollTop) - e.clientLeft;
+
+					return {x : x, y : y};
+				}
+
+				r = n;
+				while (r && r != ro && r.nodeType) {
+					x += r.offsetLeft || 0;
+					y += r.offsetTop || 0;
+					r = r.offsetParent;
+				}
+
+				r = n.parentNode;
+				while (r && r != ro && r.nodeType) {
+					x -= r.scrollLeft || 0;
+					y -= r.scrollTop || 0;
+					r = r.parentNode;
+				}
+			}
+
+			return {x : x, y : y};
+		},
+
+		parseStyle : function(st) {
+			return this.styles.parse(st);
+		},
+
+		serializeStyle : function(o, name) {
+			return this.styles.serialize(o, name);
+		},
+
+		addStyle: function(cssText) {
+			var doc = this.doc, head;
+
+			// Create style element if needed
+			styleElm = doc.getElementById('mceDefaultStyles');
+			if (!styleElm) {
+				styleElm = doc.createElement('style'),
+				styleElm.id = 'mceDefaultStyles';
+				styleElm.type = 'text/css';
+
+				head = doc.getElementsByTagName('head')[0];
+				if (head.firstChild) {
+					head.insertBefore(styleElm, head.firstChild);
+				} else {
+					head.appendChild(styleElm);
+				}
+			}
+
+			// Append style data to old or new style element
+			if (styleElm.styleSheet) {
+				styleElm.styleSheet.cssText += cssText;
+			} else {
+				styleElm.appendChild(doc.createTextNode(cssText));
+			}
+		},
+
+		loadCSS : function(u) {
+			var t = this, d = t.doc, head;
+
+			if (!u)
+				u = '';
+
+			head = d.getElementsByTagName('head')[0];
+
+			each(u.split(','), function(u) {
+				var link;
+
+				if (t.files[u])
+					return;
+
+				t.files[u] = true;
+				link = t.create('link', {rel : 'stylesheet', href : tinymce._addVer(u)});
+
+				// IE 8 has a bug where dynamically loading stylesheets would produce a 1 item remaining bug
+				// This fix seems to resolve that issue by realcing the document ones a stylesheet finishes loading
+				// It's ugly but it seems to work fine.
+				if (isIE && !tinymce.isIE11 && d.documentMode && d.recalc) {
+					link.onload = function() {
+						if (d.recalc)
+							d.recalc();
+
+						link.onload = null;
+					};
+				}
+
+				head.appendChild(link);
+			});
+		},
+
+		addClass : function(e, c) {
+			return this.run(e, function(e) {
+				var o;
+
+				if (!c)
+					return 0;
+
+				if (this.hasClass(e, c))
+					return e.className;
+
+				o = this.removeClass(e, c);
+
+				return e.className = (o != '' ? (o + ' ') : '') + c;
+			});
+		},
+
+		removeClass : function(e, c) {
+			var t = this, re;
+
+			return t.run(e, function(e) {
+				var v;
+
+				if (t.hasClass(e, c)) {
+					if (!re)
+						re = new RegExp("(^|\\s+)" + c + "(\\s+|$)", "g");
+
+					v = e.className.replace(re, ' ');
+					v = tinymce.trim(v != ' ' ? v : '');
+
+					e.className = v;
+
+					// Empty class attr
+					if (!v) {
+						e.removeAttribute('class');
+						e.removeAttribute('className');
+					}
+
+					return v;
+				}
+
+				return e.className;
+			});
+		},
+
+		hasClass : function(n, c) {
+			n = this.get(n);
+
+			if (!n || !c)
+				return false;
+
+			return (' ' + n.className + ' ').indexOf(' ' + c + ' ') !== -1;
+		},
+
+		show : function(e) {
+			return this.setStyle(e, 'display', 'block');
+		},
+
+		hide : function(e) {
+			return this.setStyle(e, 'display', 'none');
+		},
+
+		isHidden : function(e) {
+			e = this.get(e);
+
+			return !e || e.style.display == 'none' || this.getStyle(e, 'display') == 'none';
+		},
+
+		uniqueId : function(p) {
+			return (!p ? 'mce_' : p) + (this.counter++);
+		},
+
+		setHTML : function(element, html) {
+			var self = this;
+
+			return self.run(element, function(element) {
+				if (isIE) {
+					// Remove all child nodes, IE keeps empty text nodes in DOM
+					while (element.firstChild)
+						element.removeChild(element.firstChild);
+
+					try {
+						// IE will remove comments from the beginning
+						// unless you padd the contents with something
+						element.innerHTML = '<br />' + html;
+						element.removeChild(element.firstChild);
+					} catch (ex) {
+						// IE sometimes produces an unknown runtime error on innerHTML if it's an block element within a block element for example a div inside a p
+						// This seems to fix this problem
+
+						// Create new div with HTML contents and a BR infront to keep comments
+						var newElement = self.create('div');
+						newElement.innerHTML = '<br />' + html;
+
+						// Add all children from div to target
+						each (tinymce.grep(newElement.childNodes), function(node, i) {
+							// Skip br element
+							if (i && element.canHaveHTML)
+								element.appendChild(node);
+						});
+					}
+				} else
+					element.innerHTML = html;
+
+				return html;
+			});
+		},
+
+		getOuterHTML : function(elm) {
+			var doc, self = this;
+
+			elm = self.get(elm);
+
+			if (!elm)
+				return null;
+
+			if (elm.nodeType === 1 && self.hasOuterHTML)
+				return elm.outerHTML;
+
+			doc = (elm.ownerDocument || self.doc).createElement("body");
+			doc.appendChild(elm.cloneNode(true));
+
+			return doc.innerHTML;
+		},
+
+		setOuterHTML : function(e, h, d) {
+			var t = this;
+
+			function setHTML(e, h, d) {
+				var n, tp;
+
+				tp = d.createElement("body");
+				tp.innerHTML = h;
+
+				n = tp.lastChild;
+				while (n) {
+					t.insertAfter(n.cloneNode(true), e);
+					n = n.previousSibling;
+				}
+
+				t.remove(e);
+			};
+
+			return this.run(e, function(e) {
+				e = t.get(e);
+
+				// Only set HTML on elements
+				if (e.nodeType == 1) {
+					d = d || e.ownerDocument || t.doc;
+
+					if (isIE) {
+						try {
+							// Try outerHTML for IE it sometimes produces an unknown runtime error
+							if (isIE && e.nodeType == 1)
+								e.outerHTML = h;
+							else
+								setHTML(e, h, d);
+						} catch (ex) {
+							// Fix for unknown runtime error
+							setHTML(e, h, d);
+						}
+					} else
+						setHTML(e, h, d);
+				}
+			});
+		},
+
+		decode : Entities.decode,
+
+		encode : Entities.encodeAllRaw,
+
+		insertAfter : function(node, reference_node) {
+			reference_node = this.get(reference_node);
+
+			return this.run(node, function(node) {
+				var parent, nextSibling;
+
+				parent = reference_node.parentNode;
+				nextSibling = reference_node.nextSibling;
+
+				if (nextSibling)
+					parent.insertBefore(node, nextSibling);
+				else
+					parent.appendChild(node);
+
+				return node;
+			});
+		},
+
+		replace : function(n, o, k) {
+			var t = this;
+
+			if (is(o, 'array'))
+				n = n.cloneNode(true);
+
+			return t.run(o, function(o) {
+				if (k) {
+					each(tinymce.grep(o.childNodes), function(c) {
+						n.appendChild(c);
+					});
+				}
+
+				return o.parentNode.replaceChild(n, o);
+			});
+		},
+
+		rename : function(elm, name) {
+			var t = this, newElm;
+
+			if (elm.nodeName != name.toUpperCase()) {
+				// Rename block element
+				newElm = t.create(name);
+
+				// Copy attribs to new block
+				each(t.getAttribs(elm), function(attr_node) {
+					t.setAttrib(newElm, attr_node.nodeName, t.getAttrib(elm, attr_node.nodeName));
+				});
+
+				// Replace block
+				t.replace(newElm, elm, 1);
+			}
+
+			return newElm || elm;
+		},
+
+		findCommonAncestor : function(a, b) {
+			var ps = a, pe;
+
+			while (ps) {
+				pe = b;
+
+				while (pe && ps != pe)
+					pe = pe.parentNode;
+
+				if (ps == pe)
+					break;
+
+				ps = ps.parentNode;
+			}
+
+			if (!ps && a.ownerDocument)
+				return a.ownerDocument.documentElement;
+
+			return ps;
+		},
+
+		toHex : function(s) {
+			var c = /^\s*rgb\s*?\(\s*?([0-9]+)\s*?,\s*?([0-9]+)\s*?,\s*?([0-9]+)\s*?\)\s*$/i.exec(s);
+
+			function hex(s) {
+				s = parseInt(s, 10).toString(16);
+
+				return s.length > 1 ? s : '0' + s; // 0 -> 00
+			};
+
+			if (c) {
+				s = '#' + hex(c[1]) + hex(c[2]) + hex(c[3]);
+
+				return s;
+			}
+
+			return s;
+		},
+
+		getClasses : function() {
+			var t = this, cl = [], i, lo = {}, f = t.settings.class_filter, ov;
+
+			if (t.classes)
+				return t.classes;
+
+			function addClasses(s) {
+				// IE style imports
+				each(s.imports, function(r) {
+					addClasses(r);
+				});
+
+				each(s.cssRules || s.rules, function(r) {
+					// Real type or fake it on IE
+					switch (r.type || 1) {
+						// Rule
+						case 1:
+							if (r.selectorText) {
+								each(r.selectorText.split(','), function(v) {
+									v = v.replace(/^\s*|\s*$|^\s\./g, "");
+
+									// Is internal or it doesn't contain a class
+									if (/\.mce/.test(v) || !/\.[\w\-]+$/.test(v))
+										return;
+
+									// Remove everything but class name
+									ov = v;
+									v = tinymce._replace(/.*\.([a-z0-9_\-]+).*/i, '$1', v);
+
+									// Filter classes
+									if (f && !(v = f(v, ov)))
+										return;
+
+									if (!lo[v]) {
+										cl.push({'class' : v});
+										lo[v] = 1;
+									}
+								});
+							}
+							break;
+
+						// Import
+						case 3:
+							try {
+								addClasses(r.styleSheet);
+							} catch (ex) {
+								// Ignore
+							}
+
+							break;
+					}
+				});
+			};
+
+			try {
+				each(t.doc.styleSheets, addClasses);
+			} catch (ex) {
+				// Ignore
+			}
+
+			if (cl.length > 0)
+				t.classes = cl;
+
+			return cl;
+		},
+
+		run : function(e, f, s) {
+			var t = this, o;
+
+			if (t.doc && typeof(e) === 'string')
+				e = t.get(e);
+
+			if (!e)
+				return false;
+
+			s = s || this;
+			if (!e.nodeType && (e.length || e.length === 0)) {
+				o = [];
+
+				each(e, function(e, i) {
+					if (e) {
+						if (typeof(e) == 'string')
+							e = t.doc.getElementById(e);
+
+						o.push(f.call(s, e, i));
+					}
+				});
+
+				return o;
+			}
+
+			return f.call(s, e);
+		},
+
+		getAttribs : function(n) {
+			var o;
+
+			n = this.get(n);
+
+			if (!n)
+				return [];
+
+			if (isIE) {
+				o = [];
+
+				// Object will throw exception in IE
+				if (n.nodeName == 'OBJECT')
+					return n.attributes;
+
+				// IE doesn't keep the selected attribute if you clone option elements
+				if (n.nodeName === 'OPTION' && this.getAttrib(n, 'selected'))
+					o.push({specified : 1, nodeName : 'selected'});
+
+				// It's crazy that this is faster in IE but it's because it returns all attributes all the time
+				n.cloneNode(false).outerHTML.replace(/<\/?[\w:\-]+ ?|=[\"][^\"]+\"|=\'[^\']+\'|=[\w\-]+|>/gi, '').replace(/[\w:\-]+/gi, function(a) {
+					o.push({specified : 1, nodeName : a});
+				});
+
+				return o;
+			}
+
+			return n.attributes;
+		},
+
+		isEmpty : function(node, elements) {
+			var self = this, i, attributes, type, walker, name, brCount = 0;
+
+			node = node.firstChild;
+			if (node) {
+				walker = new tinymce.dom.TreeWalker(node, node.parentNode);
+				elements = elements || self.schema ? self.schema.getNonEmptyElements() : null;
+
+				do {
+					type = node.nodeType;
+
+					if (type === 1) {
+						// Ignore bogus elements
+						if (node.getAttribute('data-mce-bogus'))
+							continue;
+
+						// Keep empty elements like <img />
+						name = node.nodeName.toLowerCase();
+						if (elements && elements[name]) {
+							// Ignore single BR elements in blocks like <p><br /></p> or <p><span><br /></span></p>
+							if (name === 'br') {
+								brCount++;
+								continue;
+							}
+
+							return false;
+						}
+
+						// Keep elements with data-bookmark attributes or name attribute like <a name="1"></a>
+						attributes = self.getAttribs(node);
+						i = node.attributes.length;
+						while (i--) {
+							name = node.attributes[i].nodeName;
+							if (name === "name" || name === 'data-mce-bookmark')
+								return false;
+						}
+					}
+
+					// Keep comment nodes
+					if (type == 8)
+						return false;
+
+					// Keep non whitespace text nodes
+					if ((type === 3 && !whiteSpaceRegExp.test(node.nodeValue)))
+						return false;
+				} while (node = walker.next());
+			}
+
+			return brCount <= 1;
+		},
+
+		destroy : function(s) {
+			var t = this;
+
+			t.win = t.doc = t.root = t.events = t.frag = null;
+
+			// Manual destroy then remove unload handler
+			if (!s)
+				tinymce.removeUnload(t.destroy);
+		},
+
+		createRng : function() {
+			var d = this.doc;
+
+			return d.createRange ? d.createRange() : new tinymce.dom.Range(this);
+		},
+
+		nodeIndex : function(node, normalized) {
+			var idx = 0, lastNodeType, lastNode, nodeType;
+
+			if (node) {
+				for (lastNodeType = node.nodeType, node = node.previousSibling, lastNode = node; node; node = node.previousSibling) {
+					nodeType = node.nodeType;
+
+					// Normalize text nodes
+					if (normalized && nodeType == 3) {
+						if (nodeType == lastNodeType || !node.nodeValue.length)
+							continue;
+					}
+					idx++;
+					lastNodeType = nodeType;
+				}
+			}
+
+			return idx;
+		},
+
+		split : function(pe, e, re) {
+			var t = this, r = t.createRng(), bef, aft, pa;
+
+			// W3C valid browsers tend to leave empty nodes to the left/right side of the contents, this makes sense
+			// but we don't want that in our code since it serves no purpose for the end user
+			// For example if this is chopped:
+			//   <p>text 1<span><b>CHOP</b></span>text 2</p>
+			// would produce:
+			//   <p>text 1<span></span></p><b>CHOP</b><p><span></span>text 2</p>
+			// this function will then trim of empty edges and produce:
+			//   <p>text 1</p><b>CHOP</b><p>text 2</p>
+			function trim(node) {
+				var i, children = node.childNodes, type = node.nodeType;
+
+				function surroundedBySpans(node) {
+					var previousIsSpan = node.previousSibling && node.previousSibling.nodeName == 'SPAN';
+					var nextIsSpan = node.nextSibling && node.nextSibling.nodeName == 'SPAN';
+					return previousIsSpan && nextIsSpan;
+				}
+
+				if (type == 1 && node.getAttribute('data-mce-type') == 'bookmark')
+					return;
+
+				for (i = children.length - 1; i >= 0; i--)
+					trim(children[i]);
+
+				if (type != 9) {
+					// Keep non whitespace text nodes
+					if (type == 3 && node.nodeValue.length > 0) {
+						// If parent element isn't a block or there isn't any useful contents for example "<p>   </p>"
+						// Also keep text nodes with only spaces if surrounded by spans.
+						// eg. "<p><span>a</span> <span>b</span></p>" should keep space between a and b
+						var trimmedLength = tinymce.trim(node.nodeValue).length;
+						if (!t.isBlock(node.parentNode) || trimmedLength > 0 || trimmedLength === 0 && surroundedBySpans(node))
+							return;
+					} else if (type == 1) {
+						// If the only child is a bookmark then move it up
+						children = node.childNodes;
+						if (children.length == 1 && children[0] && children[0].nodeType == 1 && children[0].getAttribute('data-mce-type') == 'bookmark')
+							node.parentNode.insertBefore(children[0], node);
+
+						// Keep non empty elements or img, hr etc
+						if (children.length || /^(br|hr|input|img)$/i.test(node.nodeName))
+							return;
+					}
+
+					t.remove(node);
+				}
+
+				return node;
+			};
+
+			if (pe && e) {
+				// Get before chunk
+				r.setStart(pe.parentNode, t.nodeIndex(pe));
+				r.setEnd(e.parentNode, t.nodeIndex(e));
+				bef = r.extractContents();
+
+				// Get after chunk
+				r = t.createRng();
+				r.setStart(e.parentNode, t.nodeIndex(e) + 1);
+				r.setEnd(pe.parentNode, t.nodeIndex(pe) + 1);
+				aft = r.extractContents();
+
+				// Insert before chunk
+				pa = pe.parentNode;
+				pa.insertBefore(trim(bef), pe);
+
+				// Insert middle chunk
+				if (re)
+				pa.replaceChild(re, e);
+			else
+				pa.insertBefore(e, pe);
+
+				// Insert after chunk
+				pa.insertBefore(trim(aft), pe);
+				t.remove(pe);
+
+				return re || e;
+			}
+		},
+
+		bind : function(target, name, func, scope) {
+			return this.events.add(target, name, func, scope || this);
+		},
+
+		unbind : function(target, name, func) {
+			return this.events.remove(target, name, func);
+		},
+
+		fire : function(target, name, evt) {
+			return this.events.fire(target, name, evt);
+		},
+
+		// Returns the content editable state of a node
+		getContentEditable: function(node) {
+			var contentEditable;
+
+			// Check type
+			if (node.nodeType != 1) {
+				return null;
+			}
+
+			// Check for fake content editable
+			contentEditable = node.getAttribute("data-mce-contenteditable");
+			if (contentEditable && contentEditable !== "inherit") {
+				return contentEditable;
+			}
+
+			// Check for real content editable
+			return node.contentEditable !== "inherit" ? node.contentEditable : null;
+		},
+
+
+		_findSib : function(node, selector, name) {
+			var t = this, f = selector;
+
+			if (node) {
+				// If expression make a function of it using is
+				if (is(f, 'string')) {
+					f = function(node) {
+						return t.is(node, selector);
+					};
+				}
+
+				// Loop all siblings
+				for (node = node[name]; node; node = node[name]) {
+					if (f(node))
+						return node;
+				}
+			}
+
+			return null;
+		},
+
+		_isRes : function(c) {
+			// Is live resizble element
+			return /^(top|left|bottom|right|width|height)/i.test(c) || /;\s*(top|left|bottom|right|width|height)/i.test(c);
+		}
+
+		/*
+		walk : function(n, f, s) {
+			var d = this.doc, w;
+
+			if (d.createTreeWalker) {
+				w = d.createTreeWalker(n, NodeFilter.SHOW_TEXT, null, false);
+
+				while ((n = w.nextNode()) != null)
+					f.call(s || this, n);
+			} else
+				tinymce.walk(n, f, 'childNodes', s);
+		}
+		*/
+
+		/*
+		toRGB : function(s) {
+			var c = /^\s*?#([0-9A-F]{2})([0-9A-F]{1,2})([0-9A-F]{2})?\s*?$/.exec(s);
+
+			if (c) {
+				// #FFF -> #FFFFFF
+				if (!is(c[3]))
+					c[3] = c[2] = c[1];
+
+				return "rgb(" + parseInt(c[1], 16) + "," + parseInt(c[2], 16) + "," + parseInt(c[3], 16) + ")";
+			}
+
+			return s;
+		}
+		*/
+	});
+
+	tinymce.DOM = new tinymce.dom.DOMUtils(document, {process_html : 0});
+})(tinymce);
+
+(function(ns) {
+	// Range constructor
+	function Range(dom) {
+		var t = this,
+			doc = dom.doc,
+			EXTRACT = 0,
+			CLONE = 1,
+			DELETE = 2,
+			TRUE = true,
+			FALSE = false,
+			START_OFFSET = 'startOffset',
+			START_CONTAINER = 'startContainer',
+			END_CONTAINER = 'endContainer',
+			END_OFFSET = 'endOffset',
+			extend = tinymce.extend,
+			nodeIndex = dom.nodeIndex;
+
+		extend(t, {
+			// Inital states
+			startContainer : doc,
+			startOffset : 0,
+			endContainer : doc,
+			endOffset : 0,
+			collapsed : TRUE,
+			commonAncestorContainer : doc,
+
+			// Range constants
+			START_TO_START : 0,
+			START_TO_END : 1,
+			END_TO_END : 2,
+			END_TO_START : 3,
+
+			// Public methods
+			setStart : setStart,
+			setEnd : setEnd,
+			setStartBefore : setStartBefore,
+			setStartAfter : setStartAfter,
+			setEndBefore : setEndBefore,
+			setEndAfter : setEndAfter,
+			collapse : collapse,
+			selectNode : selectNode,
+			selectNodeContents : selectNodeContents,
+			compareBoundaryPoints : compareBoundaryPoints,
+			deleteContents : deleteContents,
+			extractContents : extractContents,
+			cloneContents : cloneContents,
+			insertNode : insertNode,
+			surroundContents : surroundContents,
+			cloneRange : cloneRange,
+			toStringIE : toStringIE
+		});
+
+		function createDocumentFragment() {
+			return doc.createDocumentFragment();
+		};
+
+		function setStart(n, o) {
+			_setEndPoint(TRUE, n, o);
+		};
+
+		function setEnd(n, o) {
+			_setEndPoint(FALSE, n, o);
+		};
+
+		function setStartBefore(n) {
+			setStart(n.parentNode, nodeIndex(n));
+		};
+
+		function setStartAfter(n) {
+			setStart(n.parentNode, nodeIndex(n) + 1);
+		};
+
+		function setEndBefore(n) {
+			setEnd(n.parentNode, nodeIndex(n));
+		};
+
+		function setEndAfter(n) {
+			setEnd(n.parentNode, nodeIndex(n) + 1);
+		};
+
+		function collapse(ts) {
+			if (ts) {
+				t[END_CONTAINER] = t[START_CONTAINER];
+				t[END_OFFSET] = t[START_OFFSET];
+			} else {
+				t[START_CONTAINER] = t[END_CONTAINER];
+				t[START_OFFSET] = t[END_OFFSET];
+			}
+
+			t.collapsed = TRUE;
+		};
+
+		function selectNode(n) {
+			setStartBefore(n);
+			setEndAfter(n);
+		};
+
+		function selectNodeContents(n) {
+			setStart(n, 0);
+			setEnd(n, n.nodeType === 1 ? n.childNodes.length : n.nodeValue.length);
+		};
+
+		function compareBoundaryPoints(h, r) {
+			var sc = t[START_CONTAINER], so = t[START_OFFSET], ec = t[END_CONTAINER], eo = t[END_OFFSET],
+			rsc = r.startContainer, rso = r.startOffset, rec = r.endContainer, reo = r.endOffset;
+
+			// Check START_TO_START
+			if (h === 0)
+				return _compareBoundaryPoints(sc, so, rsc, rso);
+	
+			// Check START_TO_END
+			if (h === 1)
+				return _compareBoundaryPoints(ec, eo, rsc, rso);
+	
+			// Check END_TO_END
+			if (h === 2)
+				return _compareBoundaryPoints(ec, eo, rec, reo);
+	
+			// Check END_TO_START
+			if (h === 3) 
+				return _compareBoundaryPoints(sc, so, rec, reo);
+		};
+
+		function deleteContents() {
+			_traverse(DELETE);
+		};
+
+		function extractContents() {
+			return _traverse(EXTRACT);
+		};
+
+		function cloneContents() {
+			return _traverse(CLONE);
+		};
+
+		function insertNode(n) {
+			var startContainer = this[START_CONTAINER],
+				startOffset = this[START_OFFSET], nn, o;
+
+			// Node is TEXT_NODE or CDATA
+			if ((startContainer.nodeType === 3 || startContainer.nodeType === 4) && startContainer.nodeValue) {
+				if (!startOffset) {
+					// At the start of text
+					startContainer.parentNode.insertBefore(n, startContainer);
+				} else if (startOffset >= startContainer.nodeValue.length) {
+					// At the end of text
+					dom.insertAfter(n, startContainer);
+				} else {
+					// Middle, need to split
+					nn = startContainer.splitText(startOffset);
+					startContainer.parentNode.insertBefore(n, nn);
+				}
+			} else {
+				// Insert element node
+				if (startContainer.childNodes.length > 0)
+					o = startContainer.childNodes[startOffset];
+
+				if (o)
+					startContainer.insertBefore(n, o);
+				else
+					startContainer.appendChild(n);
+			}
+		};
+
+		function surroundContents(n) {
+			var f = t.extractContents();
+
+			t.insertNode(n);
+			n.appendChild(f);
+			t.selectNode(n);
+		};
+
+		function cloneRange() {
+			return extend(new Range(dom), {
+				startContainer : t[START_CONTAINER],
+				startOffset : t[START_OFFSET],
+				endContainer : t[END_CONTAINER],
+				endOffset : t[END_OFFSET],
+				collapsed : t.collapsed,
+				commonAncestorContainer : t.commonAncestorContainer
+			});
+		};
+
+		// Private methods
+
+		function _getSelectedNode(container, offset) {
+			var child;
+
+			if (container.nodeType == 3 /* TEXT_NODE */)
+				return container;
+
+			if (offset < 0)
+				return container;
+
+			child = container.firstChild;
+			while (child && offset > 0) {
+				--offset;
+				child = child.nextSibling;
+			}
+
+			if (child)
+				return child;
+
+			return container;
+		};
+
+		function _isCollapsed() {
+			return (t[START_CONTAINER] == t[END_CONTAINER] && t[START_OFFSET] == t[END_OFFSET]);
+		};
+
+		function _compareBoundaryPoints(containerA, offsetA, containerB, offsetB) {
+			var c, offsetC, n, cmnRoot, childA, childB;
+			
+			// In the first case the boundary-points have the same container. A is before B
+			// if its offset is less than the offset of B, A is equal to B if its offset is
+			// equal to the offset of B, and A is after B if its offset is greater than the
+			// offset of B.
+			if (containerA == containerB) {
+				if (offsetA == offsetB)
+					return 0; // equal
+
+				if (offsetA < offsetB)
+					return -1; // before
+
+				return 1; // after
+			}
+
+			// In the second case a child node C of the container of A is an ancestor
+			// container of B. In this case, A is before B if the offset of A is less than or
+			// equal to the index of the child node C and A is after B otherwise.
+			c = containerB;
+			while (c && c.parentNode != containerA)
+				c = c.parentNode;
+
+			if (c) {
+				offsetC = 0;
+				n = containerA.firstChild;
+
+				while (n != c && offsetC < offsetA) {
+					offsetC++;
+					n = n.nextSibling;
+				}
+
+				if (offsetA <= offsetC)
+					return -1; // before
+
+				return 1; // after
+			}
+
+			// In the third case a child node C of the container of B is an ancestor container
+			// of A. In this case, A is before B if the index of the child node C is less than
+			// the offset of B and A is after B otherwise.
+			c = containerA;
+			while (c && c.parentNode != containerB) {
+				c = c.parentNode;
+			}
+
+			if (c) {
+				offsetC = 0;
+				n = containerB.firstChild;
+
+				while (n != c && offsetC < offsetB) {
+					offsetC++;
+					n = n.nextSibling;
+				}
+
+				if (offsetC < offsetB)
+					return -1; // before
+
+				return 1; // after
+			}
+
+			// In the fourth case, none of three other cases hold: the containers of A and B
+			// are siblings or descendants of sibling nodes. In this case, A is before B if
+			// the container of A is before the container of B in a pre-order traversal of the
+			// Ranges' context tree and A is after B otherwise.
+			cmnRoot = dom.findCommonAncestor(containerA, containerB);
+			childA = containerA;
+
+			while (childA && childA.parentNode != cmnRoot)
+				childA = childA.parentNode;
+
+			if (!childA)
+				childA = cmnRoot;
+
+			childB = containerB;
+			while (childB && childB.parentNode != cmnRoot)
+				childB = childB.parentNode;
+
+			if (!childB)
+				childB = cmnRoot;
+
+			if (childA == childB)
+				return 0; // equal
+
+			n = cmnRoot.firstChild;
+			while (n) {
+				if (n == childA)
+					return -1; // before
+
+				if (n == childB)
+					return 1; // after
+
+				n = n.nextSibling;
+			}
+		};
+
+		function _setEndPoint(st, n, o) {
+			var ec, sc;
+
+			if (st) {
+				t[START_CONTAINER] = n;
+				t[START_OFFSET] = o;
+			} else {
+				t[END_CONTAINER] = n;
+				t[END_OFFSET] = o;
+			}
+
+			// If one boundary-point of a Range is set to have a root container
+			// other than the current one for the Range, the Range is collapsed to
+			// the new position. This enforces the restriction that both boundary-
+			// points of a Range must have the same root container.
+			ec = t[END_CONTAINER];
+			while (ec.parentNode)
+				ec = ec.parentNode;
+
+			sc = t[START_CONTAINER];
+			while (sc.parentNode)
+				sc = sc.parentNode;
+
+			if (sc == ec) {
+				// The start position of a Range is guaranteed to never be after the
+				// end position. To enforce this restriction, if the start is set to
+				// be at a position after the end, the Range is collapsed to that
+				// position.
+				if (_compareBoundaryPoints(t[START_CONTAINER], t[START_OFFSET], t[END_CONTAINER], t[END_OFFSET]) > 0)
+					t.collapse(st);
+			} else
+				t.collapse(st);
+
+			t.collapsed = _isCollapsed();
+			t.commonAncestorContainer = dom.findCommonAncestor(t[START_CONTAINER], t[END_CONTAINER]);
+		};
+
+		function _traverse(how) {
+			var c, endContainerDepth = 0, startContainerDepth = 0, p, depthDiff, startNode, endNode, sp, ep;
+
+			if (t[START_CONTAINER] == t[END_CONTAINER])
+				return _traverseSameContainer(how);
+
+			for (c = t[END_CONTAINER], p = c.parentNode; p; c = p, p = p.parentNode) {
+				if (p == t[START_CONTAINER])
+					return _traverseCommonStartContainer(c, how);
+
+				++endContainerDepth;
+			}
+
+			for (c = t[START_CONTAINER], p = c.parentNode; p; c = p, p = p.parentNode) {
+				if (p == t[END_CONTAINER])
+					return _traverseCommonEndContainer(c, how);
+
+				++startContainerDepth;
+			}
+
+			depthDiff = startContainerDepth - endContainerDepth;
+
+			startNode = t[START_CONTAINER];
+			while (depthDiff > 0) {
+				startNode = startNode.parentNode;
+				depthDiff--;
+			}
+
+			endNode = t[END_CONTAINER];
+			while (depthDiff < 0) {
+				endNode = endNode.parentNode;
+				depthDiff++;
+			}
+
+			// ascend the ancestor hierarchy until we have a common parent.
+			for (sp = startNode.parentNode, ep = endNode.parentNode; sp != ep; sp = sp.parentNode, ep = ep.parentNode) {
+				startNode = sp;
+				endNode = ep;
+			}
+
+			return _traverseCommonAncestors(startNode, endNode, how);
+		};
+
+		 function _traverseSameContainer(how) {
+			var frag, s, sub, n, cnt, sibling, xferNode, start, len;
+
+			if (how != DELETE)
+				frag = createDocumentFragment();
+
+			// If selection is empty, just return the fragment
+			if (t[START_OFFSET] == t[END_OFFSET])
+				return frag;
+
+			// Text node needs special case handling
+			if (t[START_CONTAINER].nodeType == 3 /* TEXT_NODE */) {
+				// get the substring
+				s = t[START_CONTAINER].nodeValue;
+				sub = s.substring(t[START_OFFSET], t[END_OFFSET]);
+
+				// set the original text node to its new value
+				if (how != CLONE) {
+					n = t[START_CONTAINER];
+					start = t[START_OFFSET];
+					len = t[END_OFFSET] - t[START_OFFSET];
+
+					if (start === 0 && len >= n.nodeValue.length - 1) {
+						n.parentNode.removeChild(n);
+					} else {
+						n.deleteData(start, len);
+					}
+
+					// Nothing is partially selected, so collapse to start point
+					t.collapse(TRUE);
+				}
+
+				if (how == DELETE)
+					return;
+
+				if (sub.length > 0) {
+					frag.appendChild(doc.createTextNode(sub));
+				}
+
+				return frag;
+			}
+
+			// Copy nodes between the start/end offsets.
+			n = _getSelectedNode(t[START_CONTAINER], t[START_OFFSET]);
+			cnt = t[END_OFFSET] - t[START_OFFSET];
+
+			while (n && cnt > 0) {
+				sibling = n.nextSibling;
+				xferNode = _traverseFullySelected(n, how);
+
+				if (frag)
+					frag.appendChild( xferNode );
+
+				--cnt;
+				n = sibling;
+			}
+
+			// Nothing is partially selected, so collapse to start point
+			if (how != CLONE)
+				t.collapse(TRUE);
+
+			return frag;
+		};
+
+		function _traverseCommonStartContainer(endAncestor, how) {
+			var frag, n, endIdx, cnt, sibling, xferNode;
+
+			if (how != DELETE)
+				frag = createDocumentFragment();
+
+			n = _traverseRightBoundary(endAncestor, how);
+
+			if (frag)
+				frag.appendChild(n);
+
+			endIdx = nodeIndex(endAncestor);
+			cnt = endIdx - t[START_OFFSET];
+
+			if (cnt <= 0) {
+				// Collapse to just before the endAncestor, which
+				// is partially selected.
+				if (how != CLONE) {
+					t.setEndBefore(endAncestor);
+					t.collapse(FALSE);
+				}
+
+				return frag;
+			}
+
+			n = endAncestor.previousSibling;
+			while (cnt > 0) {
+				sibling = n.previousSibling;
+				xferNode = _traverseFullySelected(n, how);
+
+				if (frag)
+					frag.insertBefore(xferNode, frag.firstChild);
+
+				--cnt;
+				n = sibling;
+			}
+
+			// Collapse to just before the endAncestor, which
+			// is partially selected.
+			if (how != CLONE) {
+				t.setEndBefore(endAncestor);
+				t.collapse(FALSE);
+			}
+
+			return frag;
+		};
+
+		function _traverseCommonEndContainer(startAncestor, how) {
+			var frag, startIdx, n, cnt, sibling, xferNode;
+
+			if (how != DELETE)
+				frag = createDocumentFragment();
+
+			n = _traverseLeftBoundary(startAncestor, how);
+			if (frag)
+				frag.appendChild(n);
+
+			startIdx = nodeIndex(startAncestor);
+			++startIdx; // Because we already traversed it
+
+			cnt = t[END_OFFSET] - startIdx;
+			n = startAncestor.nextSibling;
+			while (n && cnt > 0) {
+				sibling = n.nextSibling;
+				xferNode = _traverseFullySelected(n, how);
+
+				if (frag)
+					frag.appendChild(xferNode);
+
+				--cnt;
+				n = sibling;
+			}
+
+			if (how != CLONE) {
+				t.setStartAfter(startAncestor);
+				t.collapse(TRUE);
+			}
+
+			return frag;
+		};
+
+		function _traverseCommonAncestors(startAncestor, endAncestor, how) {
+			var n, frag, commonParent, startOffset, endOffset, cnt, sibling, nextSibling;
+
+			if (how != DELETE)
+				frag = createDocumentFragment();
+
+			n = _traverseLeftBoundary(startAncestor, how);
+			if (frag)
+				frag.appendChild(n);
+
+			commonParent = startAncestor.parentNode;
+			startOffset = nodeIndex(startAncestor);
+			endOffset = nodeIndex(endAncestor);
+			++startOffset;
+
+			cnt = endOffset - startOffset;
+			sibling = startAncestor.nextSibling;
+
+			while (cnt > 0) {
+				nextSibling = sibling.nextSibling;
+				n = _traverseFullySelected(sibling, how);
+
+				if (frag)
+					frag.appendChild(n);
+
+				sibling = nextSibling;
+				--cnt;
+			}
+
+			n = _traverseRightBoundary(endAncestor, how);
+
+			if (frag)
+				frag.appendChild(n);
+
+			if (how != CLONE) {
+				t.setStartAfter(startAncestor);
+				t.collapse(TRUE);
+			}
+
+			return frag;
+		};
+
+		function _traverseRightBoundary(root, how) {
+			var next = _getSelectedNode(t[END_CONTAINER], t[END_OFFSET] - 1), parent, clonedParent, prevSibling, clonedChild, clonedGrandParent, isFullySelected = next != t[END_CONTAINER];
+
+			if (next == root)
+				return _traverseNode(next, isFullySelected, FALSE, how);
+
+			parent = next.parentNode;
+			clonedParent = _traverseNode(parent, FALSE, FALSE, how);
+
+			while (parent) {
+				while (next) {
+					prevSibling = next.previousSibling;
+					clonedChild = _traverseNode(next, isFullySelected, FALSE, how);
+
+					if (how != DELETE)
+						clonedParent.insertBefore(clonedChild, clonedParent.firstChild);
+
+					isFullySelected = TRUE;
+					next = prevSibling;
+				}
+
+				if (parent == root)
+					return clonedParent;
+
+				next = parent.previousSibling;
+				parent = parent.parentNode;
+
+				clonedGrandParent = _traverseNode(parent, FALSE, FALSE, how);
+
+				if (how != DELETE)
+					clonedGrandParent.appendChild(clonedParent);
+
+				clonedParent = clonedGrandParent;
+			}
+		};
+
+		function _traverseLeftBoundary(root, how) {
+			var next = _getSelectedNode(t[START_CONTAINER], t[START_OFFSET]), isFullySelected = next != t[START_CONTAINER], parent, clonedParent, nextSibling, clonedChild, clonedGrandParent;
+
+			if (next == root)
+				return _traverseNode(next, isFullySelected, TRUE, how);
+
+			parent = next.parentNode;
+			clonedParent = _traverseNode(parent, FALSE, TRUE, how);
+
+			while (parent) {
+				while (next) {
+					nextSibling = next.nextSibling;
+					clonedChild = _traverseNode(next, isFullySelected, TRUE, how);
+
+					if (how != DELETE)
+						clonedParent.appendChild(clonedChild);
+
+					isFullySelected = TRUE;
+					next = nextSibling;
+				}
+
+				if (parent == root)
+					return clonedParent;
+
+				next = parent.nextSibling;
+				parent = parent.parentNode;
+
+				clonedGrandParent = _traverseNode(parent, FALSE, TRUE, how);
+
+				if (how != DELETE)
+					clonedGrandParent.appendChild(clonedParent);
+
+				clonedParent = clonedGrandParent;
+			}
+		};
+
+		function _traverseNode(n, isFullySelected, isLeft, how) {
+			var txtValue, newNodeValue, oldNodeValue, offset, newNode;
+
+			if (isFullySelected)
+				return _traverseFullySelected(n, how);
+
+			if (n.nodeType == 3 /* TEXT_NODE */) {
+				txtValue = n.nodeValue;
+
+				if (isLeft) {
+					offset = t[START_OFFSET];
+					newNodeValue = txtValue.substring(offset);
+					oldNodeValue = txtValue.substring(0, offset);
+				} else {
+					offset = t[END_OFFSET];
+					newNodeValue = txtValue.substring(0, offset);
+					oldNodeValue = txtValue.substring(offset);
+				}
+
+				if (how != CLONE)
+					n.nodeValue = oldNodeValue;
+
+				if (how == DELETE)
+					return;
+
+				newNode = dom.clone(n, FALSE);
+				newNode.nodeValue = newNodeValue;
+
+				return newNode;
+			}
+
+			if (how == DELETE)
+				return;
+
+			return dom.clone(n, FALSE);
+		};
+
+		function _traverseFullySelected(n, how) {
+			if (how != DELETE)
+				return how == CLONE ? dom.clone(n, TRUE) : n;
+
+			n.parentNode.removeChild(n);
+		};
+
+		function toStringIE() {
+			return dom.create('body', null, cloneContents()).outerText;
+		}
+		
+		return t;
+	};
+
+	ns.Range = Range;
+
+	// Older IE versions doesn't let you override toString by it's constructor so we have to stick it in the prototype
+	Range.prototype.toString = function() {
+		return this.toStringIE();
+	};
+})(tinymce.dom);
+
+(function() {
+	function Selection(selection) {
+		var self = this, dom = selection.dom, TRUE = true, FALSE = false;
+
+		function getPosition(rng, start) {
+			var checkRng, startIndex = 0, endIndex, inside,
+				children, child, offset, index, position = -1, parent;
+
+			// Setup test range, collapse it and get the parent
+			checkRng = rng.duplicate();
+			checkRng.collapse(start);
+			parent = checkRng.parentElement();
+
+			// Check if the selection is within the right document
+			if (parent.ownerDocument !== selection.dom.doc)
+				return;
+
+			// IE will report non editable elements as it's parent so look for an editable one
+			while (parent.contentEditable === "false") {
+				parent = parent.parentNode;
+			}
+
+			// If parent doesn't have any children then return that we are inside the element
+			if (!parent.hasChildNodes()) {
+				return {node : parent, inside : 1};
+			}
+
+			// Setup node list and endIndex
+			children = parent.children;
+			endIndex = children.length - 1;
+
+			// Perform a binary search for the position
+			while (startIndex <= endIndex) {
+				index = Math.floor((startIndex + endIndex) / 2);
+
+				// Move selection to node and compare the ranges
+				child = children[index];
+				checkRng.moveToElementText(child);
+				position = checkRng.compareEndPoints(start ? 'StartToStart' : 'EndToEnd', rng);
+
+				// Before/after or an exact match
+				if (position > 0) {
+					endIndex = index - 1;
+				} else if (position < 0) {
+					startIndex = index + 1;
+				} else {
+					return {node : child};
+				}
+			}
+
+			// Check if child position is before or we didn't find a position
+			if (position < 0) {
+				// No element child was found use the parent element and the offset inside that
+				if (!child) {
+					checkRng.moveToElementText(parent);
+					checkRng.collapse(true);
+					child = parent;
+					inside = true;
+				} else
+					checkRng.collapse(false);
+
+				// Walk character by character in text node until we hit the selected range endpoint, hit the end of document or parent isn't the right one
+				// We need to walk char by char since rng.text or rng.htmlText will trim line endings
+				offset = 0;
+				while (checkRng.compareEndPoints(start ? 'StartToStart' : 'StartToEnd', rng) !== 0) {
+					if (checkRng.move('character', 1) === 0 || parent != checkRng.parentElement()) {
+						break;
+					}
+
+					offset++;
+				}
+			} else {
+				// Child position is after the selection endpoint
+				checkRng.collapse(true);
+
+				// Walk character by character in text node until we hit the selected range endpoint, hit the end of document or parent isn't the right one
+				offset = 0;
+				while (checkRng.compareEndPoints(start ? 'StartToStart' : 'StartToEnd', rng) !== 0) {
+					if (checkRng.move('character', -1) === 0 || parent != checkRng.parentElement()) {
+						break;
+					}
+
+					offset++;
+				}
+			}
+
+			return {node : child, position : position, offset : offset, inside : inside};
+		};
+
+		// Returns a W3C DOM compatible range object by using the IE Range API
+		function getRange() {
+			var ieRange = selection.getRng(), domRange = dom.createRng(), element, collapsed, tmpRange, element2, bookmark, fail;
+
+			// If selection is outside the current document just return an empty range
+			element = ieRange.item ? ieRange.item(0) : ieRange.parentElement();
+			if (element.ownerDocument != dom.doc)
+				return domRange;
+
+			collapsed = selection.isCollapsed();
+
+			// Handle control selection
+			if (ieRange.item) {
+				domRange.setStart(element.parentNode, dom.nodeIndex(element));
+				domRange.setEnd(domRange.startContainer, domRange.startOffset + 1);
+
+				return domRange;
+			}
+
+			function findEndPoint(start) {
+				var endPoint = getPosition(ieRange, start), container, offset, textNodeOffset = 0, sibling, undef, nodeValue;
+
+				container = endPoint.node;
+				offset = endPoint.offset;
+
+				if (endPoint.inside && !container.hasChildNodes()) {
+					domRange[start ? 'setStart' : 'setEnd'](container, 0);
+					return;
+				}
+
+				if (offset === undef) {
+					domRange[start ? 'setStartBefore' : 'setEndAfter'](container);
+					return;
+				}
+
+				if (endPoint.position < 0) {
+					sibling = endPoint.inside ? container.firstChild : container.nextSibling;
+
+					if (!sibling) {
+						domRange[start ? 'setStartAfter' : 'setEndAfter'](container);
+						return;
+					}
+
+					if (!offset) {
+						if (sibling.nodeType == 3)
+							domRange[start ? 'setStart' : 'setEnd'](sibling, 0);
+						else
+							domRange[start ? 'setStartBefore' : 'setEndBefore'](sibling);
+
+						return;
+					}
+
+					// Find the text node and offset
+					while (sibling) {
+						nodeValue = sibling.nodeValue;
+						textNodeOffset += nodeValue.length;
+
+						// We are at or passed the position we where looking for
+						if (textNodeOffset >= offset) {
+							container = sibling;
+							textNodeOffset -= offset;
+							textNodeOffset = nodeValue.length - textNodeOffset;
+							break;
+						}
+
+						sibling = sibling.nextSibling;
+					}
+				} else {
+					// Find the text node and offset
+					sibling = container.previousSibling;
+
+					if (!sibling)
+						return domRange[start ? 'setStartBefore' : 'setEndBefore'](container);
+
+					// If there isn't any text to loop then use the first position
+					if (!offset) {
+						if (container.nodeType == 3)
+							domRange[start ? 'setStart' : 'setEnd'](sibling, container.nodeValue.length);
+						else
+							domRange[start ? 'setStartAfter' : 'setEndAfter'](sibling);
+
+						return;
+					}
+
+					while (sibling) {
+						textNodeOffset += sibling.nodeValue.length;
+
+						// We are at or passed the position we where looking for
+						if (textNodeOffset >= offset) {
+							container = sibling;
+							textNodeOffset -= offset;
+							break;
+						}
+
+						sibling = sibling.previousSibling;
+					}
+				}
+
+				domRange[start ? 'setStart' : 'setEnd'](container, textNodeOffset);
+			};
+
+			try {
+				// Find start point
+				findEndPoint(true);
+
+				// Find end point if needed
+				if (!collapsed)
+					findEndPoint();
+			} catch (ex) {
+				// IE has a nasty bug where text nodes might throw "invalid argument" when you
+				// access the nodeValue or other properties of text nodes. This seems to happend when
+				// text nodes are split into two nodes by a delete/backspace call. So lets detect it and try to fix it.
+				if (ex.number == -2147024809) {
+					// Get the current selection
+					bookmark = self.getBookmark(2);
+
+					// Get start element
+					tmpRange = ieRange.duplicate();
+					tmpRange.collapse(true);
+					element = tmpRange.parentElement();
+
+					// Get end element
+					if (!collapsed) {
+						tmpRange = ieRange.duplicate();
+						tmpRange.collapse(false);
+						element2 = tmpRange.parentElement();
+						element2.innerHTML = element2.innerHTML;
+					}
+
+					// Remove the broken elements
+					element.innerHTML = element.innerHTML;
+
+					// Restore the selection
+					self.moveToBookmark(bookmark);
+
+					// Since the range has moved we need to re-get it
+					ieRange = selection.getRng();
+
+					// Find start point
+					findEndPoint(true);
+
+					// Find end point if needed
+					if (!collapsed)
+						findEndPoint();
+				} else
+					throw ex; // Throw other errors
+			}
+
+			return domRange;
+		};
+
+		this.getBookmark = function(type) {
+			var rng = selection.getRng(), start, end, bookmark = {};
+
+			function getIndexes(node) {
+				var parent, root, children, i, indexes = [];
+
+				parent = node.parentNode;
+				root = dom.getRoot().parentNode;
+
+				while (parent != root && parent.nodeType !== 9) {
+					children = parent.children;
+
+					i = children.length;
+					while (i--) {
+						if (node === children[i]) {
+							indexes.push(i);
+							break;
+						}
+					}
+
+					node = parent;
+					parent = parent.parentNode;
+				}
+
+				return indexes;
+			};
+
+			function getBookmarkEndPoint(start) {
+				var position;
+
+				position = getPosition(rng, start);
+				if (position) {
+					return {
+						position : position.position,
+						offset : position.offset,
+						indexes : getIndexes(position.node),
+						inside : position.inside
+					};
+				}
+			};
+
+			// Non ubstructive bookmark
+			if (type === 2) {
+				// Handle text selection
+				if (!rng.item) {
+					bookmark.start = getBookmarkEndPoint(true);
+
+					if (!selection.isCollapsed())
+						bookmark.end = getBookmarkEndPoint();
+				} else
+					bookmark.start = {ctrl : true, indexes : getIndexes(rng.item(0))};
+			}
+
+			return bookmark;
+		};
+
+		this.moveToBookmark = function(bookmark) {
+			var rng, body = dom.doc.body;
+
+			function resolveIndexes(indexes) {
+				var node, i, idx, children;
+
+				node = dom.getRoot();
+				for (i = indexes.length - 1; i >= 0; i--) {
+					children = node.children;
+					idx = indexes[i];
+
+					if (idx <= children.length - 1) {
+						node = children[idx];
+					}
+				}
+
+				return node;
+			};
+			
+			function setBookmarkEndPoint(start) {
+				var endPoint = bookmark[start ? 'start' : 'end'], moveLeft, moveRng, undef;
+
+				if (endPoint) {
+					moveLeft = endPoint.position > 0;
+
+					moveRng = body.createTextRange();
+					moveRng.moveToElementText(resolveIndexes(endPoint.indexes));
+
+					offset = endPoint.offset;
+					if (offset !== undef) {
+						moveRng.collapse(endPoint.inside || moveLeft);
+						moveRng.moveStart('character', moveLeft ? -offset : offset);
+					} else
+						moveRng.collapse(start);
+
+					rng.setEndPoint(start ? 'StartToStart' : 'EndToStart', moveRng);
+
+					if (start)
+						rng.collapse(true);
+				}
+			};
+
+			if (bookmark.start) {
+				if (bookmark.start.ctrl) {
+					rng = body.createControlRange();
+					rng.addElement(resolveIndexes(bookmark.start.indexes));
+					rng.select();
+				} else {
+					rng = body.createTextRange();
+					setBookmarkEndPoint(true);
+					setBookmarkEndPoint();
+					rng.select();
+				}
+			}
+		};
+
+		this.addRange = function(rng) {
+			var ieRng, ctrlRng, startContainer, startOffset, endContainer, endOffset, sibling,
+				doc = selection.dom.doc, body = doc.body, nativeRng, ctrlElm;
+
+			function setEndPoint(start) {
+				var container, offset, marker, tmpRng, nodes;
+
+				marker = dom.create('a');
+				container = start ? startContainer : endContainer;
+				offset = start ? startOffset : endOffset;
+				tmpRng = ieRng.duplicate();
+
+				if (container == doc || container == doc.documentElement) {
+					container = body;
+					offset = 0;
+				}
+
+				if (container.nodeType == 3) {
+					container.parentNode.insertBefore(marker, container);
+					tmpRng.moveToElementText(marker);
+					tmpRng.moveStart('character', offset);
+					dom.remove(marker);
+					ieRng.setEndPoint(start ? 'StartToStart' : 'EndToEnd', tmpRng);
+				} else {
+					nodes = container.childNodes;
+
+					if (nodes.length) {
+						if (offset >= nodes.length) {
+							dom.insertAfter(marker, nodes[nodes.length - 1]);
+						} else {
+							container.insertBefore(marker, nodes[offset]);
+						}
+
+						tmpRng.moveToElementText(marker);
+					} else if (container.canHaveHTML) {
+						// Empty node selection for example <div>|</div>
+						// Setting innerHTML with a span marker then remove that marker seems to keep empty block elements open
+						container.innerHTML = '<span>\uFEFF</span>';
+						marker = container.firstChild;
+						tmpRng.moveToElementText(marker);
+						tmpRng.collapse(FALSE); // Collapse false works better than true for some odd reason
+					}
+
+					ieRng.setEndPoint(start ? 'StartToStart' : 'EndToEnd', tmpRng);
+					dom.remove(marker);
+				}
+			}
+
+			// Setup some shorter versions
+			startContainer = rng.startContainer;
+			startOffset = rng.startOffset;
+			endContainer = rng.endContainer;
+			endOffset = rng.endOffset;
+			ieRng = body.createTextRange();
+
+			// If single element selection then try making a control selection out of it
+			if (startContainer == endContainer && startContainer.nodeType == 1) {
+				// Trick to place the caret inside an empty block element like <p></p>
+				if (startOffset == endOffset && !startContainer.hasChildNodes()) {
+					if (startContainer.canHaveHTML) {
+						// Check if previous sibling is an empty block if it is then we need to render it
+						// IE would otherwise move the caret into the sibling instead of the empty startContainer see: #5236
+						// Example this: <p></p><p>|</p> would become this: <p>|</p><p></p>
+						sibling = startContainer.previousSibling;
+						if (sibling && !sibling.hasChildNodes() && dom.isBlock(sibling)) {
+							sibling.innerHTML = '\uFEFF';
+						} else {
+							sibling = null;
+						}
+
+						startContainer.innerHTML = '<span>\uFEFF</span><span>\uFEFF</span>';
+						ieRng.moveToElementText(startContainer.lastChild);
+						ieRng.select();
+						dom.doc.selection.clear();
+						startContainer.innerHTML = '';
+
+						if (sibling) {
+							sibling.innerHTML = '';
+						}
+						return;
+					} else {
+						startOffset = dom.nodeIndex(startContainer);
+						startContainer = startContainer.parentNode;
+					}
+				}
+
+				if (startOffset == endOffset - 1) {
+					try {
+						ctrlElm = startContainer.childNodes[startOffset];
+						ctrlRng = body.createControlRange();
+						ctrlRng.addElement(ctrlElm);
+						ctrlRng.select();
+
+						// Check if the range produced is on the correct element and is a control range
+						// On IE 8 it will select the parent contentEditable container if you select an inner element see: #5398
+						nativeRng = selection.getRng();
+						if (nativeRng.item && ctrlElm === nativeRng.item(0)) {
+							return;
+						}
+					} catch (ex) {
+						// Ignore
+					}
+				}
+			}
+
+			// Set start/end point of selection
+			setEndPoint(true);
+			setEndPoint();
+
+			// Select the new range and scroll it into view
+			ieRng.select();
+		};
+
+		// Expose range method
+		this.getRangeAt = getRange;
+	};
+
+	// Expose the selection object
+	tinymce.dom.TridentSelection = Selection;
+})();
+
+
 /*
  * Sizzle CSS Selector Engine
  *  Copyright, The Dojo Foundation
  *  Released under the MIT, BSD, and GPL Licenses.
  *  More information: http://sizzlejs.com/
  */
-i("tinymce/dom/Sizzle",[],function(){function e(e){return ht.test(e+"")}function n(){var e,t=[];return e=function(n,i){return t.push(n+=" ")>_.cacheLength&&delete e[t.shift()],e[n]=i,i}}function i(e){return e[I]=!0,e}function r(e){var t=B.createElement("div");try{return!!e(t)}catch(n){return!1}finally{t=null}}function o(e,t,n,i){var r,o,a,s,l,c,f,m,p,h;if((t?t.ownerDocument||t:F)!==B&&A(t),t=t||B,n=n||[],!e||"string"!=typeof e)return n;if(1!==(s=t.nodeType)&&9!==s)return[];if(L&&!i){if(r=gt.exec(e))if(a=r[1]){if(9===s){if(o=t.getElementById(a),!o||!o.parentNode)return n;if(o.id===a)return n.push(o),n}else if(t.ownerDocument&&(o=t.ownerDocument.getElementById(a))&&O(t,o)&&o.id===a)return n.push(o),n}else{if(r[2])return Z.apply(n,t.getElementsByTagName(e)),n;if((a=r[3])&&W.getElementsByClassName&&t.getElementsByClassName)return Z.apply(n,t.getElementsByClassName(a)),n}if(W.qsa&&!M.test(e)){if(f=!0,m=I,p=t,h=9===s&&e,1===s&&"object"!==t.nodeName.toLowerCase()){for(c=u(e),(f=t.getAttribute("id"))?m=f.replace(bt,"\\$&"):t.setAttribute("id",m),m="[id='"+m+"'] ",l=c.length;l--;)c[l]=m+d(c[l]);p=pt.test(e)&&t.parentNode||t,h=c.join(",")}if(h)try{return Z.apply(n,p.querySelectorAll(h)),n}catch(g){}finally{f||t.removeAttribute("id")}}}return b(e.replace(lt,"$1"),t,n,i)}function a(e,t){var n=t&&e,i=n&&(~t.sourceIndex||Y)-(~e.sourceIndex||Y);if(i)return i;if(n)for(;n=n.nextSibling;)if(n===t)return-1;return e?1:-1}function s(e){return function(t){var n=t.nodeName.toLowerCase();return"input"===n&&t.type===e}}function l(e){return function(t){var n=t.nodeName.toLowerCase();return("input"===n||"button"===n)&&t.type===e}}function c(e){return i(function(t){return t=+t,i(function(n,i){for(var r,o=e([],n.length,t),a=o.length;a--;)n[r=o[a]]&&(n[r]=!(i[r]=n[r]))})})}function u(e,t){var n,i,r,a,s,l,c,u=q[e+" "];if(u)return t?0:u.slice(0);for(s=e,l=[],c=_.preFilter;s;){(!n||(i=ct.exec(s)))&&(i&&(s=s.slice(i[0].length)||s),l.push(r=[])),n=!1,(i=ut.exec(s))&&(n=i.shift(),r.push({value:n,type:i[0].replace(lt," ")}),s=s.slice(n.length));for(a in _.filter)!(i=mt[a].exec(s))||c[a]&&!(i=c[a](i))||(n=i.shift(),r.push({value:n,type:a,matches:i}),s=s.slice(n.length));if(!n)break}return t?s.length:s?o.error(e):q(e,l).slice(0)}function d(e){for(var t=0,n=e.length,i="";n>t;t++)i+=e[t].value;return i}function f(e,t,n){var i=t.dir,r=n&&"parentNode"===i,o=U++;return t.first?function(t,n,o){for(;t=t[i];)if(1===t.nodeType||r)return e(t,n,o)}:function(t,n,a){var s,l,c,u=z+" "+o;if(a){for(;t=t[i];)if((1===t.nodeType||r)&&e(t,n,a))return!0}else for(;t=t[i];)if(1===t.nodeType||r)if(c=t[I]||(t[I]={}),(l=c[i])&&l[0]===u){if((s=l[1])===!0||s===w)return s===!0}else if(l=c[i]=[u],l[1]=e(t,n,a)||w,l[1]===!0)return!0}}function m(e){return e.length>1?function(t,n,i){for(var r=e.length;r--;)if(!e[r](t,n,i))return!1;return!0}:e[0]}function p(e,t,n,i,r){for(var o,a=[],s=0,l=e.length,c=null!=t;l>s;s++)(o=e[s])&&(!n||n(o,i,r))&&(a.push(o),c&&t.push(s));return a}function h(e,t,n,r,o,a){return r&&!r[I]&&(r=h(r)),o&&!o[I]&&(o=h(o,a)),i(function(i,a,s,l){var c,u,d,f=[],m=[],h=a.length,g=i||y(t||"*",s.nodeType?[s]:s,[]),v=!e||!i&&t?g:p(g,f,e,s,l),b=n?o||(i?e:h||r)?[]:a:v;if(n&&n(v,b,s,l),r)for(c=p(b,m),r(c,[],s,l),u=c.length;u--;)(d=c[u])&&(b[m[u]]=!(v[m[u]]=d));if(i){if(o||e){if(o){for(c=[],u=b.length;u--;)(d=b[u])&&c.push(v[u]=d);o(null,b=[],c,l)}for(u=b.length;u--;)(d=b[u])&&(c=o?tt.call(i,d):f[u])>-1&&(i[c]=!(a[c]=d))}}else b=p(b===a?b.splice(h,b.length):b),o?o(null,a,b,l):Z.apply(a,b)})}function g(e){for(var t,n,i,r=e.length,o=_.relative[e[0].type],a=o||_.relative[" "],s=o?1:0,l=f(function(e){return e===t},a,!0),c=f(function(e){return tt.call(t,e)>-1},a,!0),u=[function(e,n,i){return!o&&(i||n!==k)||((t=n).nodeType?l(e,n,i):c(e,n,i))}];r>s;s++)if(n=_.relative[e[s].type])u=[f(m(u),n)];else{if(n=_.filter[e[s].type].apply(null,e[s].matches),n[I]){for(i=++s;r>i&&!_.relative[e[i].type];i++);return h(s>1&&m(u),s>1&&d(e.slice(0,s-1)).replace(lt,"$1"),n,i>s&&g(e.slice(s,i)),r>i&&g(e=e.slice(i)),r>i&&d(e))}u.push(n)}return m(u)}function v(e,t){var n=0,r=t.length>0,a=e.length>0,s=function(i,s,l,c,u){var d,f,m,h=[],g=0,v="0",y=i&&[],b=null!=u,C=k,x=i||a&&_.find.TAG("*",u&&s.parentNode||s),N=z+=null==C?1:Math.random()||.1;for(b&&(k=s!==B&&s,w=n);null!=(d=x[v]);v++){if(a&&d){for(f=0;m=e[f++];)if(m(d,s,l)){c.push(d);break}b&&(z=N,w=++n)}r&&((d=!m&&d)&&g--,i&&y.push(d))}if(g+=v,r&&v!==g){for(f=0;m=t[f++];)m(y,h,s,l);if(i){if(g>0)for(;v--;)y[v]||h[v]||(h[v]=J.call(c));h=p(h)}Z.apply(c,h),b&&!i&&h.length>0&&g+t.length>1&&o.uniqueSort(c)}return b&&(z=N,k=C),y};return r?i(s):s}function y(e,t,n){for(var i=0,r=t.length;r>i;i++)o(e,t[i],n);return n}function b(e,t,n,i){var r,o,a,s,l,c=u(e);if(!i&&1===c.length){if(o=c[0]=c[0].slice(0),o.length>2&&"ID"===(a=o[0]).type&&9===t.nodeType&&L&&_.relative[o[1].type]){if(t=(_.find.ID(a.matches[0].replace(xt,wt),t)||[])[0],!t)return n;e=e.slice(o.shift().value.length)}for(r=mt.needsContext.test(e)?0:o.length;r--&&(a=o[r],!_.relative[s=a.type]);)if((l=_.find[s])&&(i=l(a.matches[0].replace(xt,wt),pt.test(o[0].type)&&t.parentNode||t))){if(o.splice(r,1),e=i.length&&d(o),!e)return Z.apply(n,i),n;break}}return S(e,c)(i,t,!L,n,pt.test(e)),n}function C(){}var x,w,_,N,E,S,k,T,R,A,B,D,L,M,H,P,O,I="sizzle"+-new Date,F=window.document,W={},z=0,U=0,V=n(),q=n(),$=n(),j=!1,K=function(){return 0},G=typeof t,Y=1<<31,X=[],J=X.pop,Q=X.push,Z=X.push,et=X.slice,tt=X.indexOf||function(e){for(var t=0,n=this.length;n>t;t++)if(this[t]===e)return t;return-1},nt="[\\x20\\t\\r\\n\\f]",it="(?:\\\\.|[\\w-]|[^\\x00-\\xa0])+",rt=it.replace("w","w#"),ot="([*^$|!~]?=)",at="\\["+nt+"*("+it+")"+nt+"*(?:"+ot+nt+"*(?:(['\"])((?:\\\\.|[^\\\\])*?)\\3|("+rt+")|)|)"+nt+"*\\]",st=":("+it+")(?:\\(((['\"])((?:\\\\.|[^\\\\])*?)\\3|((?:\\\\.|[^\\\\()[\\]]|"+at.replace(3,8)+")*)|.*)\\)|)",lt=new RegExp("^"+nt+"+|((?:^|[^\\\\])(?:\\\\.)*)"+nt+"+$","g"),ct=new RegExp("^"+nt+"*,"+nt+"*"),ut=new RegExp("^"+nt+"*([\\x20\\t\\r\\n\\f>+~])"+nt+"*"),dt=new RegExp(st),ft=new RegExp("^"+rt+"$"),mt={ID:new RegExp("^#("+it+")"),CLASS:new RegExp("^\\.("+it+")"),NAME:new RegExp("^\\[name=['\"]?("+it+")['\"]?\\]"),TAG:new RegExp("^("+it.replace("w","w*")+")"),ATTR:new RegExp("^"+at),PSEUDO:new RegExp("^"+st),CHILD:new RegExp("^:(only|first|last|nth|nth-last)-(child|of-type)(?:\\("+nt+"*(even|odd|(([+-]|)(\\d*)n|)"+nt+"*(?:([+-]|)"+nt+"*(\\d+)|))"+nt+"*\\)|)","i"),needsContext:new RegExp("^"+nt+"*[>+~]|:(even|odd|eq|gt|lt|nth|first|last)(?:\\("+nt+"*((?:-\\d)?\\d*)"+nt+"*\\)|)(?=[^-]|$)","i")},pt=/[\x20\t\r\n\f]*[+~]/,ht=/^[^{]+\{\s*\[native code/,gt=/^(?:#([\w\-]+)|(\w+)|\.([\w\-]+))$/,vt=/^(?:input|select|textarea|button)$/i,yt=/^h\d$/i,bt=/'|\\/g,Ct=/\=[\x20\t\r\n\f]*([^'"\]]*)[\x20\t\r\n\f]*\]/g,xt=/\\([\da-fA-F]{1,6}[\x20\t\r\n\f]?|.)/g,wt=function(e,t){var n="0x"+t-65536;return n!==n?t:0>n?String.fromCharCode(n+65536):String.fromCharCode(n>>10|55296,1023&n|56320)};try{Z.apply(X=et.call(F.childNodes),F.childNodes),X[F.childNodes.length].nodeType}catch(_t){Z={apply:X.length?function(e,t){Q.apply(e,et.call(t))}:function(e,t){for(var n=e.length,i=0;e[n++]=t[i++];);e.length=n-1}}}E=o.isXML=function(e){var t=e&&(e.ownerDocument||e).documentElement;return t?"HTML"!==t.nodeName:!1},A=o.setDocument=function(n){var i=n?n.ownerDocument||n:F;return i!==B&&9===i.nodeType&&i.documentElement?(B=i,D=i.documentElement,L=!E(i),W.getElementsByTagName=r(function(e){return e.appendChild(i.createComment("")),!e.getElementsByTagName("*").length}),W.attributes=r(function(e){e.innerHTML="<select></select>";var t=typeof e.lastChild.getAttribute("multiple");return"boolean"!==t&&"string"!==t}),W.getElementsByClassName=r(function(e){return e.innerHTML="<div class='hidden e'></div><div class='hidden'></div>",e.getElementsByClassName&&e.getElementsByClassName("e").length?(e.lastChild.className="e",2===e.getElementsByClassName("e").length):!1}),W.getByName=r(function(e){e.id=I+0,e.appendChild(B.createElement("a")).setAttribute("name",I),e.appendChild(B.createElement("i")).setAttribute("name",I),D.appendChild(e);var t=i.getElementsByName&&i.getElementsByName(I).length===2+i.getElementsByName(I+0).length;return D.removeChild(e),t}),W.sortDetached=r(function(e){return e.compareDocumentPosition&&1&e.compareDocumentPosition(B.createElement("div"))}),_.attrHandle=r(function(e){return e.innerHTML="<a href='#'></a>",e.firstChild&&typeof e.firstChild.getAttribute!==G&&"#"===e.firstChild.getAttribute("href")})?{}:{href:function(e){return e.getAttribute("href",2)},type:function(e){return e.getAttribute("type")}},W.getByName?(_.find.ID=function(e,t){if(typeof t.getElementById!==G&&L){var n=t.getElementById(e);return n&&n.parentNode?[n]:[]}},_.filter.ID=function(e){var t=e.replace(xt,wt);return function(e){return e.getAttribute("id")===t}}):(_.find.ID=function(e,n){if(typeof n.getElementById!==G&&L){var i=n.getElementById(e);return i?i.id===e||typeof i.getAttributeNode!==G&&i.getAttributeNode("id").value===e?[i]:t:[]}},_.filter.ID=function(e){var t=e.replace(xt,wt);return function(e){var n=typeof e.getAttributeNode!==G&&e.getAttributeNode("id");return n&&n.value===t}}),_.find.TAG=W.getElementsByTagName?function(e,t){return typeof t.getElementsByTagName!==G?t.getElementsByTagName(e):void 0}:function(e,t){var n,i=[],r=0,o=t.getElementsByTagName(e);if("*"===e){for(;n=o[r++];)1===n.nodeType&&i.push(n);return i}return o},_.find.NAME=W.getByName&&function(e,t){return typeof t.getElementsByName!==G?t.getElementsByName(name):void 0},_.find.CLASS=W.getElementsByClassName&&function(e,t){return typeof t.getElementsByClassName!==G&&L?t.getElementsByClassName(e):void 0},H=[],M=[":focus"],(W.qsa=e(i.querySelectorAll))&&(r(function(e){e.innerHTML="<select><option selected=''></option></select>",e.querySelectorAll("[selected]").length||M.push("\\["+nt+"*(?:checked|disabled|ismap|multiple|readonly|selected|value)"),e.querySelectorAll(":checked").length||M.push(":checked")}),r(function(e){e.innerHTML="<input type='hidden' i=''/>",e.querySelectorAll("[i^='']").length&&M.push("[*^$]="+nt+"*(?:\"\"|'')"),e.querySelectorAll(":enabled").length||M.push(":enabled",":disabled"),e.querySelectorAll("*,:x"),M.push(",.*:")})),(W.matchesSelector=e(P=D.matchesSelector||D.mozMatchesSelector||D.webkitMatchesSelector||D.oMatchesSelector||D.msMatchesSelector))&&r(function(e){W.disconnectedMatch=P.call(e,"div"),P.call(e,"[s!='']:x"),H.push("!=",st)}),M=new RegExp(M.join("|")),H=H.length&&new RegExp(H.join("|")),O=e(D.contains)||D.compareDocumentPosition?function(e,t){var n=9===e.nodeType?e.documentElement:e,i=t&&t.parentNode;return e===i||!(!i||1!==i.nodeType||!(n.contains?n.contains(i):e.compareDocumentPosition&&16&e.compareDocumentPosition(i)))}:function(e,t){if(t)for(;t=t.parentNode;)if(t===e)return!0;return!1},K=D.compareDocumentPosition?function(e,t){if(e===t)return j=!0,0;var n=t.compareDocumentPosition&&e.compareDocumentPosition&&e.compareDocumentPosition(t);return n?1&n||T&&t.compareDocumentPosition(e)===n?e===i||O(F,e)?-1:t===i||O(F,t)?1:R?tt.call(R,e)-tt.call(R,t):0:4&n?-1:1:e.compareDocumentPosition?-1:1}:function(e,t){var n,r=0,o=e.parentNode,s=t.parentNode,l=[e],c=[t];if(e===t)return j=!0,0;if(!o||!s)return e===i?-1:t===i?1:o?-1:s?1:0;if(o===s)return a(e,t);for(n=e;n=n.parentNode;)l.unshift(n);for(n=t;n=n.parentNode;)c.unshift(n);for(;l[r]===c[r];)r++;return r?a(l[r],c[r]):l[r]===F?-1:c[r]===F?1:0},B):B},o.matches=function(e,t){return o(e,null,null,t)},o.matchesSelector=function(e,t){if((e.ownerDocument||e)!==B&&A(e),t=t.replace(Ct,"='$1']"),W.matchesSelector&&L&&(!H||!H.test(t))&&!M.test(t))try{var n=P.call(e,t);if(n||W.disconnectedMatch||e.document&&11!==e.document.nodeType)return n}catch(i){}return o(t,B,null,[e]).length>0},o.contains=function(e,t){return(e.ownerDocument||e)!==B&&A(e),O(e,t)},o.attr=function(e,t){var n;return(e.ownerDocument||e)!==B&&A(e),L&&(t=t.toLowerCase()),(n=_.attrHandle[t])?n(e):!L||W.attributes?e.getAttribute(t):((n=e.getAttributeNode(t))||e.getAttribute(t))&&e[t]===!0?t:n&&n.specified?n.value:null},o.error=function(e){throw new Error("Syntax error, unrecognized expression: "+e)},o.uniqueSort=function(e){var t,n=[],i=0,r=0;if(j=!W.detectDuplicates,T=!W.sortDetached,R=!W.sortStable&&e.slice(0),e.sort(K),j){for(;t=e[r++];)t===e[r]&&(i=n.push(r));for(;i--;)e.splice(n[i],1)}return e},N=o.getText=function(e){var t,n="",i=0,r=e.nodeType;if(r){if(1===r||9===r||11===r){if("string"==typeof e.textContent)return e.textContent;for(e=e.firstChild;e;e=e.nextSibling)n+=N(e)}else if(3===r||4===r)return e.nodeValue}else for(;t=e[i];i++)n+=N(t);return n},_=o.selectors={cacheLength:50,createPseudo:i,match:mt,find:{},relative:{">":{dir:"parentNode",first:!0}," ":{dir:"parentNode"},"+":{dir:"previousSibling",first:!0},"~":{dir:"previousSibling"}},preFilter:{ATTR:function(e){return e[1]=e[1].replace(xt,wt),e[3]=(e[4]||e[5]||"").replace(xt,wt),"~="===e[2]&&(e[3]=" "+e[3]+" "),e.slice(0,4)},CHILD:function(e){return e[1]=e[1].toLowerCase(),"nth"===e[1].slice(0,3)?(e[3]||o.error(e[0]),e[4]=+(e[4]?e[5]+(e[6]||1):2*("even"===e[3]||"odd"===e[3])),e[5]=+(e[7]+e[8]||"odd"===e[3])):e[3]&&o.error(e[0]),e},PSEUDO:function(e){var t,n=!e[5]&&e[2];return mt.CHILD.test(e[0])?null:(e[4]?e[2]=e[4]:n&&dt.test(n)&&(t=u(n,!0))&&(t=n.indexOf(")",n.length-t)-n.length)&&(e[0]=e[0].slice(0,t),e[2]=n.slice(0,t)),e.slice(0,3))}},filter:{TAG:function(e){return"*"===e?function(){return!0}:(e=e.replace(xt,wt).toLowerCase(),function(t){return t.nodeName&&t.nodeName.toLowerCase()===e})},CLASS:function(e){var t=V[e+" "];return t||(t=new RegExp("(^|"+nt+")"+e+"("+nt+"|$)"))&&V(e,function(e){return t.test(e.className||typeof e.getAttribute!==G&&e.getAttribute("class")||"")})},ATTR:function(e,t,n){return function(i){var r=o.attr(i,e);return null==r?"!="===t:t?(r+="","="===t?r===n:"!="===t?r!==n:"^="===t?n&&0===r.indexOf(n):"*="===t?n&&r.indexOf(n)>-1:"$="===t?n&&r.slice(-n.length)===n:"~="===t?(" "+r+" ").indexOf(n)>-1:"|="===t?r===n||r.slice(0,n.length+1)===n+"-":!1):!0}},CHILD:function(e,t,n,i,r){var o="nth"!==e.slice(0,3),a="last"!==e.slice(-4),s="of-type"===t;return 1===i&&0===r?function(e){return!!e.parentNode}:function(t,n,l){var c,u,d,f,m,p,h=o!==a?"nextSibling":"previousSibling",g=t.parentNode,v=s&&t.nodeName.toLowerCase(),y=!l&&!s;if(g){if(o){for(;h;){for(d=t;d=d[h];)if(s?d.nodeName.toLowerCase()===v:1===d.nodeType)return!1;p=h="only"===e&&!p&&"nextSibling"}return!0}if(p=[a?g.firstChild:g.lastChild],a&&y){for(u=g[I]||(g[I]={}),c=u[e]||[],m=c[0]===z&&c[1],f=c[0]===z&&c[2],d=m&&g.childNodes[m];d=++m&&d&&d[h]||(f=m=0)||p.pop();)if(1===d.nodeType&&++f&&d===t){u[e]=[z,m,f];break}}else if(y&&(c=(t[I]||(t[I]={}))[e])&&c[0]===z)f=c[1];else for(;(d=++m&&d&&d[h]||(f=m=0)||p.pop())&&((s?d.nodeName.toLowerCase()!==v:1!==d.nodeType)||!++f||(y&&((d[I]||(d[I]={}))[e]=[z,f]),d!==t)););return f-=r,f===i||f%i===0&&f/i>=0}}},PSEUDO:function(e,t){var n,r=_.pseudos[e]||_.setFilters[e.toLowerCase()]||o.error("unsupported pseudo: "+e);return r[I]?r(t):r.length>1?(n=[e,e,"",t],_.setFilters.hasOwnProperty(e.toLowerCase())?i(function(e,n){for(var i,o=r(e,t),a=o.length;a--;)i=tt.call(e,o[a]),e[i]=!(n[i]=o[a])}):function(e){return r(e,0,n)}):r}},pseudos:{not:i(function(e){var t=[],n=[],r=S(e.replace(lt,"$1"));return r[I]?i(function(e,t,n,i){for(var o,a=r(e,null,i,[]),s=e.length;s--;)(o=a[s])&&(e[s]=!(t[s]=o))}):function(e,i,o){return t[0]=e,r(t,null,o,n),!n.pop()}}),has:i(function(e){return function(t){return o(e,t).length>0}}),contains:i(function(e){return function(t){return(t.textContent||t.innerText||N(t)).indexOf(e)>-1}}),lang:i(function(e){return ft.test(e||"")||o.error("unsupported lang: "+e),e=e.replace(xt,wt).toLowerCase(),function(t){var n;do if(n=L?t.lang:t.getAttribute("xml:lang")||t.getAttribute("lang"))return n=n.toLowerCase(),n===e||0===n.indexOf(e+"-");while((t=t.parentNode)&&1===t.nodeType);return!1}}),target:function(e){var t=window.location&&window.location.hash;return t&&t.slice(1)===e.id},root:function(e){return e===D},focus:function(e){return e===B.activeElement&&(!B.hasFocus||B.hasFocus())&&!!(e.type||e.href||~e.tabIndex)},enabled:function(e){return e.disabled===!1},disabled:function(e){return e.disabled===!0},checked:function(e){var t=e.nodeName.toLowerCase();return"input"===t&&!!e.checked||"option"===t&&!!e.selected},selected:function(e){return e.parentNode&&e.parentNode.selectedIndex,e.selected===!0},empty:function(e){for(e=e.firstChild;e;e=e.nextSibling)if(e.nodeName>"@"||3===e.nodeType||4===e.nodeType)return!1;return!0},parent:function(e){return!_.pseudos.empty(e)},header:function(e){return yt.test(e.nodeName)},input:function(e){return vt.test(e.nodeName)},button:function(e){var t=e.nodeName.toLowerCase();return"input"===t&&"button"===e.type||"button"===t},text:function(e){var t;return"input"===e.nodeName.toLowerCase()&&"text"===e.type&&(null==(t=e.getAttribute("type"))||t.toLowerCase()===e.type)},first:c(function(){return[0]}),last:c(function(e,t){return[t-1]}),eq:c(function(e,t,n){return[0>n?n+t:n]}),even:c(function(e,t){for(var n=0;t>n;n+=2)e.push(n);return e}),odd:c(function(e,t){for(var n=1;t>n;n+=2)e.push(n);return e}),lt:c(function(e,t,n){for(var i=0>n?n+t:n;--i>=0;)e.push(i);return e}),gt:c(function(e,t,n){for(var i=0>n?n+t:n;++i<t;)e.push(i);return e})}};for(x in{radio:!0,checkbox:!0,file:!0,password:!0,image:!0})_.pseudos[x]=s(x);for(x in{submit:!0,reset:!0})_.pseudos[x]=l(x);return S=o.compile=function(e,t){var n,i=[],r=[],o=$[e+" "];if(!o){for(t||(t=u(e)),n=t.length;n--;)o=g(t[n]),o[I]?i.push(o):r.push(o);o=$(e,v(r,i))}return o},_.pseudos.nth=_.pseudos.eq,C.prototype=_.filters=_.pseudos,_.setFilters=new C,W.sortStable=I.split("").sort(K).join("")===I,A(),[0,0].sort(K),W.detectDuplicates=j,o}),/**
- * DomQuery.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- *
- * Some of this logic is based on jQuery code that is released under
- * MIT license that grants us to sublicense it under LGPL.
- *
- * @ignore-file
- */
-i("tinymce/dom/DomQuery",["tinymce/dom/EventUtils","tinymce/dom/Sizzle"],function(e,n){function i(e){return"undefined"!=typeof e}function r(e){return"string"==typeof e}function o(e){var t,n,i;for(i=g.createElement("div"),t=g.createDocumentFragment(),i.innerHTML=e;n=i.firstChild;)t.appendChild(n);return t}function a(e,t,n){var i;if("string"==typeof t)t=o(t);else if(t.length){for(i=0;i<t.length;i++)a(e,t[i],n);return e}for(i=e.length;i--;)n.call(e[i],t.parentNode?t:t);return e}function s(e,t){return e&&t&&-1!==(" "+e.className+" ").indexOf(" "+t+" ")}function l(e,t){var n;for(e=e||[],"string"==typeof e&&(e=e.split(" ")),t=t||{},n=e.length;n--;)t[e[n]]={};return t}function c(e,t){return new c.fn.init(e,t)}function u(e){var t,n,i,r=arguments;for(n=1;n<r.length;n++){t=r[n];for(i in t)e[i]=t[i]}return e}function d(e){var t,n,i=[];for(t=0,n=e.length;n>t;t++)i[t]=e[t];return i}function f(e,t){var n;if(t.indexOf)return t.indexOf(e);for(n=t.length;n--;)if(t[n]===e)return n;return-1}function m(e,t){var n,i,r,o,a;if(e)if(n=e.length,n===o){for(i in e)if(e.hasOwnProperty(i)&&(a=e[i],t.call(a,a,i)===!1))break}else for(r=0;n>r&&(a=e[r],t.call(a,a,i)!==!1);r++);return e}function p(e,n,i){for(var r=[],o=e[n];o&&9!==o.nodeType&&(i===t||1!==o.nodeType||!c(o).is(i));)1===o.nodeType&&r.push(o),o=o[n];return r}function h(e,t,n,i){for(var r=[];e;e=e[n])i&&e.nodeType!==i||e===t||r.push(e);return r}var g=document,v=Array.prototype.push,y=Array.prototype.slice,b=/^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/,C=e.Event,x=l("fillOpacity fontWeight lineHeight opacity orphans widows zIndex zoom"),w=Array.isArray||function(e){return"[object Array]"===Object.prototype.toString.call(e)},_=/^\s*|\s*$/g,N=function(e){return null===e||e===t?"":(""+e).replace(_,"")};return c.fn=c.prototype={constructor:c,selector:"",length:0,init:function(e,t){var n,i,a=this;if(!e)return a;if(e.nodeType)return a.context=a[0]=e,a.length=1,a;if(r(e)){if(n="<"===e.charAt(0)&&">"===e.charAt(e.length-1)&&e.length>=3?[null,e,null]:b.exec(e),!n)return c(t||document).find(e);if(n[1])for(i=o(e).firstChild;i;)this.add(i),i=i.nextSibling;else{if(i=g.getElementById(n[2]),i.id!==n[2])return a.find(e);a.length=1,a[0]=i}}else this.add(e);return a},toArray:function(){return d(this)},add:function(e){var t=this;return w(e)?v.apply(t,e):e instanceof c?t.add(e.toArray()):v.call(t,e),t},attr:function(e,n){var r=this;if("object"==typeof e)m(e,function(e,t){r.attr(t,e)});else{if(!i(n))return r[0]&&1===r[0].nodeType?r[0].getAttribute(e):t;this.each(function(){1===this.nodeType&&this.setAttribute(e,n)})}return r},css:function(e,n){var r=this;if("object"==typeof e)m(e,function(e,t){r.css(t,e)});else{if(e=e.replace(/-(\D)/g,function(e,t){return t.toUpperCase()}),!i(n))return r[0]?r[0].style[e]:t;"number"!=typeof n||x[e]||(n+="px"),r.each(function(){var t=this.style;"opacity"===e&&this.runtimeStyle&&"undefined"==typeof this.runtimeStyle.opacity&&(t.filter=""===n?"":"alpha(opacity="+100*n+")");try{t[e]=n}catch(i){}})}return r},remove:function(){for(var e,t=this,n=this.length;n--;)e=t[n],C.clean(e),e.parentNode&&e.parentNode.removeChild(e);return this},empty:function(){for(var e,t=this,n=this.length;n--;)for(e=t[n];e.firstChild;)e.removeChild(e.firstChild);return this},html:function(e){var t,n=this;if(i(e)){for(t=n.length;t--;)n[t].innerHTML=e;return n}return n[0]?n[0].innerHTML:""},text:function(e){var t,n=this;if(i(e)){for(t=n.length;t--;)n[t].innerText=n[0].textContent=e;return n}return n[0]?n[0].innerText||n[0].textContent:""},append:function(){return a(this,arguments,function(e){1===this.nodeType&&this.appendChild(e)})},prepend:function(){return a(this,arguments,function(e){1===this.nodeType&&this.insertBefore(e,this.firstChild)})},before:function(){var e=this;return e[0]&&e[0].parentNode?a(e,arguments,function(e){this.parentNode.insertBefore(e,this.nextSibling)}):e},after:function(){var e=this;return e[0]&&e[0].parentNode?a(e,arguments,function(e){this.parentNode.insertBefore(e,this)}):e},appendTo:function(e){return c(e).append(this),this},addClass:function(e){return this.toggleClass(e,!0)},removeClass:function(e){return this.toggleClass(e,!1)},toggleClass:function(e,t){var n=this;return-1!==e.indexOf(" ")?m(e.split(" "),function(){n.toggleClass(this,t)}):n.each(function(){var n,i=this;s(i,e)!==t&&(n=i.className,t?i.className+=n?" "+e:e:i.className=N((" "+n+" ").replace(" "+e+" "," ")))}),n},hasClass:function(e){return s(this[0],e)},each:function(e){return m(this,e)},on:function(e,t){return this.each(function(){C.bind(this,e,t)})},off:function(e,t){return this.each(function(){C.unbind(this,e,t)})},show:function(){return this.css("display","")},hide:function(){return this.css("display","none")},slice:function(){return new c(y.apply(this,arguments))},eq:function(e){return-1===e?this.slice(e):this.slice(e,+e+1)},first:function(){return this.eq(0)},last:function(){return this.eq(-1)},replaceWith:function(e){var t=this;return t[0]&&t[0].parentNode.replaceChild(c(e)[0],t[0]),t},wrap:function(e){return e=c(e)[0],this.each(function(){var t=this,n=e.cloneNode(!1);t.parentNode.insertBefore(n,t),n.appendChild(t)})},unwrap:function(){return this.each(function(){for(var e,t=this,n=t.firstChild;n;)e=n,n=n.nextSibling,t.parentNode.insertBefore(e,t)})},clone:function(){var e=[];return this.each(function(){e.push(this.cloneNode(!0))}),c(e)},find:function(e){var t,n,i=[];for(t=0,n=this.length;n>t;t++)c.find(e,this[t],i);return c(i)},push:v,sort:[].sort,splice:[].splice},u(c,{extend:u,toArray:d,inArray:f,isArray:w,each:m,trim:N,makeMap:l,find:n,expr:n.selectors,unique:n.uniqueSort,text:n.getText,isXMLDoc:n.isXML,contains:n.contains,filter:function(e,t,n){return n&&(e=":not("+e+")"),1===t.length?c.find.matchesSelector(t[0],e)?[t[0]]:[]:c.find.matches(e,t)}}),m({parent:function(e){var t=e.parentNode;return t&&11!==t.nodeType?t:null},parents:function(e){return p(e,"parentNode")},parentsUntil:function(e,t){return p(e,"parentNode",t)},next:function(e){return h(e,"nextSibling",1)},prev:function(e){return h(e,"previousSibling",1)},nextNodes:function(e){return h(e,"nextSibling")},prevNodes:function(e){return h(e,"previousSibling")},children:function(e){return h(e.firstChild,"nextSibling",1)},contents:function(e){return d(("iframe"===e.nodeName?e.contentDocument||e.contentWindow.document:e).childNodes)}},function(e,t){c.fn[e]=function(n){var i,r=this;if(r.length>1)throw new Error("DomQuery only supports traverse functions on a single node.");return r[0]&&(i=t(r[0],n)),i=c(i),n&&"parentsUntil"!==e?i.filter(n):i}}),c.fn.filter=function(e){return c.filter(e)},c.fn.is=function(e){return!!e&&this.filter(e).length>0},c.fn.init.prototype=c.fn,c}),/**
- * Styles.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/html/Styles",[],function(){return function(e,t){function n(e,t,n,i){function r(e){return e=parseInt(e,10).toString(16),e.length>1?e:"0"+e}return"#"+r(t)+r(n)+r(i)}var i,r,o,a=/rgb\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)/gi,s=/(?:url(?:(?:\(\s*\"([^\"]+)\"\s*\))|(?:\(\s*\'([^\']+)\'\s*\))|(?:\(\s*([^)\s]+)\s*\))))|(?:\'([^\']+)\')|(?:\"([^\"]+)\")/gi,l=/\s*([^:]+):\s*([^;]+);?/g,c=/\s+$/,u={},d="﻿";for(e=e||{},o=("\\\" \\' \\; \\: ; : "+d).split(" "),r=0;r<o.length;r++)u[o[r]]=d+r,u[d+r]=o[r];return{toHex:function(e){return e.replace(a,n)},parse:function(t){function i(e,t){var n,i,r,o;"none"===y["border-image"]&&delete y["border-image"],n=y[e+"-top"+t],n&&(i=y[e+"-right"+t],n==i&&(r=y[e+"-bottom"+t],i==r&&(o=y[e+"-left"+t],r==o&&(y[e+t]=o,delete y[e+"-top"+t],delete y[e+"-right"+t],delete y[e+"-bottom"+t],delete y[e+"-left"+t]))))}function r(e){var t,n=y[e];if(n&&!(n.indexOf(" ")<0)){for(n=n.split(" "),t=n.length;t--;)if(n[t]!==n[0])return!1;return y[e]=n[0],!0}}function o(e,t,n,i){r(t)&&r(n)&&r(i)&&(y[e]=y[t]+" "+y[n]+" "+y[i],delete y[t],delete y[n],delete y[i])}function d(e){return v=!0,u[e]}function f(e,t){return v&&(e=e.replace(/\uFEFF[0-9]/g,function(e){return u[e]})),t||(e=e.replace(/\\([\'\";:])/g,"$1")),e}function m(t,n,i,r,o,a){return(o=o||a)?(o=f(o),"'"+o.replace(/\'/g,"\\'")+"'"):(n=f(n||i||r),!e.allow_script_urls&&/(java|vb)script:/i.test(n.replace(/[\s\r\n]+/,""))?"":(b&&(n=b.call(C,n,"style")),"url('"+n.replace(/\'/g,"\\'")+"')"))}var p,h,g,v,y={},b=e.url_converter,C=e.url_converter_scope||this;if(t){for(t=t.replace(/[\u0000-\u001F]/g,""),t=t.replace(/\\[\"\';:\uFEFF]/g,d).replace(/\"[^\"]+\"|\'[^\']+\'/g,function(e){return e.replace(/[;:]/g,d)});p=l.exec(t);){if(h=p[1].replace(c,"").toLowerCase(),g=p[2].replace(c,""),h&&g.length>0){if(!e.allow_script_urls&&("behavior"==h||/expression\s*\(/.test(g)))continue;"font-weight"===h&&"700"===g?g="bold":("color"===h||"background-color"===h)&&(g=g.toLowerCase()),g=g.replace(a,n),g=g.replace(s,m),y[h]=v?f(g,!0):g}l.lastIndex=p.index+p[0].length}i("border",""),i("border","-width"),i("border","-color"),i("border","-style"),i("padding",""),i("margin",""),o("border","border-width","border-style","border-color"),"medium none"===y.border&&delete y.border}return y},serialize:function(e,n){function r(n){var r,o,a,l;if(r=t.styles[n])for(o=0,a=r.length;a>o;o++)n=r[o],l=e[n],l!==i&&l.length>0&&(s+=(s.length>0?" ":"")+n+": "+l+";")}var o,a,s="";if(n&&t&&t.styles)r("*"),r(n);else for(o in e)a=e[o],a!==i&&a.length>0&&(s+=(s.length>0?" ":"")+o+": "+a+";");return s}}}}),/**
- * TreeWalker.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/dom/TreeWalker",[],function(){return function(e,t){function n(e,n,i,r){var o,a;if(e){if(!r&&e[n])return e[n];if(e!=t){if(o=e[i])return o;for(a=e.parentNode;a&&a!=t;a=a.parentNode)if(o=a[i])return o}}}var i=e;this.current=function(){return i},this.next=function(e){return i=n(i,"firstChild","nextSibling",e)},this.prev=function(e){return i=n(i,"lastChild","previousSibling",e)}}}),/**
- * Tools.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/util/Tools",[],function(){function e(e,n){return n?"array"==n&&g(e)?!0:typeof e==n:e!==t}function n(e){var t,n,i=[];for(t=0,n=e.length;n>t;t++)i[t]=e[t];return i}function i(e,t,n){var i;for(e=e||[],t=t||",","string"==typeof e&&(e=e.split(t)),n=n||{},i=e.length;i--;)n[e[i]]={};return n}function r(e,n,i){var r,o;if(!e)return 0;if(i=i||e,e.length!==t){for(r=0,o=e.length;o>r;r++)if(n.call(i,e[r],r,e)===!1)return 0}else for(r in e)if(e.hasOwnProperty(r)&&n.call(i,e[r],r,e)===!1)return 0;return 1}function o(e,t){var n=[];return r(e,function(e){n.push(t(e))}),n}function a(e,t){var n=[];return r(e,function(e){(!t||t(e))&&n.push(e)}),n}function s(e,t,n){var i,r,o,a,s,l=this,c=0;if(e=/^((static) )?([\w.]+)(:([\w.]+))?/.exec(e),o=e[3].match(/(^|\.)(\w+)$/i)[2],r=l.createNS(e[3].replace(/\.\w+$/,""),n),!r[o]){if("static"==e[2])return r[o]=t,this.onCreate&&this.onCreate(e[2],e[3],r[o]),void 0;t[o]||(t[o]=function(){},c=1),r[o]=t[o],l.extend(r[o].prototype,t),e[5]&&(i=l.resolve(e[5]).prototype,a=e[5].match(/\.(\w+)$/i)[1],s=r[o],r[o]=c?function(){return i[a].apply(this,arguments)}:function(){return this.parent=i[a],s.apply(this,arguments)},r[o].prototype[o]=r[o],l.each(i,function(e,t){r[o].prototype[t]=i[t]}),l.each(t,function(e,t){i[t]?r[o].prototype[t]=function(){return this.parent=i[t],e.apply(this,arguments)}:t!=o&&(r[o].prototype[t]=e)})),l.each(t["static"],function(e,t){r[o][t]=e})}}function l(e,t){var n,i;if(e)for(n=0,i=e.length;i>n;n++)if(e[n]===t)return n;return-1}function c(e,n){var i,r,o,a,s=arguments;for(i=1,r=s.length;r>i;i++){n=s[i];for(o in n)n.hasOwnProperty(o)&&(a=n[o],a!==t&&(e[o]=a))}return e}function u(e,t,n,i){i=i||this,e&&(n&&(e=e[n]),r(e,function(e,r){return t.call(i,e,r,n)===!1?!1:(u(e,t,n,i),void 0)}))}function d(e,t){var n,i;for(t=t||window,e=e.split("."),n=0;n<e.length;n++)i=e[n],t[i]||(t[i]={}),t=t[i];return t}function f(e,t){var n,i;for(t=t||window,e=e.split("."),n=0,i=e.length;i>n&&(t=t[e[n]],t);n++);return t}function m(t,n){return!t||e(t,"array")?t:o(t.split(n||","),h)}var p=/^\s*|\s*$/g,h=function(e){return null===e||e===t?"":(""+e).replace(p,"")},g=Array.isArray||function(e){return"[object Array]"===Object.prototype.toString.call(e)};return{trim:h,isArray:g,is:e,toArray:n,makeMap:i,each:r,map:o,grep:a,inArray:l,extend:c,create:s,walk:u,createNS:d,resolve:f,explode:m}}),/**
- * Range.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/dom/Range",["tinymce/util/Tools"],function(e){function t(n){function i(){return H.createDocumentFragment()}function r(e,t){_(F,e,t)}function o(e,t){_(W,e,t)}function a(e){r(e.parentNode,j(e))}function s(e){r(e.parentNode,j(e)+1)}function l(e){o(e.parentNode,j(e))}function c(e){o(e.parentNode,j(e)+1)}function u(e){e?(M[V]=M[U],M[q]=M[z]):(M[U]=M[V],M[z]=M[q]),M.collapsed=F}function d(e){a(e),c(e)}function f(e){r(e,0),o(e,1===e.nodeType?e.childNodes.length:e.nodeValue.length)}function m(e,t){var n=M[U],i=M[z],r=M[V],o=M[q],a=t.startContainer,s=t.startOffset,l=t.endContainer,c=t.endOffset;return 0===e?w(n,i,a,s):1===e?w(r,o,a,s):2===e?w(r,o,l,c):3===e?w(n,i,l,c):void 0}function p(){N(I)}function h(){return N(P)}function g(){return N(O)}function v(e){var t,i,r=this[U],o=this[z];3!==r.nodeType&&4!==r.nodeType||!r.nodeValue?(r.childNodes.length>0&&(i=r.childNodes[o]),i?r.insertBefore(e,i):3==r.nodeType?n.insertAfter(e,r):r.appendChild(e)):o?o>=r.nodeValue.length?n.insertAfter(e,r):(t=r.splitText(o),r.parentNode.insertBefore(e,t)):r.parentNode.insertBefore(e,r)}function y(e){var t=M.extractContents();M.insertNode(e),e.appendChild(t),M.selectNode(e)}function b(){return $(new t(n),{startContainer:M[U],startOffset:M[z],endContainer:M[V],endOffset:M[q],collapsed:M.collapsed,commonAncestorContainer:M.commonAncestorContainer})}function C(e,t){var n;if(3==e.nodeType)return e;if(0>t)return e;for(n=e.firstChild;n&&t>0;)--t,n=n.nextSibling;return n?n:e}function x(){return M[U]==M[V]&&M[z]==M[q]}function w(e,t,i,r){var o,a,s,l,c,u;if(e==i)return t==r?0:r>t?-1:1;for(o=i;o&&o.parentNode!=e;)o=o.parentNode;if(o){for(a=0,s=e.firstChild;s!=o&&t>a;)a++,s=s.nextSibling;return a>=t?-1:1}for(o=e;o&&o.parentNode!=i;)o=o.parentNode;if(o){for(a=0,s=i.firstChild;s!=o&&r>a;)a++,s=s.nextSibling;return r>a?-1:1}for(l=n.findCommonAncestor(e,i),c=e;c&&c.parentNode!=l;)c=c.parentNode;for(c||(c=l),u=i;u&&u.parentNode!=l;)u=u.parentNode;if(u||(u=l),c==u)return 0;for(s=l.firstChild;s;){if(s==c)return-1;if(s==u)return 1;s=s.nextSibling}}function _(e,t,i){var r,o;for(e?(M[U]=t,M[z]=i):(M[V]=t,M[q]=i),r=M[V];r.parentNode;)r=r.parentNode;for(o=M[U];o.parentNode;)o=o.parentNode;o==r?w(M[U],M[z],M[V],M[q])>0&&M.collapse(e):M.collapse(e),M.collapsed=x(),M.commonAncestorContainer=n.findCommonAncestor(M[U],M[V])}function N(e){var t,n,i,r,o,a,s,l=0,c=0;if(M[U]==M[V])return E(e);for(t=M[V],n=t.parentNode;n;t=n,n=n.parentNode){if(n==M[U])return S(t,e);++l}for(t=M[U],n=t.parentNode;n;t=n,n=n.parentNode){if(n==M[V])return k(t,e);++c}for(i=c-l,r=M[U];i>0;)r=r.parentNode,i--;for(o=M[V];0>i;)o=o.parentNode,i++;for(a=r.parentNode,s=o.parentNode;a!=s;a=a.parentNode,s=s.parentNode)r=a,o=s;return T(r,o,e)}function E(e){var t,n,r,o,a,s,l,c,u;if(e!=I&&(t=i()),M[z]==M[q])return t;if(3==M[U].nodeType){if(n=M[U].nodeValue,r=n.substring(M[z],M[q]),e!=O&&(o=M[U],c=M[z],u=M[q]-M[z],0===c&&u>=o.nodeValue.length-1?o.parentNode.removeChild(o):o.deleteData(c,u),M.collapse(F)),e==I)return;return r.length>0&&t.appendChild(H.createTextNode(r)),t}for(o=C(M[U],M[z]),a=M[q]-M[z];o&&a>0;)s=o.nextSibling,l=D(o,e),t&&t.appendChild(l),--a,o=s;return e!=O&&M.collapse(F),t}function S(e,t){var n,r,o,a,s,l;if(t!=I&&(n=i()),r=R(e,t),n&&n.appendChild(r),o=j(e),a=o-M[z],0>=a)return t!=O&&(M.setEndBefore(e),M.collapse(W)),n;for(r=e.previousSibling;a>0;)s=r.previousSibling,l=D(r,t),n&&n.insertBefore(l,n.firstChild),--a,r=s;return t!=O&&(M.setEndBefore(e),M.collapse(W)),n}function k(e,t){var n,r,o,a,s,l;for(t!=I&&(n=i()),o=A(e,t),n&&n.appendChild(o),r=j(e),++r,a=M[q]-r,o=e.nextSibling;o&&a>0;)s=o.nextSibling,l=D(o,t),n&&n.appendChild(l),--a,o=s;return t!=O&&(M.setStartAfter(e),M.collapse(F)),n}function T(e,t,n){var r,o,a,s,l,c,u,d;for(n!=I&&(o=i()),r=A(e,n),o&&o.appendChild(r),a=e.parentNode,s=j(e),l=j(t),++s,c=l-s,u=e.nextSibling;c>0;)d=u.nextSibling,r=D(u,n),o&&o.appendChild(r),u=d,--c;return r=R(t,n),o&&o.appendChild(r),n!=O&&(M.setStartAfter(e),M.collapse(F)),o}function R(e,t){var n,i,r,o,a,s=C(M[V],M[q]-1),l=s!=M[V];if(s==e)return B(s,l,W,t);for(n=s.parentNode,i=B(n,W,W,t);n;){for(;s;)r=s.previousSibling,o=B(s,l,W,t),t!=I&&i.insertBefore(o,i.firstChild),l=F,s=r;if(n==e)return i;s=n.previousSibling,n=n.parentNode,a=B(n,W,W,t),t!=I&&a.appendChild(i),i=a}}function A(e,t){var n,i,r,o,a,s=C(M[U],M[z]),l=s!=M[U];if(s==e)return B(s,l,F,t);for(n=s.parentNode,i=B(n,W,F,t);n;){for(;s;)r=s.nextSibling,o=B(s,l,F,t),t!=I&&i.appendChild(o),l=F,s=r;if(n==e)return i;s=n.nextSibling,n=n.parentNode,a=B(n,W,F,t),t!=I&&a.appendChild(i),i=a}}function B(e,t,i,r){var o,a,s,l,c;if(t)return D(e,r);if(3==e.nodeType){if(o=e.nodeValue,i?(l=M[z],a=o.substring(l),s=o.substring(0,l)):(l=M[q],a=o.substring(0,l),s=o.substring(l)),r!=O&&(e.nodeValue=s),r==I)return;return c=n.clone(e,W),c.nodeValue=a,c}if(r!=I)return n.clone(e,W)}function D(e,t){return t!=I?t==O?n.clone(e,F):e:(e.parentNode.removeChild(e),void 0)}function L(){return n.create("body",null,g()).outerText}var M=this,H=n.doc,P=0,O=1,I=2,F=!0,W=!1,z="startOffset",U="startContainer",V="endContainer",q="endOffset",$=e.extend,j=n.nodeIndex;return $(M,{startContainer:H,startOffset:0,endContainer:H,endOffset:0,collapsed:F,commonAncestorContainer:H,START_TO_START:0,START_TO_END:1,END_TO_END:2,END_TO_START:3,setStart:r,setEnd:o,setStartBefore:a,setStartAfter:s,setEndBefore:l,setEndAfter:c,collapse:u,selectNode:d,selectNodeContents:f,compareBoundaryPoints:m,deleteContents:p,extractContents:h,cloneContents:g,insertNode:v,surroundContents:y,cloneRange:b,toStringIE:L}),M}return t.prototype.toString=function(){return this.toStringIE()},t}),/**
- * Entities.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/html/Entities",["tinymce/util/Tools"],function(e){function t(e){var t;return t=document.createElement("div"),t.innerHTML=e,t.textContent||t.innerText||e}function n(e,t){var n,i,o,a={};if(e){for(e=e.split(","),t=t||10,n=0;n<e.length;n+=2)i=String.fromCharCode(parseInt(e[n],t)),r[i]||(o="&"+e[n+1]+";",a[i]=o,a[o]=i);return a}}var i,r,o,a=e.makeMap,s=/[&<>\"\u007E-\uD7FF\uE000-\uFFEF]|[\uD800-\uDBFF][\uDC00-\uDFFF]/g,l=/[<>&\u007E-\uD7FF\uE000-\uFFEF]|[\uD800-\uDBFF][\uDC00-\uDFFF]/g,c=/[<>&\"\']/g,u=/&(#x|#)?([\w]+);/g,d={128:"€",130:"‚",131:"ƒ",132:"„",133:"…",134:"†",135:"‡",136:"ˆ",137:"‰",138:"Š",139:"‹",140:"Œ",142:"Ž",145:"‘",146:"’",147:"“",148:"”",149:"•",150:"–",151:"—",152:"˜",153:"™",154:"š",155:"›",156:"œ",158:"ž",159:"Ÿ"};r={'"':"&quot;","'":"&#39;","<":"&lt;",">":"&gt;","&":"&amp;"},o={"&lt;":"<","&gt;":">","&amp;":"&","&quot;":'"',"&apos;":"'"},i=n("50,nbsp,51,iexcl,52,cent,53,pound,54,curren,55,yen,56,brvbar,57,sect,58,uml,59,copy,5a,ordf,5b,laquo,5c,not,5d,shy,5e,reg,5f,macr,5g,deg,5h,plusmn,5i,sup2,5j,sup3,5k,acute,5l,micro,5m,para,5n,middot,5o,cedil,5p,sup1,5q,ordm,5r,raquo,5s,frac14,5t,frac12,5u,frac34,5v,iquest,60,Agrave,61,Aacute,62,Acirc,63,Atilde,64,Auml,65,Aring,66,AElig,67,Ccedil,68,Egrave,69,Eacute,6a,Ecirc,6b,Euml,6c,Igrave,6d,Iacute,6e,Icirc,6f,Iuml,6g,ETH,6h,Ntilde,6i,Ograve,6j,Oacute,6k,Ocirc,6l,Otilde,6m,Ouml,6n,times,6o,Oslash,6p,Ugrave,6q,Uacute,6r,Ucirc,6s,Uuml,6t,Yacute,6u,THORN,6v,szlig,70,agrave,71,aacute,72,acirc,73,atilde,74,auml,75,aring,76,aelig,77,ccedil,78,egrave,79,eacute,7a,ecirc,7b,euml,7c,igrave,7d,iacute,7e,icirc,7f,iuml,7g,eth,7h,ntilde,7i,ograve,7j,oacute,7k,ocirc,7l,otilde,7m,ouml,7n,divide,7o,oslash,7p,ugrave,7q,uacute,7r,ucirc,7s,uuml,7t,yacute,7u,thorn,7v,yuml,ci,fnof,sh,Alpha,si,Beta,sj,Gamma,sk,Delta,sl,Epsilon,sm,Zeta,sn,Eta,so,Theta,sp,Iota,sq,Kappa,sr,Lambda,ss,Mu,st,Nu,su,Xi,sv,Omicron,t0,Pi,t1,Rho,t3,Sigma,t4,Tau,t5,Upsilon,t6,Phi,t7,Chi,t8,Psi,t9,Omega,th,alpha,ti,beta,tj,gamma,tk,delta,tl,epsilon,tm,zeta,tn,eta,to,theta,tp,iota,tq,kappa,tr,lambda,ts,mu,tt,nu,tu,xi,tv,omicron,u0,pi,u1,rho,u2,sigmaf,u3,sigma,u4,tau,u5,upsilon,u6,phi,u7,chi,u8,psi,u9,omega,uh,thetasym,ui,upsih,um,piv,812,bull,816,hellip,81i,prime,81j,Prime,81u,oline,824,frasl,88o,weierp,88h,image,88s,real,892,trade,89l,alefsym,8cg,larr,8ch,uarr,8ci,rarr,8cj,darr,8ck,harr,8dl,crarr,8eg,lArr,8eh,uArr,8ei,rArr,8ej,dArr,8ek,hArr,8g0,forall,8g2,part,8g3,exist,8g5,empty,8g7,nabla,8g8,isin,8g9,notin,8gb,ni,8gf,prod,8gh,sum,8gi,minus,8gn,lowast,8gq,radic,8gt,prop,8gu,infin,8h0,ang,8h7,and,8h8,or,8h9,cap,8ha,cup,8hb,int,8hk,there4,8hs,sim,8i5,cong,8i8,asymp,8j0,ne,8j1,equiv,8j4,le,8j5,ge,8k2,sub,8k3,sup,8k4,nsub,8k6,sube,8k7,supe,8kl,oplus,8kn,otimes,8l5,perp,8m5,sdot,8o8,lceil,8o9,rceil,8oa,lfloor,8ob,rfloor,8p9,lang,8pa,rang,9ea,loz,9j0,spades,9j3,clubs,9j5,hearts,9j6,diams,ai,OElig,aj,oelig,b0,Scaron,b1,scaron,bo,Yuml,m6,circ,ms,tilde,802,ensp,803,emsp,809,thinsp,80c,zwnj,80d,zwj,80e,lrm,80f,rlm,80j,ndash,80k,mdash,80o,lsquo,80p,rsquo,80q,sbquo,80s,ldquo,80t,rdquo,80u,bdquo,810,dagger,811,Dagger,81g,permil,81p,lsaquo,81q,rsaquo,85c,euro",32);var f={encodeRaw:function(e,t){return e.replace(t?s:l,function(e){return r[e]||e})},encodeAllRaw:function(e){return(""+e).replace(c,function(e){return r[e]||e})},encodeNumeric:function(e,t){return e.replace(t?s:l,function(e){return e.length>1?"&#"+(1024*(e.charCodeAt(0)-55296)+(e.charCodeAt(1)-56320)+65536)+";":r[e]||"&#"+e.charCodeAt(0)+";"})},encodeNamed:function(e,t,n){return n=n||i,e.replace(t?s:l,function(e){return r[e]||n[e]||e})},getEncodeFunc:function(e,t){function o(e,n){return e.replace(n?s:l,function(e){return r[e]||t[e]||"&#"+e.charCodeAt(0)+";"||e})}function c(e,n){return f.encodeNamed(e,n,t)}return t=n(t)||i,e=a(e.replace(/\+/g,",")),e.named&&e.numeric?o:e.named?t?c:f.encodeNamed:e.numeric?f.encodeNumeric:f.encodeRaw},decode:function(e){return e.replace(u,function(e,n,r){return n?(r=parseInt(r,2===n.length?16:10),r>65535?(r-=65536,String.fromCharCode(55296+(r>>10),56320+(1023&r))):d[r]||String.fromCharCode(r)):o[e]||i[e]||t(e)})}};return f}),/**
- * Env.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/Env",[],function(){var e,t,n,i,r,o,a,s=navigator,l=s.userAgent;e=window.opera&&window.opera.buildNumber,t=/WebKit/.test(l),n=!t&&!e&&/MSIE/gi.test(l)&&/Explorer/gi.test(s.appName),n=n&&/MSIE (\w+)\./.exec(l)[1],i=-1==l.indexOf("Trident/")||-1==l.indexOf("rv:")&&-1==s.appName.indexOf("Netscape")?!1:11,n=n||i,r=!t&&!i&&/Gecko/.test(l),o=-1!=l.indexOf("Mac"),a=/(iPad|iPhone)/.test(l);var c=!a||l.match(/AppleWebKit\/(\d*)/)[1]>=534;return{opera:e,webkit:t,ie:n,gecko:r,mac:o,iOS:a,contentEditable:c,transparentSrc:"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",caretAfter:8!=n,range:window.getSelection&&"Range"in window,documentMode:n?document.documentMode||7:10}}),/**
- * DOMUtils.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/dom/DOMUtils",["tinymce/dom/Sizzle","tinymce/html/Styles","tinymce/dom/EventUtils","tinymce/dom/TreeWalker","tinymce/dom/Range","tinymce/html/Entities","tinymce/Env","tinymce/util/Tools"],function(e,n,i,r,o,a,s,l){function c(e,t){var r,o=this;o.doc=e,o.win=window,o.files={},o.counter=0,o.stdMode=!g||e.documentMode>=8,o.boxModel=!g||"CSS1Compat"==e.compatMode||o.stdMode,o.hasOuterHTML="outerHTML"in e.createElement("a"),this.boundEvents=[],o.settings=t=p({keep_values:!1,hex_colors:1},t),o.schema=t.schema,o.styles=new n({url_converter:t.url_converter,url_converter_scope:t.url_converter_scope},t.schema),o.fixDoc(e),o.events=t.ownEvents?new i(t.proxy):i.Event,r=t.schema?t.schema.getBlockElements():{},o.isBlock=function(e){if(!e)return!1;var t=e.nodeType;return t?!(1!==t||!r[e.nodeName]):!!r[e]}}var u=l.each,d=l.is,f=l.grep,m=l.trim,p=l.extend,h=s.webkit,g=s.ie,v=/^([a-z0-9],?)+$/i,y=/^[ \t\r\n]*$/,b=l.makeMap("fillOpacity fontWeight lineHeight opacity orphans widows zIndex zoom"," ");return c.prototype={root:null,props:{"for":"htmlFor","class":"className",className:"className",checked:"checked",disabled:"disabled",maxlength:"maxLength",readonly:"readOnly",selected:"selected",value:"value",id:"id",name:"name",type:"type"},fixDoc:function(e){var t,n=this.settings;if(g&&n.schema){"abbr article aside audio canvas details figcaption figure footer header hgroup mark menu meter nav output progress section summary time video".replace(/\w+/g,function(t){e.createElement(t)});for(t in n.schema.getCustomElements())e.createElement(t)}},clone:function(e,t){var n,i,r=this;return!g||1!==e.nodeType||t?e.cloneNode(t):(i=r.doc,t?n.firstChild:(n=i.createElement(e.nodeName),u(r.getAttribs(e),function(t){r.setAttrib(n,t.nodeName,r.getAttrib(e,t.nodeName))}),n))},getRoot:function(){var e=this;return e.get(e.settings.root_element)||e.doc.body},getViewPort:function(e){var t,n;return e=e?e:this.win,t=e.document,n=this.boxModel?t.documentElement:t.body,{x:e.pageXOffset||n.scrollLeft,y:e.pageYOffset||n.scrollTop,w:e.innerWidth||n.clientWidth,h:e.innerHeight||n.clientHeight}},getRect:function(e){var t,n,i=this;return e=i.get(e),t=i.getPos(e),n=i.getSize(e),{x:t.x,y:t.y,w:n.w,h:n.h}},getSize:function(e){var t,n,i=this;return e=i.get(e),t=i.getStyle(e,"width"),n=i.getStyle(e,"height"),-1===t.indexOf("px")&&(t=0),-1===n.indexOf("px")&&(n=0),{w:parseInt(t,10)||e.offsetWidth||e.clientWidth,h:parseInt(n,10)||e.offsetHeight||e.clientHeight}},getParent:function(e,t,n){return this.getParents(e,t,n,!1)},getParents:function(e,n,i,r){var o,a=this,s=[];for(e=a.get(e),r=r===t,i=i||("BODY"!=a.getRoot().nodeName?a.getRoot().parentNode:null),d(n,"string")&&(o=n,n="*"===n?function(e){return 1==e.nodeType}:function(e){return a.is(e,o)});e&&e!=i&&e.nodeType&&9!==e.nodeType;){if(!n||n(e)){if(!r)return e;s.push(e)}e=e.parentNode}return r?s:null},get:function(e){var t;return e&&this.doc&&"string"==typeof e&&(t=e,e=this.doc.getElementById(e),e&&e.id!==t)?this.doc.getElementsByName(t)[1]:e},getNext:function(e,t){return this._findSib(e,t,"nextSibling")},getPrev:function(e,t){return this._findSib(e,t,"previousSibling")},select:function(t,n){var i=this;return e(t,i.get(n)||i.get(i.settings.root_element)||i.doc,[])},is:function(n,i){var r;if(n.length===t){if("*"===i)return 1==n.nodeType;if(v.test(i)){for(i=i.toLowerCase().split(/,/),n=n.nodeName.toLowerCase(),r=i.length-1;r>=0;r--)if(i[r]==n)return!0;return!1}}return n.nodeType&&1!=n.nodeType?!1:e.matches(i,n.nodeType?[n]:n).length>0},add:function(e,t,n,i,r){var o=this;return this.run(e,function(e){var a;return a=d(t,"string")?o.doc.createElement(t):t,o.setAttribs(a,n),i&&(i.nodeType?a.appendChild(i):o.setHTML(a,i)),r?a:e.appendChild(a)})},create:function(e,t,n){return this.add(this.doc.createElement(e),e,t,n,1)},createHTML:function(e,t,n){var i,r="";r+="<"+e;for(i in t)t.hasOwnProperty(i)&&null!==t[i]&&(r+=" "+i+'="'+this.encode(t[i])+'"');return"undefined"!=typeof n?r+">"+n+"</"+e+">":r+" />"},createFragment:function(e){var t,n,i,r=this.doc;for(i=r.createElement("div"),t=r.createDocumentFragment(),e&&(i.innerHTML=e);n=i.firstChild;)t.appendChild(n);return t},remove:function(e,t){return this.run(e,function(e){var n,i=e.parentNode;if(!i)return null;if(t)for(;n=e.firstChild;)!g||3!==n.nodeType||n.nodeValue?i.insertBefore(n,e):e.removeChild(n);return i.removeChild(e)})},setStyle:function(e,t,n){return this.run(e,function(e){var i,r,o=this;if(t)if("string"==typeof t){i=e.style,t=t.replace(/-(\D)/g,function(e,t){return t.toUpperCase()}),"number"!=typeof n||b[t]||(n+="px"),"opacity"===t&&e.runtimeStyle&&"undefined"==typeof e.runtimeStyle.opacity&&(i.filter=""===n?"":"alpha(opacity="+100*n+")"),"float"==t&&(t="cssFloat"in e.style?"cssFloat":"styleFloat");try{i[t]=n}catch(a){}o.settings.update_styles&&e.removeAttribute("data-mce-style")}else for(r in t)o.setStyle(e,r,t[r])})},getStyle:function(e,n,i){if(e=this.get(e)){if(this.doc.defaultView&&i){n=n.replace(/[A-Z]/g,function(e){return"-"+e});try{return this.doc.defaultView.getComputedStyle(e,null).getPropertyValue(n)}catch(r){return null}}return n=n.replace(/-(\D)/g,function(e,t){return t.toUpperCase()}),"float"==n&&(n=g?"styleFloat":"cssFloat"),e.currentStyle&&i?e.currentStyle[n]:e.style?e.style[n]:t}},setStyles:function(e,t){this.setStyle(e,t)},css:function(e,t,n){this.setStyle(e,t,n)},removeAllAttribs:function(e){return this.run(e,function(e){var t,n=e.attributes;for(t=n.length-1;t>=0;t--)e.removeAttributeNode(n.item(t))})},setAttrib:function(e,t,n){var i=this;if(e&&t)return this.run(e,function(e){var r=i.settings,o=e.getAttribute(t);if(null!==n)switch(t){case"style":if(!d(n,"string"))return u(n,function(t,n){i.setStyle(e,n,t)}),void 0;r.keep_values&&(n?e.setAttribute("data-mce-style",n,2):e.removeAttribute("data-mce-style",2)),e.style.cssText=n;break;case"class":e.className=n||"";break;case"src":case"href":r.keep_values&&(r.url_converter&&(n=r.url_converter.call(r.url_converter_scope||i,n,t,e)),i.setAttrib(e,"data-mce-"+t,n,2));break;case"shape":e.setAttribute("data-mce-style",n)}d(n)&&null!==n&&0!==n.length?e.setAttribute(t,""+n,2):e.removeAttribute(t,2),o!=n&&r.onSetAttrib&&r.onSetAttrib({attrElm:e,attrName:t,attrValue:n})})},setAttribs:function(e,t){var n=this;return this.run(e,function(e){u(t,function(t,i){n.setAttrib(e,i,t)})})},getAttrib:function(e,t,n){var i,r,o=this;if(e=o.get(e),!e||1!==e.nodeType)return n===r?!1:n;if(d(n)||(n=""),/^(src|href|style|coords|shape)$/.test(t)&&(i=e.getAttribute("data-mce-"+t)))return i;if(g&&o.props[t]&&(i=e[o.props[t]],i=i&&i.nodeValue?i.nodeValue:i),i||(i=e.getAttribute(t,2)),/^(checked|compact|declare|defer|disabled|ismap|multiple|nohref|noshade|nowrap|readonly|selected)$/.test(t))return e[o.props[t]]===!0&&""===i?t:i?t:"";if("FORM"===e.nodeName&&e.getAttributeNode(t))return e.getAttributeNode(t).nodeValue;if("style"===t&&(i=i||e.style.cssText,i&&(i=o.serializeStyle(o.parseStyle(i),e.nodeName),o.settings.keep_values&&e.setAttribute("data-mce-style",i))),h&&"class"===t&&i&&(i=i.replace(/(apple|webkit)\-[a-z\-]+/gi,"")),g)switch(t){case"rowspan":case"colspan":1===i&&(i="");break;case"size":("+0"===i||20===i||0===i)&&(i="");break;case"width":case"height":case"vspace":case"checked":case"disabled":case"readonly":0===i&&(i="");break;case"hspace":-1===i&&(i="");break;case"maxlength":case"tabindex":(32768===i||2147483647===i||"32768"===i)&&(i="");break;case"multiple":case"compact":case"noshade":case"nowrap":return 65535===i?t:n;case"shape":i=i.toLowerCase();break;default:0===t.indexOf("on")&&i&&(i=(""+i).replace(/^function\s+\w+\(\)\s+\{\s+(.*)\s+\}$/,"$1"))}return i!==r&&null!==i&&""!==i?""+i:n},getPos:function(e,t){var n,i,r=this,o=0,a=0,s=r.doc;if(e=r.get(e),t=t||s.body,e){if(t===s.body&&e.getBoundingClientRect)return i=e.getBoundingClientRect(),t=r.boxModel?s.documentElement:s.body,o=i.left+(s.documentElement.scrollLeft||s.body.scrollLeft)-t.clientTop,a=i.top+(s.documentElement.scrollTop||s.body.scrollTop)-t.clientLeft,{x:o,y:a};for(n=e;n&&n!=t&&n.nodeType;)o+=n.offsetLeft||0,a+=n.offsetTop||0,n=n.offsetParent;for(n=e.parentNode;n&&n!=t&&n.nodeType;)o-=n.scrollLeft||0,a-=n.scrollTop||0,n=n.parentNode}return{x:o,y:a}},parseStyle:function(e){return this.styles.parse(e)},serializeStyle:function(e,t){return this.styles.serialize(e,t)},addStyle:function(e){var t,n,i=this,r=i.doc;if(i!==c.DOM&&r===document){var o=c.DOM.addedStyles;if(o=o||[],o[e])return;o[e]=!0,c.DOM.addedStyles=o}n=r.getElementById("mceDefaultStyles"),n||(n=r.createElement("style"),n.id="mceDefaultStyles",n.type="text/css",t=r.getElementsByTagName("head")[0],t.firstChild?t.insertBefore(n,t.firstChild):t.appendChild(n)),n.styleSheet?n.styleSheet.cssText+=e:n.appendChild(r.createTextNode(e))},loadCSS:function(e){var t,n=this,i=n.doc;return n!==c.DOM&&i===document?(c.DOM.loadCSS(e),void 0):(e||(e=""),t=i.getElementsByTagName("head")[0],u(e.split(","),function(e){var r;n.files[e]||(n.files[e]=!0,r=n.create("link",{rel:"stylesheet",href:e}),g&&i.documentMode&&i.recalc&&(r.onload=function(){i.recalc&&i.recalc(),r.onload=null}),t.appendChild(r))}),void 0)},addClass:function(e,t){return this.run(e,function(e){var n;return t?this.hasClass(e,t)?e.className:(n=this.removeClass(e,t),e.className=n=(""!==n?n+" ":"")+t,n):0})},removeClass:function(e,t){var n,i=this;return i.run(e,function(e){var r;return i.hasClass(e,t)?(n||(n=new RegExp("(^|\\s+)"+t+"(\\s+|$)","g")),r=e.className.replace(n," "),r=m(" "!=r?r:""),e.className=r,r||(e.removeAttribute("class"),e.removeAttribute("className")),r):e.className})},hasClass:function(e,t){return e=this.get(e),e&&t?-1!==(" "+e.className+" ").indexOf(" "+t+" "):!1},toggleClass:function(e,n,i){i=i===t?!this.hasClass(e,n):i,this.hasClass(e,n)!==i&&(i?this.addClass(e,n):this.removeClass(e,n))},show:function(e){return this.setStyle(e,"display","block")},hide:function(e){return this.setStyle(e,"display","none")},isHidden:function(e){return e=this.get(e),!e||"none"==e.style.display||"none"==this.getStyle(e,"display")},uniqueId:function(e){return(e?e:"mce_")+this.counter++},setHTML:function(e,t){var n=this;return n.run(e,function(e){if(g){for(;e.firstChild;)e.removeChild(e.firstChild);try{e.innerHTML="<br />"+t,e.removeChild(e.firstChild)}catch(i){var r=n.create("div");r.innerHTML="<br />"+t,u(f(r.childNodes),function(t,n){n&&e.canHaveHTML&&e.appendChild(t)})}}else e.innerHTML=t;return t})},getOuterHTML:function(e){var t,n=this;return(e=n.get(e))?1===e.nodeType&&n.hasOuterHTML?e.outerHTML:(t=(e.ownerDocument||n.doc).createElement("body"),t.appendChild(e.cloneNode(!0)),t.innerHTML):null},setOuterHTML:function(e,t,n){var i=this;return i.run(e,function(e){function r(){var r,o;for(o=n.createElement("body"),o.innerHTML=t,r=o.lastChild;r;)i.insertAfter(r.cloneNode(!0),e),r=r.previousSibling;i.remove(e)}if(1==e.nodeType)if(n=n||e.ownerDocument||i.doc,g)try{1==e.nodeType&&i.hasOuterHTML?e.outerHTML=t:r()}catch(o){r()}else r()})},decode:a.decode,encode:a.encodeAllRaw,insertAfter:function(e,t){return t=this.get(t),this.run(e,function(e){var n,i;return n=t.parentNode,i=t.nextSibling,i?n.insertBefore(e,i):n.appendChild(e),e})},replace:function(e,t,n){var i=this;return i.run(t,function(t){return d(t,"array")&&(e=e.cloneNode(!0)),n&&u(f(t.childNodes),function(t){e.appendChild(t)}),t.parentNode.replaceChild(e,t)})},rename:function(e,t){var n,i=this;return e.nodeName!=t.toUpperCase()&&(n=i.create(t),u(i.getAttribs(e),function(t){i.setAttrib(n,t.nodeName,i.getAttrib(e,t.nodeName))}),i.replace(n,e,1)),n||e},findCommonAncestor:function(e,t){for(var n,i=e;i;){for(n=t;n&&i!=n;)n=n.parentNode;if(i==n)break;i=i.parentNode}return!i&&e.ownerDocument?e.ownerDocument.documentElement:i},toHex:function(e){return this.styles.toHex(l.trim(e))},run:function(e,t,n){var i,r=this;return"string"==typeof e&&(e=r.get(e)),e?(n=n||this,e.nodeType||!e.length&&0!==e.length?t.call(n,e):(i=[],u(e,function(e,o){e&&("string"==typeof e&&(e=r.get(e)),i.push(t.call(n,e,o)))}),i)):!1},getAttribs:function(e){var t;if(e=this.get(e),!e)return[];if(g){if(t=[],"OBJECT"==e.nodeName)return e.attributes;"OPTION"===e.nodeName&&this.getAttrib(e,"selected")&&t.push({specified:1,nodeName:"selected"});var n=/<\/?[\w:\-]+ ?|=[\"][^\"]+\"|=\'[^\']+\'|=[\w\-]+|>/gi;return e.cloneNode(!1).outerHTML.replace(n,"").replace(/[\w:\-]+/gi,function(e){t.push({specified:1,nodeName:e})}),t}return e.attributes},isEmpty:function(e,t){var n,i,o,a,s,l=this,c=0;if(e=e.firstChild){a=new r(e,e.parentNode),t=t||l.schema?l.schema.getNonEmptyElements():null;do{if(o=e.nodeType,1===o){if(e.getAttribute("data-mce-bogus"))continue;if(s=e.nodeName.toLowerCase(),t&&t[s]){if("br"===s){c++;continue}return!1}for(i=l.getAttribs(e),n=e.attributes.length;n--;)if(s=e.attributes[n].nodeName,"name"===s||"data-mce-bookmark"===s)return!1}if(8==o)return!1;if(3===o&&!y.test(e.nodeValue))return!1}while(e=a.next())}return 1>=c},createRng:function(){var e=this.doc;return e.createRange?e.createRange():new o(this)},nodeIndex:function(e,t){var n,i,r,o=0;if(e)for(n=e.nodeType,e=e.previousSibling,i=e;e;e=e.previousSibling)r=e.nodeType,(!t||3!=r||r!=n&&e.nodeValue.length)&&(o++,n=r);return o},split:function(e,t,n){function i(e){function t(e){var t=e.previousSibling&&"SPAN"==e.previousSibling.nodeName,n=e.nextSibling&&"SPAN"==e.nextSibling.nodeName;return t&&n}var n,r=e.childNodes,o=e.nodeType;if(1!=o||"bookmark"!=e.getAttribute("data-mce-type")){for(n=r.length-1;n>=0;n--)i(r[n]);if(9!=o){if(3==o&&e.nodeValue.length>0){var a=m(e.nodeValue).length;if(!s.isBlock(e.parentNode)||a>0||0===a&&t(e))return}else if(1==o&&(r=e.childNodes,1==r.length&&r[0]&&1==r[0].nodeType&&"bookmark"==r[0].getAttribute("data-mce-type")&&e.parentNode.insertBefore(r[0],e),r.length||/^(br|hr|input|img)$/i.test(e.nodeName)))return;s.remove(e)}return e}}var r,o,a,s=this,l=s.createRng();return e&&t?(l.setStart(e.parentNode,s.nodeIndex(e)),l.setEnd(t.parentNode,s.nodeIndex(t)),r=l.extractContents(),l=s.createRng(),l.setStart(t.parentNode,s.nodeIndex(t)+1),l.setEnd(e.parentNode,s.nodeIndex(e)+1),o=l.extractContents(),a=e.parentNode,a.insertBefore(i(r),e),n?a.replaceChild(n,t):a.insertBefore(t,e),a.insertBefore(i(o),e),s.remove(e),n||t):void 0},bind:function(e,t,n,i){var r=this;if(l.isArray(e)){for(var o=e.length;o--;)e[o]=r.bind(e[o],t,n,i);return e}return!r.settings.collect||e!==r.doc&&e!==r.win||r.boundEvents.push([e,t,n,i]),r.events.bind(e,t,n,i||r)},unbind:function(e,t,n){var i,r=this;if(l.isArray(e)){for(i=e.length;i--;)e[i]=r.unbind(e[i],t,n);return e}if(r.boundEvents&&(e===r.doc||e===r.win))for(i=r.boundEvents.length;i--;){var o=r.boundEvents[i];e!=o[0]||t&&t!=o[1]||n&&n!=o[2]||this.events.unbind(o[0],o[1],o[2])}return this.events.unbind(e,t,n)},fire:function(e,t,n){return this.events.fire(e,t,n)},getContentEditable:function(e){var t;return 1!=e.nodeType?null:(t=e.getAttribute("data-mce-contenteditable"),t&&"inherit"!==t?t:"inherit"!==e.contentEditable?e.contentEditable:null)},destroy:function(){var t=this;if(t.boundEvents){for(var n=t.boundEvents.length;n--;){var i=t.boundEvents[n];this.events.unbind(i[0],i[1],i[2])}t.boundEvents=null}e.setDocument&&e.setDocument(),t.win=t.doc=t.root=t.events=t.frag=null},dumpRng:function(e){return"startContainer: "+e.startContainer.nodeName+", startOffset: "+e.startOffset+", endContainer: "+e.endContainer.nodeName+", endOffset: "+e.endOffset},_findSib:function(e,t,n){var i=this,r=t;if(e)for("string"==typeof r&&(r=function(e){return i.is(e,t)}),e=e[n];e;e=e[n])if(r(e))return e;return null}},c.DOM=new c(document),c}),/**
- * ScriptLoader.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/dom/ScriptLoader",["tinymce/dom/DOMUtils","tinymce/util/Tools"],function(e,t){function n(){function e(e,t){function n(){s.remove(a),o&&(o.onreadystatechange=o.onload=o=null),t()}function r(){"undefined"!=typeof console&&console.log&&console.log("Failed to load: "+e)}var o,a,s=i;a=s.uniqueId(),o=document.createElement("script"),o.id=a,o.type="text/javascript",o.src=e,"onreadystatechange"in o?o.onreadystatechange=function(){/loaded|complete/.test(o.readyState)&&n()}:o.onload=n,o.onerror=r,(document.getElementsByTagName("head")[0]||document.body).appendChild(o)}var t,n=0,a=1,s=2,l={},c=[],u={},d=[],f=0;this.isDone=function(e){return l[e]==s},this.markDone=function(e){l[e]=s},this.add=this.load=function(e,i,r){var o=l[e];o==t&&(c.push(e),l[e]=n),i&&(u[e]||(u[e]=[]),u[e].push({func:i,scope:r||this}))},this.loadQueue=function(e,t){this.loadScripts(c,e,t)},this.loadScripts=function(n,i,c){function m(e){r(u[e],function(e){e.func.call(e.scope)}),u[e]=t}var p;d.push({func:i,scope:c||this}),p=function(){var t=o(n);n.length=0,r(t,function(t){return l[t]==s?(m(t),void 0):(l[t]!=a&&(l[t]=a,f++,e(t,function(){l[t]=s,f--,m(t),p()})),void 0)}),f||(r(d,function(e){e.func.call(e.scope)}),d.length=0)},p()}}var i=e.DOM,r=t.each,o=t.grep;return n.ScriptLoader=new n,n}),/**
- * AddOnManager.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/AddOnManager",["tinymce/dom/ScriptLoader","tinymce/util/Tools"],function(e,n){function i(){var e=this;e.items=[],e.urls={},e.lookup={}}var r=n.each;return i.prototype={get:function(e){return this.lookup[e]?this.lookup[e].instance:t},dependencies:function(e){var t;return this.lookup[e]&&(t=this.lookup[e].dependencies),t||[]},requireLangPack:function(t){i.language&&i.languageLoad!==!1&&e.ScriptLoader.add(this.urls[t]+"/langs/"+i.language+".js")},add:function(e,t,n){return this.items.push(t),this.lookup[e]={instance:t,dependencies:n},t},createUrl:function(e,t){return"object"==typeof t?t:{prefix:e.prefix,resource:t,suffix:e.suffix}},addComponents:function(t,n){var i=this.urls[t];r(n,function(t){e.ScriptLoader.add(i+"/"+t)})},load:function(n,o,a,s){function l(){var i=c.dependencies(n);r(i,function(e){var n=c.createUrl(o,e);c.load(n.resource,n,t,t)}),a&&(s?a.call(s):a.call(e))}var c=this,u=o;c.urls[n]||("object"==typeof o&&(u=o.prefix+o.resource+o.suffix),0!==u.indexOf("/")&&-1==u.indexOf("://")&&(u=i.baseURL+"/"+u),c.urls[n]=u.substring(0,u.lastIndexOf("/")),c.lookup[n]?l():e.ScriptLoader.add(u,l,s))}},i.PluginManager=new i,i.ThemeManager=new i,i}),/**
- * Node.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/html/Node",[],function(){function e(e,t,n){var i,r,o=n?"lastChild":"firstChild",a=n?"prev":"next";if(e[o])return e[o];if(e!==t){if(i=e[a])return i;for(r=e.parent;r&&r!==t;r=r.parent)if(i=r[a])return i}}function t(e,t){this.name=e,this.type=t,1===t&&(this.attributes=[],this.attributes.map={})}var n=/^[ \t\r\n]*$/,i={"#text":3,"#comment":8,"#cdata":4,"#pi":7,"#doctype":10,"#document-fragment":11};return t.prototype={replace:function(e){var t=this;return e.parent&&e.remove(),t.insert(e,t),t.remove(),t},attr:function(e,t){var n,i,r,o=this;if("string"!=typeof e){for(i in e)o.attr(i,e[i]);return o}if(n=o.attributes){if(t!==r){if(null===t){if(e in n.map)for(delete n.map[e],i=n.length;i--;)if(n[i].name===e)return n=n.splice(i,1),o;return o}if(e in n.map){for(i=n.length;i--;)if(n[i].name===e){n[i].value=t;break}}else n.push({name:e,value:t});return n.map[e]=t,o}return n.map[e]}},clone:function(){var e,n,i,r,o,a=this,s=new t(a.name,a.type);if(i=a.attributes){for(o=[],o.map={},e=0,n=i.length;n>e;e++)r=i[e],"id"!==r.name&&(o[o.length]={name:r.name,value:r.value},o.map[r.name]=r.value);s.attributes=o}return s.value=a.value,s.shortEnded=a.shortEnded,s},wrap:function(e){var t=this;return t.parent.insert(e,t),e.append(t),t},unwrap:function(){var e,t,n=this;for(e=n.firstChild;e;)t=e.next,n.insert(e,n,!0),e=t;n.remove()},remove:function(){var e=this,t=e.parent,n=e.next,i=e.prev;return t&&(t.firstChild===e?(t.firstChild=n,n&&(n.prev=null)):i.next=n,t.lastChild===e?(t.lastChild=i,i&&(i.next=null)):n.prev=i,e.parent=e.next=e.prev=null),e},append:function(e){var t,n=this;return e.parent&&e.remove(),t=n.lastChild,t?(t.next=e,e.prev=t,n.lastChild=e):n.lastChild=n.firstChild=e,e.parent=n,e},insert:function(e,t,n){var i;return e.parent&&e.remove(),i=t.parent||this,n?(t===i.firstChild?i.firstChild=e:t.prev.next=e,e.prev=t.prev,e.next=t,t.prev=e):(t===i.lastChild?i.lastChild=e:t.next.prev=e,e.next=t.next,e.prev=t,t.next=e),e.parent=i,e},getAll:function(t){var n,i=this,r=[];for(n=i.firstChild;n;n=e(n,i))n.name===t&&r.push(n);return r},empty:function(){var t,n,i,r=this;if(r.firstChild){for(t=[],i=r.firstChild;i;i=e(i,r))t.push(i);for(n=t.length;n--;)i=t[n],i.parent=i.firstChild=i.lastChild=i.next=i.prev=null}return r.firstChild=r.lastChild=null,r},isEmpty:function(t){var i,r,o=this,a=o.firstChild;if(a)do{if(1===a.type){if(a.attributes.map["data-mce-bogus"])continue;if(t[a.name])return!1;for(i=a.attributes.length;i--;)if(r=a.attributes[i].name,"name"===r||0===r.indexOf("data-mce-"))return!1}if(8===a.type)return!1;if(3===a.type&&!n.test(a.value))return!1}while(a=e(a,o));return!0},walk:function(t){return e(this,null,t)}},t.create=function(e,n){var r,o;if(r=new t(e,i[e]||1),n)for(o in n)r.attr(o,n[o]);return r},t}),/**
- * Schema.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/html/Schema",["tinymce/util/Tools"],function(e){function t(e,t){return e?e.split(t||" "):[]}function n(e){function n(e,n,i){function r(e){var t,n,i={};for(t=0,n=e.length;n>t;t++)i[e[t]]={};return i}var o,s,l,c=arguments;for(i=i||[],n=n||"","string"==typeof i&&(i=t(i)),s=3;s<c.length;s++)"string"==typeof c[s]&&(c[s]=t(c[s])),i.push.apply(i,c[s]);for(e=t(e),o=e.length;o--;)l=[].concat(a,t(n)),m[e[o]]={attributes:r(l),attributesOrder:l,children:r(i)}}function r(e,n){var i,r,o,a;for(e=t(e),i=e.length,n=t(n);i--;)for(r=m[e[i]],o=0,a=n.length;a>o;o++)r.attributes[n[o]]={},r.attributesOrder.push(n[o])}var a,s,l,c,u,d,f,m={};return i[e]?i[e]:(a=t("id accesskey class dir lang style tabindex title"),s=t("onabort onblur oncancel oncanplay oncanplaythrough onchange onclick onclose oncontextmenu oncuechange ondblclick ondrag ondragend ondragenter ondragleave ondragover ondragstart ondrop ondurationchange onemptied onended onerror onfocus oninput oninvalid onkeydown onkeypress onkeyup onload onloadeddata onloadedmetadata onloadstart onmousedown onmousemove onmouseout onmouseover onmouseup onmousewheel onpause onplay onplaying onprogress onratechange onreset onscroll onseeked onseeking onseeking onselect onshow onstalled onsubmit onsuspend ontimeupdate onvolumechange onwaiting"),l=t("address blockquote div dl fieldset form h1 h2 h3 h4 h5 h6 hr menu ol p pre table ul"),c=t("a abbr b bdo br button cite code del dfn em embed i iframe img input ins kbd label map noscript object q s samp script select small span strong sub sup textarea u var #text #comment"),"html4"!=e&&(a.push.apply(a,t("contenteditable contextmenu draggable dropzone hidden spellcheck translate")),l.push.apply(l,t("article aside details dialog figure header footer hgroup section nav")),c.push.apply(c,t("audio canvas command datalist mark meter output progress time wbr video ruby bdi keygen"))),"html5-strict"!=e&&(a.push("xml:lang"),f=t("acronym applet basefont big font strike tt"),c.push.apply(c,f),o(f,function(e){n(e,"",c)}),d=t("center dir isindex noframes"),l.push.apply(l,d),u=[].concat(l,c),o(d,function(e){n(e,"",u)})),u=u||[].concat(l,c),n("html","manifest","head body"),n("head","","base command link meta noscript script style title"),n("title hr noscript br"),n("base","href target"),n("link","href rel media hreflang type sizes hreflang"),n("meta","name http-equiv content charset"),n("style","media type scoped"),n("script","src async defer type charset"),n("body","onafterprint onbeforeprint onbeforeunload onblur onerror onfocus onhashchange onload onmessage onoffline ononline onpagehide onpageshow onpopstate onresize onscroll onstorage onunload",u),n("address dt dd div caption","",u),n("h1 h2 h3 h4 h5 h6 pre p abbr code var samp kbd sub sup i b u bdo span legend em strong small s cite dfn","",c),n("blockquote","cite",u),n("ol","reversed start type","li"),n("ul","","li"),n("li","value",u),n("dl","","dt dd"),n("a","href target rel media hreflang type",c),n("q","cite",c),n("ins del","cite datetime",u),n("img","src alt usemap ismap width height"),n("iframe","src name width height",u),n("embed","src type width height"),n("object","data type typemustmatch name usemap form width height",u,"param"),n("param","name value"),n("map","name",u,"area"),n("area","alt coords shape href target rel media hreflang type"),n("table","border","caption colgroup thead tfoot tbody tr"+("html4"==e?" col":"")),n("colgroup","span","col"),n("col","span"),n("tbody thead tfoot","","tr"),n("tr","","td th"),n("td","colspan rowspan headers",u),n("th","colspan rowspan headers scope abbr",u),n("form","accept-charset action autocomplete enctype method name novalidate target",u),n("fieldset","disabled form name",u,"legend"),n("label","form for",c),n("input","accept alt autocomplete checked dirname disabled form formaction formenctype formmethod formnovalidate formtarget height list max maxlength min multiple name pattern readonly required size src step type value width"),n("button","disabled form formaction formenctype formmethod formnovalidate formtarget name type value","html4"==e?u:c),n("select","disabled form multiple name required size","option optgroup"),n("optgroup","disabled label","option"),n("option","disabled label selected value"),n("textarea","cols dirname disabled form maxlength name readonly required rows wrap"),n("menu","type label",u,"li"),n("noscript","",u),"html4"!=e&&(n("wbr"),n("ruby","",c,"rt rp"),n("figcaption","",u),n("mark rt rp summary bdi","",c),n("canvas","width height",u),n("video","src crossorigin poster preload autoplay mediagroup loop muted controls width height",u,"track source"),n("audio","src crossorigin preload autoplay mediagroup loop muted controls",u,"track source"),n("source","src type media"),n("track","kind src srclang label default"),n("datalist","",c,"option"),n("article section nav aside header footer","",u),n("hgroup","","h1 h2 h3 h4 h5 h6"),n("figure","",u,"figcaption"),n("time","datetime",c),n("dialog","open",u),n("command","type label icon disabled checked radiogroup command"),n("output","for form name",c),n("progress","value max",c),n("meter","value min max low high optimum",c),n("details","open",u,"summary"),n("keygen","autofocus challenge disabled form keytype name")),"html5-strict"!=e&&(r("script","language xml:space"),r("style","xml:space"),r("object","declare classid codebase codetype archive standby align border hspace vspace"),r("param","valuetype type"),r("a","charset name rev shape coords"),r("br","clear"),r("applet","codebase archive code object alt name width height align hspace vspace"),r("img","name longdesc align border hspace vspace"),r("iframe","longdesc frameborder marginwidth marginheight scrolling align"),r("font basefont","size color face"),r("input","usemap align"),r("select","onchange"),r("textarea"),r("h1 h2 h3 h4 h5 h6 div p legend caption","align"),r("ul","type compact"),r("li","type"),r("ol dl menu dir","compact"),r("pre","width xml:space"),r("hr","align noshade size width"),r("isindex","prompt"),r("table","summary width frame rules cellspacing cellpadding align bgcolor"),r("col","width align char charoff valign"),r("colgroup","width align char charoff valign"),r("thead","align char charoff valign"),r("tr","align char charoff valign bgcolor"),r("th","axis align char charoff valign nowrap bgcolor width height"),r("form","accept"),r("td","abbr axis scope align char charoff valign nowrap bgcolor width height"),r("tfoot","align char charoff valign"),r("tbody","align char charoff valign"),r("area","nohref"),r("body","background bgcolor text link vlink alink")),"html4"!=e&&(r("input button select textarea","autofocus"),r("input textarea","placeholder"),r("a","download"),r("link script img","crossorigin"),r("iframe","srcdoc sandbox seamless allowfullscreen")),o(t("a form meter progress dfn"),function(e){m[e]&&delete m[e].children[e]}),delete m.caption.children.table,i[e]=m,m)}var i={},r=e.makeMap,o=e.each,a=e.extend,s=e.explode,l=e.inArray;return function(e){function c(t,n,o){var s=e[t];return s?s=r(s,",",r(s.toUpperCase()," ")):(s=i[t],s||(s=r(n," ",r(n.toUpperCase()," ")),s=a(s,o),i[t]=s)),s}function u(e){return new RegExp("^"+e.replace(/([?+*])/g,".$1")+"$")}function d(e){var n,i,o,a,s,c,d,f,m,p,h,g,v,y,b,C,x,w,_,N=/^([#+\-])?([^\[!\/]+)(?:\/([^\[!]+))?(?:(!?)\[([^\]]+)\])?$/,E=/^([!\-])?(\w+::\w+|[^=:<]+)?(?:([=:<])(.*))?$/,k=/[*?+]/;if(e)for(e=t(e,","),S["@"]&&(C=S["@"].attributes,x=S["@"].attributesOrder),n=0,i=e.length;i>n;n++)if(s=N.exec(e[n])){if(y=s[1],m=s[2],b=s[3],f=s[5],g={},v=[],c={attributes:g,attributesOrder:v},"#"===y&&(c.paddEmpty=!0),"-"===y&&(c.removeEmpty=!0),"!"===s[4]&&(c.removeEmptyAttrs=!0),C){for(w in C)g[w]=C[w];v.push.apply(v,x)}if(f)for(f=t(f,"|"),o=0,a=f.length;a>o;o++)if(s=E.exec(f[o])){if(d={},h=s[1],p=s[2].replace(/::/g,":"),y=s[3],_=s[4],"!"===h&&(c.attributesRequired=c.attributesRequired||[],c.attributesRequired.push(p),d.required=!0),"-"===h){delete g[p],v.splice(l(v,p),1);continue}y&&("="===y&&(c.attributesDefault=c.attributesDefault||[],c.attributesDefault.push({name:p,value:_}),d.defaultValue=_),":"===y&&(c.attributesForced=c.attributesForced||[],c.attributesForced.push({name:p,value:_}),d.forcedValue=_),"<"===y&&(d.validValues=r(_,"?"))),k.test(p)?(c.attributePatterns=c.attributePatterns||[],d.pattern=u(p),c.attributePatterns.push(d)):(g[p]||v.push(p),g[p]=d)}C||"@"!=m||(C=g,x=v),b&&(c.outputName=m,S[b]=c),k.test(m)?(c.pattern=u(m),T.push(c)):S[m]=c}}function f(e){S={},T=[],d(e),o(v,function(e,t){k[t]=e.children})}function m(e){var n=/^(~)?(.+)$/;e&&o(t(e,","),function(e){var t=n.exec(e),i="~"===t[1],r=i?"span":"div",s=t[2];if(k[s]=k[r],R[s]=r,i||(w[s.toUpperCase()]={},w[s]={}),!S[s]){var l=S[r];l=a({},l),delete l.removeEmptyAttrs,delete l.removeEmpty,S[s]=l}o(k,function(e){e[r]&&(e[s]=e[r])})})}function p(e){var n=/^([+\-]?)(\w+)\[([^\]]+)\]$/;e&&o(t(e,","),function(e){var i,r,a=n.exec(e);a&&(r=a[1],i=r?k[a[2]]:k[a[2]]={"#comment":{}},i=k[a[2]],o(t(a[3],"|"),function(e){"-"===r?delete i[e]:i[e]={}}))})}function h(e){var t,n=S[e];if(n)return n;for(t=T.length;t--;)if(n=T[t],n.pattern.test(e))return n}var g,v,y,b,C,x,w,_,N,E=this,S={},k={},T=[],R={},A={};e=e||{},v=n(e.schema),e.verify_html===!1&&(e.valid_elements="*[*]"),e.valid_styles&&(g={},o(e.valid_styles,function(e,t){g[t]=s(e)})),y=c("whitespace_elements","pre script noscript style textarea video audio iframe object"),b=c("self_closing_elements","colgroup dd dt li option p td tfoot th thead tr"),C=c("short_ended_elements","area base basefont br col frame hr img input isindex link meta param embed source wbr track"),x=c("boolean_attributes","checked compact declare defer disabled ismap multiple nohref noresize noshade nowrap readonly selected autoplay loop controls"),_=c("non_empty_elements","td th iframe video audio object",C),N=c("text_block_elements","h1 h2 h3 h4 h5 h6 p div address pre form blockquote center dir fieldset header footer article section hgroup aside nav figure"),w=c("block_elements","hr table tbody thead tfoot th tr td li ol ul caption dl dt dd noscript menu isindex samp option datalist select optgroup",N),o((e.special||"script noscript style textarea").split(" "),function(e){A[e]=new RegExp("</"+e+"[^>]*>","gi")}),e.valid_elements?f(e.valid_elements):(o(v,function(e,t){S[t]={attributes:e.attributes,attributesOrder:e.attributesOrder},k[t]=e.children}),"html5"!=e.schema&&o(t("strong/b em/i"),function(e){e=t(e,"/"),S[e[1]].outputName=e[0]}),S.img.attributesDefault=[{name:"alt",value:""}],o(t("ol ul sub sup blockquote span font a table tbody tr strong em b i"),function(e){S[e]&&(S[e].removeEmpty=!0)}),o(t("p h1 h2 h3 h4 h5 h6 th td pre div address caption"),function(e){S[e].paddEmpty=!0}),o(t("span"),function(e){S[e].removeEmptyAttrs=!0})),m(e.custom_elements),p(e.valid_children),d(e.extended_valid_elements),p("+ol[ul|ol],+ul[ul|ol]"),e.invalid_elements&&o(s(e.invalid_elements),function(e){S[e]&&delete S[e]}),h("span")||d("span[!data-mce-type|*]"),E.children=k,E.styles=g,E.getBoolAttrs=function(){return x},E.getBlockElements=function(){return w},E.getTextBlockElements=function(){return N},E.getShortEndedElements=function(){return C},E.getSelfClosingElements=function(){return b},E.getNonEmptyElements=function(){return _},E.getWhiteSpaceElements=function(){return y},E.getSpecialElements=function(){return A},E.isValidChild=function(e,t){var n=k[e];return!(!n||!n[t])},E.isValid=function(e,t){var n,i,r=h(e);if(r){if(!t)return!0;if(r.attributes[t])return!0;if(n=r.attributePatterns)for(i=n.length;i--;)if(n[i].pattern.test(e))return!0}return!1},E.getElementRule=h,E.getCustomElements=function(){return R},E.addValidElements=d,E.setValidElements=f,E.addCustomElements=m,E.addValidChildren=p,E.elements=S}}),/**
- * SaxParser.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/html/SaxParser",["tinymce/html/Schema","tinymce/html/Entities","tinymce/util/Tools"],function(e,t,n){var i=n.each;return function(r,o){var a=this,s=function(){};r=r||{},a.schema=o=o||new e,r.fix_self_closing!==!1&&(r.fix_self_closing=!0),i("comment cdata text start end pi doctype".split(" "),function(e){e&&(a[e]=r[e]||s)}),a.parse=function(e){function i(e){var t,n;for(t=I.length;t--&&I[t].name!==e;);if(t>=0){for(n=I.length-1;n>=t;n--)e=I[n],e.valid&&P.end(e.name);I.length=t}}function a(e,t,n,i,o){var a,s,l=/[\s\u0000-\u001F]+/g;if(t=t.toLowerCase(),n=t in v?t:W(n||i||o||""),b&&!p&&0!==t.indexOf("data-")){if(a=N[t],!a&&E){for(s=E.length;s--&&(a=E[s],!a.pattern.test(t)););-1===s&&(a=null)}if(!a)return;if(a.validValues&&!(n in a.validValues))return}z[t]&&!r.allow_script_urls&&/(java|vb)script:/i.test(decodeURIComponent(n.replace(l,"")))||(u.map[t]=n,u.push({name:t,value:n}))}var s,l,c,u,d,f,m,p,h,g,v,y,b,C,x,w,_,N,E,S,k,T,R,A,B,D,L,M,H,P=this,O=0,I=[],F=0,W=t.decode,z=n.makeMap("src,href");for(B=new RegExp("<(?:(?:!--([\\w\\W]*?)-->)|(?:!\\[CDATA\\[([\\w\\W]*?)\\]\\]>)|(?:!DOCTYPE([\\w\\W]*?)>)|(?:\\?([^\\s\\/<>]+) ?([\\w\\W]*?)[?/]>)|(?:\\/([^>]+)>)|(?:([A-Za-z0-9\\-\\:\\.]+)((?:\\s+[^\"'>]+(?:(?:\"[^\"]*\")|(?:'[^']*')|[^>]*))*|\\/|\\s+)>))","g"),D=/([\w:\-]+)(?:\s*=\s*(?:(?:\"((?:[^\"])*)\")|(?:\'((?:[^\'])*)\')|([^>\s]+)))?/g,g=o.getShortEndedElements(),A=r.self_closing_elements||o.getSelfClosingElements(),v=o.getBoolAttrs(),b=r.validate,h=r.remove_internals,H=r.fix_self_closing,L=o.getSpecialElements();s=B.exec(e);){if(O<s.index&&P.text(W(e.substr(O,s.index-O))),l=s[6])l=l.toLowerCase(),":"===l.charAt(0)&&(l=l.substr(1)),i(l);else if(l=s[7]){if(l=l.toLowerCase(),":"===l.charAt(0)&&(l=l.substr(1)),y=l in g,H&&A[l]&&I.length>0&&I[I.length-1].name===l&&i(l),!b||(C=o.getElementRule(l))){if(x=!0,b&&(N=C.attributes,E=C.attributePatterns),(_=s[8])?(p=-1!==_.indexOf("data-mce-type"),p&&h&&(x=!1),u=[],u.map={},_.replace(D,a)):(u=[],u.map={}),b&&!p){if(S=C.attributesRequired,k=C.attributesDefault,T=C.attributesForced,R=C.removeEmptyAttrs,R&&!u.length&&(x=!1),T)for(d=T.length;d--;)w=T[d],m=w.name,M=w.value,"{$uid}"===M&&(M="mce_"+F++),u.map[m]=M,u.push({name:m,value:M});if(k)for(d=k.length;d--;)w=k[d],m=w.name,m in u.map||(M=w.value,"{$uid}"===M&&(M="mce_"+F++),u.map[m]=M,u.push({name:m,value:M}));if(S){for(d=S.length;d--&&!(S[d]in u.map););-1===d&&(x=!1)}u.map["data-mce-bogus"]&&(x=!1)}x&&P.start(l,u,y)}else x=!1;if(c=L[l]){c.lastIndex=O=s.index+s[0].length,(s=c.exec(e))?(x&&(f=e.substr(O,s.index-O)),O=s.index+s[0].length):(f=e.substr(O),O=e.length),x&&(f.length>0&&P.text(f,!0),P.end(l)),B.lastIndex=O;continue}y||(_&&_.indexOf("/")==_.length-1?x&&P.end(l):I.push({name:l,valid:x}))}else(l=s[1])?(">"===l.charAt(0)&&(l=" "+l),r.allow_conditional_comments||"[if"!==l.substr(0,3)||(l=" "+l),P.comment(l)):(l=s[2])?P.cdata(l):(l=s[3])?P.doctype(l):(l=s[4])&&P.pi(l,s[5]);O=s.index+s[0].length}for(O<e.length&&P.text(W(e.substr(O))),d=I.length-1;d>=0;d--)l=I[d],l.valid&&P.end(l.name)}}}),/**
- * DomParser.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/html/DomParser",["tinymce/html/Node","tinymce/html/Schema","tinymce/html/SaxParser","tinymce/util/Tools"],function(e,t,n,i){var r=i.makeMap,o=i.each,a=i.explode,s=i.extend;return function(i,l){function c(t){var n,i,o,a,s,c,d,f,m,p,h,g,v,y;for(h=r("tr,td,th,tbody,thead,tfoot,table"),p=l.getNonEmptyElements(),g=l.getTextBlockElements(),n=0;n<t.length;n++)if(i=t[n],i.parent&&!i.fixed)if(g[i.name]&&"li"==i.parent.name){for(v=i.next;v&&g[v.name];)v.name="li",v.fixed=!0,i.parent.insert(v,i.parent),v=v.next;i.unwrap(i)}else{for(a=[i],o=i.parent;o&&!l.isValidChild(o.name,i.name)&&!h[o.name];o=o.parent)a.push(o);if(o&&a.length>1){for(a.reverse(),s=c=u.filterNode(a[0].clone()),m=0;m<a.length-1;m++){for(l.isValidChild(c.name,a[m].name)?(d=u.filterNode(a[m].clone()),c.append(d)):d=c,f=a[m].firstChild;f&&f!=a[m+1];)y=f.next,d.append(f),f=y;c=d}s.isEmpty(p)?o.insert(i,a[0],!0):(o.insert(s,a[0],!0),o.insert(i,s)),o=a[0],(o.isEmpty(p)||o.firstChild===o.lastChild&&"br"===o.firstChild.name)&&o.empty().remove()}else if(i.parent){if("li"===i.name){if(v=i.prev,v&&("ul"===v.name||"ul"===v.name)){v.append(i);continue}if(v=i.next,v&&("ul"===v.name||"ul"===v.name)){v.insert(i,v.firstChild,!0);continue}i.wrap(u.filterNode(new e("ul",1)));continue}l.isValidChild(i.parent.name,"div")&&l.isValidChild("div",i.name)?i.wrap(u.filterNode(new e("div",1))):"style"===i.name||"script"===i.name?i.empty().remove():i.unwrap()}}}var u=this,d={},f=[],m={},p={};i=i||{},i.validate="validate"in i?i.validate:!0,i.root_name=i.root_name||"body",u.schema=l=l||new t,u.filterNode=function(e){var t,n,i;n in d&&(i=m[n],i?i.push(e):m[n]=[e]),t=f.length;for(;t--;)n=f[t].name,n in e.attributes.map&&(i=p[n],i?i.push(e):p[n]=[e]);return e},u.addNodeFilter=function(e,t){o(a(e),function(e){var n=d[e];n||(d[e]=n=[]),n.push(t)})},u.addAttributeFilter=function(e,t){o(a(e),function(e){var n;for(n=0;n<f.length;n++)if(f[n].name===e)return f[n].callbacks.push(t),void 0;f.push({name:e,callbacks:[t]})})},u.parse=function(t,o){function a(){function e(e){e&&(r=e.firstChild,r&&3==r.type&&(r.value=r.value.replace(R,"")),r=e.lastChild,r&&3==r.type&&(r.value=r.value.replace(B,"")))}var t,n,r=y.firstChild;if(l.isValidChild(y.name,O.toLowerCase())){for(;r;)t=r.next,3==r.type||1==r.type&&"p"!==r.name&&!T[r.name]&&!r.attr("data-mce-type")?n?n.append(r):(n=u(O,1),n.attr(i.forced_root_block_attrs),y.insert(n,r),n.append(r)):(e(n),n=null),r=t;e(n)}}function u(t,n){var i,r=new e(t,n);return t in d&&(i=m[t],i?i.push(r):m[t]=[r]),r}function h(e){var t,n,i;for(t=e.prev;t&&3===t.type;)n=t.value.replace(B,""),n.length>0?(t.value=n,t=t.prev):(i=t.prev,t.remove(),t=i)}function g(e){var t,n={};for(t in e)"li"!==t&&"p"!=t&&(n[t]=e[t]);return n}var v,y,b,C,x,w,_,N,E,S,k,T,R,A,B,D,L,M,H,P,O,I=[];if(o=o||{},m={},p={},T=s(r("script,style,head,html,body,title,meta,param"),l.getBlockElements()),P=l.getNonEmptyElements(),H=l.children,k=i.validate,O="forced_root_block"in o?o.forced_root_block:i.forced_root_block,M=l.getWhiteSpaceElements(),R=/^[ \t\r\n]+/,B=/[ \t\r\n]+$/,D=/[ \t\r\n]+/g,L=/^[ \t\r\n]+$/,v=new n({validate:k,allow_script_urls:i.allow_script_urls,allow_conditional_comments:i.allow_conditional_comments,self_closing_elements:g(l.getSelfClosingElements()),cdata:function(e){b.append(u("#cdata",4)).value=e},text:function(e,t){var n;A||(e=e.replace(D," "),b.lastChild&&T[b.lastChild.name]&&(e=e.replace(R,""))),0!==e.length&&(n=u("#text",3),n.raw=!!t,b.append(n).value=e)},comment:function(e){b.append(u("#comment",8)).value=e},pi:function(e,t){b.append(u(e,7)).value=t,h(b)},doctype:function(e){var t;t=b.append(u("#doctype",10)),t.value=e,h(b)},start:function(e,t,n){var i,r,o,a,s;if(o=k?l.getElementRule(e):{}){for(i=u(o.outputName||e,1),i.attributes=t,i.shortEnded=n,b.append(i),s=H[b.name],s&&H[i.name]&&!s[i.name]&&I.push(i),r=f.length;r--;)a=f[r].name,a in t.map&&(E=p[a],E?E.push(i):p[a]=[i]);T[e]&&h(i),n||(b=i),!A&&M[e]&&(A=!0)}},end:function(t){var n,i,r,o,a;if(i=k?l.getElementRule(t):{}){if(T[t]&&!A){if(n=b.firstChild,n&&3===n.type)if(r=n.value.replace(R,""),r.length>0)n.value=r,n=n.next;else for(o=n.next,n.remove(),n=o;n&&3===n.type;)r=n.value,o=n.next,(0===r.length||L.test(r))&&(n.remove(),n=o),n=o;if(n=b.lastChild,n&&3===n.type)if(r=n.value.replace(B,""),r.length>0)n.value=r,n=n.prev;else for(o=n.prev,n.remove(),n=o;n&&3===n.type;)r=n.value,o=n.prev,(0===r.length||L.test(r))&&(n.remove(),n=o),n=o}if(A&&M[t]&&(A=!1),(i.removeEmpty||i.paddEmpty)&&b.isEmpty(P))if(i.paddEmpty)b.empty().append(new e("#text","3")).value=" ";else if(!b.attributes.map.name&&!b.attributes.map.id)return a=b.parent,b.empty().remove(),b=a,void 0;b=b.parent}}},l),y=b=new e(o.context||i.root_name,11),v.parse(t),k&&I.length&&(o.context?o.invalid=!0:c(I)),O&&("body"==y.name||o.isRootContent)&&a(),!o.invalid){for(S in m){for(E=d[S],C=m[S],_=C.length;_--;)C[_].parent||C.splice(_,1);for(x=0,w=E.length;w>x;x++)E[x](C,S,o)}for(x=0,w=f.length;w>x;x++)if(E=f[x],E.name in p){for(C=p[E.name],_=C.length;_--;)C[_].parent||C.splice(_,1);for(_=0,N=E.callbacks.length;N>_;_++)E.callbacks[_](C,E.name,o)}}return y},i.remove_trailing_brs&&u.addNodeFilter("br",function(t){var n,i,r,o,a,c,u,d,f=t.length,m=s({},l.getBlockElements()),p=l.getNonEmptyElements();for(m.body=1,n=0;f>n;n++)if(i=t[n],r=i.parent,m[i.parent.name]&&i===r.lastChild){for(a=i.prev;a;){if(c=a.name,"span"!==c||"bookmark"!==a.attr("data-mce-type")){if("br"!==c)break;if("br"===c){i=null;break}}a=a.prev}i&&(i.remove(),r.isEmpty(p)&&(u=l.getElementRule(r.name),u&&(u.removeEmpty?r.remove():u.paddEmpty&&(r.empty().append(new e("#text",3)).value=" "))))}else{for(o=i;r&&r.firstChild===o&&r.lastChild===o&&(o=r,!m[r.name]);)r=r.parent;o===r&&(d=new e("#text",3),d.value=" ",i.replace(d))}}),i.allow_html_in_named_anchor||u.addAttributeFilter("id,name",function(e){for(var t,n,i,r,o=e.length;o--;)if(r=e[o],"a"===r.name&&r.firstChild&&!r.attr("href")){i=r.parent,t=r.lastChild;do n=t.prev,i.insert(t,r),t=n;while(t)}})}}),/**
- * Writer.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/html/Writer",["tinymce/html/Entities","tinymce/util/Tools"],function(e,t){var n=t.makeMap;return function(t){var i,r,o,a,s,l=[];return t=t||{},i=t.indent,r=n(t.indent_before||""),o=n(t.indent_after||""),a=e.getEncodeFunc(t.entity_encoding||"raw",t.entities),s="html"==t.element_format,{start:function(e,t,n){var c,u,d,f;if(i&&r[e]&&l.length>0&&(f=l[l.length-1],f.length>0&&"\n"!==f&&l.push("\n")),l.push("<",e),t)for(c=0,u=t.length;u>c;c++)d=t[c],l.push(" ",d.name,'="',a(d.value,!0),'"');l[l.length]=!n||s?">":" />",n&&i&&o[e]&&l.length>0&&(f=l[l.length-1],f.length>0&&"\n"!==f&&l.push("\n"))},end:function(e){var t;l.push("</",e,">"),i&&o[e]&&l.length>0&&(t=l[l.length-1],t.length>0&&"\n"!==t&&l.push("\n"))},text:function(e,t){e.length>0&&(l[l.length]=t?e:a(e))},cdata:function(e){l.push("<![CDATA[",e,"]]>")},comment:function(e){l.push("<!--",e,"-->")},pi:function(e,t){t?l.push("<?",e," ",t,"?>"):l.push("<?",e,"?>"),i&&l.push("\n")},doctype:function(e){l.push("<!DOCTYPE",e,">",i?"\n":"")},reset:function(){l.length=0},getContent:function(){return l.join("").replace(/\n$/,"")}}}}),/**
- * Serializer.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/html/Serializer",["tinymce/html/Writer","tinymce/html/Schema"],function(e,t){return function(n,i){var r=this,o=new e(n);n=n||{},n.validate="validate"in n?n.validate:!0,r.schema=i=i||new t,r.writer=o,r.serialize=function(e){function t(e){var n,s,l,c,u,d,f,m,p,h=r[e.type];if(h)h(e);else{if(n=e.name,s=e.shortEnded,l=e.attributes,a&&l&&l.length>1){for(d=[],d.map={},p=i.getElementRule(e.name),f=0,m=p.attributesOrder.length;m>f;f++)c=p.attributesOrder[f],c in l.map&&(u=l.map[c],d.map[c]=u,d.push({name:c,value:u}));for(f=0,m=l.length;m>f;f++)c=l[f].name,c in d.map||(u=l.map[c],d.map[c]=u,d.push({name:c,value:u}));l=d}if(o.start(e.name,l,s),!s){if(e=e.firstChild)do t(e);while(e=e.next);o.end(n)}}}var r,a;return a=n.validate,r={3:function(e){o.text(e.value,e.raw)},8:function(e){o.comment(e.value)},7:function(e){o.pi(e.name,e.value)},10:function(e){o.doctype(e.value)},4:function(e){o.cdata(e.value)},11:function(e){if(e=e.firstChild)do t(e);while(e=e.next)}},o.reset(),1!=e.type||n.inner?r[11](e):t(e),o.getContent()}}}),/**
- * Serializer.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/dom/Serializer",["tinymce/dom/DOMUtils","tinymce/html/DomParser","tinymce/html/Entities","tinymce/html/Serializer","tinymce/html/Node","tinymce/html/Schema","tinymce/Env","tinymce/util/Tools"],function(e,t,n,i,r,o,a,s){var l=s.each,c=s.trim,u=e.DOM;return function(e,r){var s,d,f;return r&&(s=r.dom,d=r.schema),s=s||u,d=d||new o(e),e.entity_encoding=e.entity_encoding||"named",e.remove_trailing_brs="remove_trailing_brs"in e?e.remove_trailing_brs:!0,f=new t(e,d),f.addAttributeFilter("src,href,style",function(t,n){for(var i,r,o,a=t.length,l="data-mce-"+n,c=e.url_converter,u=e.url_converter_scope;a--;)i=t[a],r=i.attributes.map[l],r!==o?(i.attr(n,r.length>0?r:null),i.attr(l,null)):(r=i.attributes.map[n],"style"===n?r=s.serializeStyle(s.parseStyle(r),i.name):c&&(r=c.call(u,r,n,i.name)),i.attr(n,r.length>0?r:null))}),f.addAttributeFilter("class",function(e){for(var t,n,i=e.length;i--;)t=e[i],n=t.attr("class").replace(/(?:^|\s)mce-item-\w+(?!\S)/g,""),t.attr("class",n.length>0?n:null)}),f.addAttributeFilter("data-mce-type",function(e,t,n){for(var i,r=e.length;r--;)i=e[r],"bookmark"!==i.attributes.map["data-mce-type"]||n.cleanup||i.remove()}),f.addAttributeFilter("data-mce-expando",function(e,t){for(var n=e.length;n--;)e[n].attr(t,null)}),f.addNodeFilter("noscript",function(e){for(var t,i=e.length;i--;)t=e[i].firstChild,t&&(t.value=n.decode(t.value))}),f.addNodeFilter("script,style",function(e,t){function n(e){return e.replace(/(<!--\[CDATA\[|\]\]-->)/g,"\n").replace(/^[\r\n]*|[\r\n]*$/g,"").replace(/^\s*((<!--)?(\s*\/\/)?\s*<!\[CDATA\[|(<!--\s*)?\/\*\s*<!\[CDATA\[\s*\*\/|(\/\/)?\s*<!--|\/\*\s*<!--\s*\*\/)\s*[\r\n]*/gi,"").replace(/\s*(\/\*\s*\]\]>\s*\*\/(-->)?|\s*\/\/\s*\]\]>(-->)?|\/\/\s*(-->)?|\]\]>|\/\*\s*-->\s*\*\/|\s*-->\s*)\s*$/g,"")}for(var i,r,o=e.length;o--;)if(i=e[o],r=i.firstChild?i.firstChild.value:"","script"===t){var a=(i.attr("type")||"text/javascript").replace(/^mce\-/,"");i.attr("type","text/javascript"===a?null:a),r.length>0&&(i.firstChild.value="// <![CDATA[\n"+n(r)+"\n// ]]>")}else r.length>0&&(i.firstChild.value="<!--\n"+n(r)+"\n-->")}),f.addNodeFilter("#comment",function(e){for(var t,n=e.length;n--;)t=e[n],0===t.value.indexOf("[CDATA[")?(t.name="#cdata",t.type=4,t.value=t.value.replace(/^\[CDATA\[|\]\]$/g,"")):0===t.value.indexOf("mce:protected ")&&(t.name="#text",t.type=3,t.raw=!0,t.value=unescape(t.value).substr(14))}),f.addNodeFilter("xml:namespace,input",function(e,t){for(var n,i=e.length;i--;)n=e[i],7===n.type?n.remove():1===n.type&&("input"!==t||"type"in n.attributes.map||n.attr("type","text"))}),e.fix_list_elements&&f.addNodeFilter("ul,ol",function(e){for(var t,n,i=e.length;i--;)t=e[i],n=t.parent,("ul"===n.name||"ol"===n.name)&&t.prev&&"li"===t.prev.name&&t.prev.append(t)}),f.addAttributeFilter("data-mce-src,data-mce-href,data-mce-style,data-mce-selected",function(e,t){for(var n=e.length;n--;)e[n].attr(t,null)}),{schema:d,addNodeFilter:f.addNodeFilter,addAttributeFilter:f.addAttributeFilter,serialize:function(t,n){var r,o,u,m,p,h=this;return a.ie&&s.select("script,style,select,map").length>0?(p=t.innerHTML,t=t.cloneNode(!1),s.setHTML(t,p)):t=t.cloneNode(!0),r=t.ownerDocument.implementation,r.createHTMLDocument&&(o=r.createHTMLDocument(""),l("BODY"==t.nodeName?t.childNodes:[t],function(e){o.body.appendChild(o.importNode(e,!0))}),t="BODY"!=t.nodeName?o.body.firstChild:o.body,u=s.doc,s.doc=o),n=n||{},n.format=n.format||"html",n.selection&&(n.forced_root_block=""),n.no_events||(n.node=t,h.onPreProcess(n)),m=new i(e,d),n.content=m.serialize(f.parse(c(n.getInner?t.innerHTML:s.getOuterHTML(t)),n)),n.cleanup||(n.content=n.content.replace(/\uFEFF/g,"")),n.no_events||h.onPostProcess(n),u&&(s.doc=u),n.node=null,n.content},addRules:function(e){d.addValidElements(e)},setRules:function(e){d.setValidElements(e)},onPreProcess:function(e){r&&r.fire("PreProcess",e)},onPostProcess:function(e){r&&r.fire("PostProcess",e)}}}}),/**
- * TridentSelection.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/dom/TridentSelection",[],function(){function e(e){function t(t,n){var i,r,o,a,s,l,c,u,d=0,f=-1;if(i=t.duplicate(),i.collapse(n),u=i.parentElement(),u.ownerDocument===e.dom.doc){for(;"false"===u.contentEditable;)u=u.parentNode;if(!u.hasChildNodes())return{node:u,inside:1};for(a=u.children,r=a.length-1;r>=d;)if(c=Math.floor((d+r)/2),s=a[c],i.moveToElementText(s),f=i.compareEndPoints(n?"StartToStart":"EndToEnd",t),f>0)r=c-1;else{if(!(0>f))return{node:s};d=c+1}if(0>f)for(s?i.collapse(!1):(i.moveToElementText(u),i.collapse(!0),s=u,o=!0),l=0;0!==i.compareEndPoints(n?"StartToStart":"StartToEnd",t)&&0!==i.move("character",1)&&u==i.parentElement();)l++;else for(i.collapse(!0),l=0;0!==i.compareEndPoints(n?"StartToStart":"StartToEnd",t)&&0!==i.move("character",-1)&&u==i.parentElement();)l++;return{node:s,position:f,offset:l,inside:o}}}function n(){function n(e){var n,i,r,o,a,s=t(u,e),l=0;if(n=s.node,i=s.offset,s.inside&&!n.hasChildNodes())return d[e?"setStart":"setEnd"](n,0),void 0;if(i===o)return d[e?"setStartBefore":"setEndAfter"](n),void 0;if(s.position<0){if(r=s.inside?n.firstChild:n.nextSibling,!r)return d[e?"setStartAfter":"setEndAfter"](n),void 0;if(!i)return 3==r.nodeType?d[e?"setStart":"setEnd"](r,0):d[e?"setStartBefore":"setEndBefore"](r),void 0;for(;r;){if(a=r.nodeValue,l+=a.length,l>=i){n=r,l-=i,l=a.length-l;break}r=r.nextSibling}}else{if(r=n.previousSibling,!r)return d[e?"setStartBefore":"setEndBefore"](n);if(!i)return 3==n.nodeType?d[e?"setStart":"setEnd"](r,n.nodeValue.length):d[e?"setStartAfter":"setEndAfter"](r),void 0;for(;r;){if(l+=r.nodeValue.length,l>=i){n=r,l-=i;break}r=r.previousSibling}}d[e?"setStart":"setEnd"](n,l)}var o,a,s,l,c,u=e.getRng(),d=r.createRng();if(o=u.item?u.item(0):u.parentElement(),o.ownerDocument!=r.doc)return d;if(a=e.isCollapsed(),u.item)return d.setStart(o.parentNode,r.nodeIndex(o)),d.setEnd(d.startContainer,d.startOffset+1),d;try{n(!0),a||n()}catch(f){if(-2147024809!=f.number)throw f;c=i.getBookmark(2),s=u.duplicate(),s.collapse(!0),o=s.parentElement(),a||(s=u.duplicate(),s.collapse(!1),l=s.parentElement(),l.innerHTML=l.innerHTML),o.innerHTML=o.innerHTML,i.moveToBookmark(c),u=e.getRng(),n(!0),a||n()}return d}var i=this,r=e.dom,o=!1;this.getBookmark=function(n){function i(e){var t,n,i,o,a=[];for(t=e.parentNode,n=r.getRoot().parentNode;t!=n&&9!==t.nodeType;){for(i=t.children,o=i.length;o--;)if(e===i[o]){a.push(o);break}e=t,t=t.parentNode}return a}function o(e){var n;return n=t(a,e),n?{position:n.position,offset:n.offset,indexes:i(n.node),inside:n.inside}:void 0}var a=e.getRng(),s={};return 2===n&&(a.item?s.start={ctrl:!0,indexes:i(a.item(0))}:(s.start=o(!0),e.isCollapsed()||(s.end=o()))),s},this.moveToBookmark=function(e){function t(e){var t,n,i,o;for(t=r.getRoot(),n=e.length-1;n>=0;n--)o=t.children,i=e[n],i<=o.length-1&&(t=o[i]);return t}function n(n){var r,a,s,l,c=e[n?"start":"end"];c&&(r=c.position>0,a=o.createTextRange(),a.moveToElementText(t(c.indexes)),l=c.offset,l!==s?(a.collapse(c.inside||r),a.moveStart("character",r?-l:l)):a.collapse(n),i.setEndPoint(n?"StartToStart":"EndToStart",a),n&&i.collapse(!0))}var i,o=r.doc.body;e.start&&(e.start.ctrl?(i=o.createControlRange(),i.addElement(t(e.start.indexes)),i.select()):(i=o.createTextRange(),n(!0),n(),i.select()))},this.addRange=function(t){function n(e){var t,n,a,d,f;a=r.create("a"),t=e?s:c,n=e?l:u,d=i.duplicate(),(t==p||t==p.documentElement)&&(t=h,n=0),3==t.nodeType?(t.parentNode.insertBefore(a,t),d.moveToElementText(a),d.moveStart("character",n),r.remove(a),i.setEndPoint(e?"StartToStart":"EndToEnd",d)):(f=t.childNodes,f.length?(n>=f.length?r.insertAfter(a,f[f.length-1]):t.insertBefore(a,f[n]),d.moveToElementText(a)):t.canHaveHTML&&(t.innerHTML="<span>&#xFEFF;</span>",a=t.firstChild,d.moveToElementText(a),d.collapse(o)),i.setEndPoint(e?"StartToStart":"EndToEnd",d),r.remove(a))}var i,a,s,l,c,u,d,f,m,p=e.dom.doc,h=p.body;if(s=t.startContainer,l=t.startOffset,c=t.endContainer,u=t.endOffset,i=h.createTextRange(),s==c&&1==s.nodeType){if(l==u&&!s.hasChildNodes()){if(s.canHaveHTML)return d=s.previousSibling,d&&!d.hasChildNodes()&&r.isBlock(d)?d.innerHTML="&#xFEFF;":d=null,s.innerHTML="<span>&#xFEFF;</span><span>&#xFEFF;</span>",i.moveToElementText(s.lastChild),i.select(),r.doc.selection.clear(),s.innerHTML="",d&&(d.innerHTML=""),void 0;l=r.nodeIndex(s),s=s.parentNode}if(l==u-1)try{if(m=s.childNodes[l],a=h.createControlRange(),a.addElement(m),a.select(),f=e.getRng(),f.item&&m===f.item(0))return}catch(g){}}n(!0),n(),i.select()},this.getRangeAt=n}return e}),/**
- * VK.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/util/VK",["tinymce/Env"],function(e){return{BACKSPACE:8,DELETE:46,DOWN:40,ENTER:13,LEFT:37,RIGHT:39,SPACEBAR:32,TAB:9,UP:38,modifierPressed:function(e){return e.shiftKey||e.ctrlKey||e.altKey},metaKeyPressed:function(t){return(e.mac?t.ctrlKey||t.metaKey:t.ctrlKey)&&!t.altKey}}}),/**
- * ControlSelection.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/dom/ControlSelection",["tinymce/util/VK","tinymce/util/Tools","tinymce/Env"],function(e,t,n){return function(i,r){function o(e){return r.settings.object_resizing===!1?!1:/TABLE|IMG|DIV/.test(e.nodeName)?"false"===e.getAttribute("data-mce-resize")?!1:!0:!1}function a(t){var n,i;n=t.screenX-N,i=t.screenY-E,D=n*w[2]+T,L=i*w[3]+R,D=5>D?5:D,L=5>L?5:L,(e.modifierPressed(t)||"IMG"==b.nodeName&&w[2]*w[3]!==0)&&(D=Math.round(L/A),L=Math.round(D*A)),M.setStyles(C,{width:D,height:L}),w[2]<0&&C.clientWidth<=D&&M.setStyle(C,"left",S+(T-D)),w[3]<0&&C.clientHeight<=L&&M.setStyle(C,"top",k+(R-L)),B||(r.fire("ObjectResizeStart",{target:b,width:T,height:R}),B=!0)}function s(){function e(e,t){t&&(b.style[e]||!r.schema.isValid(b.nodeName.toLowerCase(),e)?M.setStyle(b,e,t):M.setAttrib(b,e,t))}B=!1,e("width",D),e("height",L),M.unbind(P,"mousemove",a),M.unbind(P,"mouseup",s),O!=P&&(M.unbind(O,"mousemove",a),M.unbind(O,"mouseup",s)),M.remove(C),I&&"TABLE"!=b.nodeName||l(b),r.fire("ObjectResized",{target:b,width:D,height:L}),r.nodeChanged()}function l(e,t,n){var i,l,u,d,f,m=r.getBody();i=M.getPos(e,m),S=i.x,k=i.y,f=e.getBoundingClientRect(),l=f.width||f.right-f.left,u=f.height||f.bottom-f.top,b!=e&&(h(),b=e,D=L=0),d=r.fire("ObjectSelected",{target:e}),o(e)&&!d.isDefaultPrevented()?H(x,function(e,i){function o(t){B=!0,N=t.screenX,E=t.screenY,T=b.clientWidth,R=b.clientHeight,A=R/T,w=e,C=b.cloneNode(!0),M.addClass(C,"mce-clonedresizable"),C.contentEditable=!1,C.unSelectabe=!0,M.setStyles(C,{left:S,top:k,margin:0}),C.removeAttribute("data-mce-selected"),r.getBody().appendChild(C),M.bind(P,"mousemove",a),M.bind(P,"mouseup",s),O!=P&&(M.bind(O,"mousemove",a),M.bind(O,"mouseup",s))}var c,d;return t?(i==t&&o(n),void 0):(c=M.get("mceResizeHandle"+i),c?M.show(c):(d=r.getBody(),c=M.add(d,"div",{id:"mceResizeHandle"+i,"data-mce-bogus":!0,"class":"mce-resizehandle",contentEditable:!1,unSelectabe:!0,style:"cursor:"+i+"-resize; margin:0; padding:0"}),M.bind(c,"mousedown",function(e){e.preventDefault(),o(e)})),M.setStyles(c,{left:l*e[0]+S-c.offsetWidth/2,top:u*e[1]+k-c.offsetHeight/2}),void 0)}):c(),b.setAttribute("data-mce-selected","1")}function c(){var e,t;b&&b.removeAttribute("data-mce-selected");for(e in x)t=M.get("mceResizeHandle"+e),t&&(M.unbind(t),M.remove(t))}function u(e){function t(e,t){do if(e===t)return!0;while(e=e.parentNode)}var n;return H(M.select("img[data-mce-selected],hr[data-mce-selected]"),function(e){e.removeAttribute("data-mce-selected")}),n="mousedown"==e.type?e.target:i.getNode(),n=M.getParent(n,I?"table":"table,img,hr"),n&&(g(),t(i.getStart(),n)&&t(i.getEnd(),n)&&(!I||n!=i.getStart()&&"IMG"!==i.getStart().nodeName))?(l(n),void 0):(c(),void 0)}function d(e,t,n){e&&e.attachEvent&&e.attachEvent("on"+t,n)}function f(e,t,n){e&&e.detachEvent&&e.detachEvent("on"+t,n)}function m(e){var t,n,i,o,a,s,c,u=e.srcElement;t=u.getBoundingClientRect(),s=_.clientX-t.left,c=_.clientY-t.top;for(n in x)if(i=x[n],o=u.offsetWidth*i[0],a=u.offsetHeight*i[1],Math.abs(o-s)<8&&Math.abs(a-c)<8){w=i;break}B=!0,r.getDoc().selection.empty(),l(u,n,_)}function p(e){var t=e.srcElement;if(t!=b){if(h(),0===t.id.indexOf("mceResizeHandle"))return e.returnValue=!1,void 0;("IMG"==t.nodeName||"TABLE"==t.nodeName)&&(c(),b=t,d(t,"resizestart",m))}}function h(){f(b,"resizestart",m)}function g(){try{r.getDoc().execCommand("enableObjectResizing",!1,!1)}catch(e){}}function v(e){var t;if(I){t=P.body.createControlRange();try{return t.addElement(e),t.select(),!0}catch(n){}}}function y(){b=C=null,I&&(h(),f(r.getBody(),"controlselect",p))}var b,C,x,w,_,N,E,S,k,T,R,A,B,D,L,M=r.dom,H=t.each,P=r.getDoc(),O=document,I=n.ie&&n.ie<11;x={n:[.5,0,0,-1],e:[1,.5,1,0],s:[.5,1,0,1],w:[0,.5,-1,0],nw:[0,0,-1,-1],ne:[1,0,1,-1],se:[1,1,1,1],sw:[0,1,-1,1]};var F=".mce-content-body";return r.contentStyles.push(F+" div.mce-resizehandle {position: absolute;border: 1px solid black;background: #FFF;width: 5px;height: 5px;z-index: 10000}"+F+" .mce-resizehandle:hover {background: #000}"+F+" img[data-mce-selected], hr[data-mce-selected] {outline: 1px solid black;resize: none}"+F+" .mce-clonedresizable {position: absolute;"+(n.gecko?"":"outline: 1px dashed black;")+"opacity: .5;filter: alpha(opacity=50);z-index: 10000}"),r.on("init",function(){I?(r.on("ObjectResized",function(e){"TABLE"!=e.target.nodeName&&(c(),v(e.target))}),d(r.getBody(),"controlselect",p),r.on("mousedown",function(e){_=e})):(g(),n.ie>=11&&(r.on("mouseup",function(e){var t=e.target.nodeName;/^(TABLE|IMG|HR)$/.test(t)&&(r.selection.select(e.target,"TABLE"==t),r.nodeChanged())}),r.dom.bind(r.getBody(),"mscontrolselect",function(e){/^(TABLE|IMG|HR)$/.test(e.target.nodeName)&&e.preventDefault()}))),r.on("nodechange mousedown mouseup ResizeEditor",u),r.on("keydown keyup",function(e){b&&"TABLE"==b.nodeName&&u(e)})}),{controlSelect:v,destroy:y}}}),/**
- * Selection.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/dom/Selection",["tinymce/dom/TreeWalker","tinymce/dom/TridentSelection","tinymce/dom/ControlSelection","tinymce/Env","tinymce/util/Tools"],function(e,n,i,r,o){function a(e,t,r,o){var a=this;a.dom=e,a.win=t,a.serializer=r,a.editor=o,a.controlSelection=new i(a,o),a.win.getSelection||(a.tridentSel=new n(a))}var s=o.each,l=o.grep,c=o.trim,u=r.ie,d=r.opera;return a.prototype={setCursorLocation:function(e,t){var n=this,i=n.dom.createRng();i.setStart(e,t),i.setEnd(e,t),n.setRng(i),n.collapse(!1)},getContent:function(e){var n,i,r,o=this,a=o.getRng(),s=o.dom.create("body"),l=o.getSel();return e=e||{},n=i="",e.get=!0,e.format=e.format||"html",e.selection=!0,o.editor.fire("BeforeGetContent",e),"text"==e.format?o.isCollapsed()?"":a.text||(l.toString?l.toString():""):(a.cloneContents?(r=a.cloneContents(),r&&s.appendChild(r)):a.item!==t||a.htmlText!==t?(s.innerHTML="<br>"+(a.item?a.item(0).outerHTML:a.htmlText),s.removeChild(s.firstChild)):s.innerHTML=a.toString(),/^\s/.test(s.innerHTML)&&(n=" "),/\s+$/.test(s.innerHTML)&&(i=" "),e.getInner=!0,e.content=o.isCollapsed()?"":n+o.serializer.serialize(s,e)+i,o.editor.fire("GetContent",e),e.content)},setContent:function(e,t){var n,i,r,o=this,a=o.getRng(),s=o.win.document;if(t=t||{format:"html"},t.set=!0,t.selection=!0,e=t.content=e,t.no_events||o.editor.fire("BeforeSetContent",t),e=t.content,a.insertNode){e+='<span id="__caret">_</span>',a.startContainer==s&&a.endContainer==s?s.body.innerHTML=e:(a.deleteContents(),0===s.body.childNodes.length?s.body.innerHTML=e:a.createContextualFragment?a.insertNode(a.createContextualFragment(e)):(i=s.createDocumentFragment(),r=s.createElement("div"),i.appendChild(r),r.outerHTML=e,a.insertNode(i))),n=o.dom.get("__caret"),a=s.createRange(),a.setStartBefore(n),a.setEndBefore(n),o.setRng(a),o.dom.remove("__caret");try{o.setRng(a)}catch(l){}}else a.item&&(s.execCommand("Delete",!1,null),a=o.getRng()),/^\s+/.test(e)?(a.pasteHTML('<span id="__mce_tmp">_</span>'+e),o.dom.remove("__mce_tmp")):a.pasteHTML(e);t.no_events||o.editor.fire("SetContent",t)},getStart:function(){var e,t,n,i,r=this,o=r.getRng();if(o.duplicate||o.item){if(o.item)return o.item(0);for(n=o.duplicate(),n.collapse(1),e=n.parentElement(),e.ownerDocument!==r.dom.doc&&(e=r.dom.getRoot()),t=i=o.parentElement();i=i.parentNode;)if(i==e){e=t;break}return e}return e=o.startContainer,1==e.nodeType&&e.hasChildNodes()&&(e=e.childNodes[Math.min(e.childNodes.length-1,o.startOffset)]),e&&3==e.nodeType?e.parentNode:e},getEnd:function(){var e,t,n=this,i=n.getRng();return i.duplicate||i.item?i.item?i.item(0):(i=i.duplicate(),i.collapse(0),e=i.parentElement(),e.ownerDocument!==n.dom.doc&&(e=n.dom.getRoot()),e&&"BODY"==e.nodeName?e.lastChild||e:e):(e=i.endContainer,t=i.endOffset,1==e.nodeType&&e.hasChildNodes()&&(e=e.childNodes[t>0?t-1:t]),e&&3==e.nodeType?e.parentNode:e)},getBookmark:function(e,t){function n(e,t){var n=0;return s(p.select(e),function(e,i){e==t&&(n=i)}),n}function i(e){function t(t){var n,i,r,o=t?"start":"end";n=e[o+"Container"],i=e[o+"Offset"],1==n.nodeType&&"TR"==n.nodeName&&(r=n.childNodes,n=r[Math.min(t?i:i-1,r.length-1)],n&&(i=t?0:n.childNodes.length,e["set"+(t?"Start":"End")](n,i)))}return t(!0),t(),e}function r(){function e(e,n){var r,o,a=e[n?"startContainer":"endContainer"],s=e[n?"startOffset":"endOffset"],l=[],c=0;if(3==a.nodeType){if(t)for(r=a.previousSibling;r&&3==r.nodeType;r=r.previousSibling)s+=r.nodeValue.length;l.push(s)}else o=a.childNodes,s>=o.length&&o.length&&(c=1,s=Math.max(0,o.length-1)),l.push(m.dom.nodeIndex(o[s],t)+c);for(;a&&a!=i;a=a.parentNode)l.push(m.dom.nodeIndex(a,t));return l}var n=m.getRng(!0),i=p.getRoot(),r={};return r.start=e(n,!0),m.isCollapsed()||(r.end=e(n)),r}var o,a,l,c,u,d,f,m=this,p=m.dom,h="&#xFEFF;";if(2==e)return d=m.getNode(),u=d.nodeName,"IMG"==u?{name:u,index:n(u,d)}:m.tridentSel?m.tridentSel.getBookmark(e):r();if(e)return{rng:m.getRng()};if(o=m.getRng(),l=p.uniqueId(),c=m.isCollapsed(),f="overflow:hidden;line-height:0px",o.duplicate||o.item){if(o.item)return d=o.item(0),u=d.nodeName,{name:u,index:n(u,d)};a=o.duplicate();try{o.collapse(),o.pasteHTML('<span data-mce-type="bookmark" id="'+l+'_start" style="'+f+'">'+h+"</span>"),c||(a.collapse(!1),o.moveToElementText(a.parentElement()),0===o.compareEndPoints("StartToEnd",a)&&a.move("character",-1),a.pasteHTML('<span data-mce-type="bookmark" id="'+l+'_end" style="'+f+'">'+h+"</span>"))}catch(g){return null}}else{if(d=m.getNode(),u=d.nodeName,"IMG"==u)return{name:u,index:n(u,d)};a=i(o.cloneRange()),c||(a.collapse(!1),a.insertNode(p.create("span",{"data-mce-type":"bookmark",id:l+"_end",style:f},h))),o=i(o),o.collapse(!0),o.insertNode(p.create("span",{"data-mce-type":"bookmark",id:l+"_start",style:f},h))}return m.moveToBookmark({id:l,keep:1}),{id:l}},moveToBookmark:function(e){function t(t){var n,i,a,s,l=e[t?"start":"end"];if(l){for(a=l[0],i=o,n=l.length-1;n>=1;n--){if(s=i.childNodes,l[n]>s.length-1)return;i=s[l[n]]}3===i.nodeType&&(a=Math.min(l[0],i.nodeValue.length)),1===i.nodeType&&(a=Math.min(l[0],i.childNodes.length)),t?r.setStart(i,a):r.setEnd(i,a)}return!0}function n(t){var n,i,r,o,u=h.get(e.id+"_"+t),p=e.keep;if(u&&(n=u.parentNode,"start"==t?(p?(n=u.firstChild,i=1):i=h.nodeIndex(u),a=c=n,f=m=i):(p?(n=u.firstChild,i=1):i=h.nodeIndex(u),c=n,m=i),!p)){for(o=u.previousSibling,r=u.nextSibling,s(l(u.childNodes),function(e){3==e.nodeType&&(e.nodeValue=e.nodeValue.replace(/\uFEFF/g,""))});u=h.get(e.id+"_"+t);)h.remove(u,1);o&&r&&o.nodeType==r.nodeType&&3==o.nodeType&&!d&&(i=o.nodeValue.length,o.appendData(r.nodeValue),h.remove(r),"start"==t?(a=c=o,f=m=i):(c=o,m=i))}}function i(e){return!h.isBlock(e)||e.innerHTML||u||(e.innerHTML='<br data-mce-bogus="1" />'),e}var r,o,a,c,f,m,p=this,h=p.dom;if(e)if(e.start){if(r=h.createRng(),o=h.getRoot(),p.tridentSel)return p.tridentSel.moveToBookmark(e);t(!0)&&t()&&p.setRng(r)}else e.id?(n("start"),n("end"),a&&(r=h.createRng(),r.setStart(i(a),f),r.setEnd(i(c),m),p.setRng(r))):e.name?p.select(h.select(e.name)[e.index]):e.rng&&p.setRng(e.rng)},select:function(t,n){function i(t,n){var i=t,r=new e(t,i);do{if(3==t.nodeType&&0!==c(t.nodeValue).length)return n?l.setStart(t,0):l.setEnd(t,t.nodeValue.length),void 0;if(o[t.nodeName])return n?l.setStartBefore(t):"BR"==t.nodeName?l.setEndBefore(t):l.setEndAfter(t),void 0}while(t=n?r.next():r.prev());"BODY"==i.nodeName&&(n?l.setStart(i,0):l.setEnd(i,i.childNodes.length))}var r,o,a=this,s=a.dom,l=s.createRng();if(a.lastFocusBookmark=null,o=s.schema.getNonEmptyElements(),t){if(!n&&a.controlSelection.controlSelect(t))return;r=s.nodeIndex(t),l.setStart(t.parentNode,r),l.setEnd(t.parentNode,r+1),n&&(i(t,1),i(t)),a.setRng(l)}return t},isCollapsed:function(){var e=this,t=e.getRng(),n=e.getSel();return!t||t.item?!1:t.compareEndPoints?0===t.compareEndPoints("StartToEnd",t):!n||t.collapsed},collapse:function(e){var t,n=this,i=n.getRng();i.item&&(t=i.item(0),i=n.win.document.body.createTextRange(),i.moveToElementText(t)),i.collapse(!!e),n.setRng(i)},getSel:function(){var e=this.win;return e.getSelection?e.getSelection():e.document.selection},getRng:function(e){var t,n,i,r,o=this,a=o.win.document;if(!e&&o.lastFocusBookmark){var s=o.lastFocusBookmark;return s.startContainer?(n=a.createRange(),n.setStart(s.startContainer,s.startOffset),n.setEnd(s.endContainer,s.endOffset)):n=s,n}if(e&&o.tridentSel)return o.tridentSel.getRangeAt(0);try{(t=o.getSel())&&(n=t.rangeCount>0?t.getRangeAt(0):t.createRange?t.createRange():a.createRange())}catch(l){}if(u&&n&&n.setStart){try{r=a.selection.createRange()}catch(l){}r&&r.item&&(i=r.item(0),n=a.createRange(),n.setStartBefore(i),n.setEndAfter(i))}return n||(n=a.createRange?a.createRange():a.body.createTextRange()),n.setStart&&9===n.startContainer.nodeType&&n.collapsed&&(i=o.dom.getRoot(),n.setStart(i,0),n.setEnd(i,0)),o.selectedRange&&o.explicitRange&&(0===n.compareBoundaryPoints(n.START_TO_START,o.selectedRange)&&0===n.compareBoundaryPoints(n.END_TO_END,o.selectedRange)?n=o.explicitRange:(o.selectedRange=null,o.explicitRange=null)),n},setRng:function(e,t){var n,i=this;if(e.select)try{e.select()}catch(r){}else if(i.tridentSel){if(e.cloneRange)try{return i.tridentSel.addRange(e),void 0}catch(r){}}else if(n=i.getSel()){i.explicitRange=e;try{n.removeAllRanges(),n.addRange(e)}catch(r){}t===!1&&n.extend&&(n.collapse(e.endContainer,e.endOffset),n.extend(e.startContainer,e.startOffset)),i.selectedRange=n.rangeCount>0?n.getRangeAt(0):null}},setNode:function(e){var t=this;return t.setContent(t.dom.getOuterHTML(e)),e},getNode:function(){function e(e,t){for(var n=e;e&&3===e.nodeType&&0===e.length;)e=t?e.nextSibling:e.previousSibling;return e||n}var t,n=this,i=n.getRng(),r=i.startContainer,o=i.endContainer,a=i.startOffset,s=i.endOffset,l=n.dom.getRoot();return i?i.setStart?(t=i.commonAncestorContainer,!i.collapsed&&(r==o&&2>s-a&&r.hasChildNodes()&&(t=r.childNodes[a]),3===r.nodeType&&3===o.nodeType&&(r=r.length===a?e(r.nextSibling,!0):r.parentNode,o=0===s?e(o.previousSibling,!1):o.parentNode,r&&r===o))?r:t&&3==t.nodeType?t.parentNode:t):(t=i.item?i.item(0):i.parentElement(),t.ownerDocument!==n.win.document&&(t=l),t):l},getSelectedBlocks:function(t,n){var i,r,o=this,a=o.dom,s=[];if(r=a.getRoot(),t=a.getParent(t||o.getStart(),a.isBlock),n=a.getParent(n||o.getEnd(),a.isBlock),t&&t!=r&&s.push(t),t&&n&&t!=n){i=t;for(var l=new e(t,r);(i=l.next())&&i!=n;)a.isBlock(i)&&s.push(i)}return n&&t!=n&&n!=r&&s.push(n),s},isForward:function(){var e,t,n=this.dom,i=this.getSel();return i&&i.anchorNode&&i.focusNode?(e=n.createRng(),e.setStart(i.anchorNode,i.anchorOffset),e.collapse(!0),t=n.createRng(),t.setStart(i.focusNode,i.focusOffset),t.collapse(!0),e.compareBoundaryPoints(e.START_TO_START,t)<=0):!0},normalize:function(){function t(t){function a(t,n){for(var i=new e(t,h.getParent(t.parentNode,h.isBlock)||g);t=i[n?"prev":"next"]();)if("BR"===t.nodeName)return!0}function s(e,t){return e.previousSibling&&e.previousSibling.nodeName==t}function l(t,n){var o,a;for(n=n||c,o=new e(n,h.getParent(n.parentNode,h.isBlock)||g);f=o[t?"prev":"next"]();){if(3===f.nodeType&&f.nodeValue.length>0)return c=f,u=t?f.nodeValue.length:0,i=!0,void 0;if(h.isBlock(f)||m[f.nodeName.toLowerCase()])return;a=f}r&&a&&(c=a,i=!0,u=0)}var c,u,d,f,m,p,h=o.dom,g=h.getRoot();if(c=n[(t?"start":"end")+"Container"],u=n[(t?"start":"end")+"Offset"],m=h.schema.getNonEmptyElements(),9===c.nodeType&&(c=h.getRoot(),u=0),c===g){if(t&&(f=c.childNodes[u>0?u-1:0],f&&(p=f.nodeName.toLowerCase(),m[f.nodeName]||"TABLE"==f.nodeName)))return;if(c.hasChildNodes()&&(u=Math.min(!t&&u>0?u-1:u,c.childNodes.length-1),c=c.childNodes[u],u=0,c.hasChildNodes()&&!/TABLE/.test(c.nodeName))){f=c,d=new e(c,g);do{if(3===f.nodeType&&f.nodeValue.length>0){u=t?0:f.nodeValue.length,c=f,i=!0;break}if(m[f.nodeName.toLowerCase()]){u=h.nodeIndex(f),c=f.parentNode,"IMG"!=f.nodeName||t||u++,i=!0;break}}while(f=t?d.next():d.prev())}}r&&(3===c.nodeType&&0===u&&l(!0),1===c.nodeType&&(f=c.childNodes[u],!f||"BR"!==f.nodeName||s(f,"A")||a(f)||a(f,!0)||l(!0,c.childNodes[u]))),t&&!r&&3===c.nodeType&&u===c.nodeValue.length&&l(!1),i&&n["set"+(t?"Start":"End")](c,u)}var n,i,r,o=this;u||(n=o.getRng(),r=n.collapsed,t(!0),r||t(),i&&(r&&n.collapse(!0),o.setRng(n,o.isForward())))},selectorChanged:function(e,t){var n,i=this;return i.selectorChangedData||(i.selectorChangedData={},n={},i.editor.on("NodeChange",function(e){var t=e.element,r=i.dom,o=r.getParents(t,null,r.getRoot()),a={};s(i.selectorChangedData,function(e,t){s(o,function(i){return r.is(i,t)?(n[t]||(s(e,function(e){e(!0,{node:i,selector:t,parents:o})}),n[t]=e),a[t]=e,!1):void 0})}),s(n,function(e,i){a[i]||(delete n[i],s(e,function(e){e(!1,{node:t,selector:i,parents:o})}))})})),i.selectorChangedData[e]||(i.selectorChangedData[e]=[]),i.selectorChangedData[e].push(t),i},getScrollContainer:function(){for(var e,t=this.dom.getRoot();t&&"BODY"!=t.nodeName;){if(t.scrollHeight>t.clientHeight){e=t;break}t=t.parentNode}return e},scrollIntoView:function(e){function t(e){for(var t=0,n=0,i=e;i&&i.nodeType;)t+=i.offsetLeft||0,n+=i.offsetTop||0,i=i.offsetParent;return{x:t,y:n}}var n,i,r,o,a=this,s=a.dom,l=s.getRoot();if("BODY"!=l.nodeName){var c=a.getScrollContainer();if(c)return n=t(e).y-t(c).y,o=c.clientHeight,r=c.scrollTop,(r>n||n+25>r+o)&&(c.scrollTop=r>n?n:n-o+25),void 0}i=s.getViewPort(a.editor.getWin()),n=s.getPos(e).y,r=i.y,o=i.h,(n<i.y||n+25>r+o)&&a.editor.getWin().scrollTo(0,r>n?n:n-o+25)},destroy:function(){this.win=null,this.controlSelection.destroy()}},a}),/**
- * Range.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/dom/RangeUtils",["tinymce/util/Tools"],function(e){function t(e){this.walk=function(t,i){function r(e){var t;return t=e[0],3===t.nodeType&&t===h&&g>=t.nodeValue.length&&e.splice(0,1),t=e[e.length-1],0===y&&e.length>0&&t===v&&3===t.nodeType&&e.splice(e.length-1,1),e}function o(e,t,n){for(var i=[];e&&e!=n;e=e[t])i.push(e);return i}function a(e,t){do{if(e.parentNode==t)return e;e=e.parentNode}while(e)}function s(e,t,n){var a=n?"nextSibling":"previousSibling";for(d=e,f=d.parentNode;d&&d!=t;d=f)f=d.parentNode,m=o(d==e?d:d[a],a),m.length&&(n||m.reverse(),i(r(m)))}var l,c,u,d,f,m,p,h=t.startContainer,g=t.startOffset,v=t.endContainer,y=t.endOffset;if(p=e.select("td.mce-item-selected,th.mce-item-selected"),p.length>0)return n(p,function(e){i([e])}),void 0;if(1==h.nodeType&&h.hasChildNodes()&&(h=h.childNodes[g]),1==v.nodeType&&v.hasChildNodes()&&(v=v.childNodes[Math.min(y-1,v.childNodes.length-1)]),h==v)return i(r([h]));for(l=e.findCommonAncestor(h,v),d=h;d;d=d.parentNode){if(d===v)return s(h,l,!0);if(d===l)break}for(d=v;d;d=d.parentNode){if(d===h)return s(v,l);if(d===l)break}c=a(h,l)||h,u=a(v,l)||v,s(h,c,!0),m=o(c==h?c:c.nextSibling,"nextSibling",u==v?u.nextSibling:u),m.length&&i(r(m)),s(v,u)},this.split=function(e){function t(e,t){return e.splitText(t)}var n=e.startContainer,i=e.startOffset,r=e.endContainer,o=e.endOffset;return n==r&&3==n.nodeType?i>0&&i<n.nodeValue.length&&(r=t(n,i),n=r.previousSibling,o>i?(o-=i,n=r=t(r,o).previousSibling,o=r.nodeValue.length,i=0):o=0):(3==n.nodeType&&i>0&&i<n.nodeValue.length&&(n=t(n,i),i=0),3==r.nodeType&&o>0&&o<r.nodeValue.length&&(r=t(r,o).previousSibling,o=r.nodeValue.length)),{startContainer:n,startOffset:i,endContainer:r,endOffset:o}}}var n=e.each;return t.compareRanges=function(e,t){if(e&&t){if(!e.item&&!e.duplicate)return e.startContainer==t.startContainer&&e.startOffset==t.startOffset;if(e.item&&t.item&&e.item(0)===t.item(0))return!0;if(e.isEqual&&t.isEqual&&t.isEqual(e))return!0}return!1},t}),/**
- * Formatter.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/Formatter",["tinymce/dom/TreeWalker","tinymce/dom/RangeUtils","tinymce/util/Tools"],function(e,t,n){return function(i){function r(e){return e.nodeType&&(e=e.nodeName),!!i.schema.getTextBlockElements()[e.toLowerCase()]}function o(e,t){return U.getParents(e,t,U.getRoot())}function a(e){return 1===e.nodeType&&"_mce_caret"===e.id}function s(){u({alignleft:[{selector:"figure,p,h1,h2,h3,h4,h5,h6,td,th,tr,div,ul,ol,li",styles:{textAlign:"left"},defaultBlock:"div"},{selector:"img,table",collapsed:!1,styles:{"float":"left"}}],aligncenter:[{selector:"figure,p,h1,h2,h3,h4,h5,h6,td,th,tr,div,ul,ol,li",styles:{textAlign:"center"},defaultBlock:"div"},{selector:"img",collapsed:!1,styles:{display:"block",marginLeft:"auto",marginRight:"auto"}},{selector:"table",collapsed:!1,styles:{marginLeft:"auto",marginRight:"auto"}}],alignright:[{selector:"figure,p,h1,h2,h3,h4,h5,h6,td,th,tr,div,ul,ol,li",styles:{textAlign:"right"},defaultBlock:"div"},{selector:"img,table",collapsed:!1,styles:{"float":"right"}}],alignjustify:[{selector:"figure,p,h1,h2,h3,h4,h5,h6,td,th,tr,div,ul,ol,li",styles:{textAlign:"justify"},defaultBlock:"div"}],bold:[{inline:"strong",remove:"all"},{inline:"span",styles:{fontWeight:"bold"}},{inline:"b",remove:"all"}],italic:[{inline:"em",remove:"all"},{inline:"span",styles:{fontStyle:"italic"}},{inline:"i",remove:"all"}],underline:[{inline:"span",styles:{textDecoration:"underline"},exact:!0},{inline:"u",remove:"all"}],strikethrough:[{inline:"span",styles:{textDecoration:"line-through"},exact:!0},{inline:"strike",remove:"all"}],forecolor:{inline:"span",styles:{color:"%value"},wrap_links:!1},hilitecolor:{inline:"span",styles:{backgroundColor:"%value"},wrap_links:!1},fontname:{inline:"span",styles:{fontFamily:"%value"}},fontsize:{inline:"span",styles:{fontSize:"%value"}},fontsize_class:{inline:"span",attributes:{"class":"%value"}},blockquote:{block:"blockquote",wrapper:1,remove:"all"},subscript:{inline:"sub"},superscript:{inline:"sup"},code:{inline:"code"},link:{inline:"a",selector:"a",remove:"all",split:!0,deep:!0,onmatch:function(){return!0},onformat:function(e,t,n){et(n,function(t,n){U.setAttrib(e,n,t)})}},removeformat:[{selector:"b,strong,em,i,font,u,strike,sub,sup",remove:"all",split:!0,expand:!1,block_expand:!0,deep:!0},{selector:"span",attributes:["style","class"],remove:"empty",split:!0,expand:!1,deep:!0},{selector:"*",attributes:["style","class"],split:!1,expand:!1,deep:!0}]}),et("p h1 h2 h3 h4 h5 h6 div address pre div dt dd samp".split(/\s/),function(e){u(e,{block:e,remove:"all"})}),u(i.settings.formats)}function l(){i.addShortcut("ctrl+b","bold_desc","Bold"),i.addShortcut("ctrl+i","italic_desc","Italic"),i.addShortcut("ctrl+u","underline_desc","Underline");for(var e=1;6>=e;e++)i.addShortcut("ctrl+"+e,"",["FormatBlock",!1,"h"+e]);i.addShortcut("ctrl+7","",["FormatBlock",!1,"p"]),i.addShortcut("ctrl+8","",["FormatBlock",!1,"div"]),i.addShortcut("ctrl+9","",["FormatBlock",!1,"address"])}function c(e){return e?z[e]:z}function u(e,t){e&&("string"!=typeof e?et(e,function(e,t){u(t,e)}):(t=t.length?t:[t],et(t,function(e){e.deep===I&&(e.deep=!e.selector),e.split===I&&(e.split=!e.selector||e.inline),e.remove===I&&e.selector&&!e.inline&&(e.remove="none"),e.selector&&e.inline&&(e.mixed=!0,e.block_expand=!0),"string"==typeof e.classes&&(e.classes=e.classes.split(/\s+/))}),z[e]=t))}function d(e){var t;return i.dom.getParent(e,function(e){return t=i.dom.getStyle(e,"text-decoration"),t&&"none"!==t}),t}function f(e){var t;1===e.nodeType&&e.parentNode&&1===e.parentNode.nodeType&&(t=d(e.parentNode),i.dom.getStyle(e,"color")&&t?i.dom.setStyle(e,"text-decoration",t):i.dom.getStyle(e,"textdecoration")===t&&i.dom.setStyle(e,"text-decoration",null))}function m(t,n,o){function s(e,t){t=t||y,e&&(t.onformat&&t.onformat(e,t,n,o),et(t.styles,function(t,i){U.setStyle(e,i,E(t,n))}),et(t.attributes,function(t,i){U.setAttrib(e,i,E(t,n))}),et(t.classes,function(t){t=E(t,n),U.hasClass(e,t)||U.addClass(e,t)}))}function l(){function t(t,n){var i=new e(n);for(o=i.current();o;o=i.prev())if(o.childNodes.length>1||o==t||"BR"==o.tagName)return o}var n=i.selection.getRng(),r=n.startContainer,a=n.endContainer;if(r!=a&&0===n.endOffset){var s=t(r,a),l=3==s.nodeType?s.length:s.childNodes.length;n.setEnd(s,l)}return n}function u(e,t,n,i,r){var o,a,s=[],l=-1,c=-1,u=-1;return et(e.childNodes,function(e,t){return"UL"===e.nodeName||"OL"===e.nodeName?(l=t,o=e,!1):void 0}),et(e.childNodes,function(e,n){"SPAN"===e.nodeName&&"bookmark"==U.getAttrib(e,"data-mce-type")&&(e.id==t.id+"_start"?c=n:e.id==t.id+"_end"&&(u=n))}),0>=l||l>c&&u>l?(et(tt(e.childNodes),r),0):(a=U.clone(n,J),et(tt(e.childNodes),function(e,t){(l>c&&l>t||c>l&&t>l)&&(s.push(e),e.parentNode.removeChild(e))}),l>c?e.insertBefore(a,o):c>l&&e.insertBefore(a,o.nextSibling),i.push(a),et(s,function(e){a.appendChild(e)}),a)}function d(e,i,o){var l,c,d=[],f=!0;l=y.inline||y.block,c=U.create(l),s(c),q.walk(e,function(e){function m(e){var h,C,x,_,N;return N=f,h=e.nodeName.toLowerCase(),C=e.parentNode.nodeName.toLowerCase(),1===e.nodeType&&Z(e)&&(N=f,f="true"===Z(e),_=!0),w(h,"br")?(p=0,y.block&&U.remove(e),void 0):y.wrapper&&g(e,t,n)?(p=0,void 0):f&&!_&&y.block&&!y.wrapper&&r(h)&&$(C,l)?(e=U.rename(e,l),s(e),d.push(e),p=0,void 0):y.selector&&(et(v,function(t){"collapsed"in t&&t.collapsed!==b||U.is(e,t.selector)&&!a(e)&&(s(e,t),x=!0)}),!y.inline||x)?(p=0,void 0):(!f||_||!$(l,h)||!$(C,l)||!o&&3===e.nodeType&&1===e.nodeValue.length&&65279===e.nodeValue.charCodeAt(0)||a(e)||y.inline&&j(e)?"li"==h&&i?p=u(e,i,c,d,m):(p=0,et(tt(e.childNodes),m),_&&(f=N),p=0):(p||(p=U.clone(c,J),e.parentNode.insertBefore(p,e),d.push(p)),p.appendChild(e)),void 0)}var p;et(e,m)}),y.wrap_links===!1&&et(d,function(e){function t(e){var n,i,r;if("A"===e.nodeName){for(i=U.clone(c,J),d.push(i),r=tt(e.childNodes),n=0;n<r.length;n++)i.appendChild(r[n]);e.appendChild(i)}et(tt(e.childNodes),t)}t(e)}),et(d,function(e){function i(e){var t=0;return et(e.childNodes,function(e){S(e)||D(e)||t++}),t}function r(e){var t,n;return et(e.childNodes,function(e){return 1!=e.nodeType||D(e)||a(e)?void 0:(t=e,J)}),t&&x(t,y)&&(n=U.clone(t,J),s(n),U.replace(n,e,Q),U.remove(t,1)),n||e}var o;if(o=i(e),(d.length>1||!j(e))&&0===o)return U.remove(e,1),void 0;if(y.inline||y.wrapper){if(y.exact||1!==o||(e=r(e)),et(v,function(t){et(U.select(t.inline,e),function(e){var i;if(t.wrap_links===!1){i=e.parentNode;do if("A"===i.nodeName)return;while(i=i.parentNode)}R(t,n,e,t.exact?e:null)})}),g(e.parentNode,t,n))return U.remove(e,1),e=0,Q;y.merge_with_parents&&U.getParent(e.parentNode,function(i){return g(i,t,n)?(U.remove(e,1),e=0,Q):void 0}),e&&y.merge_siblings!==!1&&(e=L(B(e),e),e=L(e,B(e,Q)))}})}var p,h,v=c(t),y=v[0],b=!o&&V.isCollapsed();if(y)if(o)o.nodeType?(h=U.createRng(),h.setStartBefore(o),h.setEndAfter(o),d(T(h,v),null,!0)):d(o,null,!0);else if(b&&y.inline&&!U.select("td.mce-item-selected,th.mce-item-selected").length)H("apply",t,n);else{var C=i.selection.getNode();K||!v[0].defaultBlock||U.getParent(C,U.isBlock)||m(v[0].defaultBlock),i.selection.setRng(l()),p=V.getBookmark(),d(T(V.getRng(Q),v),p),y.styles&&(y.styles.color||y.styles.textDecoration)&&(nt(C,f,"childNodes"),f(C)),V.moveToBookmark(p),P(V.getRng(Q)),i.nodeChanged()}}function p(e,t,n){function r(e){var n,i,o,a,s;if(1===e.nodeType&&Z(e)&&(a=b,b="true"===Z(e),s=!0),n=tt(e.childNodes),b&&!s)for(i=0,o=h.length;o>i&&!R(h[i],t,e,e);i++);if(y.deep&&n.length){for(i=0,o=n.length;o>i;i++)r(n[i]);s&&(b=a)}}function a(n){var i;return et(o(n.parentNode).reverse(),function(n){var r;i||"_start"==n.id||"_end"==n.id||(r=g(n,e,t),r&&r.split!==!1&&(i=n))}),i}function s(e,n,i,r){var o,a,s,l,c,u;if(e){for(u=e.parentNode,o=n.parentNode;o&&o!=u;o=o.parentNode){for(a=U.clone(o,J),c=0;c<h.length;c++)if(R(h[c],t,a,a)){a=0;break}a&&(s&&a.appendChild(s),l||(l=a),s=a)}!r||y.mixed&&j(e)||(n=U.split(e,n)),s&&(i.parentNode.insertBefore(s,i),l.appendChild(i))}return n}function l(e){return s(a(e),e,e,!0)}function u(e){var t=U.get(e?"_start":"_end"),n=t[e?"firstChild":"lastChild"];return D(n)&&(n=n[e?"firstChild":"lastChild"]),U.remove(t,!0),n}function f(e){var t,n,o=e.commonAncestorContainer;e=T(e,h,Q),y.split&&(t=M(e,Q),n=M(e),t!=n?(/^(TR|TH|TD)$/.test(t.nodeName)&&t.firstChild&&(t="TR"==t.nodeName?t.firstChild.firstChild||t:t.firstChild||t),o&&/^T(HEAD|BODY|FOOT|R)$/.test(o.nodeName)&&/^(TH|TD)$/.test(n.nodeName)&&n.firstChild&&(n=n.firstChild||n),t=k(t,"span",{id:"_start","data-mce-type":"bookmark"}),n=k(n,"span",{id:"_end","data-mce-type":"bookmark"}),l(t),l(n),t=u(Q),n=u()):t=n=l(t),e.startContainer=t.parentNode,e.startOffset=G(t),e.endContainer=n.parentNode,e.endOffset=G(n)+1),q.walk(e,function(e){et(e,function(e){r(e),1===e.nodeType&&"underline"===i.dom.getStyle(e,"text-decoration")&&e.parentNode&&"underline"===d(e.parentNode)&&R({deep:!1,exact:!0,inline:"span",styles:{textDecoration:"underline"}},null,e)})})}var m,p,h=c(e),y=h[0],b=!0;return n?(n.nodeType?(p=U.createRng(),p.setStartBefore(n),p.setEndAfter(n),f(p)):f(n),void 0):(V.isCollapsed()&&y.inline&&!U.select("td.mce-item-selected,th.mce-item-selected").length?H("remove",e,t):(m=V.getBookmark(),f(V.getRng(Q)),V.moveToBookmark(m),y.inline&&v(e,t,V.getStart())&&P(V.getRng(!0)),i.nodeChanged()),void 0)}function h(e,t,n){var i=c(e);!v(e,t,n)||"toggle"in i[0]&&!i[0].toggle?m(e,t,n):p(e,t,n)}function g(e,t,n,i){function r(e,t,r){var o,a,s,l=t[r];if(t.onmatch)return t.onmatch(e,t,r);if(l)if(l.length===I){for(o in l)if(l.hasOwnProperty(o)){if(a="attributes"===r?U.getAttrib(e,o):_(e,o),i&&!a&&!t.exact)return;if((!i||t.exact)&&!w(a,N(E(l[o],n),o)))return}}else for(s=0;s<l.length;s++)if("attributes"===r?U.getAttrib(e,l[s]):_(e,l[s]))return t;return t}var o,a,s,l=c(t);if(l&&e)for(a=0;a<l.length;a++)if(o=l[a],x(e,o)&&r(e,o,"attributes")&&r(e,o,"styles")){if(s=o.classes)for(a=0;a<s.length;a++)if(!U.hasClass(e,s[a]))return;return o}}function v(e,t,n){function i(n){var i=U.getRoot();return n=U.getParent(n,function(n){return n.parentNode===i||!!g(n,e,t,!0)}),g(n,e,t)}var r;return n?i(n):(n=V.getNode(),i(n)?Q:(r=V.getStart(),r!=n&&i(r)?Q:J))}function y(e,t){var n,i=[],r={};return n=V.getStart(),U.getParent(n,function(n){var o,a;for(o=0;o<e.length;o++)a=e[o],!r[a]&&g(n,a,t)&&(r[a]=!0,i.push(a))},U.getRoot()),i}function b(e){var t,n,i,r,a,s=c(e);if(s)for(t=V.getStart(),n=o(t),r=s.length-1;r>=0;r--){if(a=s[r].selector,!a||s[r].defaultBlock)return Q;for(i=n.length-1;i>=0;i--)if(U.is(n[i],a))return Q}return J}function C(e,t,n){var r;return O||(O={},r={},i.on("NodeChange",function(e){var t=o(e.element),n={};et(O,function(e,i){et(t,function(o){return g(o,i,{},e.similar)?(r[i]||(et(e,function(e){e(!0,{node:o,format:i,parents:t})}),r[i]=e),n[i]=e,!1):void 0})}),et(r,function(i,o){n[o]||(delete r[o],et(i,function(n){n(!1,{node:e.element,format:o,parents:t})}))})})),et(e.split(","),function(e){O[e]||(O[e]=[],O[e].similar=n),O[e].push(t)}),this}function x(e,t){return w(e,t.inline)?Q:w(e,t.block)?Q:t.selector?1==e.nodeType&&U.is(e,t.selector):void 0}function w(e,t){return e=e||"",t=t||"",e=""+(e.nodeName||e),t=""+(t.nodeName||t),e.toLowerCase()==t.toLowerCase()}function _(e,t){return N(U.getStyle(e,t),t)}function N(e,t){return("color"==t||"backgroundColor"==t)&&(e=U.toHex(e)),"fontWeight"==t&&700==e&&(e="bold"),"fontFamily"==t&&(e=e.replace(/[\'\"]/g,"").replace(/,\s+/g,",")),""+e}function E(e,t){return"string"!=typeof e?e=e(t):t&&(e=e.replace(/%(\w+)/g,function(e,n){return t[n]||e})),e}function S(e){return e&&3===e.nodeType&&/^([\t \r\n]+|)$/.test(e.nodeValue)}function k(e,t,n){var i=U.create(t,n);return e.parentNode.insertBefore(i,e),i.appendChild(e),i}function T(t,n,a){function s(e){function t(e){return"BR"==e.nodeName&&e.getAttribute("data-mce-bogus")&&!e.nextSibling}var i,r,o,a,s;if(i=r=e?g:y,a=e?"previousSibling":"nextSibling",s=U.getRoot(),3==i.nodeType&&!S(i)&&(e?v>0:b<i.nodeValue.length))return i;for(;;){if(!n[0].block_expand&&j(r))return r;for(o=r[a];o;o=o[a])if(!D(o)&&!S(o)&&!t(o))return r;if(r.parentNode==s){i=r;break}r=r.parentNode}return i}function l(e,t){for(t===I&&(t=3===e.nodeType?e.length:e.childNodes.length);e&&e.hasChildNodes();)e=e.childNodes[t],e&&(t=3===e.nodeType?e.length:e.childNodes.length);return{node:e,offset:t}}function c(e){for(var t=e;t;){if(1===t.nodeType&&Z(t))return"false"===Z(t)?t:e;t=t.parentNode}return e}function u(t,n,r){function o(e,t){var n,i,o=e.nodeValue;return"undefined"==typeof t&&(t=r?o.length:0),r?(n=o.lastIndexOf(" ",t),i=o.lastIndexOf(" ",t),n=n>i?n:i,-1===n||a||n++):(n=o.indexOf(" ",t),i=o.indexOf(" ",t),n=-1!==n&&(-1===i||i>n)?n:i),n}var s,l,c,u;if(3===t.nodeType){if(c=o(t,n),-1!==c)return{container:t,offset:c};u=t}for(s=new e(t,U.getParent(t,j)||i.getBody());l=s[r?"prev":"next"]();)if(3===l.nodeType){if(u=l,c=o(l),-1!==c)return{container:l,offset:c}}else if(j(l))break;return u?(n=r?0:u.length,{container:u,offset:n}):void 0}function d(e,i){var r,a,s,l;for(3==e.nodeType&&0===e.nodeValue.length&&e[i]&&(e=e[i]),r=o(e),a=0;a<r.length;a++)for(s=0;s<n.length;s++)if(l=n[s],!("collapsed"in l&&l.collapsed!==t.collapsed)&&U.is(r[a],l.selector))return r[a];return e}function f(e,t){var i,a=U.getRoot();if(n[0].wrapper||(i=U.getParent(e,n[0].block)),i||(i=U.getParent(3==e.nodeType?e.parentNode:e,function(e){return e!=a&&r(e)})),i&&n[0].wrapper&&(i=o(i,"ul,ol").reverse()[0]||i),!i)for(i=e;i[t]&&!j(i[t])&&(i=i[t],!w(i,"br")););return i||e}var m,p,h,g=t.startContainer,v=t.startOffset,y=t.endContainer,b=t.endOffset;if(1==g.nodeType&&g.hasChildNodes()&&(m=g.childNodes.length-1,g=g.childNodes[v>m?m:v],3==g.nodeType&&(v=0)),1==y.nodeType&&y.hasChildNodes()&&(m=y.childNodes.length-1,y=y.childNodes[b>m?m:b-1],3==y.nodeType&&(b=y.nodeValue.length)),g=c(g),y=c(y),(D(g.parentNode)||D(g))&&(g=D(g)?g:g.parentNode,g=g.nextSibling||g,3==g.nodeType&&(v=0)),(D(y.parentNode)||D(y))&&(y=D(y)?y:y.parentNode,y=y.previousSibling||y,3==y.nodeType&&(b=y.length)),n[0].inline&&(t.collapsed&&(h=u(g,v,!0),h&&(g=h.container,v=h.offset),h=u(y,b),h&&(y=h.container,b=h.offset)),p=l(y,b),p.node)){for(;p.node&&0===p.offset&&p.node.previousSibling;)p=l(p.node.previousSibling);p.node&&p.offset>0&&3===p.node.nodeType&&" "===p.node.nodeValue.charAt(p.offset-1)&&p.offset>1&&(y=p.node,y.splitText(p.offset-1))}return(n[0].inline||n[0].block_expand)&&(n[0].inline&&3==g.nodeType&&0!==v||(g=s(!0)),n[0].inline&&3==y.nodeType&&b!==y.nodeValue.length||(y=s())),n[0].selector&&n[0].expand!==J&&!n[0].inline&&(g=d(g,"previousSibling"),y=d(y,"nextSibling")),(n[0].block||n[0].selector)&&(g=f(g,"previousSibling"),y=f(y,"nextSibling"),n[0].block&&(j(g)||(g=s(!0)),j(y)||(y=s()))),1==g.nodeType&&(v=G(g),g=g.parentNode),1==y.nodeType&&(b=G(y)+1,y=y.parentNode),{startContainer:g,startOffset:v,endContainer:y,endOffset:b}}function R(e,t,n,i){var r,o,a;if(!x(n,e))return J;if("all"!=e.remove)for(et(e.styles,function(e,r){e=N(E(e,t),r),"number"==typeof r&&(r=e,i=0),(!i||w(_(i,r),e))&&U.setStyle(n,r,""),a=1}),a&&""===U.getAttrib(n,"style")&&(n.removeAttribute("style"),n.removeAttribute("data-mce-style")),et(e.attributes,function(e,r){var o;if(e=E(e,t),"number"==typeof r&&(r=e,i=0),!i||w(U.getAttrib(i,r),e)){if("class"==r&&(e=U.getAttrib(n,r),e&&(o="",et(e.split(/\s+/),function(e){/mce\w+/.test(e)&&(o+=(o?" ":"")+e)}),o)))return U.setAttrib(n,r,o),void 0;"class"==r&&n.removeAttribute("className"),X.test(r)&&n.removeAttribute("data-mce-"+r),n.removeAttribute(r)}}),et(e.classes,function(e){e=E(e,t),(!i||U.hasClass(i,e))&&U.removeClass(n,e)}),o=U.getAttribs(n),r=0;r<o.length;r++)if(0!==o[r].nodeName.indexOf("_"))return J;return"none"!=e.remove?(A(n,e),Q):void 0}function A(e,t){function n(e,t,n){return e=B(e,t,n),!e||"BR"==e.nodeName||j(e)}var r,o=e.parentNode;t.block&&(K?o==U.getRoot()&&(t.list_block&&w(e,t.list_block)||et(tt(e.childNodes),function(e){$(K,e.nodeName.toLowerCase())?r?r.appendChild(e):(r=k(e,K),U.setAttribs(r,i.settings.forced_root_block_attrs)):r=0})):j(e)&&!j(o)&&(n(e,J)||n(e.firstChild,Q,1)||e.insertBefore(U.create("br"),e.firstChild),n(e,Q)||n(e.lastChild,J,1)||e.appendChild(U.create("br")))),t.selector&&t.inline&&!w(t.inline,e)||U.remove(e,1)}function B(e,t,n){if(e)for(t=t?"nextSibling":"previousSibling",e=n?e:e[t];e;e=e[t])if(1==e.nodeType||!S(e))return e}function D(e){return e&&1==e.nodeType&&"bookmark"==e.getAttribute("data-mce-type")}function L(e,t){function n(e,t){function n(e){var t={};return et(U.getAttribs(e),function(n){var i=n.nodeName.toLowerCase();0!==i.indexOf("_")&&"style"!==i&&(t[i]=U.getAttrib(e,i))}),t}function i(e,t){var n,i;for(i in e)if(e.hasOwnProperty(i)){if(n=t[i],n===I)return J;if(e[i]!=n)return J;delete t[i]}for(i in t)if(t.hasOwnProperty(i))return J;return Q}return e.nodeName!=t.nodeName?J:i(n(e),n(t))?i(U.parseStyle(U.getAttrib(e,"style")),U.parseStyle(U.getAttrib(t,"style")))?Q:J:J}function i(e,t){for(r=e;r;r=r[t]){if(3==r.nodeType&&0!==r.nodeValue.length)return e;if(1==r.nodeType&&!D(r))return r}return e}var r,o;if(e&&t&&(e=i(e,"previousSibling"),t=i(t,"nextSibling"),n(e,t))){for(r=e.nextSibling;r&&r!=t;)o=r,r=r.nextSibling,e.appendChild(o);return U.remove(t),et(tt(t.childNodes),function(t){e.appendChild(t)}),e}return t}function M(t,n){var r,o,a;return r=t[n?"startContainer":"endContainer"],o=t[n?"startOffset":"endOffset"],1==r.nodeType&&(a=r.childNodes.length-1,!n&&o&&o--,r=r.childNodes[o>a?a:o]),3===r.nodeType&&n&&o>=r.nodeValue.length&&(r=new e(r,i.getBody()).next()||r),3!==r.nodeType||n||0!==o||(r=new e(r,i.getBody()).prev()||r),r}function H(t,n,o){function a(e){var t=U.create("span",{id:y,"data-mce-bogus":!0,style:b?"color:red":""});return e&&t.appendChild(i.getDoc().createTextNode(Y)),t}function s(e,t){for(;e;){if(3===e.nodeType&&e.nodeValue!==Y||e.childNodes.length>1)return!1;t&&1===e.nodeType&&t.push(e),e=e.firstChild}return!0}function l(e){for(;e;){if(e.id===y)return e;e=e.parentNode}}function u(t){var n;if(t)for(n=new e(t,t),t=n.current();t;t=n.next())if(3===t.nodeType)return t}function d(e,t){var n,i;if(e)i=V.getRng(!0),s(e)?(t!==!1&&(i.setStartBefore(e),i.setEndBefore(e)),U.remove(e)):(n=u(e),n.nodeValue.charAt(0)===Y&&(n=n.deleteData(0,1)),U.remove(e,1)),V.setRng(i);else if(e=l(V.getStart()),!e)for(;e=U.get(y);)d(e,!1)}function f(){var e,t,i,r,s,d,f;e=V.getRng(!0),r=e.startOffset,d=e.startContainer,f=d.nodeValue,t=l(V.getStart()),t&&(i=u(t)),f&&r>0&&r<f.length&&/\w/.test(f.charAt(r))&&/\w/.test(f.charAt(r-1))?(s=V.getBookmark(),e.collapse(!0),e=T(e,c(n)),e=q.split(e),m(n,o,e),V.moveToBookmark(s)):(t&&i.nodeValue===Y?m(n,o,t):(t=a(!0),i=t.firstChild,e.insertNode(t),r=1,m(n,o,t)),V.setCursorLocation(i,r))}function h(){var e,t,i,s,l,u,d,f,m=V.getRng(!0),h=[];for(e=m.startContainer,t=m.startOffset,l=e,3==e.nodeType&&((t!=e.nodeValue.length||e.nodeValue===Y)&&(s=!0),l=l.parentNode);l;){if(g(l,n,o)){u=l;break}l.nextSibling&&(s=!0),h.push(l),l=l.parentNode}if(u)if(s)i=V.getBookmark(),m.collapse(!0),m=T(m,c(n),!0),m=q.split(m),p(n,o,m),V.moveToBookmark(i);else{for(f=a(),l=f,d=h.length-1;d>=0;d--)l.appendChild(U.clone(h[d],!1)),l=l.firstChild;l.appendChild(U.doc.createTextNode(Y)),l=l.firstChild;var v=U.getParent(u,r);v&&U.isEmpty(v)?u.parentNode.replaceChild(f,u):U.insertAfter(f,u),V.setCursorLocation(l,1),U.isEmpty(u)&&U.remove(u)}}function v(){var e;e=l(V.getStart()),e&&!U.isEmpty(e)&&nt(e,function(e){1!=e.nodeType||e.id===y||U.isEmpty(e)||U.setAttrib(e,"data-mce-bogus",null)},"childNodes")}var y="_mce_caret",b=i.settings.caret_debug;i._hasCaretEvents||(W=function(){var e,t=[];if(s(l(V.getStart()),t))for(e=t.length;e--;)U.setAttrib(t[e],"data-mce-bogus","1")},F=function(e){var t=e.keyCode;d(),(8==t||37==t||39==t)&&d(l(V.getStart())),v()},i.on("SetContent",function(e){e.selection&&v()}),i._hasCaretEvents=!0),"apply"==t?f():h()}function P(t){var n,i,r,o,a,s=t.startContainer,l=t.startOffset;if(3==s.nodeType&&l>=s.nodeValue.length&&(l=G(s),s=s.parentNode,n=!0),1==s.nodeType)for(o=s.childNodes,s=o[Math.min(l,o.length-1)],i=new e(s,U.getParent(s,U.isBlock)),(l>o.length-1||n)&&i.next(),r=i.current();r;r=i.next())if(3==r.nodeType&&!S(r))return a=U.create("a",null,Y),r.parentNode.insertBefore(a,r),t.setStart(r,0),V.setRng(t),U.remove(a),void 0}var O,I,F,W,z={},U=i.dom,V=i.selection,q=new t(U),$=i.schema.isValidChild,j=U.isBlock,K=i.settings.forced_root_block,G=U.nodeIndex,Y="﻿",X=/^(src|href|style)$/,J=!1,Q=!0,Z=U.getContentEditable,et=n.each,tt=n.grep,nt=n.walk,it=n.extend;it(this,{get:c,register:u,apply:m,remove:p,toggle:h,match:v,matchAll:y,matchNode:g,canApply:b,formatChanged:C}),s(),l(),i.on("BeforeGetContent",function(){W&&W()}),i.on("mouseup keydown",function(e){F&&F(e)})}}),/**
- * UndoManager.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/UndoManager",["tinymce/Env","tinymce/util/Tools"],function(e,t){var n,i=t.trim;return n=new RegExp(["<span[^>]+data-mce-bogus[^>]+>[​﻿]+<\\/span>","<div[^>]+data-mce-bogus[^>]+><\\/div>",'\\s?data-mce-selected="[^"]+"'].join("|"),"gi"),function(t){function r(){return i(t.getContent({format:"raw",no_events:1}).replace(n,""))}function o(){a.typing=!1,a.add()}var a,s,l,c,u=0,d=[];return t.on("init",function(){a.add()}),t.on("BeforeExecCommand",function(e){var t=e.command;"Undo"!=t&&"Redo"!=t&&"mceRepaint"!=t&&a.beforeChange()}),t.on("ExecCommand",function(e){var t=e.command;"Undo"!=t&&"Redo"!=t&&"mceRepaint"!=t&&a.add()}),t.on("ObjectResizeStart",function(){a.beforeChange()}),t.on("SaveContent ObjectResized",o),t.dom.bind(t.dom.getRoot(),"dragend",o),t.dom.bind(t.getBody(),"focusout",function(){!t.removed&&a.typing&&o()}),t.on("KeyUp",function(n){var i=n.keyCode;(i>=33&&36>=i||i>=37&&40>=i||45==i||13==i||n.ctrlKey)&&(o(),t.nodeChanged()),(46==i||8==i||e.mac&&(91==i||93==i))&&t.nodeChanged(),l&&a.typing&&(t.isDirty()||(t.isNotDirty=!d[0]||r()==d[0].content,t.isNotDirty||t.fire("change",{level:d[0],lastLevel:null})),t.fire("TypingUndo"),l=!1,t.nodeChanged())}),t.on("KeyDown",function(e){var t=e.keyCode;return t>=33&&36>=t||t>=37&&40>=t||45==t?(a.typing&&o(),void 0):((16>t||t>20)&&224!=t&&91!=t&&!a.typing&&(a.beforeChange(),a.typing=!0,a.add(),l=!0),void 0)}),t.on("MouseDown",function(){a.typing&&o()}),t.addShortcut("ctrl+z","","Undo"),t.addShortcut("ctrl+y,ctrl+shift+z","","Redo"),t.on("AddUndo Undo Redo ClearUndos MouseUp",function(e){e.isDefaultPrevented()||t.nodeChanged()}),a={data:d,typing:!1,beforeChange:function(){c||(s=t.selection.getBookmark(2,!0))},add:function(e){var n,i,o=t.settings;if(e=e||{},e.content=r(),c||t.fire("BeforeAddUndo",{level:e}).isDefaultPrevented())return null;if(i=d[u],i&&i.content==e.content)return null;if(d[u]&&(d[u].beforeBookmark=s),o.custom_undo_redo_levels&&d.length>o.custom_undo_redo_levels){for(n=0;n<d.length-1;n++)d[n]=d[n+1];d.length--,u=d.length}e.bookmark=t.selection.getBookmark(2,!0),u<d.length-1&&(d.length=u+1),d.push(e),u=d.length-1;var a={level:e,lastLevel:i};return t.fire("AddUndo",a),u>0&&(t.fire("change",a),t.isNotDirty=!1),e},undo:function(){var e;return a.typing&&(a.add(),a.typing=!1),u>0&&(e=d[--u],0===u&&(t.isNotDirty=!0),t.setContent(e.content,{format:"raw"}),t.selection.moveToBookmark(e.beforeBookmark),t.fire("undo",{level:e})),e},redo:function(){var e;return u<d.length-1&&(e=d[++u],t.setContent(e.content,{format:"raw"}),t.selection.moveToBookmark(e.bookmark),t.fire("redo",{level:e})),e},clear:function(){d=[],u=0,a.typing=!1,t.fire("ClearUndos")},hasUndo:function(){return u>0||a.typing&&d[0]&&r()!=d[0].content},hasRedo:function(){return u<d.length-1&&!this.typing},transact:function(e){a.beforeChange(),c=!0,e(),c=!1,a.add()}}}}),/**
- * EnterKey.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/EnterKey",["tinymce/dom/TreeWalker","tinymce/Env"],function(e,t){var n=t.ie&&t.ie<11;return function(t){function i(i){function u(e){return e&&r.isBlock(e)&&!/^(TD|TH|CAPTION|FORM)$/.test(e.nodeName)&&!/^(fixed|absolute)/i.test(e.style.position)&&"true"!==r.getContentEditable(e)}function d(e){var t;r.isBlock(e)&&(t=o.getRng(),e.appendChild(r.create("span",null," ")),o.select(e),e.lastChild.outerHTML="",o.setRng(t))}function f(e){for(var t,n=e,i=[];n=n.firstChild;){if(r.isBlock(n))return;1!=n.nodeType||c[n.nodeName.toLowerCase()]||i.push(n)}for(t=i.length;t--;)n=i[t],!n.hasChildNodes()||n.firstChild==n.lastChild&&""===n.firstChild.nodeValue?r.remove(n):"A"==n.nodeName&&" "===(n.innerText||n.textContent)&&r.remove(n)}function m(t){function n(e){for(;e;){if(1==e.nodeType||3==e.nodeType&&e.data&&/[\r\n\s]/.test(e.data))return e;e=e.nextSibling}}var i,a,s,l,u=t;if("LI"==t.nodeName){var d=n(t.firstChild);d&&/^(UL|OL)$/.test(d.nodeName)&&t.insertBefore(r.doc.createTextNode(" "),t.firstChild)}if(s=r.createRng(),t.hasChildNodes()){for(i=new e(t,t);a=i.current();){if(3==a.nodeType){s.setStart(a,0),s.setEnd(a,0);break}if(c[a.nodeName.toLowerCase()]){s.setStartBefore(a),s.setEndBefore(a);break}u=a,a=i.next()}a||(s.setStart(u,0),s.setEnd(u,0))}else"BR"==t.nodeName?t.nextSibling&&r.isBlock(t.nextSibling)?((!R||9>R)&&(l=r.create("br"),t.parentNode.insertBefore(l,t)),s.setStartBefore(t),s.setEndBefore(t)):(s.setStartAfter(t),s.setEndAfter(t)):(s.setStart(t,0),s.setEnd(t,0));o.setRng(s),r.remove(l),o.scrollIntoView(t)}function p(e){var t=a.forced_root_block;t&&t.toLowerCase()===e.tagName.toLowerCase()&&r.setAttribs(e,a.forced_root_block_attrs)}function h(e){var t,i,o,s=S;if(e||"TABLE"==M?(t=r.create(e||P),p(t)):t=T.cloneNode(!1),o=t,a.keep_styles!==!1)do if(/^(SPAN|STRONG|B|EM|I|FONT|STRIKE|U)$/.test(s.nodeName)){if("_mce_caret"==s.id)continue;i=s.cloneNode(!1),r.setAttrib(i,"id",""),t.hasChildNodes()?(i.appendChild(t.firstChild),t.appendChild(i)):(o=i,t.appendChild(i))}while(s=s.parentNode);return n||(o.innerHTML='<br data-mce-bogus="1">'),t}function g(t){var n,i,r;if(3==S.nodeType&&(t?k>0:k<S.nodeValue.length))return!1;if(S.parentNode==T&&O&&!t)return!0;if(t&&1==S.nodeType&&S==T.firstChild)return!0;if("TABLE"===S.nodeName||S.previousSibling&&"TABLE"==S.previousSibling.nodeName)return O&&!t||!O&&t;for(n=new e(S,T),3==S.nodeType&&(t&&0===k?n.prev():t||k!=S.nodeValue.length||n.next());i=n.current();){if(1===i.nodeType){if(!i.getAttribute("data-mce-bogus")&&(r=i.nodeName.toLowerCase(),c[r]&&"br"!==r))return!1}else if(3===i.nodeType&&!/^[ \t\r\n]*$/.test(i.nodeValue))return!1;t?n.prev():n.next()}return!0}function v(e,n){var i,o,a,s,c,d,f=P||"P";if(o=r.getParent(e,r.isBlock),d=t.getBody().nodeName.toLowerCase(),!o||!u(o)){if(o=o||E,!o.hasChildNodes())return i=r.create(f),p(i),o.appendChild(i),I.setStart(i,0),I.setEnd(i,0),i;for(s=e;s.parentNode!=o;)s=s.parentNode;for(;s&&!r.isBlock(s);)a=s,s=s.previousSibling;if(a&&l.isValidChild(d,f.toLowerCase())){for(i=r.create(f),p(i),a.parentNode.insertBefore(i,a),s=a;s&&!r.isBlock(s);)c=s.nextSibling,i.appendChild(s),s=c;I.setStart(e,n),I.setEnd(e,n)}}return e}function y(){function e(e){for(var t=L[e?"firstChild":"lastChild"];t&&1!=t.nodeType;)t=t[e?"nextSibling":"previousSibling"];return t===T}function t(){var e=L.parentNode;return"LI"==e.nodeName?e:L}var n=L.parentNode.nodeName;/^(OL|UL|LI)$/.test(n)&&(P="LI"),B=P?h(P):r.create("BR"),e(!0)&&e()?"LI"==n?r.insertAfter(B,t()):r.replace(B,L):e(!0)?"LI"==n?(r.insertAfter(B,t()),B.appendChild(r.doc.createTextNode(" ")),B.appendChild(L)):L.parentNode.insertBefore(B,L):e()?(r.insertAfter(B,t()),d(B)):(L=t(),N=I.cloneRange(),N.setStartAfter(T),N.setEndAfter(L),D=N.extractContents(),"LI"==P&&"LI"==D.firstChild.nodeName?(B=D.firstChild,r.insertAfter(D,L)):(r.insertAfter(D,L),r.insertAfter(B,L))),r.remove(T),m(B),s.add()}function b(){for(var t,n=new e(S,T);t=n.next();)if(c[t.nodeName.toLowerCase()]||t.length>0)return!0}function C(){var e,t,i;S&&3==S.nodeType&&k>=S.nodeValue.length&&(n||b()||(e=r.create("br"),I.insertNode(e),I.setStartAfter(e),I.setEndAfter(e),t=!0)),e=r.create("br"),I.insertNode(e),n&&"PRE"==M&&(!R||8>R)&&e.parentNode.insertBefore(r.doc.createTextNode("\r"),e),i=r.create("span",{},"&nbsp;"),e.parentNode.insertBefore(i,e),o.scrollIntoView(i),r.remove(i),t?(I.setStartBefore(e),I.setEndBefore(e)):(I.setStartAfter(e),I.setEndAfter(e)),o.setRng(I),s.add()}function x(e){do 3===e.nodeType&&(e.nodeValue=e.nodeValue.replace(/^[\r\n]+/,"")),e=e.firstChild;while(e)}function w(e){var t,n,i=r.getRoot();for(t=e;t!==i&&"false"!==r.getContentEditable(t);)"true"===r.getContentEditable(t)&&(n=t),t=t.parentNode;return t!==i?n:i}function _(e){var t;n||(e.normalize(),t=e.lastChild,(!t||/^(left|right)$/gi.test(r.getStyle(t,"float",!0)))&&r.add(e,"br"))}var N,E,S,k,T,R,A,B,D,L,M,H,P,O,I=o.getRng(!0);if(!I.collapsed)return t.execCommand("Delete"),void 0;if(!i.isDefaultPrevented()&&(S=I.startContainer,k=I.startOffset,P=(a.force_p_newlines?"p":"")||a.forced_root_block,P=P?P.toUpperCase():"",R=r.doc.documentMode,A=i.shiftKey,1==S.nodeType&&S.hasChildNodes()&&(O=k>S.childNodes.length-1,S=S.childNodes[Math.min(k,S.childNodes.length-1)]||S,k=O&&3==S.nodeType?S.nodeValue.length:0),E=w(S))){if(s.beforeChange(),!r.isBlock(E)&&E!=r.getRoot())return(!P||A)&&C(),void 0;if((P&&!A||!P&&A)&&(S=v(S,k)),T=r.getParent(S,r.isBlock),L=T?r.getParent(T.parentNode,r.isBlock):null,M=T?T.nodeName.toUpperCase():"",H=L?L.nodeName.toUpperCase():"","LI"!=H||i.ctrlKey||(T=L,M=H),"LI"==M){if(!P&&A)return C(),void 0;if(r.isEmpty(T))return y(),void 0}if("PRE"==M&&a.br_in_pre!==!1){if(!A)return C(),void 0}else if(!P&&!A&&"LI"!=M||P&&A)return C(),void 0;P&&T===t.getBody()||(P=P||"P",g()?(B=/^(H[1-6]|PRE|FIGURE)$/.test(M)&&"HGROUP"!=H?h(P):h(),a.end_container_on_empty_block&&u(L)&&r.isEmpty(T)?B=r.split(L,T):r.insertAfter(B,T),m(B)):g(!0)?(B=T.parentNode.insertBefore(h(),T),d(B),m(T)):(N=I.cloneRange(),N.setEndAfter(T),D=N.extractContents(),x(D),B=D.firstChild,r.insertAfter(D,T),f(B),_(T),m(B)),r.setAttrib(B,"id",""),t.fire("NewBlock",{newBlock:B}),s.add())}}var r=t.dom,o=t.selection,a=t.settings,s=t.undoManager,l=t.schema,c=l.getNonEmptyElements();t.on("keydown",function(e){13==e.keyCode&&i(e)!==!1&&e.preventDefault()})}}),/**
- * ForceBlocks.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ForceBlocks",[],function(){return function(e){function t(){var t,s,l,c,u,d,f,m,p,h,g,v,y=r.getStart(),b=e.getBody(),C=-16777215;if(v=n.forced_root_block,y&&1===y.nodeType&&v){for(;y&&y!=b;){if(a[y.nodeName])return;y=y.parentNode}if(t=r.getRng(),t.setStart){s=t.startContainer,l=t.startOffset,c=t.endContainer,u=t.endOffset;try{p=e.getDoc().activeElement===b}catch(x){}}else t.item&&(y=t.item(0),t=e.getDoc().body.createTextRange(),t.moveToElementText(y)),p=t.parentElement().ownerDocument===e.getDoc(),h=t.duplicate(),h.collapse(!0),l=-1*h.move("character",C),h.collapsed||(h=t.duplicate(),h.collapse(!1),u=-1*h.move("character",C)-l);for(y=b.firstChild,g=b.nodeName.toLowerCase();y;)if((3===y.nodeType||1==y.nodeType&&!a[y.nodeName])&&o.isValidChild(g,v.toLowerCase())){if(3===y.nodeType&&0===y.nodeValue.length){f=y,y=y.nextSibling,i.remove(f);continue}d||(d=i.create(v,e.settings.forced_root_block_attrs),y.parentNode.insertBefore(d,y),m=!0),f=y,y=y.nextSibling,d.appendChild(f)}else d=null,y=y.nextSibling;if(m&&p){if(t.setStart)t.setStart(s,l),t.setEnd(c,u),r.setRng(t);else try{t=e.getDoc().body.createTextRange(),t.moveToElementText(b),t.collapse(!0),t.moveStart("character",l),u>0&&t.moveEnd("character",u),t.select()}catch(x){}e.nodeChanged()}}}var n=e.settings,i=e.dom,r=e.selection,o=e.schema,a=o.getBlockElements();n.forced_root_block&&e.on("NodeChange",t)}}),/**
- * EditorCommands.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/EditorCommands",["tinymce/html/Serializer","tinymce/Env","tinymce/util/Tools"],function(e,n,i){var r=i.each,o=i.extend,a=i.map,s=i.inArray,l=i.explode,c=n.gecko,u=n.ie,d=!0,f=!1;return function(n){function i(e,t,n){var i;return e=e.toLowerCase(),(i=N.exec[e])?(i(e,t,n),d):f}function m(e){var t;return e=e.toLowerCase(),(t=N.state[e])?t(e):-1}function p(e){var t;return e=e.toLowerCase(),(t=N.value[e])?t(e):f}function h(e,t){t=t||"exec",r(e,function(e,n){r(n.toLowerCase().split(","),function(n){N[t][n]=e})})}function g(e,i,r){return i===t&&(i=f),r===t&&(r=null),n.getDoc().execCommand(e,i,r)}function v(e){return S.match(e)}function y(e,i){S.toggle(e,i?{value:i}:t),n.nodeChanged()}function b(e){x=_.getBookmark(e)}function C(){_.moveToBookmark(x)}var x,w=n.dom,_=n.selection,N={state:{},exec:{},value:{}},E=n.settings,S=n.formatter;o(this,{execCommand:i,queryCommandState:m,queryCommandValue:p,addCommands:h}),h({"mceResetDesignMode,mceBeginUndoLevel":function(){},"mceEndUndoLevel,mceAddUndoLevel":function(){n.undoManager.add()},"Cut,Copy,Paste":function(e){var t,i=n.getDoc();try{g(e)}catch(r){t=d}(t||!i.queryCommandSupported(e))&&n.windowManager.alert("Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X/C/V keyboard shortcuts instead.")},unlink:function(e){_.isCollapsed()&&_.select(_.getNode()),g(e),_.collapse(f)},"JustifyLeft,JustifyCenter,JustifyRight,JustifyFull":function(e){var t=e.substring(7);"full"==t&&(t="justify"),r("left,center,right,justify".split(","),function(e){t!=e&&S.remove("align"+e)}),y("align"+t),i("mceRepaint")},"InsertUnorderedList,InsertOrderedList":function(e){var t,n;g(e),t=w.getParent(_.getNode(),"ol,ul"),t&&(n=t.parentNode,/^(H[1-6]|P|ADDRESS|PRE)$/.test(n.nodeName)&&(b(),w.split(n,t),C()))},"Bold,Italic,Underline,Strikethrough,Superscript,Subscript":function(e){y(e)},"ForeColor,HiliteColor,FontName":function(e,t,n){y(e,n)},FontSize:function(e,t,n){var i,r;n>=1&&7>=n&&(r=l(E.font_size_style_values),i=l(E.font_size_classes),n=i?i[n-1]||n:r[n-1]||n),y(e,n)},RemoveFormat:function(e){S.remove(e)},mceBlockQuote:function(){y("blockquote")},FormatBlock:function(e,t,n){return y(n||"p")},mceCleanup:function(){var e=_.getBookmark();n.setContent(n.getContent({cleanup:d}),{cleanup:d}),_.moveToBookmark(e)},mceRemoveNode:function(e,t,i){var r=i||_.getNode();r!=n.getBody()&&(b(),n.dom.remove(r,d),C())},mceSelectNodeDepth:function(e,t,i){var r=0;w.getParent(_.getNode(),function(e){return 1==e.nodeType&&r++==i?(_.select(e),f):void 0},n.getBody())},mceSelectNode:function(e,t,n){_.select(n)},mceInsertContent:function(t,i,r){function o(e){function t(e){return i[e]&&3==i[e].nodeType}var n,i,r;return n=_.getRng(!0),i=n.startContainer,r=n.startOffset,3==i.nodeType&&(r>0?e=e.replace(/^&nbsp;/," "):t("previousSibling")||(e=e.replace(/^ /,"&nbsp;")),r<i.length?e=e.replace(/&nbsp;(<br>|)$/," "):t("nextSibling")||(e=e.replace(/(&nbsp;| )(<br>|)$/,"&nbsp;"))),e}var a,s,l,c,d,f,m,p,h,g,v;/^ | $/.test(r)&&(r=o(r)),a=n.parser,s=new e({},n.schema),v='<span id="mce_marker" data-mce-type="bookmark">&#xFEFF;</span>',f={content:r,format:"html",selection:!0},n.fire("BeforeSetContent",f),r=f.content,-1==r.indexOf("{$caret}")&&(r+="{$caret}"),r=r.replace(/\{\$caret\}/,v);var y=n.getBody();w.isBlock(y.firstChild)&&w.isEmpty(y.firstChild)&&(y.firstChild.appendChild(w.doc.createTextNode(" ")),_.select(y.firstChild,!0),w.remove(y.firstChild.lastChild)),_.isCollapsed()||n.getDoc().execCommand("Delete",!1,null),l=_.getNode();var b={context:l.nodeName.toLowerCase()};if(d=a.parse(r,b),h=d.lastChild,"mce_marker"==h.attr("id"))for(m=h,h=h.prev;h;h=h.walk(!0))if(3==h.type||!w.isBlock(h.name)){h.parent.insert(m,h,"br"===h.name);break}if(b.invalid){for(_.setContent(v),l=_.getNode(),c=n.getBody(),9==l.nodeType?l=h=c:h=l;h!==c;)l=h,h=h.parentNode;r=l==c?c.innerHTML:w.getOuterHTML(l),r=s.serialize(a.parse(r.replace(/<span (id="mce_marker"|id=mce_marker).+?<\/span>/i,function(){return s.serialize(d)}))),l==c?w.setHTML(c,r):w.setOuterHTML(l,r)}else r=s.serialize(d),h=l.firstChild,g=l.lastChild,!h||h===g&&"BR"===h.nodeName?w.setHTML(l,r):_.setContent(r);m=w.get("mce_marker"),_.scrollIntoView(m),p=w.createRng(),h=m.previousSibling,h&&3==h.nodeType?(p.setStart(h,h.nodeValue.length),u||(g=m.nextSibling,g&&3==g.nodeType&&(h.appendData(g.data),g.parentNode.removeChild(g)))):(p.setStartBefore(m),p.setEndBefore(m)),w.remove(m),_.setRng(p),n.fire("SetContent",f),n.addVisual()},mceInsertRawHTML:function(e,t,i){_.setContent("tiny_mce_marker"),n.setContent(n.getContent().replace(/tiny_mce_marker/g,function(){return i}))},mceToggleFormat:function(e,t,n){y(n)},mceSetContent:function(e,t,i){n.setContent(i)},"Indent,Outdent":function(e){var t,n,i;t=E.indentation,n=/[a-z%]+$/i.exec(t),t=parseInt(t,10),m("InsertUnorderedList")||m("InsertOrderedList")?g(e):(E.forced_root_block||w.getParent(_.getNode(),w.isBlock)||S.apply("div"),r(_.getSelectedBlocks(),function(r){var o;"LI"!=r.nodeName&&(o="rtl"==w.getStyle(r,"direction",!0)?"paddingRight":"paddingLeft","outdent"==e?(i=Math.max(0,parseInt(r.style[o]||0,10)-t),w.setStyle(r,o,i?i+n:"")):(i=parseInt(r.style[o]||0,10)+t+n,w.setStyle(r,o,i)))}))},mceRepaint:function(){if(c)try{b(d),_.getSel()&&_.getSel().selectAllChildren(n.getBody()),_.collapse(d),C()}catch(e){}},InsertHorizontalRule:function(){n.execCommand("mceInsertContent",!1,"<hr />")},mceToggleVisualAid:function(){n.hasVisual=!n.hasVisual,n.addVisual()},mceReplaceContent:function(e,t,i){n.execCommand("mceInsertContent",!1,i.replace(/\{\$selection\}/g,_.getContent({format:"text"})))},mceInsertLink:function(e,t,n){var i;"string"==typeof n&&(n={href:n}),i=w.getParent(_.getNode(),"a"),n.href=n.href.replace(" ","%20"),i&&n.href||S.remove("link"),n.href&&S.apply("link",n,i)},selectAll:function(){var e=w.getRoot(),t=w.createRng();_.getRng().setStart?(t.setStart(e,0),t.setEnd(e,e.childNodes.length),_.setRng(t)):g("SelectAll")},mceNewDocument:function(){n.setContent("")}}),h({"JustifyLeft,JustifyCenter,JustifyRight,JustifyFull":function(e){var t="align"+e.substring(7),n=_.isCollapsed()?[w.getParent(_.getNode(),w.isBlock)]:_.getSelectedBlocks(),i=a(n,function(e){return!!S.matchNode(e,t)});return-1!==s(i,d)},"Bold,Italic,Underline,Strikethrough,Superscript,Subscript":function(e){return v(e)},mceBlockQuote:function(){return v("blockquote")},Outdent:function(){var e;if(E.inline_styles){if((e=w.getParent(_.getStart(),w.isBlock))&&parseInt(e.style.paddingLeft,10)>0)return d;if((e=w.getParent(_.getEnd(),w.isBlock))&&parseInt(e.style.paddingLeft,10)>0)return d}return m("InsertUnorderedList")||m("InsertOrderedList")||!E.inline_styles&&!!w.getParent(_.getNode(),"BLOCKQUOTE")},"InsertUnorderedList,InsertOrderedList":function(e){var t=w.getParent(_.getNode(),"ul,ol");return t&&("insertunorderedlist"===e&&"UL"===t.tagName||"insertorderedlist"===e&&"OL"===t.tagName)}},"state"),h({"FontSize,FontName":function(e){var t,n=0;return(t=w.getParent(_.getNode(),"span"))&&(n="fontsize"==e?t.style.fontSize:t.style.fontFamily.replace(/, /g,",").replace(/[\'\"]/g,"").toLowerCase()),n}},"value"),h({Undo:function(){n.undoManager.undo()},Redo:function(){n.undoManager.redo()}})}}),/**
- * URI.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/util/URI",["tinymce/util/Tools"],function(e){function t(e,r){var o,a,s=this;return e=i(e),r=s.settings=r||{},/^([\w\-]+):([^\/]{2})/i.test(e)||/^\s*#/.test(e)?(s.source=e,void 0):(0===e.indexOf("/")&&0!==e.indexOf("//")&&(e=(r.base_uri?r.base_uri.protocol||"http":"http")+"://mce_host"+e),/^[\w\-]*:?\/\//.test(e)||(a=r.base_uri?r.base_uri.path:new t(location.href).directory,e=(r.base_uri&&r.base_uri.protocol||"http")+"://mce_host"+s.toAbsPath(a,e)),e=e.replace(/@@/g,"(mce_at)"),e=/^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@\/]*):?([^:@\/]*))?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/.exec(e),n(["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],function(t,n){var i=e[n];i&&(i=i.replace(/\(mce_at\)/g,"@@")),s[t]=i}),o=r.base_uri,o&&(s.protocol||(s.protocol=o.protocol),s.userInfo||(s.userInfo=o.userInfo),s.port||"mce_host"!==s.host||(s.port=o.port),s.host&&"mce_host"!==s.host||(s.host=o.host),s.source=""),void 0)}var n=e.each,i=e.trim;return t.prototype={setPath:function(e){var t=this;e=/^(.*?)\/?(\w+)?$/.exec(e),t.path=e[0],t.directory=e[1],t.file=e[2],t.source="",t.getURI()},toRelative:function(e){var n,i=this;if("./"===e)return e;if(e=new t(e,{base_uri:i}),"mce_host"!=e.host&&i.host!=e.host&&e.host||i.port!=e.port||i.protocol!=e.protocol)return e.getURI();var r=i.getURI(),o=e.getURI();return r==o||"/"==r.charAt(r.length-1)&&r.substr(0,r.length-1)==o?r:(n=i.toRelPath(i.path,e.path),e.query&&(n+="?"+e.query),e.anchor&&(n+="#"+e.anchor),n)},toAbsolute:function(e,n){return e=new t(e,{base_uri:this}),e.getURI(this.host==e.host&&this.protocol==e.protocol?n:0)},toRelPath:function(e,t){var n,i,r,o=0,a="";if(e=e.substring(0,e.lastIndexOf("/")),e=e.split("/"),n=t.split("/"),e.length>=n.length)for(i=0,r=e.length;r>i;i++)if(i>=n.length||e[i]!=n[i]){o=i+1;break}if(e.length<n.length)for(i=0,r=n.length;r>i;i++)if(i>=e.length||e[i]!=n[i]){o=i+1;break}if(1===o)return t;for(i=0,r=e.length-(o-1);r>i;i++)a+="../";for(i=o-1,r=n.length;r>i;i++)a+=i!=o-1?"/"+n[i]:n[i];return a},toAbsPath:function(e,t){var i,r,o,a=0,s=[];for(r=/\/$/.test(t)?"/":"",e=e.split("/"),t=t.split("/"),n(e,function(e){e&&s.push(e)}),e=s,i=t.length-1,s=[];i>=0;i--)0!==t[i].length&&"."!==t[i]&&(".."!==t[i]?a>0?a--:s.push(t[i]):a++);return i=e.length-a,o=0>=i?s.reverse().join("/"):e.slice(0,i).join("/")+"/"+s.reverse().join("/"),0!==o.indexOf("/")&&(o="/"+o),r&&o.lastIndexOf("/")!==o.length-1&&(o+=r),o},getURI:function(e){var t,n=this;return(!n.source||e)&&(t="",e||(n.protocol&&(t+=n.protocol+"://"),n.userInfo&&(t+=n.userInfo+"@"),n.host&&(t+=n.host),n.port&&(t+=":"+n.port)),n.path&&(t+=n.path),n.query&&(t+="?"+n.query),n.anchor&&(t+="#"+n.anchor),n.source=t),n.source}},t}),/**
- * Class.js
- *
- * Copyright 2003-2012, Moxiecode Systems AB, All rights reserved.
- */
-i("tinymce/util/Class",["tinymce/util/Tools"],function(e){function t(){}var n,i,r=e.each,o=e.extend;return t.extend=n=function(e){function t(){var e,t,n,r;if(!i&&(r=this,r.init&&r.init.apply(r,arguments),t=r.Mixins))for(e=t.length;e--;)n=t[e],n.init&&n.init.apply(r,arguments)}function a(){return this}function s(e,t){return function(){var n,i=this,r=i._super;return i._super=f[e],n=t.apply(i,arguments),i._super=r,n}}var l,c,u,d=this,f=d.prototype;i=!0,l=new d,i=!1,e.Mixins&&(r(e.Mixins,function(t){t=t;for(var n in t)"init"!==n&&(e[n]=t[n])}),f.Mixins&&(e.Mixins=f.Mixins.concat(e.Mixins))),e.Methods&&r(e.Methods.split(","),function(t){e[t]=a}),e.Properties&&r(e.Properties.split(","),function(t){var n="_"+t;e[t]=function(e){var t,i=this;return e!==t?(i[n]=e,i):i[n]}}),e.Statics&&r(e.Statics,function(e,n){t[n]=e}),e.Defaults&&f.Defaults&&(e.Defaults=o({},f.Defaults,e.Defaults));for(c in e)u=e[c],l[c]="function"==typeof u&&f[c]?s(c,u):u;return t.prototype=l,t.constructor=t,t.extend=n,t},t}),/**
- * Selector.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Selector",["tinymce/util/Class"],function(e){function t(e){for(var t,n=[],i=e.length;i--;)t=e[i],t.__checked||(n.push(t),t.__checked=1);for(i=n.length;i--;)delete n[i].__checked;return n}var n,i=/^([\w\\*]+)?(?:#([\w\\]+))?(?:\.([\w\\\.]+))?(?:\[\@?([\w\\]+)([\^\$\*!~]?=)([\w\\]+)\])?(?:\:(.+))?/i,r=/((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^\[\]]*\]|['"][^'"]*['"]|[^\[\]'"]+)+\]|\\.|[^ >+~,(\[\\]+)+|[>+~])(\s*,\s*)?((?:.|\r|\n)*)/g,o=/^\s*|\s*$/g,a=e.extend({init:function(e){function t(e){return e?(e=e.toLowerCase(),function(t){return"*"===e||t.type===e}):void 0}function n(e){return e?function(t){return t._name===e}:void 0}function a(e){return e?(e=e.split("."),function(t){for(var n=e.length;n--;)if(!t.hasClass(e[n]))return!1;return!0}):void 0}function s(e,t,n){return e?function(i){var r=i[e]?i[e]():"";return t?"="===t?r===n:"*="===t?r.indexOf(n)>=0:"~="===t?(" "+r+" ").indexOf(" "+n+" ")>=0:"!="===t?r!=n:"^="===t?0===r.indexOf(n):"$="===t?r.substr(r.length-n.length)===n:!1:!!n}:void 0}function l(e){var t;return e?(e=/(?:not\((.+)\))|(.+)/i.exec(e),e[1]?(t=u(e[1],[]),function(e){return!d(e,t)}):(e=e[2],function(t,n,i){return"first"===e?0===n:"last"===e?n===i-1:"even"===e?n%2===0:"odd"===e?n%2===1:t[e]?t[e]():!1})):void 0}function c(e,r,c){function u(e){e&&r.push(e)}var d;return d=i.exec(e.replace(o,"")),u(t(d[1])),u(n(d[2])),u(a(d[3])),u(s(d[4],d[5],d[6])),u(l(d[7])),r.psuedo=!!d[7],r.direct=c,r}function u(e,t){var n,i,o,a=[];do if(r.exec(""),i=r.exec(e),i&&(e=i[3],a.push(i[1]),i[2])){n=i[3];break}while(i);for(n&&u(n,t),e=[],o=0;o<a.length;o++)">"!=a[o]&&e.push(c(a[o],[],">"===a[o-1]));return t.push(e),t}var d=this.match;this._selectors=u(e,[])},match:function(e,t){var n,i,r,o,a,s,l,c,u,d,f,m,p;for(t=t||this._selectors,n=0,i=t.length;i>n;n++){for(a=t[n],o=a.length,p=e,m=0,r=o-1;r>=0;r--)for(c=a[r];p;){if(c.psuedo)for(f=p.parent().items(),u=d=f.length;u--&&f[u]!==p;);for(s=0,l=c.length;l>s;s++)if(!c[s](p,u,d)){s=l+1;break}if(s===l){m++;break}if(r===o-1)break;p=p.parent()}if(m===o)return!0}return!1},find:function(e){function i(e,t,n){var r,o,a,l,c,u=t[n];for(r=0,o=e.length;o>r;r++){for(c=e[r],a=0,l=u.length;l>a;a++)if(!u[a](c,r,o)){a=l+1;break}if(a===l)n==t.length-1?s.push(c):c.items&&i(c.items(),t,n+1);else if(u.direct)return;c.items&&i(c.items(),t,n)}}var r,o,s=[],l=this._selectors;if(e.items){for(r=0,o=l.length;o>r;r++)i(e.items(),l[r],0);o>1&&(s=t(s))}return n||(n=a.Collection),new n(s)}});return a}),/**
- * Collection.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Collection",["tinymce/util/Tools","tinymce/ui/Selector","tinymce/util/Class"],function(e,t,n){var i,r,o=Array.prototype.push,a=Array.prototype.slice;return r={length:0,init:function(e){e&&this.add(e)},add:function(t){var n=this;return e.isArray(t)?o.apply(n,t):t instanceof i?n.add(t.toArray()):o.call(n,t),n},set:function(e){var t,n=this,i=n.length;for(n.length=0,n.add(e),t=n.length;i>t;t++)delete n[t];return n},filter:function(e){var n,r,o,a,s=this,l=[];for("string"==typeof e?(e=new t(e),a=function(t){return e.match(t)}):a=e,n=0,r=s.length;r>n;n++)o=s[n],a(o)&&l.push(o);return new i(l)},slice:function(){return new i(a.apply(this,arguments))},eq:function(e){return-1===e?this.slice(e):this.slice(e,+e+1)},each:function(t){return e.each(this,t),this},toArray:function(){return e.toArray(this)},indexOf:function(e){for(var t=this,n=t.length;n--&&t[n]!==e;);return n},reverse:function(){return new i(e.toArray(this).reverse())},hasClass:function(e){return this[0]?this[0].hasClass(e):!1},prop:function(e,t){var n,i,r=this;return t!==n?(r.each(function(n){n[e]&&n[e](t)}),r):(i=r[0],i&&i[e]?i[e]():void 0)},exec:function(t){var n=this,i=e.toArray(arguments).slice(1);return n.each(function(e){e[t]&&e[t].apply(e,i)}),n},remove:function(){for(var e=this.length;e--;)this[e].remove();return this}},e.each("fire on off show hide addClass removeClass append prepend before after reflow".split(" "),function(t){r[t]=function(){var n=e.toArray(arguments);return this.each(function(e){t in e&&e[t].apply(e,n)}),this}}),e.each("text name disabled active selected checked visible parent value data".split(" "),function(e){r[e]=function(t){return this.prop(e,t)}}),i=n.extend(r),t.Collection=i,i}),/**
- * DOMUtils.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/DomUtils",["tinymce/util/Tools","tinymce/dom/DOMUtils"],function(e,t){return{id:function(){return t.DOM.uniqueId()},createFragment:function(e){return t.DOM.createFragment(e)},getWindowSize:function(){return t.DOM.getViewPort()},getSize:function(e){var t,n;if(e.getBoundingClientRect){var i=e.getBoundingClientRect();t=Math.max(i.width||i.right-i.left,e.offsetWidth),n=Math.max(i.height||i.bottom-i.bottom,e.offsetHeight)}else t=e.offsetWidth,n=e.offsetHeight;return{width:t,height:n}},getPos:function(e,n){return t.DOM.getPos(e,n)},getViewPort:function(e){return t.DOM.getViewPort(e)},get:function(e){return document.getElementById(e)},addClass:function(e,n){return t.DOM.addClass(e,n)},removeClass:function(e,n){return t.DOM.removeClass(e,n)},hasClass:function(e,n){return t.DOM.hasClass(e,n)},toggleClass:function(e,n,i){return t.DOM.toggleClass(e,n,i)},css:function(e,n,i){return t.DOM.setStyle(e,n,i)},on:function(e,n,i,r){return t.DOM.bind(e,n,i,r)},off:function(e,n,i){return t.DOM.unbind(e,n,i)},fire:function(e,n,i){return t.DOM.fire(e,n,i)},innerHtml:function(e,n){t.DOM.setHTML(e,n)}}}),/**
- * Control.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Control",["tinymce/util/Class","tinymce/util/Tools","tinymce/ui/Collection","tinymce/ui/DomUtils"],function(e,t,n,i){var r=t.makeMap("focusin focusout scroll click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave wheel keydown keypress keyup contextmenu"," "),o={},a="onmousewheel"in document,s=!1,l=e.extend({Statics:{controlIdLookup:{},elementIdCache:o},isRtl:function(){return l.rtl},classPrefix:"mce-",init:function(e){var n,r,o=this;if(o.settings=e=t.extend({},o.Defaults,e),o._id=i.id(),o._text=o._name="",o._width=o._height=0,o._aria={role:e.role},n=e.classes)for(n=n.split(" "),n.map={},r=n.length;r--;)n.map[n[r]]=!0;o._classes=n||[],o.visible(!0),t.each("title text width height name classes visible disabled active value".split(" "),function(t){var n,i=e[t];i!==n?o[t](i):o["_"+t]===n&&(o["_"+t]=!1)}),o.on("click",function(){return o.disabled()?!1:void 0}),e.classes&&t.each(e.classes.split(" "),function(e){o.addClass(e)}),o.settings=e,o._borderBox=o.parseBox(e.border),o._paddingBox=o.parseBox(e.padding),o._marginBox=o.parseBox(e.margin),e.hidden&&o.hide()},Properties:"parent,title,text,width,height,disabled,active,name,value",Methods:"renderHtml",getContainerElm:function(){return document.body},getParentCtrl:function(e){for(var t;e&&!(t=l.controlIdLookup[e.id]);)e=e.parentNode;return t},parseBox:function(e){var t,n=10;if(e)return"number"==typeof e?(e=e||0,{top:e,left:e,bottom:e,right:e}):(e=e.split(" "),t=e.length,1===t?e[1]=e[2]=e[3]=e[0]:2===t?(e[2]=e[0],e[3]=e[1]):3===t&&(e[3]=e[1]),{top:parseInt(e[0],n)||0,right:parseInt(e[1],n)||0,bottom:parseInt(e[2],n)||0,left:parseInt(e[3],n)||0})},borderBox:function(){return this._borderBox},paddingBox:function(){return this._paddingBox},marginBox:function(){return this._marginBox},measureBox:function(e,t){function n(t){var n=document.defaultView;return n?(t=t.replace(/[A-Z]/g,function(e){return"-"+e}),n.getComputedStyle(e,null).getPropertyValue(t)):e.currentStyle[t]}function i(e){var t=parseFloat(n(e),10);return isNaN(t)?0:t}return{top:i(t+"TopWidth"),right:i(t+"RightWidth"),bottom:i(t+"BottomWidth"),left:i(t+"LeftWidth")}},initLayoutRect:function(){var e,t,n,r,o,a,s,l,c,u,d=this,f=d.settings,m=d.getEl();e=d._borderBox=d._borderBox||d.measureBox(m,"border"),d._paddingBox=d._paddingBox||d.measureBox(m,"padding"),d._marginBox=d._marginBox||d.measureBox(m,"margin"),u=i.getSize(m),l=f.minWidth,c=f.minHeight,o=l||u.width,a=c||u.height,n=f.width,r=f.height,s=f.autoResize,s="undefined"!=typeof s?s:!n&&!r,n=n||o,r=r||a;var p=e.left+e.right,h=e.top+e.bottom,g=f.maxWidth||65535,v=f.maxHeight||65535;return d._layoutRect=t={x:f.x||0,y:f.y||0,w:n,h:r,deltaW:p,deltaH:h,contentW:n-p,contentH:r-h,innerW:n-p,innerH:r-h,startMinWidth:l||0,startMinHeight:c||0,minW:Math.min(o,g),minH:Math.min(a,v),maxW:g,maxH:v,autoResize:s,scrollW:0},d._lastLayoutRect={},t},layoutRect:function(e){var t,n,i,r,o,a,s=this,c=s._layoutRect;return c||(c=s.initLayoutRect()),e?(i=c.deltaW,r=c.deltaH,e.x!==o&&(c.x=e.x),e.y!==o&&(c.y=e.y),e.minW!==o&&(c.minW=e.minW),e.minH!==o&&(c.minH=e.minH),n=e.w,n!==o&&(n=n<c.minW?c.minW:n,n=n>c.maxW?c.maxW:n,c.w=n,c.innerW=n-i),n=e.h,n!==o&&(n=n<c.minH?c.minH:n,n=n>c.maxH?c.maxH:n,c.h=n,c.innerH=n-r),n=e.innerW,n!==o&&(n=n<c.minW-i?c.minW-i:n,n=n>c.maxW-i?c.maxW-i:n,c.innerW=n,c.w=n+i),n=e.innerH,n!==o&&(n=n<c.minH-r?c.minH-r:n,n=n>c.maxH-r?c.maxH-r:n,c.innerH=n,c.h=n+r),e.contentW!==o&&(c.contentW=e.contentW),e.contentH!==o&&(c.contentH=e.contentH),t=s._lastLayoutRect,(t.x!==c.x||t.y!==c.y||t.w!==c.w||t.h!==c.h)&&(a=l.repaintControls,a&&a.map&&!a.map[s._id]&&(a.push(s),a.map[s._id]=!0),t.x=c.x,t.y=c.y,t.w=c.w,t.h=c.h),s):c},repaint:function(){var e,t,n,i,r,o=this,a=0,s=0;e=o.getEl().style,n=o._layoutRect,r=o._lastRepaintRect||{},i=o._borderBox,a=i.left+i.right,s=i.top+i.bottom,n.x!==r.x&&(e.left=n.x+"px",r.x=n.x),n.y!==r.y&&(e.top=n.y+"px",r.y=n.y),n.w!==r.w&&(e.width=n.w-a+"px",r.w=n.w),n.h!==r.h&&(e.height=n.h-s+"px",r.h=n.h),o._hasBody&&n.innerW!==r.innerW&&(t=o.getEl("body").style,t.width=n.innerW+"px",r.innerW=n.innerW),o._hasBody&&n.innerH!==r.innerH&&(t=t||o.getEl("body").style,t.height=n.innerH+"px",r.innerH=n.innerH),o._lastRepaintRect=r,o.fire("repaint",{},!1)},on:function(e,t){function n(e){var t,n;return function(i){return t||l.parents().each(function(i){var r=i.settings.callbacks;return r&&(t=r[e])?(n=i,!1):void 0}),t.call(n,i)}}var i,o,a,s,l=this;if(t)for("string"==typeof t&&(t=n(t)),a=e.toLowerCase().split(" "),s=a.length;s--;)e=a[s],i=l._bindings,i||(i=l._bindings={}),o=i[e],o||(o=i[e]=[]),o.push(t),r[e]&&(l._nativeEvents?l._nativeEvents[e]=!0:l._nativeEvents={name:!0},l._rendered&&l.bindPendingEvents());return l},off:function(e,t){var n,i,r,o,a,s=this,l=s._bindings;if(l)if(e)for(o=e.toLowerCase().split(" "),n=o.length;n--;){if(e=o[n],i=l[e],!e){for(r in l)l[r].length=0;return s}if(i)if(t)for(a=i.length;a--;)i[a]===t&&i.splice(a,1);else i.length=0}else s._bindings=[];return s},fire:function(e,t,n){function i(){return!1}function r(){return!0}var o,a,s,l,c=this;if(e=e.toLowerCase(),t=t||{},t.type||(t.type=e),t.control||(t.control=c),t.preventDefault||(t.preventDefault=function(){t.isDefaultPrevented=r},t.stopPropagation=function(){t.isPropagationStopped=r},t.stopImmediatePropagation=function(){t.isImmediatePropagationStopped=r},t.isDefaultPrevented=i,t.isPropagationStopped=i,t.isImmediatePropagationStopped=i),c._bindings&&(s=c._bindings[e]))for(o=0,a=s.length;a>o&&(t.isImmediatePropagationStopped()||s[o].call(c,t)!==!1);o++);if(n!==!1)for(l=c.parent();l&&!t.isPropagationStopped();)l.fire(e,t,!1),l=l.parent();return t},hasEventListeners:function(e){return e in this._bindings},parents:function(e){var t=this,i=new n;for(t=t.parent();t;t=t.parent())i.add(t);return e&&(i=i.filter(e)),i},next:function(){var e=this.parent().items();return e[e.indexOf(this)+1]},prev:function(){var e=this.parent().items();return e[e.indexOf(this)-1]},findCommonAncestor:function(e,t){for(var n;e;){for(n=t;n&&e!=n;)n=n.parent();if(e==n)break;e=e.parent()}return e},hasClass:function(e,t){var n=this._classes[t||"control"];return e=this.classPrefix+e,n&&!!n.map[e]},addClass:function(e,t){var n,i,r=this;return e=this.classPrefix+e,n=r._classes[t||"control"],n||(n=[],n.map={},r._classes[t||"control"]=n),n.map[e]||(n.map[e]=e,n.push(e),r._rendered&&(i=r.getEl(t),i&&(i.className=n.join(" ")))),r},removeClass:function(e,t){var n,i,r,o=this;if(e=this.classPrefix+e,n=o._classes[t||"control"],n&&n.map[e])for(delete n.map[e],i=n.length;i--;)n[i]===e&&n.splice(i,1);return o._rendered&&(r=o.getEl(t),r&&(r.className=n.join(" "))),o},toggleClass:function(e,t,n){var i=this;return t?i.addClass(e,n):i.removeClass(e,n),i},classes:function(e){var t=this._classes[e||"control"];return t?t.join(" "):""},innerHtml:function(e){return i.innerHtml(this.getEl(),e),this},getEl:function(e,t){var n,r=e?this._id+"-"+e:this._id;return n=o[r]=(t===!0?null:o[r])||i.get(r)},visible:function(e){var t,n=this;return"undefined"!=typeof e?(n._visible!==e&&(n._rendered&&(n.getEl().style.display=e?"":"none"),n._visible=e,t=n.parent(),t&&(t._lastRect=null),n.fire(e?"show":"hide")),n):n._visible},show:function(){return this.visible(!0)},hide:function(){return this.visible(!1)},focus:function(){try{this.getEl().focus()}catch(e){}return this},blur:function(){return this.getEl().blur(),this},aria:function(e,t){var n=this,i=n.getEl();return"undefined"==typeof t?n._aria[e]:(n._aria[e]=t,n._rendered&&("label"==e&&i.setAttribute("aria-labeledby",n._id),i.setAttribute("role"==e?e:"aria-"+e,t)),n)},encode:function(e,t){return t!==!1&&l.translate&&(e=l.translate(e)),(e||"").replace(/[&<>"]/g,function(e){return"&#"+e.charCodeAt(0)+";"})},before:function(e){var t=this,n=t.parent();return n&&n.insert(e,n.items().indexOf(t),!0),t},after:function(e){var t=this,n=t.parent();return n&&n.insert(e,n.items().indexOf(t)),t},remove:function(){var e,t,n=this,r=n.getEl(),a=n.parent();if(n.items){var s=n.items().toArray();for(t=s.length;t--;)s[t].remove()}if(a&&a.items&&(e=[],a.items().each(function(t){t!==n&&e.push(t)}),a.items().set(e),a._lastRect=null),n._eventsRoot&&n._eventsRoot==n&&i.off(r),delete l.controlIdLookup[n._id],delete o[n._id],r&&r.parentNode){var c=r.getElementsByTagName("*");for(t=c.length;t--;)delete o[c[t].id];r.parentNode.removeChild(r)}return n},renderBefore:function(e){var t=this;return e.parentNode.insertBefore(i.createFragment(t.renderHtml()),e),t.postRender(),t},renderTo:function(e){var t=this;return e=e||t.getContainerElm(),e.appendChild(i.createFragment(t.renderHtml())),t.postRender(),t},postRender:function(){var e,t,n,r,o,a=this,s=a.settings;for(r in s)0===r.indexOf("on")&&a.on(r.substr(2),s[r]);if(a._eventsRoot){for(n=a.parent();!o&&n;n=n.parent())o=n._eventsRoot;if(o)for(r in o._nativeEvents)a._nativeEvents[r]=!0}a.bindPendingEvents(),s.style&&(e=a.getEl(),e&&(e.setAttribute("style",s.style),e.style.cssText=s.style)),a._visible||i.css(a.getEl(),"display","none"),a.settings.border&&(t=a.borderBox(),i.css(a.getEl(),{"border-top-width":t.top,"border-right-width":t.right,"border-bottom-width":t.bottom,"border-left-width":t.left})),l.controlIdLookup[a._id]=a;for(var c in a._aria)a.aria(c,a._aria[c]);a.fire("postrender",{},!1)},scrollIntoView:function(e){function t(e,t){var n,i,r=e;for(n=i=0;r&&r!=t&&r.nodeType;)n+=r.offsetLeft||0,i+=r.offsetTop||0,r=r.offsetParent;return{x:n,y:i}}var n,i,r,o,a,s,l=this.getEl(),c=l.parentNode,u=t(l,c);return n=u.x,i=u.y,r=l.offsetWidth,o=l.offsetHeight,a=c.clientWidth,s=c.clientHeight,"end"==e?(n-=a-r,i-=s-o):"center"==e&&(n-=a/2-r/2,i-=s/2-o/2),c.scrollLeft=n,c.scrollTop=i,this},bindPendingEvents:function(){function e(e){var t=m.getParentCtrl(e.target);t&&t.fire(e.type,e)}function t(){var e=u._lastHoverCtrl;e&&(e.fire("mouseleave",{target:e.getEl()}),e.parents().each(function(e){e.fire("mouseleave",{target:e.getEl()})}),u._lastHoverCtrl=null)}function n(e){var t,n,i,r=m.getParentCtrl(e.target),o=u._lastHoverCtrl,a=0;if(r!==o){if(u._lastHoverCtrl=r,n=r.parents().toArray().reverse(),n.push(r),o){for(i=o.parents().toArray().reverse(),i.push(o),a=0;a<i.length&&n[a]===i[a];a++);for(t=i.length-1;t>=a;t--)o=i[t],o.fire("mouseleave",{target:o.getEl()})}for(t=a;t<n.length;t++)r=n[t],r.fire("mouseenter",{target:r.getEl()})}}function r(e){e.preventDefault(),"mousewheel"==e.type?(e.deltaY=-1/40*e.wheelDelta,e.wheelDeltaX&&(e.deltaX=-1/40*e.wheelDeltaX)):(e.deltaX=0,e.deltaY=e.detail),e=m.fire("wheel",e)}var o,l,c,u,d,f,m=this;if(m._rendered=!0,d=m._nativeEvents){for(c=m.parents().toArray(),c.unshift(m),o=0,l=c.length;!u&&l>o;o++)u=c[o]._eventsRoot;for(u||(u=c[c.length-1]||m),m._eventsRoot=u,l=o,o=0;l>o;o++)c[o]._eventsRoot=u;for(f in d){if(!d)return!1;"wheel"!==f||s?("mouseenter"===f||"mouseleave"===f?u._hasMouseEnter||(i.on(u.getEl(),"mouseleave",t),i.on(u.getEl(),"mouseover",n),u._hasMouseEnter=1):u[f]||(i.on(u.getEl(),f,e),u[f]=!0),d[f]=!1):a?i.on(m.getEl(),"mousewheel",r):i.on(m.getEl(),"DOMMouseScroll",r)}}},reflow:function(){return this.repaint(),this}});return l}),/**
- * Factory.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Factory",[],function(){var e,t={};return{add:function(e,n){t[e.toLowerCase()]=n},has:function(e){return!!t[e.toLowerCase()]},create:function(n,i){var r,o,a;if(!e){a=tinymce.ui;for(o in a)t[o.toLowerCase()]=a[o];e=!0}if("string"==typeof n?(i=i||{},i.type=n):(i=n,n=i.type),n=n.toLowerCase(),r=t[n],!r)throw new Error("Could not find control by type: "+n);return r=new r(i),r.type=n,r}}}),/**
- * Container.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Container",["tinymce/ui/Control","tinymce/ui/Collection","tinymce/ui/Selector","tinymce/ui/Factory","tinymce/util/Tools","tinymce/ui/DomUtils"],function(e,t,n,i,r,o){var a={};return e.extend({layout:"",innerClass:"container-inner",init:function(e){var n=this;n._super(e),e=n.settings,n._fixed=e.fixed,n._items=new t,n.isRtl()&&n.addClass("rtl"),n.addClass("container"),n.addClass("container-body","body"),e.containerCls&&n.addClass(e.containerCls),n._layout=i.create((e.layout||n.layout)+"layout"),n.settings.items&&n.add(n.settings.items),n._hasBody=!0},items:function(){return this._items},find:function(e){return e=a[e]=a[e]||new n(e),e.find(this)},add:function(e){var t=this;return t.items().add(t.create(e)).parent(t),t},focus:function(){var e=this;return e.keyNav?e.keyNav.focusFirst():e._super(),e},replace:function(e,t){for(var n,i=this.items(),r=i.length;r--;)if(i[r]===e){i[r]=t;break}r>=0&&(n=t.getEl(),n&&n.parentNode.removeChild(n),n=e.getEl(),n&&n.parentNode.removeChild(n)),t.parent(this)},create:function(t){var n,o=this,a=[];return r.isArray(t)||(t=[t]),r.each(t,function(t){t&&(t instanceof e||("string"==typeof t&&(t={type:t}),n=r.extend({},o.settings.defaults,t),t.type=n.type=n.type||t.type||o.settings.defaultType||(n.defaults?n.defaults.type:null),t=i.create(n)),a.push(t))}),a},renderNew:function(){var e=this;return e.items().each(function(t,n){var i,r;t.parent(e),t._rendered||(i=e.getEl("body"),r=o.createFragment(t.renderHtml()),i.hasChildNodes()&&n<=i.childNodes.length-1?i.insertBefore(r,i.childNodes[n]):i.appendChild(r),t.postRender())}),e._layout.applyClasses(e),e._lastRect=null,e},append:function(e){return this.add(e).renderNew()},prepend:function(e){var t=this;return t.items().set(t.create(e).concat(t.items().toArray())),t.renderNew()},insert:function(e,t,n){var i,r,o,a=this;return e=a.create(e),i=a.items(),!n&&t<i.length-1&&(t+=1),t>=0&&t<i.length&&(r=i.slice(0,t).toArray(),o=i.slice(t).toArray(),i.set(r.concat(e,o))),a.renderNew()},fromJSON:function(e){var t=this;for(var n in e)t.find("#"+n).value(e[n]);return t},toJSON:function(){var e=this,t={};return e.find("*").each(function(e){var n=e.name(),i=e.value();n&&"undefined"!=typeof i&&(t[n]=i)}),t},preRender:function(){},renderHtml:function(){var e=this,t=e._layout;return e.preRender(),t.preRender(e),'<div id="'+e._id+'" class="'+e.classes()+'" role="'+this.settings.role+'"><div id="'+e._id+'-body" class="'+e.classes("body")+'">'+(e.settings.html||"")+t.renderHtml(e)+"</div></div>"},postRender:function(){var e,t=this;return t.items().exec("postRender"),t._super(),t._layout.postRender(t),t._rendered=!0,t.settings.style&&o.css(t.getEl(),t.settings.style),t.settings.border&&(e=t.borderBox(),o.css(t.getEl(),{"border-top-width":e.top,"border-right-width":e.right,"border-bottom-width":e.bottom,"border-left-width":e.left})),t},initLayoutRect:function(){var e=this,t=e._super();return e._layout.recalc(e),t},recalc:function(){var e=this,t=e._layoutRect,n=e._lastRect;return n&&n.w==t.w&&n.h==t.h?void 0:(e._layout.recalc(e),t=e.layoutRect(),e._lastRect={x:t.x,y:t.y,w:t.w,h:t.h},!0)},reflow:function(){var t,n;if(this.visible()){for(e.repaintControls=[],e.repaintControls.map={},n=this.recalc(),t=e.repaintControls.length;t--;)e.repaintControls[t].repaint();"flow"!==this.settings.layout&&"stack"!==this.settings.layout&&this.repaint(),e.repaintControls=[]}return this}})}),/**
- * DragHelper.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/DragHelper",["tinymce/ui/DomUtils"],function(e){function t(){var e,t,n,i,r,o,a,s,l=document,c=Math.max;return e=l.documentElement,t=l.body,n=c(e.scrollWidth,t.scrollWidth),i=c(e.clientWidth,t.clientWidth),r=c(e.offsetWidth,t.offsetWidth),o=c(e.scrollHeight,t.scrollHeight),a=c(e.clientHeight,t.clientHeight),s=c(e.offsetHeight,t.offsetHeight),{width:r>n?i:n,height:s>o?a:o}}return function(n,i){function r(){return f.getElementById(i.handle||n)}var o,a,s,l,c,u,d,f=document;i=i||{},s=function(n){var s,m,p=t();n.preventDefault(),a=n.button,s=r(),u=n.screenX,d=n.screenY,m=window.getComputedStyle?window.getComputedStyle(s,null).getPropertyValue("cursor"):s.runtimeStyle.cursor,o=f.createElement("div"),e.css(o,{position:"absolute",top:0,left:0,width:p.width,height:p.height,zIndex:2147483647,opacity:1e-4,background:"red",cursor:m}),f.body.appendChild(o),e.on(f,"mousemove",c),e.on(f,"mouseup",l),i.start(n)},c=function(e){return e.button!==a?l(e):(e.deltaX=e.screenX-u,e.deltaY=e.screenY-d,e.preventDefault(),i.drag(e),void 0)},l=function(t){e.off(f,"mousemove",c),e.off(f,"mouseup",l),o.parentNode.removeChild(o),i.stop&&i.stop(t)},this.destroy=function(){e.off(r())},e.on(r(),"mousedown",s)}}),/**
- * Scrollable.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Scrollable",["tinymce/ui/DomUtils","tinymce/ui/DragHelper"],function(e,t){return{init:function(){var e=this;e.on("repaint",e.renderScroll)},renderScroll:function(){function n(){function t(t,a,s,l,c,u){var d,f,m,p,h,g,v,y,b;if(f=r.getEl("scroll"+t)){if(y=a.toLowerCase(),b=s.toLowerCase(),r.getEl("absend")&&e.css(r.getEl("absend"),y,r.layoutRect()[l]-1),!c)return e.css(f,"display","none"),void 0;e.css(f,"display","block"),d=r.getEl("body"),m=r.getEl("scroll"+t+"t"),p=d["client"+s]-2*o,p-=n&&i?f["client"+u]:0,h=d["scroll"+s],g=p/h,v={},v[y]=d["offset"+a]+o,v[b]=p,e.css(f,v),v={},v[y]=d["scroll"+a]*g,v[b]=p*g,e.css(m,v)}}var n,i,a;a=r.getEl("body"),n=a.scrollWidth>a.clientWidth,i=a.scrollHeight>a.clientHeight,t("h","Left","Width","contentW",n,"Height"),t("v","Top","Height","contentH",i,"Width")}function i(){function n(n,i,a,s,l){var c,u=r._id+"-scroll"+n,d=r.classPrefix;r.getEl().appendChild(e.createFragment('<div id="'+u+'" class="'+d+"scrollbar "+d+"scrollbar-"+n+'"><div id="'+u+'t" class="'+d+'scrollbar-thumb"></div></div>')),r.draghelper=new t(u+"t",{start:function(){c=r.getEl("body")["scroll"+i],e.addClass(e.get(u),d+"active")},drag:function(e){var t,u,d,f,m=r.layoutRect();u=m.contentW>m.innerW,d=m.contentH>m.innerH,f=r.getEl("body")["client"+a]-2*o,f-=u&&d?r.getEl("scroll"+n)["client"+l]:0,t=f/r.getEl("body")["scroll"+a],r.getEl("body")["scroll"+i]=c+e["delta"+s]/t},stop:function(){e.removeClass(e.get(u),d+"active")}})}r.addClass("scroll"),n("v","Top","Height","Y","Width"),n("h","Left","Width","X","Height")}var r=this,o=2;r.settings.autoScroll&&(r._hasScroll||(r._hasScroll=!0,i(),r.on("wheel",function(e){var t=r.getEl("body");t.scrollLeft+=10*(e.deltaX||0),t.scrollTop+=10*e.deltaY,n()}),e.on(r.getEl("body"),"scroll",n)),n())}}}),/**
- * Panel.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Panel",["tinymce/ui/Container","tinymce/ui/Scrollable"],function(e,t){return e.extend({Defaults:{layout:"fit",containerCls:"panel"},Mixins:[t],renderHtml:function(){var e=this,t=e._layout,n=e.settings.html;return e.preRender(),t.preRender(e),"undefined"==typeof n?n='<div id="'+e._id+'-body" class="'+e.classes("body")+'">'+t.renderHtml(e)+"</div>":("function"==typeof n&&(n=n.call(e)),e._hasBody=!1),'<div id="'+e._id+'" class="'+e.classes()+'" hideFocus="1" tabIndex="-1">'+(e._preBodyHtml||"")+n+"</div>"}})}),/**
- * Movable.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Movable",["tinymce/ui/DomUtils"],function(e){function t(t,n,i){var r,o,a,s,l,c,u,d,f,m;return f=e.getViewPort(),o=e.getPos(n),a=o.x,s=o.y,t._fixed&&(a-=f.x,s-=f.y),r=t.getEl(),m=e.getSize(r),l=m.width,c=m.height,m=e.getSize(n),u=m.width,d=m.height,i=(i||"").split(""),"b"===i[0]&&(s+=d),"r"===i[1]&&(a+=u),"c"===i[0]&&(s+=Math.round(d/2)),"c"===i[1]&&(a+=Math.round(u/2)),"b"===i[3]&&(s-=c),"r"===i[4]&&(a-=l),"c"===i[3]&&(s-=Math.round(c/2)),"c"===i[4]&&(a-=Math.round(l/2)),{x:a,y:s,w:l,h:c}}return{testMoveRel:function(n,i){for(var r=e.getViewPort(),o=0;o<i.length;o++){var a=t(this,n,i[o]);if(this._fixed){if(a.x>0&&a.x+a.w<r.w&&a.y>0&&a.y+a.h<r.h)return i[o]}else if(a.x>r.x&&a.x+a.w<r.w+r.x&&a.y>r.y&&a.y+a.h<r.h+r.y)return i[o]}return i[0]},moveRel:function(e,n){"string"!=typeof n&&(n=this.testMoveRel(e,n));var i=t(this,e,n);return this.moveTo(i.x,i.y)},moveBy:function(e,t){var n=this,i=n.layoutRect();return n.moveTo(i.x+e,i.y+t),n},moveTo:function(t,n){function i(e,t,n){return 0>e?0:e+n>t?(e=t-n,0>e?0:e):e}var r=this;if(r.settings.constrainToViewport){var o=e.getViewPort(window),a=r.layoutRect();t=i(t,o.w+o.x,a.w),n=i(n,o.h+o.y,a.h)}return r._rendered?r.layoutRect({x:t,y:n}).repaint():(r.settings.x=t,r.settings.y=n),r.fire("move",{x:t,y:n}),r}}}),/**
- * Resizable.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Resizable",["tinymce/ui/DomUtils"],function(e){return{resizeToContent:function(){this._layoutRect.autoResize=!0,this._lastRect=null,this.reflow()},resizeTo:function(t,n){if(1>=t||1>=n){var i=e.getWindowSize();t=1>=t?t*i.w:t,n=1>=n?n*i.h:n}return this._layoutRect.autoResize=!1,this.layoutRect({minW:t,minH:n,w:t,h:n}).reflow()},resizeBy:function(e,t){var n=this,i=n.layoutRect();return n.resizeTo(i.w+e,i.h+t)}}}),/**
- * FloatPanel.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/FloatPanel",["tinymce/ui/Panel","tinymce/ui/Movable","tinymce/ui/Resizable","tinymce/ui/DomUtils"],function(e,t,n,i){function r(e){var t;for(t=l.length;t--;)l[t]===e&&l.splice(t,1);for(t=c.length;t--;)c[t]===e&&c.splice(t,1)}var o,a,s,l=[],c=[],u=e.extend({Mixins:[t,n],init:function(e){function t(){var e,t,n=u.zIndex||65535;if(c.length)for(e=0;e<c.length;e++)c[e].modal&&(n++,t=c[e]),c[e].getEl().style.zIndex=n,c[e].zIndex=n,n++;var r=document.getElementById(d.classPrefix+"modal-block");t?i.css(r,"z-index",t.zIndex-1):r&&(r.parentNode.removeChild(r),s=!1),u.currentZIndex=n}function n(e,t){for(;e;){if(e==t)return!0;e=e.parent()}}function r(e){function t(t,n){for(var i,r=0;r<l.length;r++)if(l[r]!=e)for(i=l[r].parent();i&&(i=i.parent());)i==e&&l[r].fixed(t).moveBy(0,n).repaint()}var n=i.getViewPort().y;e.settings.autofix&&(e._fixed?e._autoFixY>n&&(e.fixed(!1).layoutRect({y:e._autoFixY}).repaint(),t(!1,e._autoFixY-n)):(e._autoFixY=e.layoutRect().y,e._autoFixY<n&&(e.fixed(!0).layoutRect({y:0}).repaint(),t(!0,n-e._autoFixY))))}var d=this;d._super(e),d._eventsRoot=d,d.addClass("floatpanel"),e.autohide&&(o||(o=function(e){var t,i=d.getParentCtrl(e.target);for(t=l.length;t--;){var r=l[t];if(r.settings.autohide){if(i&&(n(i,r)||r.parent()===i))continue;e=r.fire("autohide",{target:e.target}),e.isDefaultPrevented()||r.hide()}}},i.on(document,"click",o)),l.push(d)),e.autofix&&(a||(a=function(){var e;for(e=l.length;e--;)r(l[e])},i.on(window,"scroll",a)),d.on("move",function(){r(this)})),d.on("postrender show",function(e){if(e.control==d){var n,r=d.classPrefix;d.modal&&!s&&(n=i.createFragment('<div id="'+r+'modal-block" class="'+r+"reset "+r+'fade"></div>'),n=n.firstChild,d.getContainerElm().appendChild(n),setTimeout(function(){i.addClass(n,r+"in"),i.addClass(d.getEl(),r+"in")},0),s=!0),c.push(d),t()}}),d.on("close hide",function(e){if(e.control==d){for(var n=c.length;n--;)c[n]===d&&c.splice(n,1);t()}}),d.on("show",function(){d.parents().each(function(e){return e._fixed?(d.fixed(!0),!1):void 0})}),e.popover&&(d._preBodyHtml='<div class="'+d.classPrefix+'arrow"></div>',d.addClass("popover").addClass("bottom").addClass(d.isRtl()?"end":"start"))},fixed:function(e){var t=this;if(t._fixed!=e){if(t._rendered){var n=i.getViewPort();e?t.layoutRect().y-=n.y:t.layoutRect().y+=n.y}t.toggleClass("fixed",e),t._fixed=e}return t},show:function(){var e,t=this,n=t._super();for(e=l.length;e--&&l[e]!==t;);return-1===e&&l.push(t),n},hide:function(){return r(this),this._super()},hideAll:function(){u.hideAll()},close:function(){var e=this;return e.fire("close"),e.remove()},remove:function(){r(this),this._super()}});return u.hideAll=function(){for(var e=l.length;e--;){var t=l[e];t.settings.autohide&&(t.fire("cancel",{},!1),t.hide(),l.splice(e,1))}},u}),/**
- * KeyboardNavigation.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/KeyboardNavigation",["tinymce/ui/DomUtils"],function(e){return function(t){function n(){if(!h)if(h=[],f.find)f.find("*").each(function(e){e.canFocus&&h.push(e.getEl())});else for(var e=f.getEl().getElementsByTagName("*"),t=0;t<e.length;t++)e[t].id&&e[t]&&h.push(e[t])}function i(){return document.getElementById(d)}function r(e){return e=e||i(),e&&e.getAttribute("role")}function o(e){for(var t,n=e||i();n=n.parentNode;)if(t=r(n))return t}function a(e){var t=document.getElementById(d);return t?t.getAttribute("aria-"+e):void 0}function s(){var n=i();if(!n||"TEXTAREA"!=n.nodeName&&"text"!=n.type)return t.onAction?t.onAction(d):e.fire(i(),"click",{keyboard:!0}),!0}function l(){var e;t.onCancel?((e=i())&&e.blur(),t.onCancel()):t.root.fire("cancel")}function c(e){function i(e){for(var t=f?f.getEl():document.body;e&&e!=t;){if("none"==e.style.display)return!1;e=e.parentNode}return!0}var r,o,a=-1,l=[];for(n(),o=l.length,o=0;o<h.length;o++)i(h[o])&&l.push(h[o]);for(o=l.length;o--;)if(l[o].id===d){a=o;break}a+=e,0>a?a=l.length-1:a>=l.length&&(a=0),r=l[a],r.focus(),d=r.id,t.actOnFocus&&s()}function u(){var e,i;for(i=r(t.root.getEl()),n(),e=h.length;e--;)if("toolbar"==i&&h[e].id===d)return h[e].focus(),void 0;h[0].focus()}var d,f=t.root,m=t.enableUpDown!==!1,p=t.enableLeftRight!==!1,h=t.items;return f.on("keydown",function(e){var n,i=37,u=39,d=38,f=40,h=27,g=14,v=13,y=32,b=9;switch(e.keyCode){case i:p&&(t.leftAction?t.leftAction():c(-1),n=!0);break;case u:p&&("menuitem"==r()&&"menu"==o()?a("haspopup")&&s():c(1),n=!0);break;case d:m&&(c(-1),n=!0);break;case f:m&&("menuitem"==r()&&"menubar"==o()?s():"button"==r()&&a("haspopup")?s():c(1),n=!0);break;case b:n=!0,e.shiftKey?c(-1):c(1);break;case h:n=!0,l();break;case g:case v:case y:n=s()}n&&(e.stopPropagation(),e.preventDefault())}),f.on("focusin",function(e){n(),d=e.target.id}),{moveFocus:c,focusFirst:u,cancel:l}}}),/**
- * Window.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Window",["tinymce/ui/FloatPanel","tinymce/ui/Panel","tinymce/ui/DomUtils","tinymce/ui/KeyboardNavigation","tinymce/ui/DragHelper"],function(e,t,n,i,r){var o=e.extend({modal:!0,Defaults:{border:1,layout:"flex",containerCls:"panel",role:"dialog",callbacks:{submit:function(){this.fire("submit",{data:this.toJSON()})},close:function(){this.close()}}},init:function(e){var n=this;n._super(e),n.isRtl()&&n.addClass("rtl"),n.addClass("window"),n._fixed=!0,e.buttons&&(n.statusbar=new t({layout:"flex",border:"1 0 0 0",spacing:3,padding:10,align:"center",pack:n.isRtl()?"start":"end",defaults:{type:"button"},items:e.buttons}),n.statusbar.addClass("foot"),n.statusbar.parent(n)),n.on("click",function(e){-1!=e.target.className.indexOf(n.classPrefix+"close")&&n.close()}),n.aria("label",e.title),n._fullscreen=!1},recalc:function(){var e,t,i,r,o=this,a=o.statusbar;o._fullscreen&&(o.layoutRect(n.getWindowSize()),o.layoutRect().contentH=o.layoutRect().innerH),o._super(),e=o.layoutRect(),o.settings.title&&!o._fullscreen&&(t=e.headerW,t>e.w&&(i=e.x-Math.max(0,t/2),o.layoutRect({w:t,x:i}),r=!0)),a&&(a.layoutRect({w:o.layoutRect().innerW}).recalc(),t=a.layoutRect().minW+e.deltaW,t>e.w&&(i=e.x-Math.max(0,t-e.w),o.layoutRect({w:t,x:i}),r=!0)),r&&o.recalc()},initLayoutRect:function(){var e,t=this,i=t._super(),r=0;if(t.settings.title&&!t._fullscreen){e=t.getEl("head");var o=n.getSize(e);i.headerW=o.width,i.headerH=o.height,r+=i.headerH}t.statusbar&&(r+=t.statusbar.layoutRect().h),i.deltaH+=r,i.minH+=r,i.h+=r;var a=n.getWindowSize();return i.x=Math.max(0,a.w/2-i.w/2),i.y=Math.max(0,a.h/2-i.h/2),i},renderHtml:function(){var e=this,t=e._layout,n=e._id,i=e.classPrefix,r=e.settings,o="",a="",s=r.html;return e.preRender(),t.preRender(e),r.title&&(o='<div id="'+n+'-head" class="'+i+'window-head"><div class="'+i+'title">'+e.encode(r.title)+'</div><button type="button" class="'+i+'close" aria-hidden="true">&times;</button><div id="'+n+'-dragh" class="'+i+'dragh"></div></div>'),r.url&&(s='<iframe src="'+r.url+'" tabindex="-1"></iframe>'),"undefined"==typeof s&&(s=t.renderHtml(e)),e.statusbar&&(a=e.statusbar.renderHtml()),'<div id="'+n+'" class="'+e.classes()+'" hideFocus="1" tabIndex="-1">'+o+'<div id="'+n+'-body" class="'+e.classes("body")+'">'+s+"</div>"+a+"</div>"},fullscreen:function(e){var t,i,r=this,o=document.documentElement,a=r.classPrefix;if(e!=r._fullscreen)if(n.on(window,"resize",function(){var e;if(r._fullscreen)if(t)r._timer||(r._timer=setTimeout(function(){var e=n.getWindowSize();r.moveTo(0,0).resizeTo(e.w,e.h),r._timer=0},50));else{e=(new Date).getTime();var i=n.getWindowSize();r.moveTo(0,0).resizeTo(i.w,i.h),(new Date).getTime()-e>50&&(t=!0)}}),i=r.layoutRect(),r._fullscreen=e,e){r._initial={x:i.x,y:i.y,w:i.w,h:i.h},r._borderBox=r.parseBox("0"),r.getEl("head").style.display="none",i.deltaH-=i.headerH+2,n.addClass(o,a+"fullscreen"),n.addClass(document.body,a+"fullscreen"),r.addClass("fullscreen");var s=n.getWindowSize();r.moveTo(0,0).resizeTo(s.w,s.h)}else r._borderBox=r.parseBox(r.settings.border),r.getEl("head").style.display="",i.deltaH+=i.headerH,n.removeClass(o,a+"fullscreen"),n.removeClass(document.body,a+"fullscreen"),r.removeClass("fullscreen"),r.moveTo(r._initial.x,r._initial.y).resizeTo(r._initial.w,r._initial.h);return r.reflow()},postRender:function(){var e,t,n,o=this,a=[];setTimeout(function(){o.addClass("in")},0),o.keyboardNavigation=new i({root:o,enableLeftRight:!1,enableUpDown:!1,items:a,onCancel:function(){o.close()}}),o.find("*").each(function(n){n.canFocus&&(t=t||n.settings.autofocus,e=e||n,"filepicker"==n.type?(a.push(n.getEl("inp")),n.getEl("open")&&a.push(n.getEl("open"))):a.push(n.getEl()))}),o.statusbar&&o.statusbar.find("*").each(function(n){n.canFocus&&(t=t||n.settings.autofocus,e=e||n,a.push(n.getEl()))}),o._super(),o.statusbar&&o.statusbar.postRender(),!t&&e&&e.focus(),this.dragHelper=new r(o._id+"-dragh",{start:function(){n={x:o.layoutRect().x,y:o.layoutRect().y}},drag:function(e){o.moveTo(n.x+e.deltaX,n.y+e.deltaY)}}),o.on("submit",function(e){e.isDefaultPrevented()||o.close()})},submit:function(){return this.fire("submit",{data:this.toJSON()})},remove:function(){var e=this;e.dragHelper.destroy(),e._super(),e.statusbar&&this.statusbar.remove()}});return o}),/**
- * MessageBox.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/MessageBox",["tinymce/ui/Window"],function(e){var t=e.extend({init:function(e){e={border:1,padding:20,layout:"flex",pack:"center",align:"center",containerCls:"panel",autoScroll:!0,buttons:{type:"button",text:"Ok",action:"ok"},items:{type:"label",multiline:!0,maxWidth:500,maxHeight:200}},this._super(e)},Statics:{OK:1,OK_CANCEL:2,YES_NO:3,YES_NO_CANCEL:4,msgBox:function(n){var i,r=n.callback||function(){};switch(n.buttons){case t.OK_CANCEL:i=[{type:"button",text:"Ok",subtype:"primary",onClick:function(e){e.control.parents()[1].close(),r(!0)}},{type:"button",text:"Cancel",onClick:function(e){e.control.parents()[1].close(),r(!1)}}];break;case t.YES_NO:i=[{type:"button",text:"Ok",subtype:"primary",onClick:function(e){e.control.parents()[1].close(),r(!0)}}];break;case t.YES_NO_CANCEL:i=[{type:"button",text:"Ok",subtype:"primary",onClick:function(e){e.control.parents()[1].close()}}];break;default:i=[{type:"button",text:"Ok",subtype:"primary",onClick:function(e){e.control.parents()[1].close(),r(!0)}}]}return new e({padding:20,x:n.x,y:n.y,minWidth:300,minHeight:100,layout:"flex",pack:"center",align:"center",buttons:i,title:n.title,items:{type:"label",multiline:!0,maxWidth:500,maxHeight:200,text:n.text},onClose:n.onClose}).renderTo(document.body).reflow()},alert:function(e,n){return"string"==typeof e&&(e={text:e}),e.callback=n,t.msgBox(e)},confirm:function(e,n){return"string"==typeof e&&(e={text:e}),e.callback=n,e.buttons=t.OK_CANCEL,t.msgBox(e)}}});return t}),/**
- * WindowManager.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/WindowManager",["tinymce/ui/Window","tinymce/ui/MessageBox"],function(e,t){return function(n){function i(){return o.length?o[o.length-1]:void 0}var r=this,o=[];r.windows=o,r.open=function(t,i){var r;return n.editorManager.activeEditor=n,t.title=t.title||" ",t.url=t.url||t.file,t.url&&(t.width=parseInt(t.width||320,10),t.height=parseInt(t.height||240,10)),t.body&&(t.items={defaults:t.defaults,type:t.bodyType||"form",items:t.body}),t.url||t.buttons||(t.buttons=[{text:"Ok",subtype:"primary",onclick:function(){r.find("form")[0].submit(),r.close()}},{text:"Cancel",onclick:function(){r.close()}}]),r=new e(t),o.push(r),r.on("close",function(){for(var e=o.length;e--;)o[e]===r&&o.splice(e,1);n.focus()}),t.data&&r.on("postRender",function(){this.find("*").each(function(e){var n=e.name();n in t.data&&e.value(t.data[n])})}),r.features=t||{},r.params=i||{},n.nodeChanged(),r.renderTo(document.body).reflow()},r.alert=function(e,n,i){t.alert(e,function(){n&&n.call(i||this)})},r.confirm=function(e,n,i){t.confirm(e,function(e){n.call(i||this,e)})},r.close=function(){i()&&i().close()},r.getParams=function(){return i()?i().params:null},r.setParams=function(e){i()&&(i().params=e)}}}),/**
- * Quirks.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- *
- * @ignore-file
- */
-i("tinymce/util/Quirks",["tinymce/util/VK","tinymce/dom/RangeUtils","tinymce/html/Node","tinymce/html/Entities","tinymce/Env","tinymce/util/Tools"],function(e,t,n,i,r,o){return function(a){function s(e,t){try{a.getDoc().execCommand(e,!1,t)}catch(n){}}function l(){var e=a.getDoc().documentMode;return e?e:6}function c(e){return e.isDefaultPrevented()}function u(){function t(e){function t(){if(3==l.nodeType){if(e&&c==l.length)return!0;if(!e&&0===c)return!0}}var n,i,r,s,l,c,u;n=z.getRng();var d=[n.startContainer,n.startOffset,n.endContainer,n.endOffset];if(n.collapsed||(e=!0),l=n[(e?"start":"end")+"Container"],c=n[(e?"start":"end")+"Offset"],3==l.nodeType&&(i=W.getParent(n.startContainer,W.isBlock),e&&(i=W.getNext(i,W.isBlock)),!i||!t()&&n.collapsed||(r=W.create("em",{id:"__mceDel"}),O(o.grep(i.childNodes),function(e){r.appendChild(e)}),i.appendChild(r))),n=W.createRng(),n.setStart(d[0],d[1]),n.setEnd(d[2],d[3]),z.setRng(n),a.getDoc().execCommand(e?"ForwardDelete":"Delete",!1,null),r){for(s=z.getBookmark();u=W.get("__mceDel");)W.remove(u,!0);z.moveToBookmark(s)}}a.on("keydown",function(n){var i;i=n.keyCode==F,c(n)||!i&&n.keyCode!=I||e.modifierPressed(n)||(n.preventDefault(),t(i))}),a.addCommand("Delete",function(){t()})}function d(){function e(e){var t=W.create("body"),n=e.cloneContents();return t.appendChild(n),z.serializer.serialize(t,{format:"html"})}function t(t){var n=e(t),i=W.createRng();i.selectNode(a.getBody());var r=e(i);return n===r}a.on("keydown",function(e){var n,i=e.keyCode;if(!c(e)&&(i==F||i==I)){if(n=a.selection.isCollapsed(),n&&!W.isEmpty(a.getBody()))return;if(j&&!n)return;if(!n&&!t(a.selection.getRng()))return;e.preventDefault(),a.setContent(""),a.selection.setCursorLocation(a.getBody(),0),a.nodeChanged()}})}function f(){a.on("keydown",function(t){!c(t)&&65==t.keyCode&&e.metaKeyPressed(t)&&(t.preventDefault(),a.execCommand("SelectAll"))})}function m(){a.settings.content_editable||(W.bind(a.getDoc(),"focusin",function(){z.setRng(z.getRng())}),W.bind(a.getDoc(),"mousedown",function(e){e.target==a.getDoc().documentElement&&(a.getWin().focus(),z.setRng(z.getRng()))}))}function p(){a.on("keydown",function(e){if(!c(e)&&e.keyCode===I&&z.isCollapsed()&&0===z.getRng(!0).startOffset){var t=z.getNode(),n=t.previousSibling;if("HR"==t.nodeName)return W.remove(t),e.preventDefault(),void 0;n&&n.nodeName&&"hr"===n.nodeName.toLowerCase()&&(W.remove(n),e.preventDefault())}})}function h(){window.Range.prototype.getClientRects||a.on("mousedown",function(e){if(!c(e)&&"HTML"===e.target.nodeName){var t=a.getBody();t.blur(),setTimeout(function(){t.focus()},0)}})}function g(){a.on("click",function(e){e=e.target,/^(IMG|HR)$/.test(e.nodeName)&&z.getSel().setBaseAndExtent(e,0,e,1),"A"==e.nodeName&&W.hasClass(e,"mce-item-anchor")&&z.select(e),a.nodeChanged()})}function v(){function e(){var e=W.getAttribs(z.getStart().cloneNode(!1));return function(){var t=z.getStart();t!==a.getBody()&&(W.setAttrib(t,"style",null),O(e,function(e){t.setAttributeNode(e.cloneNode(!0))}))}}function t(){return!z.isCollapsed()&&W.getParent(z.getStart(),W.isBlock)!=W.getParent(z.getEnd(),W.isBlock)}a.on("keypress",function(n){var i;return c(n)||8!=n.keyCode&&46!=n.keyCode||!t()?void 0:(i=e(),a.getDoc().execCommand("delete",!1,null),i(),n.preventDefault(),!1)}),W.bind(a.getDoc(),"cut",function(n){var i;!c(n)&&t()&&(i=e(),setTimeout(function(){i()},0))})}function y(){var e,n;a.on("selectionchange",function(){n&&(clearTimeout(n),n=0),n=window.setTimeout(function(){var n=z.getRng();e&&t.compareRanges(n,e)||(a.nodeChanged(),e=n)},50)})}function b(){document.body.setAttribute("role","application")}function C(){a.on("keydown",function(e){if(!c(e)&&e.keyCode===I&&z.isCollapsed()&&0===z.getRng(!0).startOffset){var t=z.getNode().previousSibling;if(t&&t.nodeName&&"table"===t.nodeName.toLowerCase())return e.preventDefault(),!1}})}function x(){l()>7||(s("RespectVisibilityInDesign",!0),a.contentStyles.push(".mceHideBrInPre pre br {display: none}"),W.addClass(a.getBody(),"mceHideBrInPre"),V.addNodeFilter("pre",function(e){for(var t,i,r,o,a=e.length;a--;)for(t=e[a].getAll("br"),i=t.length;i--;)r=t[i],o=r.prev,o&&3===o.type&&"\n"!=o.value.charAt(o.value-1)?o.value+="\n":r.parent.insert(new n("#text",3),r,!0).value="\n"}),q.addNodeFilter("pre",function(e){for(var t,n,i,r,o=e.length;o--;)for(t=e[o].getAll("br"),n=t.length;n--;)i=t[n],r=i.prev,r&&3==r.type&&(r.value=r.value.replace(/\r?\n$/,""))}))}function w(){W.bind(a.getBody(),"mouseup",function(){var e,t=z.getNode();"IMG"==t.nodeName&&((e=W.getStyle(t,"width"))&&(W.setAttrib(t,"width",e.replace(/[^0-9%]+/g,"")),W.setStyle(t,"width","")),(e=W.getStyle(t,"height"))&&(W.setAttrib(t,"height",e.replace(/[^0-9%]+/g,"")),W.setStyle(t,"height","")))})}function _(){a.on("keydown",function(t){var n,i,r,o,s,l,u,d;if(n=t.keyCode==F,!c(t)&&(n||t.keyCode==I)&&!e.modifierPressed(t)&&(i=z.getRng(),r=i.startContainer,o=i.startOffset,u=i.collapsed,3==r.nodeType&&r.nodeValue.length>0&&(0===o&&!u||u&&o===(n?0:1)))){if(l=r.previousSibling,l&&"IMG"==l.nodeName)return;d=a.schema.getNonEmptyElements(),t.preventDefault(),s=W.create("br",{id:"__tmp"}),r.parentNode.insertBefore(s,r),a.getDoc().execCommand(n?"ForwardDelete":"Delete",!1,null),r=z.getRng().startContainer,l=r.previousSibling,l&&1==l.nodeType&&!W.isBlock(l)&&W.isEmpty(l)&&!d[l.nodeName.toLowerCase()]&&W.remove(l),W.remove("__tmp")}})}function N(){a.on("keydown",function(t){var n,i,r,o,s;if(!c(t)&&t.keyCode==e.BACKSPACE&&(n=z.getRng(),i=n.startContainer,r=n.startOffset,o=W.getRoot(),s=i,n.collapsed&&0===r)){for(;s&&s.parentNode&&s.parentNode.firstChild==s&&s.parentNode!=o;)s=s.parentNode;"BLOCKQUOTE"===s.tagName&&(a.formatter.toggle("blockquote",null,s),n=W.createRng(),n.setStart(i,0),n.setEnd(i,0),z.setRng(n))}})}function E(){function e(){a._refreshContentEditable(),s("StyleWithCSS",!1),s("enableInlineTableEditing",!1),U.object_resizing||s("enableObjectResizing",!1)}U.readonly||a.on("BeforeExecCommand MouseDown",e)}function S(){function e(){O(W.select("a"),function(e){var t=e.parentNode,n=W.getRoot();if(t.lastChild===e){for(;t&&!W.isBlock(t);){if(t.parentNode.lastChild!==t||t===n)return;t=t.parentNode}W.add(t,"br",{"data-mce-bogus":1})}})}a.on("SetContent ExecCommand",function(t){("setcontent"==t.type||"mceInsertLink"===t.command)&&e()})}function k(){U.forced_root_block&&a.on("init",function(){s("DefaultParagraphSeparator",U.forced_root_block)})}function T(){a.on("Undo Redo SetContent",function(e){e.initial||a.execCommand("mceRepaint")})}function R(){a.on("keydown",function(e){var t;c(e)||e.keyCode!=I||(t=a.getDoc().selection.createRange(),t&&t.item&&(e.preventDefault(),a.undoManager.beforeChange(),W.remove(t.item(0)),a.undoManager.add()))})}function A(){var e;l()>=10&&(e="",O("p div h1 h2 h3 h4 h5 h6".split(" "),function(t,n){e+=(n>0?",":"")+t+":empty"}),a.contentStyles.push(e+"{padding-right: 1px !important}"))}function B(){l()<9&&(V.addNodeFilter("noscript",function(e){for(var t,n,i=e.length;i--;)t=e[i],n=t.firstChild,n&&t.attr("data-mce-innertext",n.value)}),q.addNodeFilter("noscript",function(e){for(var t,r,o,a=e.length;a--;)t=e[a],r=e[a].firstChild,r?r.value=i.decode(r.value):(o=t.attributes.map["data-mce-innertext"],o&&(t.attr("data-mce-innertext",null),r=new n("#text",3),r.value=o,r.raw=!0,t.append(r)))}))}function D(){function e(e,t){var n=s.createTextRange();try{n.moveToPoint(e,t)}catch(i){n=null}return n}function t(t){var i;t.button?(i=e(t.x,t.y),i&&(i.compareEndPoints("StartToStart",r)>0?i.setEndPoint("StartToStart",r):i.setEndPoint("EndToEnd",r),i.select())):n()}function n(){var e=a.selection.createRange();r&&!e.item&&0===e.compareEndPoints("StartToEnd",e)&&r.select(),W.unbind(a,"mouseup",n),W.unbind(a,"mousemove",t),r=i=0}var i,r,o,a=W.doc,s=a.body;a.documentElement.unselectable=!0,W.bind(a,"mousedown contextmenu",function(s){if("HTML"===s.target.nodeName){if(i&&n(),o=a.documentElement,o.scrollHeight>o.clientHeight)return;i=1,r=e(s.x,s.y),r&&(W.bind(a,"mouseup",n),W.bind(a,"mousemove",t),W.win.focus(),r.select())}})}function L(){a.on("keyup focusin",function(t){65==t.keyCode&&e.metaKeyPressed(t)||z.normalize()})}function M(){a.contentStyles.push("img:-moz-broken {-moz-force-broken-image-icon:1;min-width:24px;min-height:24px}")}function H(){a.inline||a.on("keydown",function(){document.activeElement==document.body&&a.getWin().focus()})}function P(){a.inline||(a.contentStyles.push("body {min-height: 150px}"),a.on("click",function(e){"HTML"==e.target.nodeName&&(a.execCommand("SelectAll"),a.selection.collapse(!0),a.nodeChanged())}))}var O=o.each,I=e.BACKSPACE,F=e.DELETE,W=a.dom,z=a.selection,U=a.settings,V=a.parser,q=a.serializer,$=r.gecko,j=r.ie,K=r.webkit;C(),N(),d(),L(),K&&(_(),u(),m(),g(),k(),r.iOS?(y(),H()):f()),j&&r.ie<11&&(p(),b(),x(),w(),R(),A(),B(),D()),r.ie>=11&&P(),$&&(p(),h(),v(),E(),S(),T(),M())}}),/**
- * Observable.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/util/Observable",["tinymce/util/Tools"],function(e){function t(){return!1}function n(){return!0}var i="__bindings",r=e.makeMap("focusin focusout click dblclick mousedown mouseup mousemove mouseover beforepaste paste cut copy selectionchange mouseout mouseenter mouseleave keydown keypress keyup contextmenu dragend dragover draggesture dragdrop drop drag"," ");return{fire:function(e,r,o){var a,s,l,c,u,d=this;if(e=e.toLowerCase(),r=r||{},r.type=e,r.target||(r.target=d),r.preventDefault||(r.preventDefault=function(){r.isDefaultPrevented=n},r.stopPropagation=function(){r.isPropagationStopped=n},r.stopImmediatePropagation=function(){r.isImmediatePropagationStopped=n},r.isDefaultPrevented=t,r.isPropagationStopped=t,r.isImmediatePropagationStopped=t),d[i]&&(a=d[i][e]))for(s=0,l=a.length;l>s&&(a[s]=c=a[s],!r.isImmediatePropagationStopped());s++)if(c.call(d,r)===!1)return r.preventDefault(),r;if(o!==!1&&d.parent)for(u=d.parent();u&&!r.isPropagationStopped();)u.fire(e,r,!1),u=u.parent();return r},on:function(e,t){var n,o,a,s,l=this;if(t===!1&&(t=function(){return!1}),t)for(a=e.toLowerCase().split(" "),s=a.length;s--;)e=a[s],n=l[i],n||(n=l[i]={}),o=n[e],o||(o=n[e]=[],l.bindNative&&r[e]&&l.bindNative(e)),o.push(t);return l},off:function(e,t){var n,o,a,s,l,c=this,u=c[i];if(u)if(e)for(s=e.toLowerCase().split(" "),n=s.length;n--;){if(e=s[n],o=u[e],!e){for(a in u)u[e].length=0;return c}if(o){if(t)for(l=o.length;l--;)o[l]===t&&o.splice(l,1);else o.length=0;!o.length&&c.unbindNative&&r[e]&&(c.unbindNative(e),delete u[e])}}else{if(c.unbindNative)for(e in u)c.unbindNative(e);c[i]=[]}return c},hasEventListeners:function(e){var t=this[i];return e=e.toLowerCase(),!(!t||!t[e]||0===t[e].length)}}}),/**
- * Shortcuts.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/Shortcuts",["tinymce/util/Tools","tinymce/Env"],function(e,t){var n=e.each,i=e.explode,r={f9:120,f10:121,f11:122};return function(o){var a=this,s={};o.on("keyup keypress keydown",function(e){(e.altKey||e.ctrlKey||e.metaKey)&&n(s,function(n){var i=t.mac?e.ctrlKey||e.metaKey:e.ctrlKey;if(n.ctrl==i&&n.alt==e.altKey&&n.shift==e.shiftKey)return e.keyCode==n.keyCode||e.charCode&&e.charCode==n.charCode?(e.preventDefault(),"keydown"==e.type&&n.func.call(n.scope),!0):void 0})}),a.add=function(t,a,l,c){var u;return u=l,"string"==typeof l?l=function(){o.execCommand(u,!1,null)}:e.isArray(u)&&(l=function(){o.execCommand(u[0],u[1],u[2])}),n(i(t.toLowerCase()),function(e){var t={func:l,scope:c||o,desc:o.translate(a),alt:!1,ctrl:!1,shift:!1};n(i(e,"+"),function(e){switch(e){case"alt":case"ctrl":case"shift":t[e]=!0;break;default:t.charCode=e.charCodeAt(0),t.keyCode=r[e]||e.toUpperCase().charCodeAt(0)}}),s[(t.ctrl?"ctrl":"")+","+(t.alt?"alt":"")+","+(t.shift?"shift":"")+","+t.keyCode]=t}),!0}}}),/**
- * Editor.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/Editor",["tinymce/dom/DOMUtils","tinymce/AddOnManager","tinymce/html/Node","tinymce/dom/Serializer","tinymce/html/Serializer","tinymce/dom/Selection","tinymce/Formatter","tinymce/UndoManager","tinymce/EnterKey","tinymce/ForceBlocks","tinymce/EditorCommands","tinymce/util/URI","tinymce/dom/ScriptLoader","tinymce/dom/EventUtils","tinymce/WindowManager","tinymce/html/Schema","tinymce/html/DomParser","tinymce/util/Quirks","tinymce/Env","tinymce/util/Tools","tinymce/util/Observable","tinymce/Shortcuts"],function(e,n,i,r,o,a,s,l,c,u,d,f,m,p,h,g,v,y,b,C,x,w){function _(e,t){return"selectionchange"==t||"drop"==t?e.getDoc():!e.inline&&/^mouse|click|contextmenu/.test(t)?e.getDoc():e.getBody()}function N(e,t,i){var r,o,a=this;r=a.documentBaseUrl=i.documentBaseURL,o=i.baseURI,a.settings=t=T({id:e,theme:"modern",delta_width:0,delta_height:0,popup_css:"",plugins:"",document_base_url:r,add_form_submit_trigger:!0,submit_patch:!0,add_unload_trigger:!0,convert_urls:!0,relative_urls:!0,remove_script_host:!0,object_resizing:!0,doctype:"<!DOCTYPE html>",visual:!0,font_size_style_values:"xx-small,x-small,small,medium,large,x-large,xx-large",font_size_legacy_values:"xx-small,small,medium,large,x-large,xx-large,300%",forced_root_block:"p",hidden_input:!0,padd_empty_editor:!0,render_ui:!0,indentation:"30px",inline_styles:!0,convert_fonts_to_spans:!0,indent:"simple",indent_before:"p,h1,h2,h3,h4,h5,h6,blockquote,div,title,style,pre,script,td,ul,li,area,table,thead,tfoot,tbody,tr,section,article,hgroup,aside,figure,option,optgroup,datalist",indent_after:"p,h1,h2,h3,h4,h5,h6,blockquote,div,title,style,pre,script,td,ul,li,area,table,thead,tfoot,tbody,tr,section,article,hgroup,aside,figure,option,optgroup,datalist",validate:!0,entity_encoding:"named",url_converter:a.convertURL,url_converter_scope:a,ie7_compat:!0},t),n.language=t.language||"en",n.languageLoad=t.language_load,n.baseURL=i.baseURL,a.id=t.id=e,a.isNotDirty=!0,a.plugins={},a.documentBaseURI=new f(t.document_base_url||r,{base_uri:o}),a.baseURI=o,a.contentCSS=[],a.contentStyles=[],a.shortcuts=new w(a),a.execCommands={},a.queryStateCommands={},a.queryValueCommands={},a.loadedCSS={},a.suffix=i.suffix,a.editorManager=i,a.inline=t.inline,a.execCallback("setup",a),i.fire("SetupEditor",a)}var E=e.DOM,S=n.ThemeManager,k=n.PluginManager,T=C.extend,R=C.each,A=C.explode,B=C.inArray,D=C.trim,L=C.resolve,M=p.Event,H=b.gecko,P=b.ie;return N.prototype={render:function(){function e(){E.unbind(window,"ready",e),n.render()}function t(){var e=m.ScriptLoader;if(i.language&&"en"!=i.language&&(i.language_url=n.editorManager.baseURL+"/langs/"+i.language+".js"),i.language_url&&e.add(i.language_url),i.theme&&"function"!=typeof i.theme&&"-"!=i.theme.charAt(0)&&!S.urls[i.theme]){var t=i.theme_url;t=t?n.documentBaseURI.toAbsolute(t):"themes/"+i.theme+"/theme"+o+".js",S.load(i.theme,t)}C.isArray(i.plugins)&&(i.plugins=i.plugins.join(" ")),R(i.external_plugins,function(e,t){k.load(t,e),i.plugins+=" "+t}),R(i.plugins.split(/[ ,]/),function(e){if(e=D(e),e&&!k.urls[e])if("-"==e.charAt(0)){e=e.substr(1,e.length);var t=k.dependencies(e);R(t,function(e){var t={prefix:"plugins/",resource:e,suffix:"/plugin"+o+".js"};e=k.createUrl(t,e),k.load(e.resource,e)})}else k.load(e,{prefix:"plugins/",resource:e,suffix:"/plugin"+o+".js"})}),e.loadQueue(function(){n.removed||n.init()})}var n=this,i=n.settings,r=n.id,o=n.suffix;if(!M.domLoaded)return E.bind(window,"ready",e),void 0;if(n.getElement()&&b.contentEditable){i.inline?n.inline=!0:(n.orgVisibility=n.getElement().style.visibility,n.getElement().style.visibility="hidden");var a=n.getElement().form||E.getParent(r,"form");a&&(n.formElement=a,i.hidden_input&&!/TEXTAREA|INPUT/i.test(n.getElement().nodeName)&&(E.insertAfter(E.create("input",{type:"hidden",name:r}),r),n.hasHiddenInput=!0),n.formEventDelegate=function(e){n.fire(e.type,e)},E.bind(a,"submit reset",n.formEventDelegate),n.on("reset",function(){n.setContent(n.startContent,{format:"raw"})}),!i.submit_patch||a.submit.nodeType||a.submit.length||a._mceOldSubmit||(a._mceOldSubmit=a.submit,a.submit=function(){return n.editorManager.triggerSave(),n.isNotDirty=!0,a._mceOldSubmit(a)})),n.windowManager=new h(n),"xml"==i.encoding&&n.on("GetContent",function(e){e.save&&(e.content=E.encode(e.content))}),i.add_form_submit_trigger&&n.on("submit",function(){n.initialized&&n.save()}),i.add_unload_trigger&&(n._beforeUnload=function(){!n.initialized||n.destroyed||n.isHidden()||n.save({format:"raw",no_events:!0,set_dirty:!1})},n.editorManager.on("BeforeUnload",n._beforeUnload)),t()}},init:function(){function e(t){var n,i,r=k.get(t);n=k.urls[t]||d.documentBaseUrl.replace(/\/$/,""),t=D(t),r&&-1===B(p,t)&&(R(k.dependencies(t),function(t){e(t)}),i=new r(d,n),d.plugins[t]=i,i.init&&(i.init(d,n),p.push(t)))}var t,n,i,r,o,a,s,l,c,u,d=this,f=d.settings,m=d.getElement(),p=[];if(d.rtl=this.editorManager.i18n.rtl,d.editorManager.add(d),f.aria_label=f.aria_label||E.getAttrib(m,"aria-label",d.getLang("aria.rich_text_area")),f.theme&&("function"!=typeof f.theme?(f.theme=f.theme.replace(/-/,""),o=S.get(f.theme),d.theme=new o(d,S.urls[f.theme]),d.theme.init&&d.theme.init(d,S.urls[f.theme]||d.documentBaseUrl.replace(/\/$/,""))):d.theme=f.theme),R(f.plugins.replace(/\-/g,"").split(/[ ,]/),e),d.fire("BeforeRenderUI"),f.render_ui&&d.theme&&(d.orgDisplay=m.style.display,"function"!=typeof f.theme?(t=f.width||m.style.width||m.offsetWidth,n=f.height||m.style.height||m.offsetHeight,i=f.min_height||100,c=/^[0-9\.]+(|px)$/i,c.test(""+t)&&(t=Math.max(parseInt(t,10)+(o.deltaWidth||0),100)),c.test(""+n)&&(n=Math.max(parseInt(n,10)+(o.deltaHeight||0),i)),o=d.theme.renderUI({targetNode:m,width:t,height:n,deltaWidth:f.delta_width,deltaHeight:f.delta_height}),f.content_editable||(E.setStyles(o.sizeContainer||o.editorContainer,{wi2dth:t,h2eight:n}),n=(o.iframeHeight||n)+("number"==typeof n?o.deltaHeight||0:""),i>n&&(n=i))):(o=f.theme(d,m),o.editorContainer.nodeType&&(o.editorContainer=o.editorContainer.id=o.editorContainer.id||d.id+"_parent"),o.iframeContainer.nodeType&&(o.iframeContainer=o.iframeContainer.id=o.iframeContainer.id||d.id+"_iframecontainer"),n=o.iframeHeight||m.offsetHeight),d.editorContainer=o.editorContainer),f.content_css&&R(A(f.content_css),function(e){d.contentCSS.push(d.documentBaseURI.toAbsolute(e))}),f.content_style&&d.contentStyles.push(f.content_style),f.content_editable)return m=r=o=null,d.initContentBody();for(d.iframeHTML=f.doctype+"<html><head>",f.document_base_url!=d.documentBaseUrl&&(d.iframeHTML+='<base href="'+d.documentBaseURI.getURI()+'" />'),!b.caretAfter&&f.ie7_compat&&(d.iframeHTML+='<meta http-equiv="X-UA-Compatible" content="IE=7" />'),d.iframeHTML+='<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />',u=0;u<d.contentCSS.length;u++){var h=d.contentCSS[u];d.iframeHTML+='<link type="text/css" rel="stylesheet" href="'+h+'" />',d.loadedCSS[h]=!0}s=f.body_id||"tinymce",-1!=s.indexOf("=")&&(s=d.getParam("body_id","","hash"),s=s[d.id]||s),l=f.body_class||"",-1!=l.indexOf("=")&&(l=d.getParam("body_class","","hash"),l=l[d.id]||""),d.iframeHTML+='</head><body id="'+s+'" class="mce-content-body '+l+'" onload="window.parent.tinymce.get(\''+d.id+"').fire('load');\"><br></body></html>";var g='javascript:(function(){document.open();document.domain="'+document.domain+'";var ed = window.parent.tinymce.get("'+d.id+'");document.write(ed.iframeHTML);document.close();ed.initContentBody(true);})()';if(document.domain!=location.hostname&&(a=g),r=E.add(o.iframeContainer,"iframe",{id:d.id+"_ifr",src:a||'javascript:""',frameBorder:"0",allowTransparency:"true",title:d.editorManager.translate("Rich Text Area. Press ALT-F9 for menu. Press ALT-F10 for toolbar. Press ALT-0 for help"),style:{width:"100%",height:n,display:"block"}}),P)try{d.getDoc()}catch(v){r.src=a=g}d.contentAreaContainer=o.iframeContainer,o.editorContainer&&(E.get(o.editorContainer).style.display=d.orgDisplay),E.get(d.id).style.display="none",E.setAttrib(d.id,"aria-hidden",!0),a||d.initContentBody(),m=r=o=null},initContentBody:function(t){var n,o,f=this,m=f.settings,p=E.get(f.id),h=f.getDoc();m.inline||(f.getElement().style.visibility=f.orgVisibility),t||m.content_editable||(h.open(),h.write(f.iframeHTML),h.close()),m.content_editable&&(f.on("remove",function(){var e=this.getBody();E.removeClass(e,"mce-content-body"),E.removeClass(e,"mce-edit-focus"),E.setAttrib(e,"tabIndex",null),E.setAttrib(e,"contentEditable",null)}),E.addClass(p,"mce-content-body"),p.tabIndex=-1,f.contentDocument=h=m.content_document||document,f.contentWindow=m.content_window||window,f.bodyElement=p,m.content_document=m.content_window=null,m.root_name=p.nodeName.toLowerCase()),n=f.getBody(),n.disabled=!0,m.readonly||(f.inline&&"static"==E.getStyle(n,"position",!0)&&(n.style.position="relative"),n.contentEditable=f.getParam("content_editable_state",!0)),n.disabled=!1,f.schema=new g(m),f.dom=new e(h,{keep_values:!0,url_converter:f.convertURL,url_converter_scope:f,hex_colors:m.force_hex_style_colors,class_filter:m.class_filter,update_styles:!0,root_element:m.content_editable?f.id:null,collect:m.content_editable,schema:f.schema,onSetAttrib:function(e){f.fire("SetAttrib",e)}}),f.parser=new v(m,f.schema),f.parser.addAttributeFilter("src,href,style",function(e,t){for(var n,i,r,o=e.length,a=f.dom;o--;)n=e[o],i=n.attr(t),r="data-mce-"+t,n.attributes.map[r]||("style"===t?n.attr(r,a.serializeStyle(a.parseStyle(i),n.name)):n.attr(r,f.convertURL(i,t,n.name)))}),f.parser.addNodeFilter("script",function(e){for(var t,n=e.length;n--;)t=e[n],t.attr("type","mce-"+(t.attr("type")||"text/javascript"))}),f.parser.addNodeFilter("#cdata",function(e){for(var t,n=e.length;n--;)t=e[n],t.type=8,t.name="#comment",t.value="[CDATA["+t.value+"]]"}),f.parser.addNodeFilter("p,h1,h2,h3,h4,h5,h6,div",function(e){for(var t,n=e.length,r=f.schema.getNonEmptyElements();n--;)t=e[n],t.isEmpty(r)&&(t.empty().append(new i("br",1)).shortEnded=!0)}),f.serializer=new r(m,f),f.selection=new a(f.dom,f.getWin(),f.serializer,f),f.formatter=new s(f),f.undoManager=new l(f),f.forceBlocks=new u(f),f.enterKey=new c(f),f.editorCommands=new d(f),f.fire("PreInit"),m.browser_spellcheck||m.gecko_spellcheck||(h.body.spellcheck=!1,E.setAttrib(n,"spellcheck","false")),f.fire("PostRender"),f.quirks=y(f),m.directionality&&(n.dir=m.directionality),m.nowrap&&(n.style.whiteSpace="nowrap"),m.protect&&f.on("BeforeSetContent",function(e){R(m.protect,function(t){e.content=e.content.replace(t,function(e){return"<!--mce:protected "+escape(e)+"-->"})})}),f.on("SetContent",function(){f.addVisual(f.getBody())}),m.padd_empty_editor&&f.on("PostProcess",function(e){e.content=e.content.replace(/^(<p[^>]*>(&nbsp;|&#160;|\s|\u00a0|)<\/p>[\r\n]*|<br \/>[\r\n]*)$/,"")}),f.load({initial:!0,format:"html"}),f.startContent=f.getContent({format:"raw"}),f.initialized=!0,R(f._pendingNativeEvents,function(e){f.dom.bind(_(f,e),e,function(e){f.fire(e.type,e)})}),f.fire("init"),f.focus(!0),f.nodeChanged({initial:!0}),f.execCallback("init_instance_callback",f),f.contentStyles.length>0&&(o="",R(f.contentStyles,function(e){o+=e+"\r\n"}),f.dom.addStyle(o)),R(f.contentCSS,function(e){f.loadedCSS[e]||(f.dom.loadCSS(e),f.loadedCSS[e]=!0)}),m.auto_focus&&setTimeout(function(){var e=f.editorManager.get(m.auto_focus);e.selection.select(e.getBody(),1),e.selection.collapse(1),e.getBody().focus(),e.getWin().focus()},100),p=h=n=null},focus:function(e){var t,n,i,r,o=this,a=o.selection,s=o.settings.content_editable,l=o.getDoc();e||(n=a.getRng(),n.item&&(i=n.item(0)),o._refreshContentEditable(),s||(b.opera||o.getBody().focus(),o.getWin().focus()),(H||s)&&(r=o.getBody(),r.setActive&&b.ie<11?r.setActive():r.focus(),s&&a.normalize()),i&&i.ownerDocument==l&&(n=l.body.createControlRange(),n.addElement(i),n.select())),o.editorManager.activeEditor!=o&&((t=o.editorManager.activeEditor)&&t.fire("deactivate",{relatedTarget:o}),o.fire("activate",{relatedTarget:t})),o.editorManager.activeEditor=o},execCallback:function(e){var t,n=this,i=n.settings[e];if(i)return n.callbackLookup&&(t=n.callbackLookup[e])&&(i=t.func,t=t.scope),"string"==typeof i&&(t=i.replace(/\.\w+$/,""),t=t?L(t):0,i=L(i),n.callbackLookup=n.callbackLookup||{},n.callbackLookup[e]={func:i,scope:t}),i.apply(t||n,Array.prototype.slice.call(arguments,1))},translate:function(e){var t=this.settings.language||"en",n=this.editorManager.i18n;return e?n.data[t+"."+e]||e.replace(/\{\#([^\}]+)\}/g,function(e,i){return n.data[t+"."+i]||"{#"+i+"}"}):""},getLang:function(e,n){return this.editorManager.i18n.data[(this.settings.language||"en")+"."+e]||(n!==t?n:"{#"+e+"}")},getParam:function(e,t,n){var i,r=e in this.settings?this.settings[e]:t;return"hash"===n?(i={},"string"==typeof r?R(r.indexOf("=")>0?r.split(/[;,](?![^=;,]*(?:[;,]|$))/):r.split(","),function(e){e=e.split("="),i[D(e[0])]=e.length>1?D(e[1]):D(e)}):i=r,i):r},nodeChanged:function(){var e,t,n,i=this,r=i.selection;i.initialized&&!i.settings.disable_nodechange&&(n=i.getBody(),e=r.getStart()||n,e=P&&e.ownerDocument!=i.getDoc()?i.getBody():e,"IMG"==e.nodeName&&r.isCollapsed()&&(e=e.parentNode),t=[],i.dom.getParent(e,function(e){return e===n?!0:(t.push(e),void 0)}),i.fire("NodeChange",{element:e,parents:t}))},addButton:function(e,t){var n=this;t.cmd&&(t.onclick=function(){n.execCommand(t.cmd)}),t.text||t.icon||(t.icon=e),n.buttons=n.buttons||{},t.tooltip=t.tooltip||t.title,n.buttons[e]=t},addMenuItem:function(e,t){var n=this;t.cmd&&(t.onclick=function(){n.execCommand(t.cmd)}),n.menuItems=n.menuItems||{},n.menuItems[e]=t},addCommand:function(e,t,n){this.execCommands[e]={func:t,scope:n||this}},addQueryStateHandler:function(e,t,n){this.queryStateCommands[e]={func:t,scope:n||this}},addQueryValueHandler:function(e,t,n){this.queryValueCommands[e]={func:t,scope:n||this}},addShortcut:function(e,t,n,i){this.shortcuts.add(e,t,n,i)},execCommand:function(e,t,n,i){var r,o=this,a=0;return/^(mceAddUndoLevel|mceEndUndoLevel|mceBeginUndoLevel|mceRepaint)$/.test(e)||i&&i.skip_focus||o.focus(),i=T({},i),i=o.fire("BeforeExecCommand",{command:e,ui:t,value:n}),i.isDefaultPrevented()?!1:(r=o.execCommands[e])&&r.func.call(r.scope,t,n)!==!0?(o.fire("ExecCommand",{command:e,ui:t,value:n}),!0):(R(o.plugins,function(i){return i.execCommand&&i.execCommand(e,t,n)?(o.fire("ExecCommand",{command:e,ui:t,value:n}),a=!0,!1):void 0}),a?a:o.theme&&o.theme.execCommand&&o.theme.execCommand(e,t,n)?(o.fire("ExecCommand",{command:e,ui:t,value:n}),!0):o.editorCommands.execCommand(e,t,n)?(o.fire("ExecCommand",{command:e,ui:t,value:n}),!0):(o.getDoc().execCommand(e,t,n),o.fire("ExecCommand",{command:e,ui:t,value:n}),void 0))},queryCommandState:function(e){var t,n,i=this;if(!i._isHidden()){if((t=i.queryStateCommands[e])&&(n=t.func.call(t.scope),n!==!0))return n;if(n=i.editorCommands.queryCommandState(e),-1!==n)return n;try{return i.getDoc().queryCommandState(e)}catch(r){}}},queryCommandValue:function(e){var n,i,r=this;if(!r._isHidden()){if((n=r.queryValueCommands[e])&&(i=n.func.call(n.scope),i!==!0))return i;if(i=r.editorCommands.queryCommandValue(e),i!==t)return i;try{return r.getDoc().queryCommandValue(e)}catch(o){}}},show:function(){var e=this;E.show(e.getContainer()),E.hide(e.id),e.load(),e.fire("show")},hide:function(){var e=this,t=e.getDoc();P&&t&&t.execCommand("SelectAll"),e.save(),E.hide(e.getContainer()),E.setStyle(e.id,"display",e.orgDisplay),e.fire("hide")},isHidden:function(){return!E.isHidden(this.id)},setProgressState:function(e,t){this.fire("ProgressState",{state:e,time:t})},load:function(e){var n,i=this,r=i.getElement();return r?(e=e||{},e.load=!0,n=i.setContent(r.value!==t?r.value:r.innerHTML,e),e.element=r,e.no_events||i.fire("LoadContent",e),e.element=r=null,n):void 0},save:function(e){var t,n,i=this,r=i.getElement();if(r&&i.initialized)return e=e||{},e.save=!0,e.element=r,t=e.content=i.getContent(e),e.no_events||i.fire("SaveContent",e),t=e.content,/TEXTAREA|INPUT/i.test(r.nodeName)?r.value=t:(r.innerHTML=t,(n=E.getParent(i.id,"form"))&&R(n.elements,function(e){return e.name==i.id?(e.value=t,!1):void 0})),e.element=r=null,e.set_dirty!==!1&&(i.isNotDirty=!0),t},setContent:function(e,t){var n,i=this,r=i.getBody();return t=t||{},t.format=t.format||"html",t.set=!0,t.content=e,t.no_events||i.fire("BeforeSetContent",t),e=t.content,0===e.length||/^\s+$/.test(e)?(n=i.settings.forced_root_block,n&&i.schema.isValidChild(r.nodeName.toLowerCase(),n.toLowerCase())?(e=P&&11>P?"":'<br data-mce-bogus="1">',e=i.dom.createHTML(n,i.settings.forced_root_block_attrs,e)):(!P||11>P)&&(e='<br data-mce-bogus="1">'),r.innerHTML=e,i.fire("SetContent",t)):("raw"!==t.format&&(e=new o({},i.schema).serialize(i.parser.parse(e,{isRootContent:!0}))),t.content=D(e),i.dom.setHTML(r,t.content),t.no_events||i.fire("SetContent",t)),t.content},getContent:function(e){var t,n=this,i=n.getBody();return e=e||{},e.format=e.format||"html",e.get=!0,e.getInner=!0,e.no_events||n.fire("BeforeGetContent",e),t="raw"==e.format?i.innerHTML:"text"==e.format?i.innerText||i.textContent:n.serializer.serialize(i,e),e.content="text"!=e.format?D(t):t,e.no_events||n.fire("GetContent",e),e.content},insertContent:function(e){this.execCommand("mceInsertContent",!1,e)},isDirty:function(){return!this.isNotDirty},getContainer:function(){var e=this;return e.container||(e.container=E.get(e.editorContainer||e.id+"_parent")),e.container},getContentAreaContainer:function(){return this.contentAreaContainer},getElement:function(){return E.get(this.settings.content_element||this.id)},getWin:function(){var e,t=this;return t.contentWindow||(e=E.get(t.id+"_ifr"),e&&(t.contentWindow=e.contentWindow)),t.contentWindow},getDoc:function(){var e,t=this;return t.contentDocument||(e=t.getWin(),e&&(t.contentDocument=e.document)),t.contentDocument},getBody:function(){return this.bodyElement||this.getDoc().body},convertURL:function(e,t,n){var i=this,r=i.settings;return r.urlconverter_callback?i.execCallback("urlconverter_callback",e,n,!0,t):!r.convert_urls||n&&"LINK"==n.nodeName||0===e.indexOf("file:")||0===e.length?e:r.relative_urls?i.documentBaseURI.toRelative(e):e=i.documentBaseURI.toAbsolute(e,r.remove_script_host)},addVisual:function(e){var n,i=this,r=i.settings,o=i.dom;e=e||i.getBody(),i.hasVisual===t&&(i.hasVisual=r.visual),R(o.select("table,a",e),function(e){var t;switch(e.nodeName){case"TABLE":return n=r.visual_table_class||"mce-item-table",t=o.getAttrib(e,"border"),t&&"0"!=t||(i.hasVisual?o.addClass(e,n):o.removeClass(e,n)),void 0;case"A":return o.getAttrib(e,"href",!1)||(t=o.getAttrib(e,"name")||e.id,n="mce-item-anchor",t&&(i.hasVisual?o.addClass(e,n):o.removeClass(e,n))),void 0}}),i.fire("VisualAid",{element:e,hasVisual:i.hasVisual})},remove:function(){var e=this;if(!e.removed){e.removed=1,e.hasHiddenInput&&E.remove(e.getElement().nextSibling);var t=e.getDoc();P&&t&&t.execCommand("SelectAll"),e.save(),E.setStyle(e.id,"display",e.orgDisplay),e.settings.content_editable||(M.unbind(e.getWin()),M.unbind(e.getDoc()));var n=e.getContainer();M.unbind(e.getBody()),M.unbind(n),e.fire("remove"),e.editorManager.remove(e),E.remove(n),e.destroy()}},bindNative:function(e){var t=this;t.settings.readonly||(t.initialized?t.dom.bind(_(t,e),e,function(n){t.fire(e,n)}):t._pendingNativeEvents?t._pendingNativeEvents.push(e):t._pendingNativeEvents=[e])},unbindNative:function(e){var t=this;t.initialized&&t.dom.unbind(e)},destroy:function(e){var t,n=this;if(!n.destroyed){if(!e&&!n.removed)return n.remove(),void 0;e&&H&&(M.unbind(n.getDoc()),M.unbind(n.getWin()),M.unbind(n.getBody())),e||(n.editorManager.off("beforeunload",n._beforeUnload),n.theme&&n.theme.destroy&&n.theme.destroy(),n.selection.destroy(),n.dom.destroy()),t=n.formElement,t&&(t._mceOldSubmit&&(t.submit=t._mceOldSubmit,t._mceOldSubmit=null),E.unbind(t,"submit reset",n.formEventDelegate)),n.contentAreaContainer=n.formElement=n.container=null,n.settings.content_element=n.bodyElement=n.contentDocument=n.contentWindow=null,n.selection&&(n.selection=n.selection.win=n.selection.dom=n.selection.dom.doc=null),n.destroyed=1}},_refreshContentEditable:function(){var e,t,n=this;n._isHidden()&&(e=n.getBody(),t=e.parentNode,t.removeChild(e),t.appendChild(e),e.focus())},_isHidden:function(){var e;return H?(e=this.selection.getSel(),!e||!e.rangeCount||0===e.rangeCount):0}},T(N.prototype,x),N}),/**
- * I18n.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/util/I18n",[],function(){var e={};return{rtl:!1,add:function(t,n){for(var i in n)e[i]=n[i];this.rtl=this.rtl||"rtl"===e._dir},translate:function(t){if("undefined"==typeof t)return t;if("string"!=typeof t&&t.raw)return t.raw;if(t.push){var n=t.slice(1);t=(e[t[0]]||t[0]).replace(/\{([^\}]+)\}/g,function(e,t){return n[t]})}return e[t]||t},data:e}}),/**
- * FocusManager.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/FocusManager",["tinymce/dom/DOMUtils","tinymce/Env"],function(e,t){function n(i){function r(){try{return document.activeElement}catch(e){return document.body}}function o(e){return e&&e.startContainer?{startContainer:e.startContainer,startOffset:e.startOffset,endContainer:e.endContainer,endOffset:e.endOffset}:e}function a(e,t){var n;return t.startContainer?(n=e.getDoc().createRange(),n.setStart(t.startContainer,t.startOffset),n.setEnd(t.endContainer,t.endOffset)):n=t,n}function s(s){function l(t){return!!e.DOM.getParent(t,n.isEditorUIElement)}var c,u,d=s.editor;d.on("init",function(){"onbeforedeactivate"in document&&t.ie<11?d.dom.bind(d.getBody(),"beforedeactivate",function(){var e=d.getDoc().selection;try{c=e&&e.createRange?e.createRange():d.selection.getRng()}catch(t){}}):(d.inline||t.ie>10)&&(d.on("nodechange keyup",function(){var e,t=document.activeElement;for(t&&t.id==d.id+"_ifr"&&(t=d.getBody());t;){if(t==d.getBody()){e=!0;break}t=t.parentNode}e&&(c=d.selection.getRng())}),t.webkit&&(u=function(){var e=d.selection.getRng();e.collapsed||(c=e)},e.DOM.bind(document,"selectionchange",u),d.on("remove",function(){e.DOM.unbind(document,"selectionchange",u)})))}),d.on("setcontent",function(){c=null}),d.on("mousedown",function(){d.selection.lastFocusBookmark=null}),d.on("focusin",function(){var e=i.focusedEditor;d.selection.lastFocusBookmark&&(d.selection.setRng(a(d,d.selection.lastFocusBookmark)),d.selection.lastFocusBookmark=null),e!=d&&(e&&e.fire("blur",{focusedEditor:d}),i.activeEditor=d,d.fire("focus",{blurredEditor:e}),d.focus(!1),i.focusedEditor=d),c=null}),d.on("focusout",function(){d.selection.lastFocusBookmark=o(c),window.setTimeout(function(){var e=i.focusedEditor;e!=d&&(d.selection.lastFocusBookmark=null),l(r())||e!=d||(d.fire("blur",{focusedEditor:null}),i.focusedEditor=null,d.selection.lastFocusBookmark=null)},0)})}i.on("AddEditor",s)}return n.isEditorUIElement=function(e){return-1!==e.className.indexOf("mce-")},n}),/**
- * EditorManager.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/EditorManager",["tinymce/Editor","tinymce/dom/DOMUtils","tinymce/util/URI","tinymce/Env","tinymce/util/Tools","tinymce/util/Observable","tinymce/util/I18n","tinymce/FocusManager"],function(e,n,i,r,o,a,s,l){var c,u=n.DOM,d=o.explode,f=o.each,m=o.extend,p=0,h={majorVersion:"4",minorVersion:"0.10",releaseDate:"2013-10-28",editors:[],i18n:s,activeEditor:null,setup:function(){var e,t,n,r=this,o="";if(t=document.location.href.replace(/[\?#].*$/,"").replace(/[\/\\][^\/]+$/,""),/[\/\\]$/.test(t)||(t+="/"),n=window.tinymce||window.tinyMCEPreInit)e=n.base||n.baseURL,o=n.suffix;else for(var a=document.getElementsByTagName("script"),s=0;s<a.length;s++){var c=a[s].src;if(/tinymce(\.jquery|)(\.min|\.dev|)\.js/.test(c)){-1!=c.indexOf(".min")&&(o=".min"),e=c.substring(0,c.lastIndexOf("/"));break}}r.baseURL=new i(t).toAbsolute(e),r.documentBaseURL=t,r.baseURI=new i(r.baseURL),r.suffix=o,r.focusManager=new l(r)},init:function(t){function n(e){var t=e.id;return t||(t=e.name,t=t&&!u.get(t)?e.name:u.uniqueId(),e.setAttribute("id",t)),t}function i(e,t,n){var i=e[t];if(i)return i.apply(n||this,Array.prototype.slice.call(arguments,2))}function r(e,t){return t.constructor===RegExp?t.test(e.className):u.hasClass(e,t)}function o(){var c,h;if(u.unbind(window,"ready",o),i(t,"onpageload"),t.types)return f(t.types,function(i){f(u.select(i.selector),function(r){var o=new e(n(r),m({},t,i),s);l.push(o),o.render(1)})}),void 0;if(t.selector)return f(u.select(t.selector),function(i){var r=new e(n(i),t,s);l.push(r),r.render(1)}),void 0;switch(t.mode){case"exact":c=t.elements||"",c.length>0&&f(d(c),function(n){u.get(n)?(a=new e(n,t,s),l.push(a),a.render(!0)):f(document.forms,function(i){f(i.elements,function(i){i.name===n&&(n="mce_editor_"+p++,u.setAttrib(i,"id",n),a=new e(n,t,s),l.push(a),a.render(1))})})});break;case"textareas":case"specific_textareas":f(u.select("textarea"),function(i){t.editor_deselector&&r(i,t.editor_deselector)||(!t.editor_selector||r(i,t.editor_selector))&&(a=new e(n(i),t,s),l.push(a),a.render(!0))})}t.oninit&&(c=h=0,f(l,function(e){h++,e.initialized?c++:e.on("init",function(){c++,c==h&&i(t,"oninit")}),c==h&&i(t,"oninit")}))}var a,s=this,l=[];s.settings=t,u.bind(window,"ready",o)},get:function(e){return e===t?this.editors:this.editors[e]},add:function(e){var t=this,n=t.editors;return n[e.id]=e,n.push(e),t.activeEditor=e,t.fire("AddEditor",{editor:e}),c||(c=function(){t.fire("BeforeUnload")},u.bind(window,"beforeunload",c)),e},createEditor:function(t,n){return this.add(new e(t,n,this))},remove:function(e){var t,n,i,r=this,o=r.editors;{if(e){if("string"==typeof e)return e=e.selector||e,f(u.select(e),function(e){r.remove(o[e.id])}),void 0;if(n=e,!o[n.id])return null;for(delete o[n.id],t=0;t<o.length;t++)if(o[t]==n){o.splice(t,1),i=!0;break}return r.activeEditor==n&&(r.activeEditor=o[0]),i&&r.fire("RemoveEditor",{editor:n}),o.length||u.unbind(window,"beforeunload",c),n.remove(),n}for(t=o.length-1;t>=0;t--)r.remove(o[t])}},execCommand:function(t,n,i){var r=this,o=r.get(i);switch(t){case"mceAddEditor":return r.get(i)||new e(i,r.settings,r).render(),!0;case"mceRemoveEditor":return o&&o.remove(),!0;case"mceToggleEditor":return o?(o.isHidden()?o.show():o.hide(),!0):(r.execCommand("mceAddEditor",0,i),!0)}return r.activeEditor?r.activeEditor.execCommand(t,n,i):!1},triggerSave:function(){f(this.editors,function(e){e.save()})},addI18n:function(e,t){s.add(e,t)},translate:function(e){return s.translate(e)}};return m(h,a),h.setup(),window.tinymce=window.tinyMCE=h,h}),/**
- * LegacyInput.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/LegacyInput",["tinymce/EditorManager","tinymce/util/Tools"],function(e,t){var n=t.each,i=t.explode;e.on("AddEditor",function(e){var t=e.editor;t.on("preInit",function(){function e(e,t){n(t,function(t,n){t&&s.setStyle(e,n,t)}),s.rename(e,"span")}function r(e){s=t.dom,l.convert_fonts_to_spans&&n(s.select("font,u,strike",e.node),function(e){o[e.nodeName.toLowerCase()](s,e)})}var o,a,s,l=t.settings;l.inline_styles&&(a=i(l.font_size_legacy_values),o={font:function(t,n){e(n,{backgroundColor:n.style.backgroundColor,color:n.color,fontFamily:n.face,fontSize:a[parseInt(n.size,10)-1]})},u:function(t,n){e(n,{textDecoration:"underline"})},strike:function(t,n){e(n,{textDecoration:"line-through"})}},t.on("PreProcess SetContent",r))})})}),/**
- * XHR.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/util/XHR",[],function(){return{send:function(e){function t(){!e.async||4==n.readyState||i++>1e4?(e.success&&1e4>i&&200==n.status?e.success.call(e.success_scope,""+n.responseText,n,e):e.error&&e.error.call(e.error_scope,i>1e4?"TIMED_OUT":"GENERAL",n,e),n=null):setTimeout(t,10)}var n,i=0;if(e.scope=e.scope||this,e.success_scope=e.success_scope||e.scope,e.error_scope=e.error_scope||e.scope,e.async=e.async===!1?!1:!0,e.data=e.data||"",n=new XMLHttpRequest){if(n.overrideMimeType&&n.overrideMimeType(e.content_type),n.open(e.type||(e.data?"POST":"GET"),e.url,e.async),e.content_type&&n.setRequestHeader("Content-Type",e.content_type),n.setRequestHeader("X-Requested-With","XMLHttpRequest"),n.send(e.data),!e.async)return t();setTimeout(t,10)}}}}),/**
- * JSON.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/util/JSON",[],function(){function e(t,n){var i,r,o,a;if(n=n||'"',null===t)return"null";if(o=typeof t,"string"==o)return r="\bb	t\nn\ff\rr\"\"''\\\\",n+t.replace(/([\u0080-\uFFFF\x00-\x1f\"\'\\])/g,function(e,t){return'"'===n&&"'"===e?e:(i=r.indexOf(t),i+1?"\\"+r.charAt(i+1):(e=t.charCodeAt().toString(16),"\\u"+"0000".substring(e.length)+e))})+n;if("object"==o){if(t.hasOwnProperty&&"[object Array]"===Object.prototype.toString.call(t)){for(i=0,r="[";i<t.length;i++)r+=(i>0?",":"")+e(t[i],n);return r+"]"}r="{";for(a in t)t.hasOwnProperty(a)&&(r+="function"!=typeof t[a]?(r.length>1?","+n:n)+a+n+":"+e(t[a],n):"");return r+"}"}return""+t}return{serialize:e,parse:function(e){try{return window[String.fromCharCode(101)+"val"]("("+e+")")}catch(t){}}}}),/**
- * JSONRequest.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/util/JSONRequest",["tinymce/util/JSON","tinymce/util/XHR","tinymce/util/Tools"],function(e,t,n){function i(e){this.settings=r({},e),this.count=0}var r=n.extend;return i.sendRPC=function(e){return(new i).send(e)},i.prototype={send:function(n){var i=n.error,o=n.success;n=r(this.settings,n),n.success=function(t,r){t=e.parse(t),"undefined"==typeof t&&(t={error:"JSON Parse error."}),t.error?i.call(n.error_scope||n.scope,t.error,r):o.call(n.success_scope||n.scope,t.result)},n.error=function(e,t){i&&i.call(n.error_scope||n.scope,e,t)},n.data=e.serialize({id:n.id||"c"+this.count++,method:n.method,params:n.params}),n.content_type="application/json",t.send(n)}},i}),/**
- * JSONP.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/util/JSONP",["tinymce/dom/DOMUtils"],function(e){return{callbacks:{},count:0,send:function(n){var i=this,r=e.DOM,o=n.count!==t?n.count:i.count,a="tinymce_jsonp_"+o;i.callbacks[o]=function(e){r.remove(a),delete i.callbacks[o],n.callback(e)},r.add(r.doc.body,"script",{id:a,src:n.url,type:"text/javascript"}),i.count++}}}),/**
- * LocalStorage.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/util/LocalStorage",[],function(){function e(){s=[];for(var e in a)s.push(e);r.length=s.length}function n(){function n(e){var n,i;return i=e!==t?u+e:r.indexOf(",",u),-1===i||i>r.length?null:(n=r.substring(u,i),u=i+1,n)}var i,r,s,u=0;if(a={},c){o.load(l),r=o.getAttribute(l)||"";do{var d=n();if(null===d)break;if(i=n(parseInt(d,32)||0),null!==i){if(d=n(),null===d)break;s=n(parseInt(d,32)||0),i&&(a[i]=s)}}while(null!==i);e()}}function i(){var t,n="";if(c){for(var i in a)t=a[i],n+=(n?",":"")+i.length.toString(32)+","+i+","+t.length.toString(32)+","+t;o.setAttribute(l,n);try{o.save(l)}catch(r){}e()}}var r,o,a,s,l,c;try{if(window.localStorage)return localStorage}catch(u){}return l="tinymce",o=document.documentElement,c=!!o.addBehavior,c&&o.addBehavior("#default#userData"),r={key:function(e){return s[e]},getItem:function(e){return e in a?a[e]:null},setItem:function(e,t){a[e]=""+t,i()},removeItem:function(e){delete a[e],i()},clear:function(){a={},i()}},n(),r}),/**
- * Compat.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/Compat",["tinymce/dom/DOMUtils","tinymce/dom/EventUtils","tinymce/dom/ScriptLoader","tinymce/AddOnManager","tinymce/util/Tools","tinymce/Env"],function(e,t,n,i,r,o){var a=window.tinymce;return a.DOM=e.DOM,a.ScriptLoader=n.ScriptLoader,a.PluginManager=i.PluginManager,a.ThemeManager=i.ThemeManager,a.dom=a.dom||{},a.dom.Event=t.Event,r.each(r,function(e,t){a[t]=e}),r.each("isOpera isWebKit isIE isGecko isMac".split(" "),function(e){a[e]=o[e.substr(2).toLowerCase()]}),{}}),/**
- * Layout.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Layout",["tinymce/util/Class","tinymce/util/Tools"],function(e,t){return e.extend({Defaults:{firstControlClass:"first",lastControlClass:"last"},init:function(e){this.settings=t.extend({},this.Defaults,e)},preRender:function(e){e.addClass(this.settings.containerClass,"body")},applyClasses:function(e){var t,n,i,r=this,o=r.settings;t=e.items().filter(":visible"),n=o.firstControlClass,i=o.lastControlClass,t.each(function(e){e.removeClass(n).removeClass(i),o.controlClass&&e.addClass(o.controlClass)}),t.eq(0).addClass(n),t.eq(-1).addClass(i)},renderHtml:function(e){var t,n=this,i=n.settings,r="";return t=e.items(),t.eq(0).addClass(i.firstControlClass),t.eq(-1).addClass(i.lastControlClass),t.each(function(e){i.controlClass&&e.addClass(i.controlClass),r+=e.renderHtml()}),r},recalc:function(){},postRender:function(){}})}),/**
- * AbsoluteLayout.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/AbsoluteLayout",["tinymce/ui/Layout"],function(e){return e.extend({Defaults:{containerClass:"abs-layout",controlClass:"abs-layout-item"},recalc:function(e){e.items().filter(":visible").each(function(e){var t=e.settings;e.layoutRect({x:t.x,y:t.y,w:t.w,h:t.h}),e.recalc&&e.recalc()})},renderHtml:function(e){return'<div id="'+e._id+'-absend" class="'+e.classPrefix+'abs-end"></div>'+this._super(e)}})}),/**
- * Tooltip.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Tooltip",["tinymce/ui/Control","tinymce/ui/Movable"],function(e,t){return e.extend({Mixins:[t],Defaults:{classes:"widget tooltip tooltip-n"},text:function(e){var t=this;return"undefined"!=typeof e?(t._value=e,t._rendered&&(t.getEl().lastChild.innerHTML=t.encode(e)),t):t._value},renderHtml:function(){var e=this,t=e.classPrefix;return'<div id="'+e._id+'" class="'+e.classes()+'" role="presentation"><div class="'+t+'tooltip-arrow"></div><div class="'+t+'tooltip-inner">'+e.encode(e._text)+"</div></div>"},repaint:function(){var e,t,n=this;e=n.getEl().style,t=n._layoutRect,e.left=t.x+"px",e.top=t.y+"px",e.zIndex=131070}})}),/**
- * Widget.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Widget",["tinymce/ui/Control","tinymce/ui/Tooltip"],function(e,t){var n,i=e.extend({init:function(e){var t=this;t._super(e),t.canFocus=!0,e.tooltip&&i.tooltips!==!1&&t.on("mouseenter mouseleave",function(n){var i=t.tooltip().moveTo(-65535);if(n.control==t&&"mouseenter"==n.type){var r=i.text(e.tooltip).show().testMoveRel(t.getEl(),["bc-tc","bc-tl","bc-tr"]);i.toggleClass("tooltip-n","bc-tc"==r),i.toggleClass("tooltip-nw","bc-tl"==r),i.toggleClass("tooltip-ne","bc-tr"==r),i.moveRel(t.getEl(),r)}else i.hide()}),t.aria("label",e.tooltip)},tooltip:function(){var e=this;return n||(n=new t({type:"tooltip"}),n.renderTo(e.getContainerElm())),n},active:function(e){var t,n=this;return e!==t&&(n.aria("pressed",e),n.toggleClass("active",e)),n._super(e)},disabled:function(e){var t,n=this;return e!==t&&(n.aria("disabled",e),n.toggleClass("disabled",e)),n._super(e)},postRender:function(){var e=this,t=e.settings;e._rendered=!0,e._super(),e.parent()||!t.width&&!t.height||(e.initLayoutRect(),e.repaint()),t.autofocus&&setTimeout(function(){e.focus()},0)},remove:function(){this._super(),n&&(n.remove(),n=null)}});return i}),/**
- * Button.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Button",["tinymce/ui/Widget"],function(e){return e.extend({Defaults:{classes:"widget btn",role:"button"},init:function(e){var t,n=this;n.on("click mousedown",function(e){e.preventDefault()}),n._super(e),t=e.size,e.subtype&&n.addClass(e.subtype),t&&n.addClass("btn-"+t)},repaint:function(){var e=this.getEl().firstChild.style;e.width=e.height="100%",this._super()},renderHtml:function(){var e=this,t=e._id,n=e.classPrefix,i=e.settings.icon,r="";return e.settings.image&&(i="none",r=" style=\"background-image: url('"+e.settings.image+"')\""),i=e.settings.icon?n+"ico "+n+"i-"+i:"",'<div id="'+t+'" class="'+e.classes()+'" tabindex="-1"><button role="presentation" type="button" tabindex="-1">'+(i?'<i class="'+i+'"'+r+"></i>":"")+(e._text?(i?" ":"")+e.encode(e._text):"")+"</button></div>"}})}),/**
- * ButtonGroup.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/ButtonGroup",["tinymce/ui/Container"],function(e){return e.extend({Defaults:{defaultType:"button",role:"toolbar"},renderHtml:function(){var e=this,t=e._layout;return e.addClass("btn-group"),e.preRender(),t.preRender(e),'<div id="'+e._id+'" class="'+e.classes()+'"><div id="'+e._id+'-body">'+(e.settings.html||"")+t.renderHtml(e)+"</div></div>"}})}),/**
- * Checkbox.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Checkbox",["tinymce/ui/Widget"],function(e){return e.extend({Defaults:{classes:"checkbox",role:"checkbox",checked:!1},init:function(e){var t=this;t._super(e),t.on("click mousedown",function(e){e.preventDefault()}),t.on("click",function(e){e.preventDefault(),t.disabled()||t.checked(!t.checked())}),t.checked(t.settings.checked)},checked:function(e){var t=this;return"undefined"!=typeof e?(e?t.addClass("checked"):t.removeClass("checked"),t._checked=e,t.aria("checked",e),t):t._checked},value:function(e){return this.checked(e)},renderHtml:function(){var e=this,t=e._id,n=e.classPrefix;return'<div id="'+t+'" class="'+e.classes()+'" unselectable="on" aria-labeledby="'+t+'-al" tabindex="-1"><i class="'+n+"ico "+n+'i-checkbox"></i><span id="'+t+'-al" class="'+n+'label">'+e.encode(e._text)+"</span></div>"}})}),/**
- * PanelButton.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/PanelButton",["tinymce/ui/Button","tinymce/ui/FloatPanel"],function(e,t){return e.extend({showPanel:function(){var e=this,n=e.settings;if(e.active(!0),e.panel)e.panel.show();else{var i=n.panel;i.type&&(i={layout:"grid",items:i}),i.popover=!0,i.autohide=!0,e.panel=new t(i).on("hide",function(){e.active(!1)}).parent(e).renderTo(e.getContainerElm()),e.panel.fire("show"),e.panel.reflow()}e.panel.moveRel(e.getEl(),n.popoverAlign||(e.isRtl()?["bc-tr","bc-tc"]:["bc-tl","bc-tc"]))},hidePanel:function(){var e=this;e.panel&&e.panel.hide()},postRender:function(){var e=this;return e.on("click",function(t){t.control===e&&(e.panel&&e.panel.visible()?e.hidePanel():e.showPanel())}),e._super()}})}),/**
- * ColorButton.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/ColorButton",["tinymce/ui/PanelButton","tinymce/dom/DOMUtils"],function(e,t){var n=t.DOM;return e.extend({init:function(e){this._super(e),this.addClass("colorbutton")},color:function(e){return e?(this._color=e,this.getEl("preview").style.backgroundColor=e,this):this._color},renderHtml:function(){var e=this,t=e._id,n=e.classPrefix,i=e.settings.icon?n+"ico "+n+"i-"+e.settings.icon:"",r=e.settings.image?" style=\"background-image: url('"+e.settings.image+"')\"":"";return'<div id="'+t+'" class="'+e.classes()+'"><button role="presentation" hidefocus type="button" tabindex="-1">'+(i?'<i class="'+i+'"'+r+"></i>":"")+'<span id="'+t+'-preview" class="'+n+'preview"></span>'+(e._text?(i?" ":"")+e._text:"")+'</button><button type="button" class="'+n+'open" hidefocus tabindex="-1"> <i class="'+n+'caret"></i></button></div>'},postRender:function(){var e=this,t=e.settings.onclick;return e.on("click",function(i){i.control!=e||n.getParent(i.target,"."+e.classPrefix+"open")||(i.stopImmediatePropagation(),t.call(e,i))}),delete e.settings.onclick,e._super()}})}),/**
- * ComboBox.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/ComboBox",["tinymce/ui/Widget","tinymce/ui/DomUtils"],function(e,t){return e.extend({init:function(e){var n=this;n._super(e),n.addClass("combobox"),n.on("click",function(e){for(var t=e.target;t;)t.id&&-1!=t.id.indexOf("-open")&&n.fire("action"),t=t.parentNode}),n.on("keydown",function(e){"INPUT"==e.target.nodeName&&13==e.keyCode&&n.parents().reverse().each(function(t){return e.preventDefault(),n.fire("change"),t.hasEventListeners("submit")&&t.toJSON?(t.fire("submit",{data:t.toJSON()}),!1):void 0})}),e.placeholder&&(n.addClass("placeholder"),n.on("focusin",function(){n._hasOnChange||(t.on(n.getEl("inp"),"change",function(){n.fire("change")}),n._hasOnChange=!0),n.hasClass("placeholder")&&(n.getEl("inp").value="",n.removeClass("placeholder"))}),n.on("focusout",function(){0===n.value().length&&(n.getEl("inp").value=e.placeholder,n.addClass("placeholder"))}))},value:function(e){var t=this;return"undefined"!=typeof e?(t._value=e,t.removeClass("placeholder"),t._rendered&&(t.getEl("inp").value=e),t):t._rendered?(e=t.getEl("inp").value,e!=t.settings.placeholder?e:""):t._value},disabled:function(e){var t=this;return t._rendered&&"undefined"!=typeof e&&(t.getEl("inp").disabled=e),t._super(e)},focus:function(){this.getEl("inp").focus()},repaint:function(){var e,n,i=this,r=i.getEl(),o=i.getEl("open"),a=i.layoutRect();e=o?a.w-t.getSize(o).width-10:a.w-10;var s=document;return s.all&&(!s.documentMode||s.documentMode<=8)&&(n=i.layoutRect().h-2+"px"),t.css(r.firstChild,{width:e,lineHeight:n}),i._super(),i},postRender:function(){var e=this;return t.on(this.getEl("inp"),"change",function(){e.fire("change")}),e._super()},remove:function(){t.off(this.getEl("inp")),this._super()},renderHtml:function(){var e,t,n=this,i=n._id,r=n.settings,o=n.classPrefix,a=r.value||r.placeholder||"",s="";return e=r.icon?o+"ico "+o+"i-"+r.icon:"",t=n._text,(e||t)&&(s='<div id="'+i+'-open" class="'+o+"btn "+o+'open" tabIndex="-1"><button id="'+i+'-action" type="button" hidefocus tabindex="-1">'+(e?'<i class="'+e+'"></i>':'<i class="'+o+'caret"></i>')+(t?(e?" ":"")+t:"")+"</button></div>",n.addClass("has-open")),'<div id="'+i+'" class="'+n.classes()+'"><input id="'+i+'-inp" class="'+o+"textbox "+o+'placeholder" value="'+a+'" hidefocus="true"'+(n.disabled()?' disabled="disabled"':"")+">"+s+"</div>"}})}),/**
- * Path.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Path",["tinymce/ui/Widget","tinymce/ui/KeyboardNavigation"],function(e,t){return e.extend({init:function(e){var t=this;e.delimiter||(e.delimiter="»"),t._super(e),t.addClass("path"),t.canFocus=!0,t.on("click",function(e){var n,i=e.target;(n=i.getAttribute("data-index"))&&t.fire("select",{value:t.data()[n],index:n})})},focus:function(){var e=this;return e.keyNav=new t({root:e,enableLeftRight:!0}),e.keyNav.focusFirst(),e},data:function(e){var t=this;return"undefined"!=typeof e?(t._data=e,t.update(),t):t._data},update:function(){this.innerHtml(this._getPathHtml())},postRender:function(){var e=this;e._super(),e.data(e.settings.data)},renderHtml:function(){var e=this;return'<div id="'+e._id+'" class="'+e.classes()+'">'+e._getPathHtml()+"</div>"},_getPathHtml:function(){var e,t,n=this,i=n._data||[],r="",o=n.classPrefix;for(e=0,t=i.length;t>e;e++)r+=(e>0?'<div class="'+o+'divider" aria-hidden="true"> '+n.settings.delimiter+" </div>":"")+'<div role="button" class="'+o+"path-item"+(e==t-1?" "+o+"last":"")+'" data-index="'+e+'" tabindex="-1" id="'+n._id+"-"+e+'">'+i[e].name+"</div>";return r||(r='<div class="'+o+'path-item">&nbsp;</div>'),r}})}),/**
- * ElementPath.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/ElementPath",["tinymce/ui/Path","tinymce/EditorManager"],function(e,t){return e.extend({postRender:function(){function e(e){if(1===e.nodeType){if("BR"==e.nodeName||e.getAttribute("data-mce-bogus"))return!0;if("bookmark"===e.getAttribute("data-mce-type"))return!0}return!1}var n=this,i=t.activeEditor;return n.on("select",function(t){var n,r=[],o=i.getBody();for(i.focus(),n=i.selection.getStart();n&&n!=o;)e(n)||r.push(n),n=n.parentNode;i.selection.select(r[r.length-1-t.index]),i.nodeChanged()}),i.on("nodeChange",function(t){for(var r=[],o=t.parents,a=o.length;a--;)if(1==o[a].nodeType&&!e(o[a])){var s=i.fire("ResolveName",{name:o[a].nodeName.toLowerCase(),target:o[a]});r.push({name:s.name})}n.data(r)}),n._super()}})}),/**
- * FormItem.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/FormItem",["tinymce/ui/Container"],function(e){return e.extend({Defaults:{layout:"flex",align:"center",defaults:{flex:1}},renderHtml:function(){var e=this,t=e._layout,n=e.classPrefix;return e.addClass("formitem"),t.preRender(e),'<div id="'+e._id+'" class="'+e.classes()+'" hideFocus="1" tabIndex="-1">'+(e.settings.title?'<div id="'+e._id+'-title" class="'+n+'title">'+e.settings.title+"</div>":"")+'<div id="'+e._id+'-body" class="'+e.classes("body")+'">'+(e.settings.html||"")+t.renderHtml(e)+"</div></div>"}})}),/**
- * Form.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Form",["tinymce/ui/Container","tinymce/ui/FormItem"],function(e,t){return e.extend({Defaults:{containerCls:"form",layout:"flex",direction:"column",align:"stretch",flex:1,padding:20,labelGap:30,spacing:10,callbacks:{submit:function(){this.submit()}}},preRender:function(){var e=this,n=e.items();n.each(function(n){var i,r=n.settings.label;r&&(i=new t({layout:"flex",autoResize:"overflow",defaults:{flex:1},items:[{type:"label",text:r,flex:0,forId:n._id}]}),i.type="formitem","undefined"==typeof n.settings.flex&&(n.settings.flex=1),e.replace(n,i),i.add(n))})},recalcLabels:function(){var e,t,n=this,i=0,r=[];if(n.settings.labelGapCalc!==!1)for(n.items().filter("formitem").each(function(e){var t=e.items()[0],n=t.getEl().clientWidth;i=n>i?n:i,r.push(t)}),t=n.settings.labelGap||0,e=r.length;e--;)r[e].settings.minWidth=i+t},visible:function(e){var t=this._super(e);return e===!0&&this._rendered&&this.recalcLabels(),t},submit:function(){return this.fire("submit",{data:this.toJSON()})},postRender:function(){var e=this;e._super(),e.recalcLabels(),e.fromJSON(e.settings.data)}})}),/**
- * FieldSet.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/FieldSet",["tinymce/ui/Form"],function(e){return e.extend({Defaults:{containerCls:"fieldset",layout:"flex",direction:"column",align:"stretch",flex:1,padding:"25 15 5 15",labelGap:30,spacing:10,border:1},renderHtml:function(){var e=this,t=e._layout,n=e.classPrefix;return e.preRender(),t.preRender(e),'<fieldset id="'+e._id+'" class="'+e.classes()+'" hideFocus="1" tabIndex="-1">'+(e.settings.title?'<legend id="'+e._id+'-title" class="'+n+'fieldset-title">'+e.settings.title+"</legend>":"")+'<div id="'+e._id+'-body" class="'+e.classes("body")+'">'+(e.settings.html||"")+t.renderHtml(e)+"</div></fieldset>"}})}),/**
- * FilePicker.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/FilePicker",["tinymce/ui/ComboBox"],function(e){return e.extend({init:function(e){var t,n=this,i=tinymce.activeEditor;e.spellcheck=!1,t=i.settings.file_browser_callback,t&&(e.icon="browse",e.onaction=function(){t(n.getEl("inp").id,n.getEl("inp").value,e.filetype,window)}),n._super(e)}})}),/**
- * FitLayout.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/FitLayout",["tinymce/ui/AbsoluteLayout"],function(e){return e.extend({recalc:function(e){var t=e.layoutRect(),n=e.paddingBox();e.items().filter(":visible").each(function(e){e.layoutRect({x:n.left,y:n.top,w:t.innerW-n.right-n.left,h:t.innerH-n.top-n.bottom}),e.recalc&&e.recalc()})}})}),/**
- * FlexLayout.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/FlexLayout",["tinymce/ui/AbsoluteLayout"],function(e){return e.extend({recalc:function(e){var t,n,i,r,o,a,s,l,c,u,d,f,m,p,h,g,v,y,b,C,x,w,_,N,E,S,k,T,R,A,B,D,L,M,H,P,O,I,F,W,z=[],U=Math.max,V=Math.min;for(i=e.items().filter(":visible"),r=e.layoutRect(),o=e._paddingBox,a=e.settings,f=e.isRtl()?a.direction||"row-reversed":a.direction,s=a.align,l=e.isRtl()?a.pack||"end":a.pack,c=a.spacing||0,("row-reversed"==f||"column-reverse"==f)&&(i=i.set(i.toArray().reverse()),f=f.split("-")[0]),"column"==f?(E="y",_="h",N="minH",S="maxH",T="innerH",k="top",R="bottom",A="deltaH",B="contentH",O="left",M="w",D="x",L="innerW",H="minW",P="maxW",I="right",F="deltaW",W="contentW"):(E="x",_="w",N="minW",S="maxW",T="innerW",k="left",R="right",A="deltaW",B="contentW",O="top",M="h",D="y",L="innerH",H="minH",P="maxH",I="bottom",F="deltaH",W="contentH"),d=r[T]-o[k]-o[k],w=u=0,t=0,n=i.length;n>t;t++)m=i[t],p=m.layoutRect(),h=m.settings,g=h.flex,d-=n-1>t?c:0,g>0&&(u+=g,p[S]&&z.push(m),p.flex=g),d-=p[N],v=o[O]+p[H]+o[I],v>w&&(w=v);if(C={},C[N]=0>d?r[N]-d+r[A]:r[T]-d+r[A],C[H]=w+r[F],C[B]=r[T]-d,C[W]=w,C.minW=V(C.minW,r.maxW),C.minH=V(C.minH,r.maxH),C.minW=U(C.minW,r.startMinWidth),C.minH=U(C.minH,r.startMinHeight),!r.autoResize||C.minW==r.minW&&C.minH==r.minH){for(b=d/u,t=0,n=z.length;n>t;t++)m=z[t],p=m.layoutRect(),y=p[S],v=p[N]+Math.ceil(p.flex*b),v>y?(d-=p[S]-p[N],u-=p.flex,p.flex=0,p.maxFlexSize=y):p.maxFlexSize=0;for(b=d/u,x=o[k],C={},0===u&&("end"==l?x=d+o[k]:"center"==l?(x=Math.round(r[T]/2-(r[T]-d)/2)+o[k],0>x&&(x=o[k])):"justify"==l&&(x=o[k],c=Math.floor(d/(i.length-1)))),C[D]=o[O],t=0,n=i.length;n>t;t++)m=i[t],p=m.layoutRect(),v=p.maxFlexSize||p[N],"center"===s?C[D]=Math.round(r[L]/2-p[M]/2):"stretch"===s?(C[M]=U(p[H]||0,r[L]-o[O]-o[I]),C[D]=o[O]):"end"===s&&(C[D]=r[L]-p[M]-o.top),p.flex>0&&(v+=Math.ceil(p.flex*b)),C[_]=v,C[E]=x,m.layoutRect(C),m.recalc&&m.recalc(),x+=v+c}else if(C.w=C.minW,C.h=C.minH,e.layoutRect(C),this.recalc(e),null===e._lastRect){var q=e.parent();q&&(q._lastRect=null,q.recalc())}}})}),/**
- * FlowLayout.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/FlowLayout",["tinymce/ui/Layout"],function(e){return e.extend({Defaults:{containerClass:"flow-layout",controlClass:"flow-layout-item",endClass:"break"},recalc:function(e){e.items().filter(":visible").each(function(e){e.recalc&&e.recalc()})}})}),/**
- * FormatControls.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/FormatControls",["tinymce/ui/Control","tinymce/ui/Widget","tinymce/ui/FloatPanel","tinymce/util/Tools","tinymce/EditorManager","tinymce/Env"],function(e,t,n,i,r,o){function a(e){function t(t){function n(e){return e.replace(/%(\w+)/g,"")}var i,r,o,a,l=e.dom,c="";return a=e.settings.preview_styles,a===!1?"":(a||(a="font-family font-size font-weight text-decoration text-transform color background-color border border-radius"),(t=e.formatter.get(t))?(t=t[0],i=t.block||t.inline||"span",r=l.create(i),s(t.styles,function(e,t){e=n(e),e&&l.setStyle(r,t,e)}),s(t.attributes,function(e,t){e=n(e),e&&l.setAttrib(r,t,e)}),s(t.classes,function(e){e=n(e),l.hasClass(r,e)||l.addClass(r,e)}),e.fire("PreviewFormats"),l.setStyles(r,{position:"absolute",left:-65535}),e.getBody().appendChild(r),o=l.getStyle(e.getBody(),"fontSize",!0),o=/px$/.test(o)?parseInt(o,10):0,s(a.split(" "),function(t){var n=l.getStyle(r,t,!0);if(!("background-color"==t&&/transparent|rgba\s*\([^)]+,\s*0\)/.test(n)&&(n=l.getStyle(e.getBody(),t,!0),"#ffffff"==l.toHex(n).toLowerCase())||"color"==t&&"#000000"==l.toHex(n).toLowerCase())){if("font-size"==t&&/em|%$/.test(n)){if(0===o)return;n=parseFloat(n,10)/(/%$/.test(n)?100:1),n=n*o+"px"}"border"==t&&n&&(c+="padding:0 2px;"),c+=t+":"+n+";"}}),e.fire("AfterPreviewFormats"),l.remove(r),c):void 0)}function i(t,n){return function(){var i=this;e.on("nodeChange",function(r){var o=e.formatter,a=null;s(r.parents,function(e){return s(t,function(t){return n?o.matchNode(e,n,{value:t.value})&&(a=t.value):o.matchNode(e,t.value)&&(a=t.value),a?!1:void 0}),a?!1:void 0}),i.value(a)})}}function r(e){e=e.split(";");for(var t=e.length;t--;)e[t]=e[t].split("=");return e}function o(){function n(e){var t=[];if(e)return s(e,function(e){var o={text:e.title,icon:e.icon};if(e.items)o.menu=n(e.items);else{var a=e.format||"custom"+i++;e.format||(e.name=a,r.push(e)),o.format=a}t.push(o)}),t}var i=0,r=[],o=[{title:"Headers",items:[{title:"Header 1",format:"h1"},{title:"Header 2",format:"h2"},{title:"Header 3",format:"h3"},{title:"Header 4",format:"h4"},{title:"Header 5",format:"h5"},{title:"Header 6",format:"h6"}]},{title:"Inline",items:[{title:"Bold",icon:"bold",format:"bold"},{title:"Italic",icon:"italic",format:"italic"},{title:"Underline",icon:"underline",format:"underline"},{title:"Strikethrough",icon:"strikethrough",format:"strikethrough"},{title:"Superscript",icon:"superscript",format:"superscript"},{title:"Subscript",icon:"subscript",format:"subscript"},{title:"Code",icon:"code",format:"code"}]},{title:"Blocks",items:[{title:"Paragraph",format:"p"},{title:"Blockquote",format:"blockquote"},{title:"Div",format:"div"},{title:"Pre",format:"pre"}]},{title:"Alignment",items:[{title:"Left",icon:"alignleft",format:"alignleft"},{title:"Center",icon:"aligncenter",format:"aligncenter"},{title:"Right",icon:"alignright",format:"alignright"},{title:"Justify",icon:"alignjustify",format:"alignjustify"}]}];e.on("init",function(){s(r,function(t){e.formatter.register(t.name,t)})});var a=n(e.settings.style_formats||o);return a={type:"menu",items:a,onPostRender:function(t){e.fire("renderFormatsMenu",{control:t.control})},itemDefaults:{preview:!0,textStyle:function(){return this.settings.format?t(this.settings.format):void 0},onPostRender:function(){var t=this,n=this.settings.format;n&&t.parent().on("show",function(){t.disabled(!e.formatter.canApply(n)),t.active(e.formatter.match(n))})},onclick:function(){this.settings.format&&f(this.settings.format)}}}}function a(){return e.undoManager?e.undoManager.hasUndo():!1}function l(){return e.undoManager?e.undoManager.hasRedo():!1}function c(){var t=this;t.disabled(!a()),e.on("Undo Redo AddUndo TypingUndo",function(){t.disabled(!a())})}function u(){var t=this;t.disabled(!l()),e.on("Undo Redo AddUndo TypingUndo",function(){t.disabled(!l())})}function d(){var t=this;e.on("VisualAid",function(e){t.active(e.hasVisual)}),t.active(e.hasVisual)}function f(t){t.control&&(t=t.control.value()),t&&e.execCommand("mceToggleFormat",!1,t)}var m;m=o(),s({bold:"Bold",italic:"Italic",underline:"Underline",strikethrough:"Strikethrough",subscript:"Subscript",superscript:"Superscript"},function(t,n){e.addButton(n,{tooltip:t,onPostRender:function(){var t=this;e.formatter?e.formatter.formatChanged(n,function(e){t.active(e)}):e.on("init",function(){e.formatter.formatChanged(n,function(e){t.active(e)})})},onclick:function(){f(n)}})}),s({outdent:["Decrease indent","Outdent"],indent:["Increase indent","Indent"],cut:["Cut","Cut"],copy:["Copy","Copy"],paste:["Paste","Paste"],help:["Help","mceHelp"],selectall:["Select all","SelectAll"],hr:["Insert horizontal rule","InsertHorizontalRule"],removeformat:["Clear formatting","RemoveFormat"],visualaid:["Visual aids","mceToggleVisualAid"],newdocument:["New document","mceNewDocument"]},function(t,n){e.addButton(n,{tooltip:t[0],cmd:t[1]})}),s({blockquote:["Toggle blockquote","mceBlockQuote"],numlist:["Numbered list","InsertOrderedList"],bullist:["Bullet list","InsertUnorderedList"],subscript:["Subscript","Subscript"],superscript:["Superscript","Superscript"],alignleft:["Align left","JustifyLeft"],aligncenter:["Align center","JustifyCenter"],alignright:["Align right","JustifyRight"],alignjustify:["Justify","JustifyFull"]},function(t,n){e.addButton(n,{tooltip:t[0],cmd:t[1],onPostRender:function(){var t=this;e.formatter?e.formatter.formatChanged(n,function(e){t.active(e)}):e.on("init",function(){e.formatter.formatChanged(n,function(e){t.active(e)})})}})}),e.addButton("undo",{tooltip:"Undo",onPostRender:c,cmd:"undo"}),e.addButton("redo",{tooltip:"Redo",onPostRender:u,cmd:"redo"}),e.addMenuItem("newdocument",{text:"New document",shortcut:"Ctrl+N",icon:"newdocument",cmd:"mceNewDocument"}),e.addMenuItem("undo",{text:"Undo",icon:"undo",shortcut:"Ctrl+Z",onPostRender:c,cmd:"undo"}),e.addMenuItem("redo",{text:"Redo",icon:"redo",shortcut:"Ctrl+Y",onPostRender:u,cmd:"redo"}),e.addMenuItem("visualaid",{text:"Visual aids",selectable:!0,onPostRender:d,cmd:"mceToggleVisualAid"}),s({cut:["Cut","Cut","Ctrl+X"],copy:["Copy","Copy","Ctrl+C"],paste:["Paste","Paste","Ctrl+V"],selectall:["Select all","SelectAll","Ctrl+A"],bold:["Bold","Bold","Ctrl+B"],italic:["Italic","Italic","Ctrl+I"],underline:["Underline","Underline"],strikethrough:["Strikethrough","Strikethrough"],subscript:["Subscript","Subscript"],superscript:["Superscript","Superscript"],removeformat:["Clear formatting","RemoveFormat"]},function(t,n){e.addMenuItem(n,{text:t[0],icon:n,shortcut:t[2],cmd:t[1]})}),e.on("mousedown",function(){n.hideAll()}),e.addButton("styleselect",{type:"menubutton",text:"Formats",menu:m}),e.addButton("formatselect",function(){var n=[],o=r(e.settings.block_formats||"Paragraph=p;Address=address;Pre=pre;Header 1=h1;Header 2=h2;Header 3=h3;Header 4=h4;Header 5=h5;Header 6=h6");return s(o,function(e){n.push({text:e[0],value:e[1],textStyle:function(){return t(e[1])}})}),{type:"listbox",text:{raw:o[0][0]},values:n,fixedWidth:!0,onselect:f,onPostRender:i(n)}}),e.addButton("fontselect",function(){var t="Andale Mono=andale mono,times;Arial=arial,helvetica,sans-serif;Arial Black=arial black,avant garde;Book Antiqua=book antiqua,palatino;Comic Sans MS=comic sans ms,sans-serif;Courier New=courier new,courier;Georgia=georgia,palatino;Helvetica=helvetica;Impact=impact,chicago;Symbol=symbol;Tahoma=tahoma,arial,helvetica,sans-serif;Terminal=terminal,monaco;Times New Roman=times new roman,times;Trebuchet MS=trebuchet ms,geneva;Verdana=verdana,geneva;Webdings=webdings;Wingdings=wingdings,zapf dingbats",n=[],o=r(e.settings.font_formats||t);return s(o,function(e){n.push({text:{raw:e[0]},value:e[1],textStyle:-1==e[1].indexOf("dings")?"font-family:"+e[1]:""})}),{type:"listbox",text:"Font Family",tooltip:"Font Family",values:n,fixedWidth:!0,onPostRender:i(n,"fontname"),onselect:function(t){t.control.settings.value&&e.execCommand("FontName",!1,t.control.settings.value)}}}),e.addButton("fontsizeselect",function(){var t=[],n="8pt 10pt 12pt 14pt 18pt 24pt 36pt",r=e.settings.fontsize_formats||n;return s(r.split(" "),function(e){t.push({text:e,value:e})}),{type:"listbox",text:"Font Sizes",tooltip:"Font Sizes",values:t,fixedWidth:!0,onPostRender:i(t,"fontsize"),onclick:function(t){t.control.settings.value&&e.execCommand("FontSize",!1,t.control.settings.value)}}}),e.addMenuItem("formats",{text:"Formats",menu:m})}var s=i.each;r.on("AddEditor",function(t){t.editor.rtl&&(e.rtl=!0),a(t.editor)}),e.translate=function(e){return r.translate(e)},t.tooltips=!o.iOS}),/**
- * GridLayout.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/GridLayout",["tinymce/ui/AbsoluteLayout"],function(e){return e.extend({recalc:function(e){var t,n,i,r,o,a,s,l,c,u,d,f,m,p,h,g,v,y,b,C,x,w,_,N,E,S,k,T,R=e.settings,A=[],B=[];for(R=e.settings,i=e.items().filter(":visible"),r=e.layoutRect(),n=R.columns||Math.ceil(Math.sqrt(i.length)),t=Math.ceil(i.length/n),v=R.spacingH||R.spacing||0,y=R.spacingV||R.spacing||0,b=R.alignH||R.align,C=R.alignV||R.align,h=e._paddingBox,b&&"string"==typeof b&&(b=[b]),C&&"string"==typeof C&&(C=[C]),u=0;n>u;u++)A.push(0);for(d=0;t>d;d++)B.push(0);for(d=0;t>d;d++)for(u=0;n>u&&(c=i[d*n+u],c);u++)l=c.layoutRect(),_=l.minW,N=l.minH,A[u]=_>A[u]?_:A[u],B[d]=N>B[d]?N:B[d];for(k=r.innerW-h.left-h.right,x=0,u=0;n>u;u++)x+=A[u]+(u>0?v:0),k-=(u>0?v:0)+A[u];for(T=r.innerH-h.top-h.bottom,w=0,d=0;t>d;d++)w+=B[d]+(d>0?y:0),T-=(d>0?y:0)+B[d];if(x+=h.left+h.right,w+=h.top+h.bottom,s={},s.minW=x+(r.w-r.innerW),s.minH=w+(r.h-r.innerH),s.contentW=s.minW-r.deltaW,s.contentH=s.minH-r.deltaH,s.minW=Math.min(s.minW,r.maxW),s.minH=Math.min(s.minH,r.maxH),s.minW=Math.max(s.minW,r.startMinWidth),s.minH=Math.max(s.minH,r.startMinHeight),!r.autoResize||s.minW==r.minW&&s.minH==r.minH){r.autoResize&&(s=e.layoutRect(s),s.contentW=s.minW-r.deltaW,s.contentH=s.minH-r.deltaH);var D;D="start"==R.packV?0:T>0?Math.floor(T/t):0;var L=0,M=R.flexWidths;if(M)for(u=0;u<M.length;u++)L+=M[u];else L=n;var H=k/L;for(u=0;n>u;u++)A[u]+=M?Math.ceil(M[u]*H):H;for(m=h.top,d=0;t>d;d++){for(f=h.left,a=B[d]+D,u=0;n>u&&(c=i[d*n+u],c);u++)p=c.settings,l=c.layoutRect(),o=Math.max(A[u],l.startMinWidth),E=S=0,l.x=f,l.y=m,g=p.alignH||(b?b[u]||b[0]:null),"center"==g?l.x=f+o/2-l.w/2:"right"==g?l.x=f+o-l.w:"stretch"==g&&(l.w=o),g=p.alignV||(C?C[u]||C[0]:null),"center"==g?l.y=m+a/2-l.h/2:"bottom"==g?l.y=m+a-l.h:"stretch"==g&&(l.h=a),c.layoutRect(l),f+=o+v,c.recalc&&c.recalc();m+=a+y}}else if(s.w=s.minW,s.h=s.minH,e.layoutRect(s),this.recalc(e),null===e._lastRect){var P=e.parent();P&&(P._lastRect=null,P.recalc())}}})}),/**
- * Iframe.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Iframe",["tinymce/ui/Widget"],function(e){return e.extend({renderHtml:function(){var e=this;return e.addClass("iframe"),e.canFocus=!1,'<iframe id="'+e._id+'" class="'+e.classes()+'" tabindex="-1" src="'+(e.settings.url||"javascript:''")+'" frameborder="0"></iframe>'},src:function(e){this.getEl().src=e},html:function(e,t){var n=this,i=this.getEl().contentWindow.document.body;return i?(i.innerHTML=e,t&&t()):setTimeout(function(){n.html(e)},0),this}})}),/**
- * Label.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Label",["tinymce/ui/Widget","tinymce/ui/DomUtils"],function(e,t){return e.extend({init:function(e){var t=this;t._super(e),t.addClass("widget"),t.addClass("label"),t.canFocus=!1,e.multiline&&t.addClass("autoscroll"),e.strong&&t.addClass("strong")},initLayoutRect:function(){var e=this,n=e._super();if(e.settings.multiline){var i=t.getSize(e.getEl());i.width>n.maxW&&(n.minW=n.maxW,e.addClass("multiline")),e.getEl().style.width=n.minW+"px",n.startMinH=n.h=n.minH=Math.min(n.maxH,t.getSize(e.getEl()).height)}return n},repaint:function(){var e=this;return e.settings.multiline||(e.getEl().style.lineHeight=e.layoutRect().h+"px"),e._super()},text:function(e){var t=this;return t._rendered&&e&&this.innerHtml(t.encode(e)),t._super(e)},renderHtml:function(){var e=this,t=e.settings.forId;return'<label id="'+e._id+'" class="'+e.classes()+'"'+(t?' for="'+t:"")+'">'+e.encode(e._text)+"</label>"}})}),/**
- * Toolbar.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Toolbar",["tinymce/ui/Container","tinymce/ui/KeyboardNavigation"],function(e,t){return e.extend({Defaults:{role:"toolbar",layout:"flow"},init:function(e){var t=this;t._super(e),t.addClass("toolbar")},postRender:function(){var e=this;return e.items().addClass("toolbar-item"),e.keyNav=new t({root:e,enableLeftRight:!0}),e._super()}})}),/**
- * MenuBar.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/MenuBar",["tinymce/ui/Toolbar"],function(e){return e.extend({Defaults:{role:"menubar",containerCls:"menubar",defaults:{type:"menubutton"}}})}),/**
- * MenuButton.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/MenuButton",["tinymce/ui/Button","tinymce/ui/Factory","tinymce/ui/MenuBar"],function(e,t,n){function i(e,t){for(;e;){if(t===e)return!0;e=e.parentNode}return!1}var r=e.extend({init:function(e){var t=this;t._renderOpen=!0,t._super(e),t.addClass("menubtn"),e.fixedWidth&&t.addClass("fixed-width"),t.aria("haspopup",!0),t.hasPopup=!0},showMenu:function(){var e,n=this,i=n.settings;return n.menu&&n.menu.visible()?n.hideMenu():(n.menu||(e=i.menu||[],e.length?e={type:"menu",items:e}:e.type=e.type||"menu",n.menu=t.create(e).parent(n).renderTo(n.getContainerElm()),n.fire("createmenu"),n.menu.reflow(),n.menu.on("cancel",function(e){e.control===n.menu&&n.focus()}),n.menu.on("show hide",function(e){e.control==n.menu&&n.activeMenu("show"==e.type)}).fire("show"),n.aria("expanded",!0)),n.menu.show(),n.menu.layoutRect({w:n.layoutRect().w}),n.menu.moveRel(n.getEl(),n.isRtl()?["br-tr","tr-br"]:["bl-tl","tl-bl"]),void 0)},hideMenu:function(){var e=this;e.menu&&(e.menu.items().each(function(e){e.hideMenu&&e.hideMenu()}),e.menu.hide(),e.aria("expanded",!1))},activeMenu:function(e){this.toggleClass("active",e)},renderHtml:function(){var e=this,t=e._id,i=e.classPrefix,r=e.settings.icon?i+"ico "+i+"i-"+e.settings.icon:"";return e.aria("role",e.parent()instanceof n?"menuitem":"button"),'<div id="'+t+'" class="'+e.classes()+'" tabindex="-1"><button id="'+t+'-open" role="presentation" type="button" tabindex="-1">'+(r?'<i class="'+r+'"></i>':"")+"<span>"+(e._text?(r?" ":"")+e.encode(e._text):"")+'</span> <i class="'+i+'caret"></i></button></div>'},postRender:function(){var e=this;return e.on("click",function(t){t.control===e&&i(t.target,e.getEl())&&(e.showMenu(),t.keyboard&&e.menu.items()[0].focus())}),e.on("mouseenter",function(t){var n,i=t.control,o=e.parent();i&&o&&i instanceof r&&i.parent()==o&&(o.items().filter("MenuButton").each(function(e){e.hideMenu&&e!=i&&(e.menu&&e.menu.visible()&&(n=!0),e.hideMenu())}),n&&(i.focus(),i.showMenu()))}),e._super()},text:function(e){var t,n,i=this;if(i._rendered)for(n=i.getEl("open").getElementsByTagName("span"),t=0;t<n.length;t++)n[t].innerHTML=i.encode(e);return this._super(e)},remove:function(){this._super(),this.menu&&this.menu.remove()}});return r}),/**
- * ListBox.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/ListBox",["tinymce/ui/MenuButton"],function(e){return e.extend({init:function(e){var t,n,i,r,o,a=this;if(a._values=t=e.values,t){for(n=0;n<t.length;n++)i=t[n].selected||e.value===t[n].value,i&&(r=r||t[n].text,a._value=t[n].value);e.menu=t}e.text=e.text||r||t[0].text,a._super(e),a.addClass("listbox"),a.on("select",function(t){var n=t.control;o&&(t.lastControl=o),e.multiple?n.active(!n.active()):a.value(t.control.settings.value),o=n})},value:function(e){function t(e,r){e.items().each(function(e){n=e.value()===r,n&&(i=i||e.text()),e.active(n),e.menu&&t(e.menu,r)})}var n,i,r,o,a=this;if("undefined"!=typeof e){if(a.menu)t(a.menu,e);else for(r=a.settings.menu,o=0;o<r.length;o++)n=r[o].value==e,n&&(i=i||r[o].text),r[o].active=n;a.text(i||this.settings.text)}return a._super(e)}})}),/**
- * MenuItem.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/MenuItem",["tinymce/ui/Widget","tinymce/ui/Factory"],function(e,t){return e.extend({Defaults:{border:0,role:"menuitem"},init:function(e){var t=this;t.hasPopup=!0,t._super(e),e=t.settings,t.addClass("menu-item"),e.menu&&t.addClass("menu-item-expand"),e.preview&&t.addClass("menu-item-preview"),("-"===t._text||"|"===t._text)&&(t.addClass("menu-item-sep"),t.aria("role","separator"),t.canFocus=!1,t._text="-"),e.selectable&&(t.aria("role","menuitemcheckbox"),t.aria("checked",!0),t.addClass("menu-item-checkbox"),e.icon="selected"),e.preview||e.selectable||t.addClass("menu-item-normal"),t.on("mousedown",function(e){e.preventDefault()}),t.on("mouseenter click",function(n){n.control===t&&(e.menu||"click"!==n.type?(t.showMenu(),n.keyboard&&setTimeout(function(){t.menu.items()[0].focus()},0)):(t.parent().hideAll(),t.fire("cancel"),t.fire("select")))}),e.menu&&t.aria("haspopup",!0)},hasMenus:function(){return!!this.settings.menu},showMenu:function(){var e,n=this,i=n.settings,r=n.parent();if(r.items().each(function(e){e!==n&&e.hideMenu()}),i.menu){e=n.menu,e?e.show():(e=i.menu,e.length?e={type:"menu",items:e}:e.type=e.type||"menu",r.settings.itemDefaults&&(e.itemDefaults=r.settings.itemDefaults),e=n.menu=t.create(e).parent(n).renderTo(n.getContainerElm()),e.reflow(),e.fire("show"),e.on("cancel",function(){n.focus()}),e.on("hide",function(t){t.control===e&&n.removeClass("selected")})),e._parentMenu=r,e.addClass("menu-sub");var o=e.testMoveRel(n.getEl(),n.isRtl()?["tl-tr","bl-br","tr-tl","br-bl"]:["tr-tl","br-bl","tl-tr","bl-br"]);e.moveRel(n.getEl(),o),e.rel=o,o="menu-sub-"+o,e.removeClass(e._lastRel),e.addClass(o),e._lastRel=o,n.addClass("selected"),n.aria("expanded",!0)}},hideMenu:function(){var e=this;return e.menu&&(e.menu.items().each(function(e){e.hideMenu&&e.hideMenu()}),e.menu.hide(),e.aria("expanded",!1)),e},renderHtml:function(){var e=this,t=e._id,n=e.settings,i=e.classPrefix,r=e.encode(e._text),o=e.settings.icon,a="";return o&&e.parent().addClass("menu-has-icons"),n.image&&(o="none",a=" style=\"background-image: url('"+n.image+"')\""),o=i+"ico "+i+"i-"+(e.settings.icon||"none"),'<div id="'+t+'" class="'+e.classes()+'" tabindex="-1">'+("-"!==r?'<i class="'+o+'"'+a+"></i>&nbsp;":"")+("-"!==r?'<span id="'+t+'-text" class="'+i+'text">'+r+"</span>":"")+(n.shortcut?'<div id="'+t+'-shortcut" class="'+i+'menu-shortcut">'+n.shortcut+"</div>":"")+(n.menu?'<div class="'+i+'caret"></div>':"")+"</div>"},postRender:function(){var e=this,t=e.settings,n=t.textStyle;if("function"==typeof n&&(n=n.call(this)),n){var i=e.getEl("text");i&&i.setAttribute("style",n)}return e._super()},remove:function(){this._super(),this.menu&&this.menu.remove()}})}),/**
- * Menu.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Menu",["tinymce/ui/FloatPanel","tinymce/ui/KeyboardNavigation","tinymce/ui/MenuItem","tinymce/util/Tools"],function(e,t,n,i){var r=e.extend({Defaults:{defaultType:"menuitem",border:1,layout:"stack",role:"menu"},init:function(e){var r=this;if(e.autohide=!0,e.constrainToViewport=!0,e.itemDefaults)for(var o=e.items,a=o.length;a--;)o[a]=i.extend({},e.itemDefaults,o[a]);r._super(e),r.addClass("menu"),r.keyNav=new t({root:r,enableUpDown:!0,enableLeftRight:!0,leftAction:function(){r.parent()instanceof n&&r.keyNav.cancel()},onCancel:function(){r.fire("cancel",{},!1),r.hide()}})},repaint:function(){return this.toggleClass("menu-align",!0),this._super(),this.getEl().style.height="",this.getEl("body").style.height="",this},cancel:function(){var e=this;e.hideAll(),e.fire("cancel"),e.fire("select")},hideAll:function(){var e=this;return this.find("menuitem").exec("hideMenu"),e._super()},preRender:function(){var e=this;return e.items().each(function(t){var n=t.settings;return n.icon||n.selectable?(e._hasIcons=!0,!1):void 0}),e._super()}});return r}),/**
- * Radio.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Radio",["tinymce/ui/Checkbox"],function(e){return e.extend({Defaults:{classes:"radio",role:"radio"}})}),/**
- * ResizeHandle.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/ResizeHandle",["tinymce/ui/Widget","tinymce/ui/DragHelper"],function(e,t){return e.extend({renderHtml:function(){var e=this,t=e.classPrefix;return e.addClass("resizehandle"),"both"==e.settings.direction&&e.addClass("resizehandle-both"),e.canFocus=!1,'<div id="'+e._id+'" class="'+e.classes()+'"><i class="'+t+"ico "+t+'i-resize"></i></div>'},postRender:function(){var e=this;e._super(),e.resizeDragHelper=new t(this._id,{start:function(){e.fire("ResizeStart")},drag:function(t){"both"!=e.settings.direction&&(t.deltaX=0),e.fire("Resize",t)},end:function(){e.fire("ResizeEnd")}})},remove:function(){return this.resizeDragHelper&&this.resizeDragHelper.destroy(),this._super()}})}),/**
- * Spacer.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Spacer",["tinymce/ui/Widget"],function(e){return e.extend({renderHtml:function(){var e=this;return e.addClass("spacer"),e.canFocus=!1,'<div id="'+e._id+'" class="'+e.classes()+'"></div>'}})}),/**
- * SplitButton.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/SplitButton",["tinymce/ui/MenuButton","tinymce/ui/DomUtils"],function(e,t){return e.extend({Defaults:{classes:"widget btn splitbtn",role:"splitbutton"},repaint:function(){var e,n,i=this,r=i.getEl(),o=i.layoutRect();return i._super(),e=r.firstChild,n=r.lastChild,t.css(e,{width:o.w-t.getSize(n).width,height:o.h-2}),t.css(n,{height:o.h-2}),i},activeMenu:function(e){var n=this;t.toggleClass(n.getEl().lastChild,n.classPrefix+"active",e)},renderHtml:function(){var e=this,t=e._id,n=e.classPrefix,i=e.settings.icon?n+"ico "+n+"i-"+e.settings.icon:"";return'<div id="'+t+'" class="'+e.classes()+'"><button type="button" hidefocus tabindex="-1">'+(i?'<i class="'+i+'"></i>':"")+(e._text?(i?" ":"")+e._text:"")+'</button><button type="button" class="'+n+'open" hidefocus tabindex="-1">'+(e._menuBtnText?(i?" ":"")+e._menuBtnText:"")+' <i class="'+n+'caret"></i></button></div>'},postRender:function(){var e=this,t=e.settings.onclick;return e.on("click",function(e){var n=e.target;if(e.control==this)for(;n;){if("BUTTON"==n.nodeName&&-1==n.className.indexOf("open"))return e.stopImmediatePropagation(),t.call(this,e),void 0;n=n.parentNode}}),delete e.settings.onclick,e._super()}})}),/**
- * StackLayout.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/StackLayout",["tinymce/ui/FlowLayout"],function(e){return e.extend({Defaults:{containerClass:"stack-layout",controlClass:"stack-layout-item",endClass:"break"}})}),/**
- * TabPanel.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/TabPanel",["tinymce/ui/Panel","tinymce/ui/DomUtils"],function(e,t){return e.extend({lastIdx:0,Defaults:{layout:"absolute",defaults:{type:"panel"}},activateTab:function(e){this.activeTabId&&t.removeClass(this.getEl(this.activeTabId),this.classPrefix+"active"),this.activeTabId="t"+e,t.addClass(this.getEl("t"+e),this.classPrefix+"active"),e!=this.lastIdx&&(this.items()[this.lastIdx].hide(),this.lastIdx=e),this.items()[e].show().fire("showtab"),this.reflow()},renderHtml:function(){var e=this,t=e._layout,n="",i=e.classPrefix;return e.preRender(),t.preRender(e),e.items().each(function(t,r){n+='<div id="'+e._id+"-t"+r+'" class="'+i+'tab" unselectable="on">'+e.encode(t.settings.title)+"</div>"}),'<div id="'+e._id+'" class="'+e.classes()+'" hideFocus="1" tabIndex="-1"><div id="'+e._id+'-head" class="'+i+'tabs">'+n+'</div><div id="'+e._id+'-body" class="'+e.classes("body")+'">'+t.renderHtml(e)+"</div></div>"},postRender:function(){var e=this;e._super(),e.settings.activeTab=e.settings.activeTab||0,e.activateTab(e.settings.activeTab),this.on("click",function(t){var n=t.target.parentNode;if(t.target.parentNode.id==e._id+"-head")for(var i=n.childNodes.length;i--;)n.childNodes[i]==t.target&&e.activateTab(i)})},initLayoutRect:function(){var e,n,i,r=this;n=t.getSize(r.getEl("head")).width,n=0>n?0:n,i=0,r.items().each(function(e,t){n=Math.max(n,e.layoutRect().minW),i=Math.max(i,e.layoutRect().minH),r.settings.activeTab!=t&&e.hide()}),r.items().each(function(e){e.settings.x=0,e.settings.y=0,e.settings.w=n,e.settings.h=i,e.layoutRect({x:0,y:0,w:n,h:i})});var o=t.getSize(r.getEl("head")).height;return r.settings.minWidth=n,r.settings.minHeight=i+o,e=r._super(),e.deltaH+=o,e.innerH=e.h-e.deltaH,e}})}),/**
- * TextBox.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/TextBox",["tinymce/ui/Widget","tinymce/ui/DomUtils"],function(e,t){return e.extend({init:function(e){var t=this;t._super(e),t._value=e.value||"",t.addClass("textbox"),e.multiline?t.addClass("multiline"):t.on("keydown",function(e){13==e.keyCode&&t.parents().reverse().each(function(t){return e.preventDefault(),t.hasEventListeners("submit")&&t.toJSON?(t.fire("submit",{data:t.toJSON()}),!1):void 0})})},disabled:function(e){var t=this;return t._rendered&&"undefined"!=typeof e&&(t.getEl().disabled=e),t._super(e)},value:function(e){var t=this;return"undefined"!=typeof e?(t._value=e,t._rendered&&(t.getEl().value=e),t):t._rendered?t.getEl().value:t._value},repaint:function(){var e,t,n,i,r=this,o=0,a=0;e=r.getEl().style,t=r._layoutRect,i=r._lastRepaintRect||{};var s=document;return!r.settings.multiline&&s.all&&(!s.documentMode||s.documentMode<=8)&&(e.lineHeight=t.h-a+"px"),n=r._borderBox,o=n.left+n.right+8,a=n.top+n.bottom+(r.settings.multiline?8:0),t.x!==i.x&&(e.left=t.x+"px",i.x=t.x),t.y!==i.y&&(e.top=t.y+"px",i.y=t.y),t.w!==i.w&&(e.width=t.w-o+"px",i.w=t.w),t.h!==i.h&&(e.height=t.h-a+"px",i.h=t.h),r._lastRepaintRect=i,r.fire("repaint",{},!1),r},renderHtml:function(){var e=this,t=e._id,n=e.settings,i=e.encode(e._value,!1),r="";return"spellcheck"in n&&(r+=' spellcheck="'+n.spellcheck+'"'),n.maxLength&&(r+=' maxlength="'+n.maxLength+'"'),n.size&&(r+=' size="'+n.size+'"'),n.subtype&&(r+=' type="'+n.subtype+'"'),e.disabled()&&(r+=' disabled="disabled"'),n.multiline?'<textarea id="'+t+'" class="'+e.classes()+'" '+(n.rows?' rows="'+n.rows+'"':"")+' hidefocus="true"'+r+">"+i+"</textarea>":'<input id="'+t+'" class="'+e.classes()+'" value="'+i+'" hidefocus="true"'+r+">"},postRender:function(){var e=this;return t.on(e.getEl(),"change",function(t){e.fire("change",t)}),e._super()},remove:function(){t.off(this.getEl()),this._super()}})}),/**
- * Throbber.js
- *
- * Copyright, Moxiecode Systems AB
- * Released under LGPL License.
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-i("tinymce/ui/Throbber",["tinymce/ui/DomUtils"],function(e){return function(t){var n,i=this;i.show=function(r){return i.hide(),n=!0,window.setTimeout(function(){n&&t.appendChild(e.createFragment('<div class="mce-throbber"></div>'))},r||0),i},i.hide=function(){var e=t.lastChild;return e&&-1!=e.className.indexOf("throbber")&&e.parentNode.removeChild(e),n=!1,i}}}),o(["tinymce/dom/EventUtils","tinymce/dom/Sizzle","tinymce/dom/DomQuery","tinymce/html/Styles","tinymce/dom/TreeWalker","tinymce/util/Tools","tinymce/dom/Range","tinymce/html/Entities","tinymce/Env","tinymce/dom/DOMUtils","tinymce/dom/ScriptLoader","tinymce/AddOnManager","tinymce/html/Node","tinymce/html/Schema","tinymce/html/SaxParser","tinymce/html/DomParser","tinymce/html/Writer","tinymce/html/Serializer","tinymce/dom/Serializer","tinymce/dom/TridentSelection","tinymce/util/VK","tinymce/dom/ControlSelection","tinymce/dom/Selection","tinymce/dom/RangeUtils","tinymce/Formatter","tinymce/UndoManager","tinymce/EnterKey","tinymce/ForceBlocks","tinymce/EditorCommands","tinymce/util/URI","tinymce/util/Class","tinymce/ui/Selector","tinymce/ui/Collection","tinymce/ui/DomUtils","tinymce/ui/Control","tinymce/ui/Factory","tinymce/ui/Container","tinymce/ui/DragHelper","tinymce/ui/Scrollable","tinymce/ui/Panel","tinymce/ui/Movable","tinymce/ui/Resizable","tinymce/ui/FloatPanel","tinymce/ui/KeyboardNavigation","tinymce/ui/Window","tinymce/ui/MessageBox","tinymce/WindowManager","tinymce/util/Quirks","tinymce/util/Observable","tinymce/Shortcuts","tinymce/Editor","tinymce/util/I18n","tinymce/FocusManager","tinymce/EditorManager","tinymce/LegacyInput","tinymce/util/XHR","tinymce/util/JSON","tinymce/util/JSONRequest","tinymce/util/JSONP","tinymce/util/LocalStorage","tinymce/Compat","tinymce/ui/Layout","tinymce/ui/AbsoluteLayout","tinymce/ui/Tooltip","tinymce/ui/Widget","tinymce/ui/Button","tinymce/ui/ButtonGroup","tinymce/ui/Checkbox","tinymce/ui/PanelButton","tinymce/ui/ColorButton","tinymce/ui/ComboBox","tinymce/ui/Path","tinymce/ui/ElementPath","tinymce/ui/FormItem","tinymce/ui/Form","tinymce/ui/FieldSet","tinymce/ui/FilePicker","tinymce/ui/FitLayout","tinymce/ui/FlexLayout","tinymce/ui/FlowLayout","tinymce/ui/FormatControls","tinymce/ui/GridLayout","tinymce/ui/Iframe","tinymce/ui/Label","tinymce/ui/Toolbar","tinymce/ui/MenuBar","tinymce/ui/MenuButton","tinymce/ui/ListBox","tinymce/ui/MenuItem","tinymce/ui/Menu","tinymce/ui/Radio","tinymce/ui/ResizeHandle","tinymce/ui/Spacer","tinymce/ui/SplitButton","tinymce/ui/StackLayout","tinymce/ui/TabPanel","tinymce/ui/TextBox","tinymce/ui/Throbber"])}(this);
+(function(){
+
+var chunker = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^\[\]]*\]|['"][^'"]*['"]|[^\[\]'"]+)+\]|\\.|[^ >+~,(\[\\]+)+|[>+~])(\s*,\s*)?((?:.|\r|\n)*)/g,
+	expando = "sizcache",
+	done = 0,
+	toString = Object.prototype.toString,
+	hasDuplicate = false,
+	baseHasDuplicate = true,
+	rBackslash = /\\/g,
+	rReturn = /\r\n/g,
+	rNonWord = /\W/;
+
+// Here we check if the JavaScript engine is using some sort of
+// optimization where it does not always call our comparision
+// function. If that is the case, discard the hasDuplicate value.
+//   Thus far that includes Google Chrome.
+[0, 0].sort(function() {
+	baseHasDuplicate = false;
+	return 0;
+});
+
+var Sizzle = function( selector, context, results, seed ) {
+	results = results || [];
+	context = context || document;
+
+	var origContext = context;
+
+	if ( context.nodeType !== 1 && context.nodeType !== 9 ) {
+		return [];
+	}
+
+	if ( !selector || typeof selector !== "string" ) {
+		return results;
+	}
+
+	var m, set, checkSet, extra, ret, cur, pop, i,
+		prune = true,
+		contextXML = Sizzle.isXML( context ),
+		parts = [],
+		soFar = selector;
+
+	// Reset the position of the chunker regexp (start from head)
+	do {
+		chunker.exec( "" );
+		m = chunker.exec( soFar );
+
+		if ( m ) {
+			soFar = m[3];
+
+			parts.push( m[1] );
+
+			if ( m[2] ) {
+				extra = m[3];
+				break;
+			}
+		}
+	} while ( m );
+
+	if ( parts.length > 1 && origPOS.exec( selector ) ) {
+
+		if ( parts.length === 2 && Expr.relative[ parts[0] ] ) {
+			set = posProcess( parts[0] + parts[1], context, seed );
+
+		} else {
+			set = Expr.relative[ parts[0] ] ?
+				[ context ] :
+				Sizzle( parts.shift(), context );
+
+			while ( parts.length ) {
+				selector = parts.shift();
+
+				if ( Expr.relative[ selector ] ) {
+					selector += parts.shift();
+				}
+
+				set = posProcess( selector, set, seed );
+			}
+		}
+
+	} else {
+		// Take a shortcut and set the context if the root selector is an ID
+		// (but not if it'll be faster if the inner selector is an ID)
+		if ( !seed && parts.length > 1 && context.nodeType === 9 && !contextXML &&
+				Expr.match.ID.test(parts[0]) && !Expr.match.ID.test(parts[parts.length - 1]) ) {
+
+			ret = Sizzle.find( parts.shift(), context, contextXML );
+			context = ret.expr ?
+				Sizzle.filter( ret.expr, ret.set )[0] :
+				ret.set[0];
+		}
+
+		if ( context ) {
+			ret = seed ?
+				{ expr: parts.pop(), set: makeArray(seed) } :
+				Sizzle.find( parts.pop(), parts.length === 1 && (parts[0] === "~" || parts[0] === "+") && context.parentNode ? context.parentNode : context, contextXML );
+
+			set = ret.expr ?
+				Sizzle.filter( ret.expr, ret.set ) :
+				ret.set;
+
+			if ( parts.length > 0 ) {
+				checkSet = makeArray( set );
+
+			} else {
+				prune = false;
+			}
+
+			while ( parts.length ) {
+				cur = parts.pop();
+				pop = cur;
+
+				if ( !Expr.relative[ cur ] ) {
+					cur = "";
+				} else {
+					pop = parts.pop();
+				}
+
+				if ( pop == null ) {
+					pop = context;
+				}
+
+				Expr.relative[ cur ]( checkSet, pop, contextXML );
+			}
+
+		} else {
+			checkSet = parts = [];
+		}
+	}
+
+	if ( !checkSet ) {
+		checkSet = set;
+	}
+
+	if ( !checkSet ) {
+		Sizzle.error( cur || selector );
+	}
+
+	if ( toString.call(checkSet) === "[object Array]" ) {
+		if ( !prune ) {
+			results.push.apply( results, checkSet );
+
+		} else if ( context && context.nodeType === 1 ) {
+			for ( i = 0; checkSet[i] != null; i++ ) {
+				if ( checkSet[i] && (checkSet[i] === true || checkSet[i].nodeType === 1 && Sizzle.contains(context, checkSet[i])) ) {
+					results.push( set[i] );
+				}
+			}
+
+		} else {
+			for ( i = 0; checkSet[i] != null; i++ ) {
+				if ( checkSet[i] && checkSet[i].nodeType === 1 ) {
+					results.push( set[i] );
+				}
+			}
+		}
+
+	} else {
+		makeArray( checkSet, results );
+	}
+
+	if ( extra ) {
+		Sizzle( extra, origContext, results, seed );
+		Sizzle.uniqueSort( results );
+	}
+
+	return results;
+};
+
+Sizzle.uniqueSort = function( results ) {
+	if ( sortOrder ) {
+		hasDuplicate = baseHasDuplicate;
+		results.sort( sortOrder );
+
+		if ( hasDuplicate ) {
+			for ( var i = 1; i < results.length; i++ ) {
+				if ( results[i] === results[ i - 1 ] ) {
+					results.splice( i--, 1 );
+				}
+			}
+		}
+	}
+
+	return results;
+};
+
+Sizzle.matches = function( expr, set ) {
+	return Sizzle( expr, null, null, set );
+};
+
+Sizzle.matchesSelector = function( node, expr ) {
+	return Sizzle( expr, null, null, [node] ).length > 0;
+};
+
+Sizzle.find = function( expr, context, isXML ) {
+	var set, i, len, match, type, left;
+
+	if ( !expr ) {
+		return [];
+	}
+
+	for ( i = 0, len = Expr.order.length; i < len; i++ ) {
+		type = Expr.order[i];
+
+		if ( (match = Expr.leftMatch[ type ].exec( expr )) ) {
+			left = match[1];
+			match.splice( 1, 1 );
+
+			if ( left.substr( left.length - 1 ) !== "\\" ) {
+				match[1] = (match[1] || "").replace( rBackslash, "" );
+				set = Expr.find[ type ]( match, context, isXML );
+
+				if ( set != null ) {
+					expr = expr.replace( Expr.match[ type ], "" );
+					break;
+				}
+			}
+		}
+	}
+
+	if ( !set ) {
+		set = typeof context.getElementsByTagName !== "undefined" ?
+			context.getElementsByTagName( "*" ) :
+			[];
+	}
+
+	return { set: set, expr: expr };
+};
+
+Sizzle.filter = function( expr, set, inplace, not ) {
+	var match, anyFound,
+		type, found, item, filter, left,
+		i, pass,
+		old = expr,
+		result = [],
+		curLoop = set,
+		isXMLFilter = set && set[0] && Sizzle.isXML( set[0] );
+
+	while ( expr && set.length ) {
+		for ( type in Expr.filter ) {
+			if ( (match = Expr.leftMatch[ type ].exec( expr )) != null && match[2] ) {
+				filter = Expr.filter[ type ];
+				left = match[1];
+
+				anyFound = false;
+
+				match.splice(1,1);
+
+				if ( left.substr( left.length - 1 ) === "\\" ) {
+					continue;
+				}
+
+				if ( curLoop === result ) {
+					result = [];
+				}
+
+				if ( Expr.preFilter[ type ] ) {
+					match = Expr.preFilter[ type ]( match, curLoop, inplace, result, not, isXMLFilter );
+
+					if ( !match ) {
+						anyFound = found = true;
+
+					} else if ( match === true ) {
+						continue;
+					}
+				}
+
+				if ( match ) {
+					for ( i = 0; (item = curLoop[i]) != null; i++ ) {
+						if ( item ) {
+							found = filter( item, match, i, curLoop );
+							pass = not ^ found;
+
+							if ( inplace && found != null ) {
+								if ( pass ) {
+									anyFound = true;
+
+								} else {
+									curLoop[i] = false;
+								}
+
+							} else if ( pass ) {
+								result.push( item );
+								anyFound = true;
+							}
+						}
+					}
+				}
+
+				if ( found !== undefined ) {
+					if ( !inplace ) {
+						curLoop = result;
+					}
+
+					expr = expr.replace( Expr.match[ type ], "" );
+
+					if ( !anyFound ) {
+						return [];
+					}
+
+					break;
+				}
+			}
+		}
+
+		// Improper expression
+		if ( expr === old ) {
+			if ( anyFound == null ) {
+				Sizzle.error( expr );
+
+			} else {
+				break;
+			}
+		}
+
+		old = expr;
+	}
+
+	return curLoop;
+};
+
+Sizzle.error = function( msg ) {
+	throw new Error( "Syntax error, unrecognized expression: " + msg );
+};
+
+var getText = Sizzle.getText = function( elem ) {
+    var i, node,
+		nodeType = elem.nodeType,
+		ret = "";
+
+	if ( nodeType ) {
+		if ( nodeType === 1 || nodeType === 9 || nodeType === 11 ) {
+			// Use textContent || innerText for elements
+			if ( typeof elem.textContent === 'string' ) {
+				return elem.textContent;
+			} else if ( typeof elem.innerText === 'string' ) {
+				// Replace IE's carriage returns
+				return elem.innerText.replace( rReturn, '' );
+			} else {
+				// Traverse it's children
+				for ( elem = elem.firstChild; elem; elem = elem.nextSibling) {
+					ret += getText( elem );
+				}
+			}
+		} else if ( nodeType === 3 || nodeType === 4 ) {
+			return elem.nodeValue;
+		}
+	} else {
+
+		// If no nodeType, this is expected to be an array
+		for ( i = 0; (node = elem[i]); i++ ) {
+			// Do not traverse comment nodes
+			if ( node.nodeType !== 8 ) {
+				ret += getText( node );
+			}
+		}
+	}
+	return ret;
+};
+
+var Expr = Sizzle.selectors = {
+	order: [ "ID", "NAME", "TAG" ],
+
+	match: {
+		ID: /#((?:[\w\u00c0-\uFFFF\-]|\\.)+)/,
+		CLASS: /\.((?:[\w\u00c0-\uFFFF\-]|\\.)+)/,
+		NAME: /\[name=['"]*((?:[\w\u00c0-\uFFFF\-]|\\.)+)['"]*\]/,
+		ATTR: /\[\s*((?:[\w\u00c0-\uFFFF\-]|\\.)+)\s*(?:(\S?=)\s*(?:(['"])(.*?)\3|(#?(?:[\w\u00c0-\uFFFF\-]|\\.)*)|)|)\s*\]/,
+		TAG: /^((?:[\w\u00c0-\uFFFF\*\-]|\\.)+)/,
+		CHILD: /:(only|nth|last|first)-child(?:\(\s*(even|odd|(?:[+\-]?\d+|(?:[+\-]?\d*)?n\s*(?:[+\-]\s*\d+)?))\s*\))?/,
+		POS: /:(nth|eq|gt|lt|first|last|even|odd)(?:\((\d*)\))?(?=[^\-]|$)/,
+		PSEUDO: /:((?:[\w\u00c0-\uFFFF\-]|\\.)+)(?:\((['"]?)((?:\([^\)]+\)|[^\(\)]*)+)\2\))?/
+	},
+
+	leftMatch: {},
+
+	attrMap: {
+		"class": "className",
+		"for": "htmlFor"
+	},
+
+	attrHandle: {
+		href: function( elem ) {
+			return elem.getAttribute( "href" );
+		},
+		type: function( elem ) {
+			return elem.getAttribute( "type" );
+		}
+	},
+
+	relative: {
+		"+": function(checkSet, part){
+			var isPartStr = typeof part === "string",
+				isTag = isPartStr && !rNonWord.test( part ),
+				isPartStrNotTag = isPartStr && !isTag;
+
+			if ( isTag ) {
+				part = part.toLowerCase();
+			}
+
+			for ( var i = 0, l = checkSet.length, elem; i < l; i++ ) {
+				if ( (elem = checkSet[i]) ) {
+					while ( (elem = elem.previousSibling) && elem.nodeType !== 1 ) {}
+
+					checkSet[i] = isPartStrNotTag || elem && elem.nodeName.toLowerCase() === part ?
+						elem || false :
+						elem === part;
+				}
+			}
+
+			if ( isPartStrNotTag ) {
+				Sizzle.filter( part, checkSet, true );
+			}
+		},
+
+		">": function( checkSet, part ) {
+			var elem,
+				isPartStr = typeof part === "string",
+				i = 0,
+				l = checkSet.length;
+
+			if ( isPartStr && !rNonWord.test( part ) ) {
+				part = part.toLowerCase();
+
+				for ( ; i < l; i++ ) {
+					elem = checkSet[i];
+
+					if ( elem ) {
+						var parent = elem.parentNode;
+						checkSet[i] = parent.nodeName.toLowerCase() === part ? parent : false;
+					}
+				}
+
+			} else {
+				for ( ; i < l; i++ ) {
+					elem = checkSet[i];
+
+					if ( elem ) {
+						checkSet[i] = isPartStr ?
+							elem.parentNode :
+							elem.parentNode === part;
+					}
+				}
+
+				if ( isPartStr ) {
+					Sizzle.filter( part, checkSet, true );
+				}
+			}
+		},
+
+		"": function(checkSet, part, isXML){
+			var nodeCheck,
+				doneName = done++,
+				checkFn = dirCheck;
+
+			if ( typeof part === "string" && !rNonWord.test( part ) ) {
+				part = part.toLowerCase();
+				nodeCheck = part;
+				checkFn = dirNodeCheck;
+			}
+
+			checkFn( "parentNode", part, doneName, checkSet, nodeCheck, isXML );
+		},
+
+		"~": function( checkSet, part, isXML ) {
+			var nodeCheck,
+				doneName = done++,
+				checkFn = dirCheck;
+
+			if ( typeof part === "string" && !rNonWord.test( part ) ) {
+				part = part.toLowerCase();
+				nodeCheck = part;
+				checkFn = dirNodeCheck;
+			}
+
+			checkFn( "previousSibling", part, doneName, checkSet, nodeCheck, isXML );
+		}
+	},
+
+	find: {
+		ID: function( match, context, isXML ) {
+			if ( typeof context.getElementById !== "undefined" && !isXML ) {
+				var m = context.getElementById(match[1]);
+				// Check parentNode to catch when Blackberry 4.6 returns
+				// nodes that are no longer in the document #6963
+				return m && m.parentNode ? [m] : [];
+			}
+		},
+
+		NAME: function( match, context ) {
+			if ( typeof context.getElementsByName !== "undefined" ) {
+				var ret = [],
+					results = context.getElementsByName( match[1] );
+
+				for ( var i = 0, l = results.length; i < l; i++ ) {
+					if ( results[i].getAttribute("name") === match[1] ) {
+						ret.push( results[i] );
+					}
+				}
+
+				return ret.length === 0 ? null : ret;
+			}
+		},
+
+		TAG: function( match, context ) {
+			if ( typeof context.getElementsByTagName !== "undefined" ) {
+				return context.getElementsByTagName( match[1] );
+			}
+		}
+	},
+	preFilter: {
+		CLASS: function( match, curLoop, inplace, result, not, isXML ) {
+			match = " " + match[1].replace( rBackslash, "" ) + " ";
+
+			if ( isXML ) {
+				return match;
+			}
+
+			for ( var i = 0, elem; (elem = curLoop[i]) != null; i++ ) {
+				if ( elem ) {
+					if ( not ^ (elem.className && (" " + elem.className + " ").replace(/[\t\n\r]/g, " ").indexOf(match) >= 0) ) {
+						if ( !inplace ) {
+							result.push( elem );
+						}
+
+					} else if ( inplace ) {
+						curLoop[i] = false;
+					}
+				}
+			}
+
+			return false;
+		},
+
+		ID: function( match ) {
+			return match[1].replace( rBackslash, "" );
+		},
+
+		TAG: function( match, curLoop ) {
+			return match[1].replace( rBackslash, "" ).toLowerCase();
+		},
+
+		CHILD: function( match ) {
+			if ( match[1] === "nth" ) {
+				if ( !match[2] ) {
+					Sizzle.error( match[0] );
+				}
+
+				match[2] = match[2].replace(/^\+|\s*/g, '');
+
+				// parse equations like 'even', 'odd', '5', '2n', '3n+2', '4n-1', '-n+6'
+				var test = /(-?)(\d*)(?:n([+\-]?\d*))?/.exec(
+					match[2] === "even" && "2n" || match[2] === "odd" && "2n+1" ||
+					!/\D/.test( match[2] ) && "0n+" + match[2] || match[2]);
+
+				// calculate the numbers (first)n+(last) including if they are negative
+				match[2] = (test[1] + (test[2] || 1)) - 0;
+				match[3] = test[3] - 0;
+			}
+			else if ( match[2] ) {
+				Sizzle.error( match[0] );
+			}
+
+			// TODO: Move to normal caching system
+			match[0] = done++;
+
+			return match;
+		},
+
+		ATTR: function( match, curLoop, inplace, result, not, isXML ) {
+			var name = match[1] = match[1].replace( rBackslash, "" );
+
+			if ( !isXML && Expr.attrMap[name] ) {
+				match[1] = Expr.attrMap[name];
+			}
+
+			// Handle if an un-quoted value was used
+			match[4] = ( match[4] || match[5] || "" ).replace( rBackslash, "" );
+
+			if ( match[2] === "~=" ) {
+				match[4] = " " + match[4] + " ";
+			}
+
+			return match;
+		},
+
+		PSEUDO: function( match, curLoop, inplace, result, not ) {
+			if ( match[1] === "not" ) {
+				// If we're dealing with a complex expression, or a simple one
+				if ( ( chunker.exec(match[3]) || "" ).length > 1 || /^\w/.test(match[3]) ) {
+					match[3] = Sizzle(match[3], null, null, curLoop);
+
+				} else {
+					var ret = Sizzle.filter(match[3], curLoop, inplace, true ^ not);
+
+					if ( !inplace ) {
+						result.push.apply( result, ret );
+					}
+
+					return false;
+				}
+
+			} else if ( Expr.match.POS.test( match[0] ) || Expr.match.CHILD.test( match[0] ) ) {
+				return true;
+			}
+
+			return match;
+		},
+
+		POS: function( match ) {
+			match.unshift( true );
+
+			return match;
+		}
+	},
+
+	filters: {
+		enabled: function( elem ) {
+			return elem.disabled === false && elem.type !== "hidden";
+		},
+
+		disabled: function( elem ) {
+			return elem.disabled === true;
+		},
+
+		checked: function( elem ) {
+			return elem.checked === true;
+		},
+
+		selected: function( elem ) {
+			// Accessing this property makes selected-by-default
+			// options in Safari work properly
+			if ( elem.parentNode ) {
+				elem.parentNode.selectedIndex;
+			}
+
+			return elem.selected === true;
+		},
+
+		parent: function( elem ) {
+			return !!elem.firstChild;
+		},
+
+		empty: function( elem ) {
+			return !elem.firstChild;
+		},
+
+		has: function( elem, i, match ) {
+			return !!Sizzle( match[3], elem ).length;
+		},
+
+		header: function( elem ) {
+			return (/h\d/i).test( elem.nodeName );
+		},
+
+		text: function( elem ) {
+			var attr = elem.getAttribute( "type" ), type = elem.type;
+			// IE6 and 7 will map elem.type to 'text' for new HTML5 types (search, etc)
+			// use getAttribute instead to test this case
+			return elem.nodeName.toLowerCase() === "input" && "text" === type && ( attr === type || attr === null );
+		},
+
+		radio: function( elem ) {
+			return elem.nodeName.toLowerCase() === "input" && "radio" === elem.type;
+		},
+
+		checkbox: function( elem ) {
+			return elem.nodeName.toLowerCase() === "input" && "checkbox" === elem.type;
+		},
+
+		file: function( elem ) {
+			return elem.nodeName.toLowerCase() === "input" && "file" === elem.type;
+		},
+
+		password: function( elem ) {
+			return elem.nodeName.toLowerCase() === "input" && "password" === elem.type;
+		},
+
+		submit: function( elem ) {
+			var name = elem.nodeName.toLowerCase();
+			return (name === "input" || name === "button") && "submit" === elem.type;
+		},
+
+		image: function( elem ) {
+			return elem.nodeName.toLowerCase() === "input" && "image" === elem.type;
+		},
+
+		reset: function( elem ) {
+			var name = elem.nodeName.toLowerCase();
+			return (name === "input" || name === "button") && "reset" === elem.type;
+		},
+
+		button: function( elem ) {
+			var name = elem.nodeName.toLowerCase();
+			return name === "input" && "button" === elem.type || name === "button";
+		},
+
+		input: function( elem ) {
+			return (/input|select|textarea|button/i).test( elem.nodeName );
+		},
+
+		focus: function( elem ) {
+			return elem === elem.ownerDocument.activeElement;
+		}
+	},
+	setFilters: {
+		first: function( elem, i ) {
+			return i === 0;
+		},
+
+		last: function( elem, i, match, array ) {
+			return i === array.length - 1;
+		},
+
+		even: function( elem, i ) {
+			return i % 2 === 0;
+		},
+
+		odd: function( elem, i ) {
+			return i % 2 === 1;
+		},
+
+		lt: function( elem, i, match ) {
+			return i < match[3] - 0;
+		},
+
+		gt: function( elem, i, match ) {
+			return i > match[3] - 0;
+		},
+
+		nth: function( elem, i, match ) {
+			return match[3] - 0 === i;
+		},
+
+		eq: function( elem, i, match ) {
+			return match[3] - 0 === i;
+		}
+	},
+	filter: {
+		PSEUDO: function( elem, match, i, array ) {
+			var name = match[1],
+				filter = Expr.filters[ name ];
+
+			if ( filter ) {
+				return filter( elem, i, match, array );
+
+			} else if ( name === "contains" ) {
+				return (elem.textContent || elem.innerText || getText([ elem ]) || "").indexOf(match[3]) >= 0;
+
+			} else if ( name === "not" ) {
+				var not = match[3];
+
+				for ( var j = 0, l = not.length; j < l; j++ ) {
+					if ( not[j] === elem ) {
+						return false;
+					}
+				}
+
+				return true;
+
+			} else {
+				Sizzle.error( name );
+			}
+		},
+
+		CHILD: function( elem, match ) {
+			var first, last,
+				doneName, parent, cache,
+				count, diff,
+				type = match[1],
+				node = elem;
+
+			switch ( type ) {
+				case "only":
+				case "first":
+					while ( (node = node.previousSibling) ) {
+						if ( node.nodeType === 1 ) {
+							return false;
+						}
+					}
+
+					if ( type === "first" ) {
+						return true;
+					}
+
+					node = elem;
+
+					/* falls through */
+				case "last":
+					while ( (node = node.nextSibling) ) {
+						if ( node.nodeType === 1 ) {
+							return false;
+						}
+					}
+
+					return true;
+
+				case "nth":
+					first = match[2];
+					last = match[3];
+
+					if ( first === 1 && last === 0 ) {
+						return true;
+					}
+
+					doneName = match[0];
+					parent = elem.parentNode;
+
+					if ( parent && (parent[ expando ] !== doneName || !elem.nodeIndex) ) {
+						count = 0;
+
+						for ( node = parent.firstChild; node; node = node.nextSibling ) {
+							if ( node.nodeType === 1 ) {
+								node.nodeIndex = ++count;
+							}
+						}
+
+						parent[ expando ] = doneName;
+					}
+
+					diff = elem.nodeIndex - last;
+
+					if ( first === 0 ) {
+						return diff === 0;
+
+					} else {
+						return ( diff % first === 0 && diff / first >= 0 );
+					}
+			}
+		},
+
+		ID: function( elem, match ) {
+			return elem.nodeType === 1 && elem.getAttribute("id") === match;
+		},
+
+		TAG: function( elem, match ) {
+			return (match === "*" && elem.nodeType === 1) || !!elem.nodeName && elem.nodeName.toLowerCase() === match;
+		},
+
+		CLASS: function( elem, match ) {
+			return (" " + (elem.className || elem.getAttribute("class")) + " ")
+				.indexOf( match ) > -1;
+		},
+
+		ATTR: function( elem, match ) {
+			var name = match[1],
+				result = Sizzle.attr ?
+					Sizzle.attr( elem, name ) :
+					Expr.attrHandle[ name ] ?
+					Expr.attrHandle[ name ]( elem ) :
+					elem[ name ] != null ?
+						elem[ name ] :
+						elem.getAttribute( name ),
+				value = result + "",
+				type = match[2],
+				check = match[4];
+
+			return result == null ?
+				type === "!=" :
+				!type && Sizzle.attr ?
+				result != null :
+				type === "=" ?
+				value === check :
+				type === "*=" ?
+				value.indexOf(check) >= 0 :
+				type === "~=" ?
+				(" " + value + " ").indexOf(check) >= 0 :
+				!check ?
+				value && result !== false :
+				type === "!=" ?
+				value !== check :
+				type === "^=" ?
+				value.indexOf(check) === 0 :
+				type === "$=" ?
+				value.substr(value.length - check.length) === check :
+				type === "|=" ?
+				value === check || value.substr(0, check.length + 1) === check + "-" :
+				false;
+		},
+
+		POS: function( elem, match, i, array ) {
+			var name = match[2],
+				filter = Expr.setFilters[ name ];
+
+			if ( filter ) {
+				return filter( elem, i, match, array );
+			}
+		}
+	}
+};
+
+var origPOS = Expr.match.POS,
+	fescape = function(all, num){
+		return "\\" + (num - 0 + 1);
+	};
+
+for ( var type in Expr.match ) {
+	Expr.match[ type ] = new RegExp( Expr.match[ type ].source + (/(?![^\[]*\])(?![^\(]*\))/.source) );
+	Expr.leftMatch[ type ] = new RegExp( /(^(?:.|\r|\n)*?)/.source + Expr.match[ type ].source.replace(/\\(\d+)/g, fescape) );
+}
+// Expose origPOS
+// "global" as in regardless of relation to brackets/parens
+Expr.match.globalPOS = origPOS;
+
+var makeArray = function( array, results ) {
+	array = Array.prototype.slice.call( array, 0 );
+
+	if ( results ) {
+		results.push.apply( results, array );
+		return results;
+	}
+
+	return array;
+};
+
+// Perform a simple check to determine if the browser is capable of
+// converting a NodeList to an array using builtin methods.
+// Also verifies that the returned array holds DOM nodes
+// (which is not the case in the Blackberry browser)
+try {
+	Array.prototype.slice.call( document.documentElement.childNodes, 0 )[0].nodeType;
+
+// Provide a fallback method if it does not work
+} catch( e ) {
+	makeArray = function( array, results ) {
+		var i = 0,
+			ret = results || [];
+
+		if ( toString.call(array) === "[object Array]" ) {
+			Array.prototype.push.apply( ret, array );
+
+		} else {
+			if ( typeof array.length === "number" ) {
+				for ( var l = array.length; i < l; i++ ) {
+					ret.push( array[i] );
+				}
+
+			} else {
+				for ( ; array[i]; i++ ) {
+					ret.push( array[i] );
+				}
+			}
+		}
+
+		return ret;
+	};
+}
+
+var sortOrder, siblingCheck;
+
+if ( document.documentElement.compareDocumentPosition ) {
+	sortOrder = function( a, b ) {
+		if ( a === b ) {
+			hasDuplicate = true;
+			return 0;
+		}
+
+		if ( !a.compareDocumentPosition || !b.compareDocumentPosition ) {
+			return a.compareDocumentPosition ? -1 : 1;
+		}
+
+		return a.compareDocumentPosition(b) & 4 ? -1 : 1;
+	};
+
+} else {
+	sortOrder = function( a, b ) {
+		// The nodes are identical, we can exit early
+		if ( a === b ) {
+			hasDuplicate = true;
+			return 0;
+
+		// Fallback to using sourceIndex (in IE) if it's available on both nodes
+		} else if ( a.sourceIndex && b.sourceIndex ) {
+			return a.sourceIndex - b.sourceIndex;
+		}
+
+		var al, bl,
+			ap = [],
+			bp = [],
+			aup = a.parentNode,
+			bup = b.parentNode,
+			cur = aup;
+
+		// If the nodes are siblings (or identical) we can do a quick check
+		if ( aup === bup ) {
+			return siblingCheck( a, b );
+
+		// If no parents were found then the nodes are disconnected
+		} else if ( !aup ) {
+			return -1;
+
+		} else if ( !bup ) {
+			return 1;
+		}
+
+		// Otherwise they're somewhere else in the tree so we need
+		// to build up a full list of the parentNodes for comparison
+		while ( cur ) {
+			ap.unshift( cur );
+			cur = cur.parentNode;
+		}
+
+		cur = bup;
+
+		while ( cur ) {
+			bp.unshift( cur );
+			cur = cur.parentNode;
+		}
+
+		al = ap.length;
+		bl = bp.length;
+
+		// Start walking down the tree looking for a discrepancy
+		for ( var i = 0; i < al && i < bl; i++ ) {
+			if ( ap[i] !== bp[i] ) {
+				return siblingCheck( ap[i], bp[i] );
+			}
+		}
+
+		// We ended someplace up the tree so do a sibling check
+		return i === al ?
+			siblingCheck( a, bp[i], -1 ) :
+			siblingCheck( ap[i], b, 1 );
+	};
+
+	siblingCheck = function( a, b, ret ) {
+		if ( a === b ) {
+			return ret;
+		}
+
+		var cur = a.nextSibling;
+
+		while ( cur ) {
+			if ( cur === b ) {
+				return -1;
+			}
+
+			cur = cur.nextSibling;
+		}
+
+		return 1;
+	};
+}
+
+// Check to see if the browser returns elements by name when
+// querying by getElementById (and provide a workaround)
+(function(){
+	// We're going to inject a fake input element with a specified name
+	var form = document.createElement("div"),
+		id = "script" + (new Date()).getTime(),
+		root = document.documentElement;
+
+	form.innerHTML = "<a name='" + id + "'/>";
+
+	// Inject it into the root element, check its status, and remove it quickly
+	root.insertBefore( form, root.firstChild );
+
+	// The workaround has to do additional checks after a getElementById
+	// Which slows things down for other browsers (hence the branching)
+	if ( document.getElementById( id ) ) {
+		Expr.find.ID = function( match, context, isXML ) {
+			if ( typeof context.getElementById !== "undefined" && !isXML ) {
+				var m = context.getElementById(match[1]);
+
+				return m ?
+					m.id === match[1] || typeof m.getAttributeNode !== "undefined" && m.getAttributeNode("id").nodeValue === match[1] ?
+						[m] :
+						undefined :
+					[];
+			}
+		};
+
+		Expr.filter.ID = function( elem, match ) {
+			var node = typeof elem.getAttributeNode !== "undefined" && elem.getAttributeNode("id");
+
+			return elem.nodeType === 1 && node && node.nodeValue === match;
+		};
+	}
+
+	root.removeChild( form );
+
+	// release memory in IE
+	root = form = null;
+})();
+
+(function(){
+	// Check to see if the browser returns only elements
+	// when doing getElementsByTagName("*")
+
+	// Create a fake element
+	var div = document.createElement("div");
+	div.appendChild( document.createComment("") );
+
+	// Make sure no comments are found
+	if ( div.getElementsByTagName("*").length > 0 ) {
+		Expr.find.TAG = function( match, context ) {
+			var results = context.getElementsByTagName( match[1] );
+
+			// Filter out possible comments
+			if ( match[1] === "*" ) {
+				var tmp = [];
+
+				for ( var i = 0; results[i]; i++ ) {
+					if ( results[i].nodeType === 1 ) {
+						tmp.push( results[i] );
+					}
+				}
+
+				results = tmp;
+			}
+
+			return results;
+		};
+	}
+
+	// Check to see if an attribute returns normalized href attributes
+	div.innerHTML = "<a href='#'></a>";
+
+	if ( div.firstChild && typeof div.firstChild.getAttribute !== "undefined" &&
+			div.firstChild.getAttribute("href") !== "#" ) {
+
+		Expr.attrHandle.href = function( elem ) {
+			return elem.getAttribute( "href", 2 );
+		};
+	}
+
+	// release memory in IE
+	div = null;
+})();
+
+if ( document.querySelectorAll ) {
+	(function(){
+		var oldSizzle = Sizzle,
+			div = document.createElement("div"),
+			id = "__sizzle__";
+
+		div.innerHTML = "<p class='TEST'></p>";
+
+		// Safari can't handle uppercase or unicode characters when
+		// in quirks mode.
+		if ( div.querySelectorAll && div.querySelectorAll(".TEST").length === 0 ) {
+			return;
+		}
+
+		Sizzle = function( query, context, extra, seed ) {
+			context = context || document;
+
+			// Only use querySelectorAll on non-XML documents
+			// (ID selectors don't work in non-HTML documents)
+			if ( !seed && !Sizzle.isXML(context) ) {
+				// See if we find a selector to speed up
+				var match = /^(\w+$)|^\.([\w\-]+$)|^#([\w\-]+$)/.exec( query );
+
+				if ( match && (context.nodeType === 1 || context.nodeType === 9) ) {
+					// Speed-up: Sizzle("TAG")
+					if ( match[1] ) {
+						return makeArray( context.getElementsByTagName( query ), extra );
+
+					// Speed-up: Sizzle(".CLASS")
+					} else if ( match[2] && Expr.find.CLASS && context.getElementsByClassName ) {
+						return makeArray( context.getElementsByClassName( match[2] ), extra );
+					}
+				}
+
+				if ( context.nodeType === 9 ) {
+					// Speed-up: Sizzle("body")
+					// The body element only exists once, optimize finding it
+					if ( query === "body" && context.body ) {
+						return makeArray( [ context.body ], extra );
+
+					// Speed-up: Sizzle("#ID")
+					} else if ( match && match[3] ) {
+						var elem = context.getElementById( match[3] );
+
+						// Check parentNode to catch when Blackberry 4.6 returns
+						// nodes that are no longer in the document #6963
+						if ( elem && elem.parentNode ) {
+							// Handle the case where IE and Opera return items
+							// by name instead of ID
+							if ( elem.id === match[3] ) {
+								return makeArray( [ elem ], extra );
+							}
+
+						} else {
+							return makeArray( [], extra );
+						}
+					}
+
+					try {
+						return makeArray( context.querySelectorAll(query), extra );
+					} catch(qsaError) {}
+
+				// qSA works strangely on Element-rooted queries
+				// We can work around this by specifying an extra ID on the root
+				// and working up from there (Thanks to Andrew Dupont for the technique)
+				// IE 8 doesn't work on object elements
+				} else if ( context.nodeType === 1 && context.nodeName.toLowerCase() !== "object" ) {
+					var oldContext = context,
+						old = context.getAttribute( "id" ),
+						nid = old || id,
+						hasParent = context.parentNode,
+						relativeHierarchySelector = /^\s*[+~]/.test( query );
+
+					if ( !old ) {
+						context.setAttribute( "id", nid );
+					} else {
+						nid = nid.replace( /'/g, "\\$&" );
+					}
+					if ( relativeHierarchySelector && hasParent ) {
+						context = context.parentNode;
+					}
+
+					try {
+						if ( !relativeHierarchySelector || hasParent ) {
+							return makeArray( context.querySelectorAll( "[id='" + nid + "'] " + query ), extra );
+						}
+
+					} catch(pseudoError) {
+					} finally {
+						if ( !old ) {
+							oldContext.removeAttribute( "id" );
+						}
+					}
+				}
+			}
+
+			return oldSizzle(query, context, extra, seed);
+		};
+
+		for ( var prop in oldSizzle ) {
+			Sizzle[ prop ] = oldSizzle[ prop ];
+		}
+
+		// release memory in IE
+		div = null;
+	})();
+}
+
+(function(){
+	var html = document.documentElement,
+		matches = html.matchesSelector || html.mozMatchesSelector || html.webkitMatchesSelector || html.msMatchesSelector;
+
+	if ( matches ) {
+		// Check to see if it's possible to do matchesSelector
+		// on a disconnected node (IE 9 fails this)
+		var disconnectedMatch = !matches.call( document.createElement( "div" ), "div" ),
+			pseudoWorks = false;
+
+		try {
+			// This should fail with an exception
+			// Gecko does not error, returns false instead
+			matches.call( document.documentElement, "[test!='']:sizzle" );
+
+		} catch( pseudoError ) {
+			pseudoWorks = true;
+		}
+
+		Sizzle.matchesSelector = function( node, expr ) {
+			// Make sure that attribute selectors are quoted
+			expr = expr.replace(/\=\s*([^'"\]]*)\s*\]/g, "='$1']");
+
+			if ( !Sizzle.isXML( node ) ) {
+				try {
+					if ( pseudoWorks || !Expr.match.PSEUDO.test( expr ) && !/!=/.test( expr ) ) {
+						var ret = matches.call( node, expr );
+
+						// IE 9's matchesSelector returns false on disconnected nodes
+						if ( ret || !disconnectedMatch ||
+								// As well, disconnected nodes are said to be in a document
+								// fragment in IE 9, so check for that
+								node.document && node.document.nodeType !== 11 ) {
+							return ret;
+						}
+					}
+				} catch(e) {}
+			}
+
+			return Sizzle(expr, null, null, [node]).length > 0;
+		};
+	}
+})();
+
+(function(){
+	var div = document.createElement("div");
+
+	div.innerHTML = "<div class='test e'></div><div class='test'></div>";
+
+	// Opera can't find a second classname (in 9.6)
+	// Also, make sure that getElementsByClassName actually exists
+	if ( !div.getElementsByClassName || div.getElementsByClassName("e").length === 0 ) {
+		return;
+	}
+
+	// Safari caches class attributes, doesn't catch changes (in 3.2)
+	div.lastChild.className = "e";
+
+	if ( div.getElementsByClassName("e").length === 1 ) {
+		return;
+	}
+
+	Expr.order.splice(1, 0, "CLASS");
+	Expr.find.CLASS = function( match, context, isXML ) {
+		if ( typeof context.getElementsByClassName !== "undefined" && !isXML ) {
+			return context.getElementsByClassName(match[1]);
+		}
+	};
+
+	// release memory in IE
+	div = null;
+})();
+
+function dirNodeCheck( dir, cur, doneName, checkSet, nodeCheck, isXML ) {
+	for ( var i = 0, l = checkSet.length; i < l; i++ ) {
+		var elem = checkSet[i];
+
+		if ( elem ) {
+			var match = false;
+
+			elem = elem[dir];
+
+			while ( elem ) {
+				if ( elem[ expando ] === doneName ) {
+					match = checkSet[elem.sizset];
+					break;
+				}
+
+				if ( elem.nodeType === 1 && !isXML ){
+					elem[ expando ] = doneName;
+					elem.sizset = i;
+				}
+
+				if ( elem.nodeName.toLowerCase() === cur ) {
+					match = elem;
+					break;
+				}
+
+				elem = elem[dir];
+			}
+
+			checkSet[i] = match;
+		}
+	}
+}
+
+function dirCheck( dir, cur, doneName, checkSet, nodeCheck, isXML ) {
+	for ( var i = 0, l = checkSet.length; i < l; i++ ) {
+		var elem = checkSet[i];
+
+		if ( elem ) {
+			var match = false;
+
+			elem = elem[dir];
+
+			while ( elem ) {
+				if ( elem[ expando ] === doneName ) {
+					match = checkSet[elem.sizset];
+					break;
+				}
+
+				if ( elem.nodeType === 1 ) {
+					if ( !isXML ) {
+						elem[ expando ] = doneName;
+						elem.sizset = i;
+					}
+
+					if ( typeof cur !== "string" ) {
+						if ( elem === cur ) {
+							match = true;
+							break;
+						}
+
+					} else if ( Sizzle.filter( cur, [elem] ).length > 0 ) {
+						match = elem;
+						break;
+					}
+				}
+
+				elem = elem[dir];
+			}
+
+			checkSet[i] = match;
+		}
+	}
+}
+
+if ( document.documentElement.contains ) {
+	Sizzle.contains = function( a, b ) {
+		return a !== b && (a.contains ? a.contains(b) : true);
+	};
+
+} else if ( document.documentElement.compareDocumentPosition ) {
+	Sizzle.contains = function( a, b ) {
+		return !!(a.compareDocumentPosition(b) & 16);
+	};
+
+} else {
+	Sizzle.contains = function() {
+		return false;
+	};
+}
+
+Sizzle.isXML = function( elem ) {
+	// documentElement is verified for cases where it doesn't yet exist
+	// (such as loading iframes in IE - #4833)
+	var documentElement = (elem ? elem.ownerDocument || elem : 0).documentElement;
+
+	return documentElement ? documentElement.nodeName !== "HTML" : false;
+};
+
+var posProcess = function( selector, context, seed ) {
+	var match,
+		tmpSet = [],
+		later = "",
+		root = context.nodeType ? [context] : context;
+
+	// Position selectors must be done after the filter
+	// And so must :not(positional) so we move all PSEUDOs to the end
+	while ( (match = Expr.match.PSEUDO.exec( selector )) ) {
+		later += match[0];
+		selector = selector.replace( Expr.match.PSEUDO, "" );
+	}
+
+	selector = Expr.relative[selector] ? selector + "*" : selector;
+
+	for ( var i = 0, l = root.length; i < l; i++ ) {
+		Sizzle( selector, root[i], tmpSet, seed );
+	}
+
+	return Sizzle.filter( later, tmpSet );
+};
+
+// EXPOSE
+
+window.tinymce.dom.Sizzle = Sizzle;
+
+})();
+
+
+(function(tinymce) {
+	tinymce.dom.Element = function(id, settings) {
+		var t = this, dom, el;
+
+		t.settings = settings = settings || {};
+		t.id = id;
+		t.dom = dom = settings.dom || tinymce.DOM;
+
+		// Only IE leaks DOM references, this is a lot faster
+		if (!tinymce.isIE)
+			el = dom.get(t.id);
+
+		tinymce.each(
+				('getPos,getRect,getParent,add,setStyle,getStyle,setStyles,' + 
+				'setAttrib,setAttribs,getAttrib,addClass,removeClass,' + 
+				'hasClass,getOuterHTML,setOuterHTML,remove,show,hide,' + 
+				'isHidden,setHTML,get').split(/,/), function(k) {
+					t[k] = function() {
+						var a = [id], i;
+
+						for (i = 0; i < arguments.length; i++)
+							a.push(arguments[i]);
+
+						a = dom[k].apply(dom, a);
+						t.update(k);
+
+						return a;
+					};
+			}
+		);
+
+		tinymce.extend(t, {
+			on : function(n, f, s) {
+				return tinymce.dom.Event.add(t.id, n, f, s);
+			},
+
+			getXY : function() {
+				return {
+					x : parseInt(t.getStyle('left')),
+					y : parseInt(t.getStyle('top'))
+				};
+			},
+
+			getSize : function() {
+				var n = dom.get(t.id);
+
+				return {
+					w : parseInt(t.getStyle('width') || n.clientWidth),
+					h : parseInt(t.getStyle('height') || n.clientHeight)
+				};
+			},
+
+			moveTo : function(x, y) {
+				t.setStyles({left : x, top : y});
+			},
+
+			moveBy : function(x, y) {
+				var p = t.getXY();
+
+				t.moveTo(p.x + x, p.y + y);
+			},
+
+			resizeTo : function(w, h) {
+				t.setStyles({width : w, height : h});
+			},
+
+			resizeBy : function(w, h) {
+				var s = t.getSize();
+
+				t.resizeTo(s.w + w, s.h + h);
+			},
+
+			update : function(k) {
+				var b;
+
+				if (tinymce.isIE6 && settings.blocker) {
+					k = k || '';
+
+					// Ignore getters
+					if (k.indexOf('get') === 0 || k.indexOf('has') === 0 || k.indexOf('is') === 0)
+						return;
+
+					// Remove blocker on remove
+					if (k == 'remove') {
+						dom.remove(t.blocker);
+						return;
+					}
+
+					if (!t.blocker) {
+						t.blocker = dom.uniqueId();
+						b = dom.add(settings.container || dom.getRoot(), 'iframe', {id : t.blocker, style : 'position:absolute;', frameBorder : 0, src : 'javascript:""'});
+						dom.setStyle(b, 'opacity', 0);
+					} else
+						b = dom.get(t.blocker);
+
+					dom.setStyles(b, {
+						left : t.getStyle('left', 1),
+						top : t.getStyle('top', 1),
+						width : t.getStyle('width', 1),
+						height : t.getStyle('height', 1),
+						display : t.getStyle('display', 1),
+						zIndex : parseInt(t.getStyle('zIndex', 1) || 0) - 1
+					});
+				}
+			}
+		});
+	};
+})(tinymce);
+
+(function(tinymce) {
+	function trimNl(s) {
+		return s.replace(/[\n\r]+/g, '');
+	};
+
+	// Shorten names
+	var is = tinymce.is, isIE = tinymce.isIE, each = tinymce.each, TreeWalker = tinymce.dom.TreeWalker;
+
+	tinymce.create('tinymce.dom.Selection', {
+		Selection : function(dom, win, serializer, editor) {
+			var t = this;
+
+			t.dom = dom;
+			t.win = win;
+			t.serializer = serializer;
+			t.editor = editor;
+
+			// Add events
+			each([
+				'onBeforeSetContent',
+
+				'onBeforeGetContent',
+
+				'onSetContent',
+
+				'onGetContent'
+			], function(e) {
+				t[e] = new tinymce.util.Dispatcher(t);
+			});
+
+			// No W3C Range support
+			if (!t.win.getSelection)
+				t.tridentSel = new tinymce.dom.TridentSelection(t);
+
+			if (tinymce.isIE && ! tinymce.isIE11 && dom.boxModel)
+				this._fixIESelection();
+
+			// Prevent leaks
+			tinymce.addUnload(t.destroy, t);
+		},
+
+		setCursorLocation: function(node, offset) {
+			var t = this; var r = t.dom.createRng();
+			r.setStart(node, offset);
+			r.setEnd(node, offset);
+			t.setRng(r);
+			t.collapse(false);
+		},
+		getContent : function(s) {
+			var t = this, r = t.getRng(), e = t.dom.create("body"), se = t.getSel(), wb, wa, n;
+
+			s = s || {};
+			wb = wa = '';
+			s.get = true;
+			s.format = s.format || 'html';
+			s.forced_root_block = '';
+			t.onBeforeGetContent.dispatch(t, s);
+
+			if (s.format == 'text')
+				return t.isCollapsed() ? '' : (r.text || (se.toString ? se.toString() : ''));
+
+			if (r.cloneContents) {
+				n = r.cloneContents();
+
+				if (n)
+					e.appendChild(n);
+			} else if (is(r.item) || is(r.htmlText)) {
+				// IE will produce invalid markup if elements are present that
+				// it doesn't understand like custom elements or HTML5 elements.
+				// Adding a BR in front of the contents and then remoiving it seems to fix it though.
+				e.innerHTML = '<br>' + (r.item ? r.item(0).outerHTML : r.htmlText);
+				e.removeChild(e.firstChild);
+			} else
+				e.innerHTML = r.toString();
+
+			// Keep whitespace before and after
+			if (/^\s/.test(e.innerHTML))
+				wb = ' ';
+
+			if (/\s+$/.test(e.innerHTML))
+				wa = ' ';
+
+			s.getInner = true;
+
+			s.content = t.isCollapsed() ? '' : wb + t.serializer.serialize(e, s) + wa;
+			t.onGetContent.dispatch(t, s);
+
+			return s.content;
+		},
+
+		setContent : function(content, args) {
+			var self = this, rng = self.getRng(), caretNode, doc = self.win.document, frag, temp;
+
+			args = args || {format : 'html'};
+			args.set = true;
+			content = args.content = content;
+
+			// Dispatch before set content event
+			if (!args.no_events)
+				self.onBeforeSetContent.dispatch(self, args);
+
+			content = args.content;
+
+			if (rng.insertNode) {
+				// Make caret marker since insertNode places the caret in the beginning of text after insert
+				content += '<span id="__caret">_</span>';
+
+				// Delete and insert new node
+				if (rng.startContainer == doc && rng.endContainer == doc) {
+					// WebKit will fail if the body is empty since the range is then invalid and it can't insert contents
+					doc.body.innerHTML = content;
+				} else {
+					rng.deleteContents();
+
+					if (doc.body.childNodes.length === 0) {
+						doc.body.innerHTML = content;
+					} else {
+						// createContextualFragment doesn't exists in IE 9 DOMRanges
+						if (rng.createContextualFragment) {
+							rng.insertNode(rng.createContextualFragment(content));
+						} else {
+							// Fake createContextualFragment call in IE 9
+							frag = doc.createDocumentFragment();
+							temp = doc.createElement('div');
+
+							frag.appendChild(temp);
+							temp.outerHTML = content;
+
+							rng.insertNode(frag);
+						}
+					}
+				}
+
+				// Move to caret marker
+				caretNode = self.dom.get('__caret');
+
+				// Make sure we wrap it compleatly, Opera fails with a simple select call
+				rng = doc.createRange();
+				rng.setStartBefore(caretNode);
+				rng.setEndBefore(caretNode);
+				self.setRng(rng);
+
+				// Remove the caret position
+				self.dom.remove('__caret');
+
+				try {
+					self.setRng(rng);
+				} catch (ex) {
+					// Might fail on Opera for some odd reason
+				}
+			} else {
+				if (rng.item) {
+					// Delete content and get caret text selection
+					doc.execCommand('Delete', false, null);
+					rng = self.getRng();
+				}
+
+				// Explorer removes spaces from the beginning of pasted contents
+				if (/^\s+/.test(content)) {
+					rng.pasteHTML('<span id="__mce_tmp">_</span>' + content);
+					self.dom.remove('__mce_tmp');
+				} else
+					rng.pasteHTML(content);
+			}
+
+			// Dispatch set content event
+			if (!args.no_events)
+				self.onSetContent.dispatch(self, args);
+		},
+
+		getStart : function() {
+			var self = this, rng = self.getRng(), startElement, parentElement, checkRng, node;
+
+			if (rng.duplicate || rng.item) {
+				// Control selection, return first item
+				if (rng.item)
+					return rng.item(0);
+
+				// Get start element
+				checkRng = rng.duplicate();
+				checkRng.collapse(1);
+				startElement = checkRng.parentElement();
+				if (startElement.ownerDocument !== self.dom.doc) {
+					startElement = self.dom.getRoot();
+				}
+
+				// Check if range parent is inside the start element, then return the inner parent element
+				// This will fix issues when a single element is selected, IE would otherwise return the wrong start element
+				parentElement = node = rng.parentElement();
+				while (node = node.parentNode) {
+					if (node == startElement) {
+						startElement = parentElement;
+						break;
+					}
+				}
+
+				return startElement;
+			} else {
+				startElement = rng.startContainer;
+
+				if (startElement.nodeType == 1 && startElement.hasChildNodes())
+					startElement = startElement.childNodes[Math.min(startElement.childNodes.length - 1, rng.startOffset)];
+
+				if (startElement && startElement.nodeType == 3)
+					return startElement.parentNode;
+
+				return startElement;
+			}
+		},
+
+		getEnd : function() {
+			var self = this, rng = self.getRng(), endElement, endOffset;
+
+			if (rng.duplicate || rng.item) {
+				if (rng.item)
+					return rng.item(0);
+
+				rng = rng.duplicate();
+				rng.collapse(0);
+				endElement = rng.parentElement();
+				if (endElement.ownerDocument !== self.dom.doc) {
+					endElement = self.dom.getRoot();
+				}
+
+				if (endElement && endElement.nodeName == 'BODY')
+					return endElement.lastChild || endElement;
+
+				return endElement;
+			} else {
+				endElement = rng.endContainer;
+				endOffset = rng.endOffset;
+
+				if (endElement.nodeType == 1 && endElement.hasChildNodes())
+					endElement = endElement.childNodes[endOffset > 0 ? endOffset - 1 : endOffset];
+
+				if (endElement && endElement.nodeType == 3)
+					return endElement.parentNode;
+
+				return endElement;
+			}
+		},
+
+		getBookmark : function(type, normalized) {
+			var t = this, dom = t.dom, rng, rng2, id, collapsed, name, element, index, chr = '\uFEFF', styles;
+
+			function findIndex(name, element) {
+				var index = 0;
+
+				each(dom.select(name), function(node, i) {
+					if (node == element)
+						index = i;
+				});
+
+				return index;
+			};
+
+			function normalizeTableCellSelection(rng) {
+				function moveEndPoint(start) {
+					var container, offset, childNodes, prefix = start ? 'start' : 'end';
+
+					container = rng[prefix + 'Container'];
+					offset = rng[prefix + 'Offset'];
+
+					if (container.nodeType == 1 && container.nodeName == "TR") {
+						childNodes = container.childNodes;
+						container = childNodes[Math.min(start ? offset : offset - 1, childNodes.length - 1)];
+						if (container) {
+							offset = start ? 0 : container.childNodes.length;
+							rng['set' + (start ? 'Start' : 'End')](container, offset);
+						}
+					}
+				};
+
+				moveEndPoint(true);
+				moveEndPoint();
+
+				return rng;
+			};
+
+			function getLocation() {
+				var rng = t.getRng(true), root = dom.getRoot(), bookmark = {};
+
+				function getPoint(rng, start) {
+					var container = rng[start ? 'startContainer' : 'endContainer'],
+						offset = rng[start ? 'startOffset' : 'endOffset'], point = [], node, childNodes, after = 0;
+
+					if (container.nodeType == 3) {
+						if (normalized) {
+							for (node = container.previousSibling; node && node.nodeType == 3; node = node.previousSibling)
+								offset += node.nodeValue.length;
+						}
+
+						point.push(offset);
+					} else {
+						childNodes = container.childNodes;
+
+						if (offset >= childNodes.length && childNodes.length) {
+							after = 1;
+							offset = Math.max(0, childNodes.length - 1);
+						}
+
+						point.push(t.dom.nodeIndex(childNodes[offset], normalized) + after);
+					}
+
+					for (; container && container != root; container = container.parentNode)
+						point.push(t.dom.nodeIndex(container, normalized));
+
+					return point;
+				};
+
+				bookmark.start = getPoint(rng, true);
+
+				if (!t.isCollapsed())
+					bookmark.end = getPoint(rng);
+
+				return bookmark;
+			};
+
+			if (type == 2) {
+				if (t.tridentSel)
+					return t.tridentSel.getBookmark(type);
+
+				return getLocation();
+			}
+
+			// Handle simple range
+			if (type) {
+				rng = t.getRng();
+
+				if (rng.setStart) {
+					rng = {
+						startContainer: rng.startContainer,
+						startOffset: rng.startOffset,
+						endContainer: rng.endContainer,
+						endOffset: rng.endOffset
+					};
+				}
+
+				return {rng : rng};
+			}
+
+			rng = t.getRng();
+			id = dom.uniqueId();
+			collapsed = tinyMCE.activeEditor.selection.isCollapsed();
+			styles = 'overflow:hidden;line-height:0px';
+
+			// Explorer method
+			if (rng.duplicate || rng.item) {
+				// Text selection
+				if (!rng.item) {
+					rng2 = rng.duplicate();
+
+					try {
+						// Insert start marker
+						rng.collapse();
+						rng.pasteHTML('<span data-mce-type="bookmark" id="' + id + '_start" style="' + styles + '">' + chr + '</span>');
+
+						// Insert end marker
+						if (!collapsed) {
+							rng2.collapse(false);
+
+							// Detect the empty space after block elements in IE and move the end back one character <p></p>] becomes <p>]</p>
+							rng.moveToElementText(rng2.parentElement());
+							if (rng.compareEndPoints('StartToEnd', rng2) === 0)
+								rng2.move('character', -1);
+
+							rng2.pasteHTML('<span data-mce-type="bookmark" id="' + id + '_end" style="' + styles + '">' + chr + '</span>');
+						}
+					} catch (ex) {
+						// IE might throw unspecified error so lets ignore it
+						return null;
+					}
+				} else {
+					// Control selection
+					element = rng.item(0);
+					name = element.nodeName;
+
+					return {name : name, index : findIndex(name, element)};
+				}
+			} else {
+				element = t.getNode();
+				name = element.nodeName;
+				if (name == 'IMG')
+					return {name : name, index : findIndex(name, element)};
+
+				// W3C method
+				rng2 = normalizeTableCellSelection(rng.cloneRange());
+
+				// Insert end marker
+				if (!collapsed) {
+					rng2.collapse(false);
+					rng2.insertNode(dom.create('span', {'data-mce-type' : "bookmark", id : id + '_end', style : styles}, chr));
+				}
+
+				rng = normalizeTableCellSelection(rng);
+				rng.collapse(true);
+				rng.insertNode(dom.create('span', {'data-mce-type' : "bookmark", id : id + '_start', style : styles}, chr));
+			}
+
+			t.moveToBookmark({id : id, keep : 1});
+
+			return {id : id};
+		},
+
+		moveToBookmark : function(bookmark) {
+			var t = this, dom = t.dom, marker1, marker2, rng, rng2, root, startContainer, endContainer, startOffset, endOffset;
+
+			function setEndPoint(start) {
+				var point = bookmark[start ? 'start' : 'end'], i, node, offset, children;
+
+				if (point) {
+					offset = point[0];
+
+					// Find container node
+					for (node = root, i = point.length - 1; i >= 1; i--) {
+						children = node.childNodes;
+
+						if (point[i] > children.length - 1)
+							return;
+
+						node = children[point[i]];
+					}
+
+					// Move text offset to best suitable location
+					if (node.nodeType === 3)
+						offset = Math.min(point[0], node.nodeValue.length);
+
+					// Move element offset to best suitable location
+					if (node.nodeType === 1)
+						offset = Math.min(point[0], node.childNodes.length);
+
+					// Set offset within container node
+					if (start)
+						rng.setStart(node, offset);
+					else
+						rng.setEnd(node, offset);
+				}
+
+				return true;
+			};
+
+			function restoreEndPoint(suffix) {
+				var marker = dom.get(bookmark.id + '_' + suffix), node, idx, next, prev, keep = bookmark.keep;
+
+				if (marker) {
+					node = marker.parentNode;
+
+					if (suffix == 'start') {
+						if (!keep) {
+							idx = dom.nodeIndex(marker);
+						} else {
+							node = marker.firstChild;
+							idx = 1;
+						}
+
+						startContainer = endContainer = node;
+						startOffset = endOffset = idx;
+					} else {
+						if (!keep) {
+							idx = dom.nodeIndex(marker);
+						} else {
+							node = marker.firstChild;
+							idx = 1;
+						}
+
+						endContainer = node;
+						endOffset = idx;
+					}
+
+					if (!keep) {
+						prev = marker.previousSibling;
+						next = marker.nextSibling;
+
+						// Remove all marker text nodes
+						each(tinymce.grep(marker.childNodes), function(node) {
+							if (node.nodeType == 3)
+								node.nodeValue = node.nodeValue.replace(/\uFEFF/g, '');
+						});
+
+						// Remove marker but keep children if for example contents where inserted into the marker
+						// Also remove duplicated instances of the marker for example by a split operation or by WebKit auto split on paste feature
+						while (marker = dom.get(bookmark.id + '_' + suffix))
+							dom.remove(marker, 1);
+
+						// If siblings are text nodes then merge them unless it's Opera since it some how removes the node
+						// and we are sniffing since adding a lot of detection code for a browser with 3% of the market isn't worth the effort. Sorry, Opera but it's just a fact
+						if (prev && next && prev.nodeType == next.nodeType && prev.nodeType == 3 && !tinymce.isOpera) {
+							idx = prev.nodeValue.length;
+							prev.appendData(next.nodeValue);
+							dom.remove(next);
+
+							if (suffix == 'start') {
+								startContainer = endContainer = prev;
+								startOffset = endOffset = idx;
+							} else {
+								endContainer = prev;
+								endOffset = idx;
+							}
+						}
+					}
+				}
+			};
+
+			function addBogus(node) {
+				// Adds a bogus BR element for empty block elements
+				if (dom.isBlock(node) && !node.innerHTML && !isIE)
+					node.innerHTML = '<br data-mce-bogus="1" />';
+
+				return node;
+			};
+
+			if (bookmark) {
+				if (bookmark.start) {
+					rng = dom.createRng();
+					root = dom.getRoot();
+
+					if (t.tridentSel)
+						return t.tridentSel.moveToBookmark(bookmark);
+
+					if (setEndPoint(true) && setEndPoint()) {
+						t.setRng(rng);
+					}
+				} else if (bookmark.id) {
+					// Restore start/end points
+					restoreEndPoint('start');
+					restoreEndPoint('end');
+
+					if (startContainer) {
+						rng = dom.createRng();
+						rng.setStart(addBogus(startContainer), startOffset);
+						rng.setEnd(addBogus(endContainer), endOffset);
+						t.setRng(rng);
+					}
+				} else if (bookmark.name) {
+					t.select(dom.select(bookmark.name)[bookmark.index]);
+				} else if (bookmark.rng) {
+					rng = bookmark.rng;
+
+					if (rng.startContainer) {
+						rng2 = t.dom.createRng();
+
+						try {
+							rng2.setStart(rng.startContainer, rng.startOffset);
+							rng2.setEnd(rng.endContainer, rng.endOffset);
+						} catch (e) {
+							// Might fail with index error
+						}
+
+						rng = rng2;
+					}
+
+					t.setRng(rng);
+				}
+			}
+		},
+
+		select : function(node, content) {
+			var t = this, dom = t.dom, rng = dom.createRng(), idx;
+
+			function setPoint(node, start) {
+				var walker = new TreeWalker(node, node);
+
+				do {
+					// Text node
+					if (node.nodeType == 3 && tinymce.trim(node.nodeValue).length !== 0) {
+						if (start)
+							rng.setStart(node, 0);
+						else
+							rng.setEnd(node, node.nodeValue.length);
+
+						return;
+					}
+
+					// BR element
+					if (node.nodeName == 'BR') {
+						if (start)
+							rng.setStartBefore(node);
+						else
+							rng.setEndBefore(node);
+
+						return;
+					}
+				} while (node = (start ? walker.next() : walker.prev()));
+			};
+
+			if (node) {
+				idx = dom.nodeIndex(node);
+				rng.setStart(node.parentNode, idx);
+				rng.setEnd(node.parentNode, idx + 1);
+
+				// Find first/last text node or BR element
+				if (content) {
+					setPoint(node, 1);
+					setPoint(node);
+				}
+
+				t.setRng(rng);
+			}
+
+			return node;
+		},
+
+		isCollapsed : function() {
+			var t = this, r = t.getRng(), s = t.getSel();
+
+			if (!r || r.item)
+				return false;
+
+			if (r.compareEndPoints)
+				return r.compareEndPoints('StartToEnd', r) === 0;
+
+			return !s || r.collapsed;
+		},
+
+		collapse : function(to_start) {
+			var self = this, rng = self.getRng(), node;
+
+			// Control range on IE
+			if (rng.item) {
+				node = rng.item(0);
+				rng = self.win.document.body.createTextRange();
+				rng.moveToElementText(node);
+			}
+
+			rng.collapse(!!to_start);
+			self.setRng(rng);
+		},
+
+		getSel : function() {
+			var t = this, w = this.win;
+
+			return w.getSelection ? w.getSelection() : w.document.selection;
+		},
+
+		getRng : function(w3c) {
+			var self = this, selection, rng, elm, doc = self.win.document;
+
+			// Found tridentSel object then we need to use that one
+			if (w3c && self.tridentSel) {
+				return self.tridentSel.getRangeAt(0);
+			}
+
+			try {
+				if (selection = self.getSel()) {
+					rng = selection.rangeCount > 0 ? selection.getRangeAt(0) : (selection.createRange ? selection.createRange() : doc.createRange());
+				}
+			} catch (ex) {
+				// IE throws unspecified error here if TinyMCE is placed in a frame/iframe
+			}
+
+			// We have W3C ranges and it's IE then fake control selection since IE9 doesn't handle that correctly yet
+			if (tinymce.isIE && ! tinymce.isIE11 && rng && rng.setStart && doc.selection.createRange().item) {
+				elm = doc.selection.createRange().item(0);
+				rng = doc.createRange();
+				rng.setStartBefore(elm);
+				rng.setEndAfter(elm);
+			}
+
+			// No range found then create an empty one
+			// This can occur when the editor is placed in a hidden container element on Gecko
+			// Or on IE when there was an exception
+			if (!rng) {
+				rng = doc.createRange ? doc.createRange() : doc.body.createTextRange();
+			}
+
+			// If range is at start of document then move it to start of body
+			if (rng.setStart && rng.startContainer.nodeType === 9 && rng.collapsed) {
+				elm = self.dom.getRoot();
+				rng.setStart(elm, 0);
+				rng.setEnd(elm, 0);
+			}
+
+			if (self.selectedRange && self.explicitRange) {
+				if (rng.compareBoundaryPoints(rng.START_TO_START, self.selectedRange) === 0 && rng.compareBoundaryPoints(rng.END_TO_END, self.selectedRange) === 0) {
+					// Safari, Opera and Chrome only ever select text which causes the range to change.
+					// This lets us use the originally set range if the selection hasn't been changed by the user.
+					rng = self.explicitRange;
+				} else {
+					self.selectedRange = null;
+					self.explicitRange = null;
+				}
+			}
+
+			return rng;
+		},
+
+		setRng : function(r, forward) {
+			var s, t = this;
+
+			if (!t.tridentSel) {
+				s = t.getSel();
+
+				if (s) {
+					t.explicitRange = r;
+
+					try {
+						s.removeAllRanges();
+					} catch (ex) {
+						// IE9 might throw errors here don't know why
+					}
+
+					s.addRange(r);
+
+					// Forward is set to false and we have an extend function
+					if (forward === false && s.extend) {
+						s.collapse(r.endContainer, r.endOffset);
+						s.extend(r.startContainer, r.startOffset);
+					}
+
+					// adding range isn't always successful so we need to check range count otherwise an exception can occur
+					t.selectedRange = s.rangeCount > 0 ? s.getRangeAt(0) : null;
+				}
+			} else {
+				// Is W3C Range
+				if (r.cloneRange) {
+					try {
+						t.tridentSel.addRange(r);
+						return;
+					} catch (ex) {
+						//IE9 throws an error here if called before selection is placed in the editor
+					}
+				}
+
+				// Is IE specific range
+				try {
+					r.select();
+				} catch (ex) {
+					// Needed for some odd IE bug #1843306
+				}
+			}
+		},
+
+		setNode : function(n) {
+			var t = this;
+
+			t.setContent(t.dom.getOuterHTML(n));
+
+			return n;
+		},
+
+		getNode : function() {
+			var t = this, rng = t.getRng(), sel = t.getSel(), elm, start = rng.startContainer, end = rng.endContainer;
+
+			function skipEmptyTextNodes(n, forwards) {
+				var orig = n;
+				while (n && n.nodeType === 3 && n.length === 0) {
+					n = forwards ? n.nextSibling : n.previousSibling;
+				}
+				return n || orig;
+			};
+
+			// Range maybe lost after the editor is made visible again
+			if (!rng)
+				return t.dom.getRoot();
+
+			if (rng.setStart) {
+				elm = rng.commonAncestorContainer;
+
+				// Handle selection a image or other control like element such as anchors
+				if (!rng.collapsed) {
+					if (rng.startContainer == rng.endContainer) {
+						if (rng.endOffset - rng.startOffset < 2) {
+							if (rng.startContainer.hasChildNodes())
+								elm = rng.startContainer.childNodes[rng.startOffset];
+						}
+					}
+
+					// If the anchor node is a element instead of a text node then return this element
+					//if (tinymce.isWebKit && sel.anchorNode && sel.anchorNode.nodeType == 1)
+					//	return sel.anchorNode.childNodes[sel.anchorOffset];
+
+					// Handle cases where the selection is immediately wrapped around a node and return that node instead of it's parent.
+					// This happens when you double click an underlined word in FireFox.
+					if (start.nodeType === 3 && end.nodeType === 3) {
+						if (start.length === rng.startOffset) {
+							start = skipEmptyTextNodes(start.nextSibling, true);
+						} else {
+							start = start.parentNode;
+						}
+						if (rng.endOffset === 0) {
+							end = skipEmptyTextNodes(end.previousSibling, false);
+						} else {
+							end = end.parentNode;
+						}
+
+						if (start && start === end)
+							return start;
+					}
+				}
+
+				if (elm && elm.nodeType == 3)
+					return elm.parentNode;
+
+				return elm;
+			}
+
+			return rng.item ? rng.item(0) : rng.parentElement();
+		},
+
+		getSelectedBlocks : function(st, en) {
+			var t = this, dom = t.dom, sb, eb, n, bl = [];
+
+			sb = dom.getParent(st || t.getStart(), dom.isBlock);
+			eb = dom.getParent(en || t.getEnd(), dom.isBlock);
+
+			if (sb)
+				bl.push(sb);
+
+			if (sb && eb && sb != eb) {
+				n = sb;
+
+				var walker = new TreeWalker(sb, dom.getRoot());
+				while ((n = walker.next()) && n != eb) {
+					if (dom.isBlock(n))
+						bl.push(n);
+				}
+			}
+
+			if (eb && sb != eb)
+				bl.push(eb);
+
+			return bl;
+		},
+
+		isForward: function(){
+			var dom = this.dom, sel = this.getSel(), anchorRange, focusRange;
+
+			// No support for selection direction then always return true
+			if (!sel || sel.anchorNode == null || sel.focusNode == null) {
+				return true;
+			}
+
+			anchorRange = dom.createRng();
+			anchorRange.setStart(sel.anchorNode, sel.anchorOffset);
+			anchorRange.collapse(true);
+
+			focusRange = dom.createRng();
+			focusRange.setStart(sel.focusNode, sel.focusOffset);
+			focusRange.collapse(true);
+
+			return anchorRange.compareBoundaryPoints(anchorRange.START_TO_START, focusRange) <= 0;
+		},
+
+		normalize : function() {
+			var self = this, rng, normalized, collapsed, node, sibling;
+
+			function normalizeEndPoint(start) {
+				var container, offset, walker, dom = self.dom, body = dom.getRoot(), node, nonEmptyElementsMap, nodeName;
+
+				function hasBrBeforeAfter(node, left) {
+					var walker = new TreeWalker(node, dom.getParent(node.parentNode, dom.isBlock) || body);
+
+					while (node = walker[left ? 'prev' : 'next']()) {
+						if (node.nodeName === "BR") {
+							return true;
+						}
+					}
+				};
+
+				// Walks the dom left/right to find a suitable text node to move the endpoint into
+				// It will only walk within the current parent block or body and will stop if it hits a block or a BR/IMG
+				function findTextNodeRelative(left, startNode) {
+					var walker, lastInlineElement;
+
+					startNode = startNode || container;
+					walker = new TreeWalker(startNode, dom.getParent(startNode.parentNode, dom.isBlock) || body);
+
+					// Walk left until we hit a text node we can move to or a block/br/img
+					while (node = walker[left ? 'prev' : 'next']()) {
+						// Found text node that has a length
+						if (node.nodeType === 3 && node.nodeValue.length > 0) {
+							container = node;
+							offset = left ? node.nodeValue.length : 0;
+							normalized = true;
+							return;
+						}
+
+						// Break if we find a block or a BR/IMG/INPUT etc
+						if (dom.isBlock(node) || nonEmptyElementsMap[node.nodeName.toLowerCase()]) {
+							return;
+						}
+
+						lastInlineElement = node;
+					}
+
+					// Only fetch the last inline element when in caret mode for now
+					if (collapsed && lastInlineElement) {
+						container = lastInlineElement;
+						normalized = true;
+						offset = 0;
+					}
+				};
+
+				container = rng[(start ? 'start' : 'end') + 'Container'];
+				offset = rng[(start ? 'start' : 'end') + 'Offset'];
+				nonEmptyElementsMap = dom.schema.getNonEmptyElements();
+
+				// If the container is a document move it to the body element
+				if (container.nodeType === 9) {
+					container = dom.getRoot();
+					offset = 0;
+				}
+
+				// If the container is body try move it into the closest text node or position
+				if (container === body) {
+					// If start is before/after a image, table etc
+					if (start) {
+						node = container.childNodes[offset > 0 ? offset - 1 : 0];
+						if (node) {
+							nodeName = node.nodeName.toLowerCase();
+							if (nonEmptyElementsMap[node.nodeName] || node.nodeName == "TABLE") {
+								return;
+							}
+						}
+					}
+
+					// Resolve the index
+					if (container.hasChildNodes()) {
+						container = container.childNodes[Math.min(!start && offset > 0 ? offset - 1 : offset, container.childNodes.length - 1)];
+						offset = 0;
+
+						// Don't walk into elements that doesn't have any child nodes like a IMG
+						if (container.hasChildNodes() && !/TABLE/.test(container.nodeName)) {
+							// Walk the DOM to find a text node to place the caret at or a BR
+							node = container;
+							walker = new TreeWalker(container, body);
+
+							do {
+								// Found a text node use that position
+								if (node.nodeType === 3 && node.nodeValue.length > 0) {
+									offset = start ? 0 : node.nodeValue.length;
+									container = node;
+									normalized = true;
+									break;
+								}
+
+								// Found a BR/IMG element that we can place the caret before
+								if (nonEmptyElementsMap[node.nodeName.toLowerCase()]) {
+									offset = dom.nodeIndex(node);
+									container = node.parentNode;
+
+									// Put caret after image when moving the end point
+									if (node.nodeName ==  "IMG" && !start) {
+										offset++;
+									}
+
+									normalized = true;
+									break;
+								}
+							} while (node = (start ? walker.next() : walker.prev()));
+						}
+					}
+				}
+
+				// Lean the caret to the left if possible
+				if (collapsed) {
+					// So this: <b>x</b><i>|x</i>
+					// Becomes: <b>x|</b><i>x</i>
+					// Seems that only gecko has issues with this
+					if (container.nodeType === 3 && offset === 0) {
+						findTextNodeRelative(true);
+					}
+
+					// Lean left into empty inline elements when the caret is before a BR
+					// So this: <i><b></b><i>|<br></i>
+					// Becomes: <i><b>|</b><i><br></i>
+					// Seems that only gecko has issues with this
+					if (container.nodeType === 1) {
+						node = container.childNodes[offset];
+						if(node && node.nodeName === 'BR' && !hasBrBeforeAfter(node) && !hasBrBeforeAfter(node, true)) {
+							findTextNodeRelative(true, container.childNodes[offset]);
+						}
+					}
+				}
+
+				// Lean the start of the selection right if possible
+				// So this: x[<b>x]</b>
+				// Becomes: x<b>[x]</b>
+				if (start && !collapsed && container.nodeType === 3 && offset === container.nodeValue.length) {
+					findTextNodeRelative(false);
+				}
+
+				// Set endpoint if it was normalized
+				if (normalized)
+					rng['set' + (start ? 'Start' : 'End')](container, offset);
+			};
+
+			// Normalize only on non IE browsers for now
+			if (tinymce.isIE)
+				return;
+			
+			rng = self.getRng();
+			collapsed = rng.collapsed;
+
+			// Normalize the end points
+			normalizeEndPoint(true);
+
+			if (!collapsed)
+				normalizeEndPoint();
+
+			// Set the selection if it was normalized
+			if (normalized) {
+				// If it was collapsed then make sure it still is
+				if (collapsed) {
+					rng.collapse(true);
+				}
+
+				//console.log(self.dom.dumpRng(rng));
+				self.setRng(rng, self.isForward());
+			}
+		},
+
+		selectorChanged: function(selector, callback) {
+			var self = this, currentSelectors;
+
+			if (!self.selectorChangedData) {
+				self.selectorChangedData = {};
+				currentSelectors = {};
+
+				self.editor.onNodeChange.addToTop(function(ed, cm, node) {
+					var dom = self.dom, parents = dom.getParents(node, null, dom.getRoot()), matchedSelectors = {};
+
+					// Check for new matching selectors
+					each(self.selectorChangedData, function(callbacks, selector) {
+						each(parents, function(node) {
+							if (dom.is(node, selector)) {
+								if (!currentSelectors[selector]) {
+									// Execute callbacks
+									each(callbacks, function(callback) {
+										callback(true, {node: node, selector: selector, parents: parents});
+									});
+
+									currentSelectors[selector] = callbacks;
+								}
+
+								matchedSelectors[selector] = callbacks;
+								return false;
+							}
+						});
+					});
+
+					// Check if current selectors still match
+					each(currentSelectors, function(callbacks, selector) {
+						if (!matchedSelectors[selector]) {
+							delete currentSelectors[selector];
+
+							each(callbacks, function(callback) {
+								callback(false, {node: node, selector: selector, parents: parents});
+							});
+						}
+					});
+				});
+			}
+
+			// Add selector listeners
+			if (!self.selectorChangedData[selector]) {
+				self.selectorChangedData[selector] = [];
+			}
+
+			self.selectorChangedData[selector].push(callback);
+
+			return self;
+		},
+
+		scrollIntoView: function(elm) {
+			var y, viewPort, self = this, dom = self.dom;
+
+			viewPort = dom.getViewPort(self.editor.getWin());
+			y = dom.getPos(elm).y;
+			if (y < viewPort.y || y + 25 > viewPort.y + viewPort.h) {
+				self.editor.getWin().scrollTo(0, y < viewPort.y ? y : y - viewPort.h + 25);
+			}
+		},
+
+		destroy : function(manual) {
+			var self = this;
+
+			self.win = null;
+
+			// Manual destroy then remove unload handler
+			if (!manual)
+				tinymce.removeUnload(self.destroy);
+		},
+
+		// IE has an issue where you can't select/move the caret by clicking outside the body if the document is in standards mode
+		_fixIESelection : function() {
+			var dom = this.dom, doc = dom.doc, body = doc.body, started, startRng, htmlElm;
+
+			// Return range from point or null if it failed
+			function rngFromPoint(x, y) {
+				var rng = body.createTextRange();
+
+				try {
+					rng.moveToPoint(x, y);
+				} catch (ex) {
+					// IE sometimes throws and exception, so lets just ignore it
+					rng = null;
+				}
+
+				return rng;
+			};
+
+			// Fires while the selection is changing
+			function selectionChange(e) {
+				var pointRng;
+
+				// Check if the button is down or not
+				if (e.button) {
+					// Create range from mouse position
+					pointRng = rngFromPoint(e.x, e.y);
+
+					if (pointRng) {
+						// Check if pointRange is before/after selection then change the endPoint
+						if (pointRng.compareEndPoints('StartToStart', startRng) > 0)
+							pointRng.setEndPoint('StartToStart', startRng);
+						else
+							pointRng.setEndPoint('EndToEnd', startRng);
+
+						pointRng.select();
+					}
+				} else
+					endSelection();
+			}
+
+			// Removes listeners
+			function endSelection() {
+				var rng = doc.selection.createRange();
+
+				// If the range is collapsed then use the last start range
+				if (startRng && !rng.item && rng.compareEndPoints('StartToEnd', rng) === 0)
+					startRng.select();
+
+				dom.unbind(doc, 'mouseup', endSelection);
+				dom.unbind(doc, 'mousemove', selectionChange);
+				startRng = started = 0;
+			};
+
+			// Make HTML element unselectable since we are going to handle selection by hand
+			doc.documentElement.unselectable = true;
+			
+			// Detect when user selects outside BODY
+			dom.bind(doc, ['mousedown', 'contextmenu'], function(e) {
+				if (e.target.nodeName === 'HTML') {
+					if (started)
+						endSelection();
+
+					// Detect vertical scrollbar, since IE will fire a mousedown on the scrollbar and have target set as HTML
+					htmlElm = doc.documentElement;
+					if (htmlElm.scrollHeight > htmlElm.clientHeight)
+						return;
+
+					started = 1;
+					// Setup start position
+					startRng = rngFromPoint(e.x, e.y);
+					if (startRng) {
+						// Listen for selection change events
+						dom.bind(doc, 'mouseup', endSelection);
+						dom.bind(doc, 'mousemove', selectionChange);
+
+						dom.win.focus();
+						startRng.select();
+					}
+				}
+			});
+		}
+	});
+})(tinymce);
+
+(function(tinymce) {
+	tinymce.dom.Serializer = function(settings, dom, schema) {
+		var onPreProcess, onPostProcess, isIE = tinymce.isIE, each = tinymce.each, htmlParser;
+
+		// Support the old apply_source_formatting option
+		if (!settings.apply_source_formatting)
+			settings.indent = false;
+
+		// Default DOM and Schema if they are undefined
+		dom = dom || tinymce.DOM;
+		schema = schema || new tinymce.html.Schema(settings);
+		settings.entity_encoding = settings.entity_encoding || 'named';
+		settings.remove_trailing_brs = "remove_trailing_brs" in settings ? settings.remove_trailing_brs : true;
+
+		onPreProcess = new tinymce.util.Dispatcher(self);
+
+		onPostProcess = new tinymce.util.Dispatcher(self);
+
+		htmlParser = new tinymce.html.DomParser(settings, schema);
+
+		// Convert move data-mce-src, data-mce-href and data-mce-style into nodes or process them if needed
+		htmlParser.addAttributeFilter('src,href,style', function(nodes, name) {
+			var i = nodes.length, node, value, internalName = 'data-mce-' + name, urlConverter = settings.url_converter, urlConverterScope = settings.url_converter_scope, undef;
+
+			while (i--) {
+				node = nodes[i];
+
+				value = node.attributes.map[internalName];
+				if (value !== undef) {
+					// Set external name to internal value and remove internal
+					node.attr(name, value.length > 0 ? value : null);
+					node.attr(internalName, null);
+				} else {
+					// No internal attribute found then convert the value we have in the DOM
+					value = node.attributes.map[name];
+
+					if (name === "style")
+						value = dom.serializeStyle(dom.parseStyle(value), node.name);
+					else if (urlConverter)
+						value = urlConverter.call(urlConverterScope, value, name, node.name);
+
+					node.attr(name, value.length > 0 ? value : null);
+				}
+			}
+		});
+
+		// Remove internal classes mceItem<..> or mceSelected
+		htmlParser.addAttributeFilter('class', function(nodes, name) {
+			var i = nodes.length, node, value;
+
+			while (i--) {
+				node = nodes[i];
+				value = node.attr('class').replace(/(?:^|\s)mce(Item\w+|Selected)(?!\S)/g, '');
+				node.attr('class', value.length > 0 ? value : null);
+			}
+		});
+
+		// Remove bookmark elements
+		htmlParser.addAttributeFilter('data-mce-type', function(nodes, name, args) {
+			var i = nodes.length, node;
+
+			while (i--) {
+				node = nodes[i];
+
+				if (node.attributes.map['data-mce-type'] === 'bookmark' && !args.cleanup)
+					node.remove();
+			}
+		});
+
+		// Remove expando attributes
+		htmlParser.addAttributeFilter('data-mce-expando', function(nodes, name, args) {
+			var i = nodes.length;
+
+			while (i--) {
+				nodes[i].attr(name, null);
+			}
+		});
+
+		htmlParser.addNodeFilter('noscript', function(nodes) {
+			var i = nodes.length, node;
+
+			while (i--) {
+				node = nodes[i].firstChild;
+
+				if (node) {
+					node.value = tinymce.html.Entities.decode(node.value);
+				}
+			}
+		});
+
+		// Force script into CDATA sections and remove the mce- prefix also add comments around styles
+		htmlParser.addNodeFilter('script,style', function(nodes, name) {
+			var i = nodes.length, node, value;
+
+			function trim(value) {
+				return value.replace(/(<!--\[CDATA\[|\]\]-->)/g, '\n')
+						.replace(/^[\r\n]*|[\r\n]*$/g, '')
+						.replace(/^\s*((<!--)?(\s*\/\/)?\s*<!\[CDATA\[|(<!--\s*)?\/\*\s*<!\[CDATA\[\s*\*\/|(\/\/)?\s*<!--|\/\*\s*<!--\s*\*\/)\s*[\r\n]*/gi, '')
+						.replace(/\s*(\/\*\s*\]\]>\s*\*\/(-->)?|\s*\/\/\s*\]\]>(-->)?|\/\/\s*(-->)?|\]\]>|\/\*\s*-->\s*\*\/|\s*-->\s*)\s*$/g, '');
+			};
+
+			while (i--) {
+				node = nodes[i];
+				value = node.firstChild ? node.firstChild.value : '';
+
+				if (name === "script") {
+					// Remove mce- prefix from script elements
+					node.attr('type', (node.attr('type') || 'text/javascript').replace(/^mce\-/, ''));
+
+					if (value.length > 0)
+						node.firstChild.value = '// <![CDATA[\n' + trim(value) + '\n// ]]>';
+				} else {
+					if (value.length > 0)
+						node.firstChild.value = '<!--\n' + trim(value) + '\n-->';
+				}
+			}
+		});
+
+		// Convert comments to cdata and handle protected comments
+		htmlParser.addNodeFilter('#comment', function(nodes, name) {
+			var i = nodes.length, node;
+
+			while (i--) {
+				node = nodes[i];
+
+				if (node.value.indexOf('[CDATA[') === 0) {
+					node.name = '#cdata';
+					node.type = 4;
+					node.value = node.value.replace(/^\[CDATA\[|\]\]$/g, '');
+				} else if (node.value.indexOf('mce:protected ') === 0) {
+					node.name = "#text";
+					node.type = 3;
+					node.raw = true;
+					node.value = unescape(node.value).substr(14);
+				}
+			}
+		});
+
+		htmlParser.addNodeFilter('xml:namespace,input', function(nodes, name) {
+			var i = nodes.length, node;
+
+			while (i--) {
+				node = nodes[i];
+				if (node.type === 7)
+					node.remove();
+				else if (node.type === 1) {
+					if (name === "input" && !("type" in node.attributes.map))
+						node.attr('type', 'text');
+				}
+			}
+		});
+
+		// Fix list elements, TODO: Replace this later
+		if (settings.fix_list_elements) {
+			htmlParser.addNodeFilter('ul,ol', function(nodes, name) {
+				var i = nodes.length, node, parentNode;
+
+				while (i--) {
+					node = nodes[i];
+					parentNode = node.parent;
+
+					if (parentNode.name === 'ul' || parentNode.name === 'ol') {
+						if (node.prev && node.prev.name === 'li') {
+							node.prev.append(node);
+						}
+					}
+				}
+			});
+		}
+
+		// Remove internal data attributes
+		htmlParser.addAttributeFilter('data-mce-src,data-mce-href,data-mce-style', function(nodes, name) {
+			var i = nodes.length;
+
+			while (i--) {
+				nodes[i].attr(name, null);
+			}
+		});
+
+		// Return public methods
+		return {
+			schema : schema,
+
+			addNodeFilter : htmlParser.addNodeFilter,
+
+			addAttributeFilter : htmlParser.addAttributeFilter,
+
+			onPreProcess : onPreProcess,
+
+			onPostProcess : onPostProcess,
+
+			serialize : function(node, args) {
+				var impl, doc, oldDoc, htmlSerializer, content;
+
+				// Explorer won't clone contents of script and style and the
+				// selected index of select elements are cleared on a clone operation.
+				if (isIE && dom.select('script,style,select,map').length > 0) {
+					content = node.innerHTML;
+					node = node.cloneNode(false);
+					dom.setHTML(node, content);
+				} else
+					node = node.cloneNode(true);
+
+				// Nodes needs to be attached to something in WebKit/Opera
+				// Older builds of Opera crashes if you attach the node to an document created dynamically
+				// and since we can't feature detect a crash we need to sniff the acutal build number
+				// This fix will make DOM ranges and make Sizzle happy!
+				impl = node.ownerDocument.implementation;
+				if (impl.createHTMLDocument) {
+					// Create an empty HTML document
+					doc = impl.createHTMLDocument("");
+
+					// Add the element or it's children if it's a body element to the new document
+					each(node.nodeName == 'BODY' ? node.childNodes : [node], function(node) {
+						doc.body.appendChild(doc.importNode(node, true));
+					});
+
+					// Grab first child or body element for serialization
+					if (node.nodeName != 'BODY')
+						node = doc.body.firstChild;
+					else
+						node = doc.body;
+
+					// set the new document in DOMUtils so createElement etc works
+					oldDoc = dom.doc;
+					dom.doc = doc;
+				}
+
+				args = args || {};
+				args.format = args.format || 'html';
+
+				// Pre process
+				if (!args.no_events) {
+					args.node = node;
+					onPreProcess.dispatch(self, args);
+				}
+
+				// Setup serializer
+				htmlSerializer = new tinymce.html.Serializer(settings, schema);
+
+				// Parse and serialize HTML
+				args.content = htmlSerializer.serialize(
+					htmlParser.parse(tinymce.trim(args.getInner ? node.innerHTML : dom.getOuterHTML(node)), args)
+				);
+
+				// Replace all BOM characters for now until we can find a better solution
+				if (!args.cleanup)
+					args.content = args.content.replace(/\uFEFF/g, '');
+
+				// Post process
+				if (!args.no_events)
+					onPostProcess.dispatch(self, args);
+
+				// Restore the old document if it was changed
+				if (oldDoc)
+					dom.doc = oldDoc;
+
+				args.node = null;
+
+				return args.content;
+			},
+
+			addRules : function(rules) {
+				schema.addValidElements(rules);
+			},
+
+			setRules : function(rules) {
+				schema.setValidElements(rules);
+			}
+		};
+	};
+})(tinymce);
+(function(tinymce) {
+	tinymce.dom.ScriptLoader = function(settings) {
+		var QUEUED = 0,
+			LOADING = 1,
+			LOADED = 2,
+			states = {},
+			queue = [],
+			scriptLoadedCallbacks = {},
+			queueLoadedCallbacks = [],
+			loading = 0,
+			undef;
+
+		function loadScript(url, callback) {
+			var t = this, dom = tinymce.DOM, elm, uri, loc, id;
+
+			// Execute callback when script is loaded
+			function done() {
+				dom.remove(id);
+
+				if (elm)
+					elm.onreadystatechange = elm.onload = elm = null;
+
+				callback();
+			};
+			
+			function error() {
+				// Report the error so it's easier for people to spot loading errors
+				if (typeof(console) !== "undefined" && console.log)
+					console.log("Failed to load: " + url);
+
+				// We can't mark it as done if there is a load error since
+				// A) We don't want to produce 404 errors on the server and
+				// B) the onerror event won't fire on all browsers.
+				// done();
+			};
+
+			id = dom.uniqueId();
+
+			if (tinymce.isIE6) {
+				uri = new tinymce.util.URI(url);
+				loc = location;
+
+				// If script is from same domain and we
+				// use IE 6 then use XHR since it's more reliable
+				if (uri.host == loc.hostname && uri.port == loc.port && (uri.protocol + ':') == loc.protocol && uri.protocol.toLowerCase() != 'file') {
+					tinymce.util.XHR.send({
+						url : tinymce._addVer(uri.getURI()),
+						success : function(content) {
+							// Create new temp script element
+							var script = dom.create('script', {
+								type : 'text/javascript'
+							});
+
+							// Evaluate script in global scope
+							script.text = content;
+							document.getElementsByTagName('head')[0].appendChild(script);
+							dom.remove(script);
+
+							done();
+						},
+						
+						error : error
+					});
+
+					return;
+				}
+			}
+
+			// Create new script element
+			elm = document.createElement('script');
+			elm.id = id;
+			elm.type = 'text/javascript';
+			elm.src = tinymce._addVer(url);
+
+			// Add onload listener for non IE browsers since IE9
+			// fires onload event before the script is parsed and executed
+			if (!tinymce.isIE || tinymce.isIE11)
+				elm.onload = done;
+
+			// Add onerror event will get fired on some browsers but not all of them
+			elm.onerror = error;
+
+			// Opera 9.60 doesn't seem to fire the onreadystate event at correctly
+			if (!tinymce.isOpera) {
+				elm.onreadystatechange = function() {
+					var state = elm.readyState;
+
+					// Loaded state is passed on IE 6 however there
+					// are known issues with this method but we can't use
+					// XHR in a cross domain loading
+					if (state == 'complete' || state == 'loaded')
+						done();
+				};
+			}
+
+			// Most browsers support this feature so we report errors
+			// for those at least to help users track their missing plugins etc
+			// todo: Removed since it produced error if the document is unloaded by navigating away, re-add it as an option
+			/*elm.onerror = function() {
+				alert('Failed to load: ' + url);
+			};*/
+
+			// Add script to document
+			(document.getElementsByTagName('head')[0] || document.body).appendChild(elm);
+		};
+
+		this.isDone = function(url) {
+			return states[url] == LOADED;
+		};
+
+		this.markDone = function(url) {
+			states[url] = LOADED;
+		};
+
+		this.add = this.load = function(url, callback, scope) {
+			var item, state = states[url];
+
+			// Add url to load queue
+			if (state == undef) {
+				queue.push(url);
+				states[url] = QUEUED;
+			}
+
+			if (callback) {
+				// Store away callback for later execution
+				if (!scriptLoadedCallbacks[url])
+					scriptLoadedCallbacks[url] = [];
+
+				scriptLoadedCallbacks[url].push({
+					func : callback,
+					scope : scope || this
+				});
+			}
+		};
+
+		this.loadQueue = function(callback, scope) {
+			this.loadScripts(queue, callback, scope);
+		};
+
+		this.loadScripts = function(scripts, callback, scope) {
+			var loadScripts;
+
+			function execScriptLoadedCallbacks(url) {
+				// Execute URL callback functions
+				tinymce.each(scriptLoadedCallbacks[url], function(callback) {
+					callback.func.call(callback.scope);
+				});
+
+				scriptLoadedCallbacks[url] = undef;
+			};
+
+			queueLoadedCallbacks.push({
+				func : callback,
+				scope : scope || this
+			});
+
+			loadScripts = function() {
+				var loadingScripts = tinymce.grep(scripts);
+
+				// Current scripts has been handled
+				scripts.length = 0;
+
+				// Load scripts that needs to be loaded
+				tinymce.each(loadingScripts, function(url) {
+					// Script is already loaded then execute script callbacks directly
+					if (states[url] == LOADED) {
+						execScriptLoadedCallbacks(url);
+						return;
+					}
+
+					// Is script not loading then start loading it
+					if (states[url] != LOADING) {
+						states[url] = LOADING;
+						loading++;
+
+						loadScript(url, function() {
+							states[url] = LOADED;
+							loading--;
+
+							execScriptLoadedCallbacks(url);
+
+							// Load more scripts if they where added by the recently loaded script
+							loadScripts();
+						});
+					}
+				});
+
+				// No scripts are currently loading then execute all pending queue loaded callbacks
+				if (!loading) {
+					tinymce.each(queueLoadedCallbacks, function(callback) {
+						callback.func.call(callback.scope);
+					});
+
+					queueLoadedCallbacks.length = 0;
+				}
+			};
+
+			loadScripts();
+		};
+	};
+
+	// Global script loader
+	tinymce.ScriptLoader = new tinymce.dom.ScriptLoader();
+})(tinymce);
+
+(function(tinymce) {
+	tinymce.dom.RangeUtils = function(dom) {
+		var INVISIBLE_CHAR = '\uFEFF';
+
+		this.walk = function(rng, callback) {
+			var startContainer = rng.startContainer,
+				startOffset = rng.startOffset,
+				endContainer = rng.endContainer,
+				endOffset = rng.endOffset,
+				ancestor, startPoint,
+				endPoint, node, parent, siblings, nodes;
+
+			// Handle table cell selection the table plugin enables
+			// you to fake select table cells and perform formatting actions on them
+			nodes = dom.select('td.mceSelected,th.mceSelected');
+			if (nodes.length > 0) {
+				tinymce.each(nodes, function(node) {
+					callback([node]);
+				});
+
+				return;
+			}
+
+			function exclude(nodes) {
+				var node;
+
+				// First node is excluded
+				node = nodes[0];
+				if (node.nodeType === 3 && node === startContainer && startOffset >= node.nodeValue.length) {
+					nodes.splice(0, 1);
+				}
+
+				// Last node is excluded
+				node = nodes[nodes.length - 1];
+				if (endOffset === 0 && nodes.length > 0 && node === endContainer && node.nodeType === 3) {
+					nodes.splice(nodes.length - 1, 1);
+				}
+
+				return nodes;
+			};
+
+			function collectSiblings(node, name, end_node) {
+				var siblings = [];
+
+				for (; node && node != end_node; node = node[name])
+					siblings.push(node);
+
+				return siblings;
+			};
+
+			function findEndPoint(node, root) {
+				do {
+					if (node.parentNode == root)
+						return node;
+
+					node = node.parentNode;
+				} while(node);
+			};
+
+			function walkBoundary(start_node, end_node, next) {
+				var siblingName = next ? 'nextSibling' : 'previousSibling';
+
+				for (node = start_node, parent = node.parentNode; node && node != end_node; node = parent) {
+					parent = node.parentNode;
+					siblings = collectSiblings(node == start_node ? node : node[siblingName], siblingName);
+
+					if (siblings.length) {
+						if (!next)
+							siblings.reverse();
+
+						callback(exclude(siblings));
+					}
+				}
+			};
+
+			// If index based start position then resolve it
+			if (startContainer.nodeType == 1 && startContainer.hasChildNodes())
+				startContainer = startContainer.childNodes[startOffset];
+
+			// If index based end position then resolve it
+			if (endContainer.nodeType == 1 && endContainer.hasChildNodes())
+				endContainer = endContainer.childNodes[Math.min(endOffset - 1, endContainer.childNodes.length - 1)];
+
+			// Same container
+			if (startContainer == endContainer)
+				return callback(exclude([startContainer]));
+
+			// Find common ancestor and end points
+			ancestor = dom.findCommonAncestor(startContainer, endContainer);
+				
+			// Process left side
+			for (node = startContainer; node; node = node.parentNode) {
+				if (node === endContainer)
+					return walkBoundary(startContainer, ancestor, true);
+
+				if (node === ancestor)
+					break;
+			}
+
+			// Process right side
+			for (node = endContainer; node; node = node.parentNode) {
+				if (node === startContainer)
+					return walkBoundary(endContainer, ancestor);
+
+				if (node === ancestor)
+					break;
+			}
+
+			// Find start/end point
+			startPoint = findEndPoint(startContainer, ancestor) || startContainer;
+			endPoint = findEndPoint(endContainer, ancestor) || endContainer;
+
+			// Walk left leaf
+			walkBoundary(startContainer, startPoint, true);
+
+			// Walk the middle from start to end point
+			siblings = collectSiblings(
+				startPoint == startContainer ? startPoint : startPoint.nextSibling,
+				'nextSibling',
+				endPoint == endContainer ? endPoint.nextSibling : endPoint
+			);
+
+			if (siblings.length)
+				callback(exclude(siblings));
+
+			// Walk right leaf
+			walkBoundary(endContainer, endPoint);
+		};
+
+		this.split = function(rng) {
+			var startContainer = rng.startContainer,
+				startOffset = rng.startOffset,
+				endContainer = rng.endContainer,
+				endOffset = rng.endOffset;
+
+			function splitText(node, offset) {
+				return node.splitText(offset);
+			};
+
+			// Handle single text node
+			if (startContainer == endContainer && startContainer.nodeType == 3) {
+				if (startOffset > 0 && startOffset < startContainer.nodeValue.length) {
+					endContainer = splitText(startContainer, startOffset);
+					startContainer = endContainer.previousSibling;
+
+					if (endOffset > startOffset) {
+						endOffset = endOffset - startOffset;
+						startContainer = endContainer = splitText(endContainer, endOffset).previousSibling;
+						endOffset = endContainer.nodeValue.length;
+						startOffset = 0;
+					} else {
+						endOffset = 0;
+					}
+				}
+			} else {
+				// Split startContainer text node if needed
+				if (startContainer.nodeType == 3 && startOffset > 0 && startOffset < startContainer.nodeValue.length) {
+					startContainer = splitText(startContainer, startOffset);
+					startOffset = 0;
+				}
+
+				// Split endContainer text node if needed
+				if (endContainer.nodeType == 3 && endOffset > 0 && endOffset < endContainer.nodeValue.length) {
+					endContainer = splitText(endContainer, endOffset).previousSibling;
+					endOffset = endContainer.nodeValue.length;
+				}
+			}
+
+			return {
+				startContainer : startContainer,
+				startOffset : startOffset,
+				endContainer : endContainer,
+				endOffset : endOffset
+			};
+		};
+
+	};
+
+	tinymce.dom.RangeUtils.compareRanges = function(rng1, rng2) {
+		if (rng1 && rng2) {
+			// Compare native IE ranges
+			if (rng1.item || rng1.duplicate) {
+				// Both are control ranges and the selected element matches
+				if (rng1.item && rng2.item && rng1.item(0) === rng2.item(0))
+					return true;
+
+				// Both are text ranges and the range matches
+				if (rng1.isEqual && rng2.isEqual && rng2.isEqual(rng1))
+					return true;
+			} else {
+				// Compare w3c ranges
+				return rng1.startContainer == rng2.startContainer && rng1.startOffset == rng2.startOffset;
+			}
+		}
+
+		return false;
+	};
+})(tinymce);
+
+(function(tinymce) {
+	var Event = tinymce.dom.Event, each = tinymce.each;
+
+	tinymce.create('tinymce.ui.KeyboardNavigation', {
+		KeyboardNavigation: function(settings, dom) {
+			var t = this, root = settings.root, items = settings.items,
+					enableUpDown = settings.enableUpDown, enableLeftRight = settings.enableLeftRight || !settings.enableUpDown,
+					excludeFromTabOrder = settings.excludeFromTabOrder,
+					itemFocussed, itemBlurred, rootKeydown, rootFocussed, focussedId;
+
+			dom = dom || tinymce.DOM;
+
+			itemFocussed = function(evt) {
+				focussedId = evt.target.id;
+			};
+			
+			itemBlurred = function(evt) {
+				dom.setAttrib(evt.target.id, 'tabindex', '-1');
+			};
+			
+			rootFocussed = function(evt) {
+				var item = dom.get(focussedId);
+				dom.setAttrib(item, 'tabindex', '0');
+				item.focus();
+			};
+			
+			t.focus = function() {
+				dom.get(focussedId).focus();
+			};
+
+			t.destroy = function() {
+				each(items, function(item) {
+					var elm = dom.get(item.id);
+
+					dom.unbind(elm, 'focus', itemFocussed);
+					dom.unbind(elm, 'blur', itemBlurred);
+				});
+
+				var rootElm = dom.get(root);
+				dom.unbind(rootElm, 'focus', rootFocussed);
+				dom.unbind(rootElm, 'keydown', rootKeydown);
+
+				items = dom = root = t.focus = itemFocussed = itemBlurred = rootKeydown = rootFocussed = null;
+				t.destroy = function() {};
+			};
+			
+			t.moveFocus = function(dir, evt) {
+				var idx = -1, controls = t.controls, newFocus;
+
+				if (!focussedId)
+					return;
+
+				each(items, function(item, index) {
+					if (item.id === focussedId) {
+						idx = index;
+						return false;
+					}
+				});
+
+				idx += dir;
+				if (idx < 0) {
+					idx = items.length - 1;
+				} else if (idx >= items.length) {
+					idx = 0;
+				}
+				
+				newFocus = items[idx];
+				dom.setAttrib(focussedId, 'tabindex', '-1');
+				dom.setAttrib(newFocus.id, 'tabindex', '0');
+				dom.get(newFocus.id).focus();
+
+				if (settings.actOnFocus) {
+					settings.onAction(newFocus.id);
+				}
+
+				if (evt)
+					Event.cancel(evt);
+			};
+			
+			rootKeydown = function(evt) {
+				var DOM_VK_LEFT = 37, DOM_VK_RIGHT = 39, DOM_VK_UP = 38, DOM_VK_DOWN = 40, DOM_VK_ESCAPE = 27, DOM_VK_ENTER = 14, DOM_VK_RETURN = 13, DOM_VK_SPACE = 32;
+				
+				switch (evt.keyCode) {
+					case DOM_VK_LEFT:
+						if (enableLeftRight) t.moveFocus(-1);
+						Event.cancel(evt);
+						break;
+	
+					case DOM_VK_RIGHT:
+						if (enableLeftRight) t.moveFocus(1);
+						Event.cancel(evt);
+						break;
+	
+					case DOM_VK_UP:
+						if (enableUpDown) t.moveFocus(-1);
+						Event.cancel(evt);
+						break;
+
+					case DOM_VK_DOWN:
+						if (enableUpDown) t.moveFocus(1);
+						Event.cancel(evt);
+						break;
+
+					case DOM_VK_ESCAPE:
+						if (settings.onCancel) {
+							settings.onCancel();
+							Event.cancel(evt);
+						}
+						break;
+
+					case DOM_VK_ENTER:
+					case DOM_VK_RETURN:
+					case DOM_VK_SPACE:
+						if (settings.onAction) {
+							settings.onAction(focussedId);
+							Event.cancel(evt);
+						}
+						break;
+				}
+			};
+
+			// Set up state and listeners for each item.
+			each(items, function(item, idx) {
+				var tabindex, elm;
+
+				if (!item.id) {
+					item.id = dom.uniqueId('_mce_item_');
+				}
+
+				elm = dom.get(item.id);
+
+				if (excludeFromTabOrder) {
+					dom.bind(elm, 'blur', itemBlurred);
+					tabindex = '-1';
+				} else {
+					tabindex = (idx === 0 ? '0' : '-1');
+				}
+
+				elm.setAttribute('tabindex', tabindex);
+				dom.bind(elm, 'focus', itemFocussed);
+			});
+			
+			// Setup initial state for root element.
+			if (items[0]){
+				focussedId = items[0].id;
+			}
+
+			dom.setAttrib(root, 'tabindex', '-1');
+
+			// Setup listeners for root element.
+			var rootElm = dom.get(root);
+			dom.bind(rootElm, 'focus', rootFocussed);
+			dom.bind(rootElm, 'keydown', rootKeydown);
+		}
+	});
+})(tinymce);
+
+(function(tinymce) {
+	// Shorten class names
+	var DOM = tinymce.DOM, is = tinymce.is;
+
+	tinymce.create('tinymce.ui.Control', {
+		Control : function(id, s, editor) {
+			this.id = id;
+			this.settings = s = s || {};
+			this.rendered = false;
+			this.onRender = new tinymce.util.Dispatcher(this);
+			this.classPrefix = '';
+			this.scope = s.scope || this;
+			this.disabled = 0;
+			this.active = 0;
+			this.editor = editor;
+		},
+		
+		setAriaProperty : function(property, value) {
+			var element = DOM.get(this.id + '_aria') || DOM.get(this.id);
+			if (element) {
+				DOM.setAttrib(element, 'aria-' + property, !!value);
+			}
+		},
+		
+		focus : function() {
+			DOM.get(this.id).focus();
+		},
+
+		setDisabled : function(s) {
+			if (s != this.disabled) {
+				this.setAriaProperty('disabled', s);
+
+				this.setState('Disabled', s);
+				this.setState('Enabled', !s);
+				this.disabled = s;
+			}
+		},
+
+		isDisabled : function() {
+			return this.disabled;
+		},
+
+		setActive : function(s) {
+			if (s != this.active) {
+				this.setState('Active', s);
+				this.active = s;
+				this.setAriaProperty('pressed', s);
+			}
+		},
+
+		isActive : function() {
+			return this.active;
+		},
+
+		setState : function(c, s) {
+			var n = DOM.get(this.id);
+
+			c = this.classPrefix + c;
+
+			if (s)
+				DOM.addClass(n, c);
+			else
+				DOM.removeClass(n, c);
+		},
+
+		isRendered : function() {
+			return this.rendered;
+		},
+
+		renderHTML : function() {
+		},
+
+		renderTo : function(n) {
+			DOM.setHTML(n, this.renderHTML());
+		},
+
+		postRender : function() {
+			var t = this, b;
+
+			// Set pending states
+			if (is(t.disabled)) {
+				b = t.disabled;
+				t.disabled = -1;
+				t.setDisabled(b);
+			}
+
+			if (is(t.active)) {
+				b = t.active;
+				t.active = -1;
+				t.setActive(b);
+			}
+		},
+
+		remove : function() {
+			DOM.remove(this.id);
+			this.destroy();
+		},
+
+		destroy : function() {
+			tinymce.dom.Event.clear(this.id);
+		}
+	});
+})(tinymce);
+tinymce.create('tinymce.ui.Container:tinymce.ui.Control', {
+	Container : function(id, s, editor) {
+		this.parent(id, s, editor);
+
+		this.controls = [];
+
+		this.lookup = {};
+	},
+
+	add : function(c) {
+		this.lookup[c.id] = c;
+		this.controls.push(c);
+
+		return c;
+	},
+
+	get : function(n) {
+		return this.lookup[n];
+	}
+});
+
+
+tinymce.create('tinymce.ui.Separator:tinymce.ui.Control', {
+	Separator : function(id, s) {
+		this.parent(id, s);
+		this.classPrefix = 'mceSeparator';
+		this.setDisabled(true);
+	},
+
+	renderHTML : function() {
+		return tinymce.DOM.createHTML('span', {'class' : this.classPrefix, role : 'separator', 'aria-orientation' : 'vertical', tabindex : '-1'});
+	}
+});
+
+(function(tinymce) {
+	var is = tinymce.is, DOM = tinymce.DOM, each = tinymce.each, walk = tinymce.walk;
+
+	tinymce.create('tinymce.ui.MenuItem:tinymce.ui.Control', {
+		MenuItem : function(id, s) {
+			this.parent(id, s);
+			this.classPrefix = 'mceMenuItem';
+		},
+
+		setSelected : function(s) {
+			this.setState('Selected', s);
+			this.setAriaProperty('checked', !!s);
+			this.selected = s;
+		},
+
+		isSelected : function() {
+			return this.selected;
+		},
+
+		postRender : function() {
+			var t = this;
+			
+			t.parent();
+
+			// Set pending state
+			if (is(t.selected))
+				t.setSelected(t.selected);
+		}
+	});
+})(tinymce);
+
+(function(tinymce) {
+	var is = tinymce.is, DOM = tinymce.DOM, each = tinymce.each, walk = tinymce.walk;
+
+	tinymce.create('tinymce.ui.Menu:tinymce.ui.MenuItem', {
+		Menu : function(id, s) {
+			var t = this;
+
+			t.parent(id, s);
+			t.items = {};
+			t.collapsed = false;
+			t.menuCount = 0;
+			t.onAddItem = new tinymce.util.Dispatcher(this);
+		},
+
+		expand : function(d) {
+			var t = this;
+
+			if (d) {
+				walk(t, function(o) {
+					if (o.expand)
+						o.expand();
+				}, 'items', t);
+			}
+
+			t.collapsed = false;
+		},
+
+		collapse : function(d) {
+			var t = this;
+
+			if (d) {
+				walk(t, function(o) {
+					if (o.collapse)
+						o.collapse();
+				}, 'items', t);
+			}
+
+			t.collapsed = true;
+		},
+
+		isCollapsed : function() {
+			return this.collapsed;
+		},
+
+		add : function(o) {
+			if (!o.settings)
+				o = new tinymce.ui.MenuItem(o.id || DOM.uniqueId(), o);
+
+			this.onAddItem.dispatch(this, o);
+
+			return this.items[o.id] = o;
+		},
+
+		addSeparator : function() {
+			return this.add({separator : true});
+		},
+
+		addMenu : function(o) {
+			if (!o.collapse)
+				o = this.createMenu(o);
+
+			this.menuCount++;
+
+			return this.add(o);
+		},
+
+		hasMenus : function() {
+			return this.menuCount !== 0;
+		},
+
+		remove : function(o) {
+			delete this.items[o.id];
+		},
+
+		removeAll : function() {
+			var t = this;
+
+			walk(t, function(o) {
+				if (o.removeAll)
+					o.removeAll();
+				else
+					o.remove();
+
+				o.destroy();
+			}, 'items', t);
+
+			t.items = {};
+		},
+
+		createMenu : function(o) {
+			var m = new tinymce.ui.Menu(o.id || DOM.uniqueId(), o);
+
+			m.onAddItem.add(this.onAddItem.dispatch, this.onAddItem);
+
+			return m;
+		}
+	});
+})(tinymce);
+(function(tinymce) {
+	var is = tinymce.is, DOM = tinymce.DOM, each = tinymce.each, Event = tinymce.dom.Event, Element = tinymce.dom.Element;
+
+	tinymce.create('tinymce.ui.DropMenu:tinymce.ui.Menu', {
+		DropMenu : function(id, s) {
+			s = s || {};
+			s.container = s.container || DOM.doc.body;
+			s.offset_x = s.offset_x || 0;
+			s.offset_y = s.offset_y || 0;
+			s.vp_offset_x = s.vp_offset_x || 0;
+			s.vp_offset_y = s.vp_offset_y || 0;
+
+			if (is(s.icons) && !s.icons)
+				s['class'] += ' mceNoIcons';
+
+			this.parent(id, s);
+			this.onShowMenu = new tinymce.util.Dispatcher(this);
+			this.onHideMenu = new tinymce.util.Dispatcher(this);
+			this.classPrefix = 'mceMenu';
+		},
+
+		createMenu : function(s) {
+			var t = this, cs = t.settings, m;
+
+			s.container = s.container || cs.container;
+			s.parent = t;
+			s.constrain = s.constrain || cs.constrain;
+			s['class'] = s['class'] || cs['class'];
+			s.vp_offset_x = s.vp_offset_x || cs.vp_offset_x;
+			s.vp_offset_y = s.vp_offset_y || cs.vp_offset_y;
+			s.keyboard_focus = cs.keyboard_focus;
+			m = new tinymce.ui.DropMenu(s.id || DOM.uniqueId(), s);
+
+			m.onAddItem.add(t.onAddItem.dispatch, t.onAddItem);
+
+			return m;
+		},
+		
+		focus : function() {
+			var t = this;
+			if (t.keyboardNav) {
+				t.keyboardNav.focus();
+			}
+		},
+
+		update : function() {
+			var t = this, s = t.settings, tb = DOM.get('menu_' + t.id + '_tbl'), co = DOM.get('menu_' + t.id + '_co'), tw, th;
+
+			tw = s.max_width ? Math.min(tb.offsetWidth, s.max_width) : tb.offsetWidth;
+			th = s.max_height ? Math.min(tb.offsetHeight, s.max_height) : tb.offsetHeight;
+
+			if (!DOM.boxModel)
+				t.element.setStyles({width : tw + 2, height : th + 2});
+			else
+				t.element.setStyles({width : tw, height : th});
+
+			if (s.max_width)
+				DOM.setStyle(co, 'width', tw);
+
+			if (s.max_height) {
+				DOM.setStyle(co, 'height', th);
+
+				if (tb.clientHeight < s.max_height)
+					DOM.setStyle(co, 'overflow', 'hidden');
+			}
+		},
+
+		showMenu : function(x, y, px) {
+			var t = this, s = t.settings, co, vp = DOM.getViewPort(), w, h, mx, my, ot = 2, dm, tb, cp = t.classPrefix;
+
+			t.collapse(1);
+
+			if (t.isMenuVisible)
+				return;
+
+			if (!t.rendered) {
+				co = DOM.add(t.settings.container, t.renderNode());
+
+				each(t.items, function(o) {
+					o.postRender();
+				});
+
+				t.element = new Element('menu_' + t.id, {blocker : 1, container : s.container});
+			} else
+				co = DOM.get('menu_' + t.id);
+
+			// Move layer out of sight unless it's Opera since it scrolls to top of page due to an bug
+			if (!tinymce.isOpera)
+				DOM.setStyles(co, {left : -0xFFFF , top : -0xFFFF});
+
+			DOM.show(co);
+			t.update();
+
+			x += s.offset_x || 0;
+			y += s.offset_y || 0;
+			vp.w -= 4;
+			vp.h -= 4;
+
+			// Move inside viewport if not submenu
+			if (s.constrain) {
+				w = co.clientWidth - ot;
+				h = co.clientHeight - ot;
+				mx = vp.x + vp.w;
+				my = vp.y + vp.h;
+
+				if ((x + s.vp_offset_x + w) > mx)
+					x = px ? px - w : Math.max(0, (mx - s.vp_offset_x) - w);
+
+				if ((y + s.vp_offset_y + h) > my)
+					y = Math.max(0, (my - s.vp_offset_y) - h);
+			}
+
+			DOM.setStyles(co, {left : x , top : y});
+			t.element.update();
+
+			t.isMenuVisible = 1;
+			t.mouseClickFunc = Event.add(co, 'click', function(e) {
+				var m;
+
+				e = e.target;
+
+				if (e && (e = DOM.getParent(e, 'tr')) && !DOM.hasClass(e, cp + 'ItemSub')) {
+					m = t.items[e.id];
+
+					if (m.isDisabled())
+						return;
+
+					dm = t;
+
+					while (dm) {
+						if (dm.hideMenu)
+							dm.hideMenu();
+
+						dm = dm.settings.parent;
+					}
+
+					if (m.settings.onclick)
+						m.settings.onclick(e);
+
+					return false; // Cancel to fix onbeforeunload problem
+				}
+			});
+
+			if (t.hasMenus()) {
+				t.mouseOverFunc = Event.add(co, 'mouseover', function(e) {
+					var m, r, mi;
+
+					e = e.target;
+					if (e && (e = DOM.getParent(e, 'tr'))) {
+						m = t.items[e.id];
+
+						if (t.lastMenu)
+							t.lastMenu.collapse(1);
+
+						if (m.isDisabled())
+							return;
+
+						if (e && DOM.hasClass(e, cp + 'ItemSub')) {
+							//p = DOM.getPos(s.container);
+							r = DOM.getRect(e);
+							m.showMenu((r.x + r.w - ot), r.y - ot, r.x);
+							t.lastMenu = m;
+							DOM.addClass(DOM.get(m.id).firstChild, cp + 'ItemActive');
+						}
+					}
+				});
+			}
+			
+			Event.add(co, 'keydown', t._keyHandler, t);
+
+			t.onShowMenu.dispatch(t);
+
+			if (s.keyboard_focus) { 
+				t._setupKeyboardNav(); 
+			}
+		},
+
+		hideMenu : function(c) {
+			var t = this, co = DOM.get('menu_' + t.id), e;
+
+			if (!t.isMenuVisible)
+				return;
+
+			if (t.keyboardNav) t.keyboardNav.destroy();
+			Event.remove(co, 'mouseover', t.mouseOverFunc);
+			Event.remove(co, 'click', t.mouseClickFunc);
+			Event.remove(co, 'keydown', t._keyHandler);
+			DOM.hide(co);
+			t.isMenuVisible = 0;
+
+			if (!c)
+				t.collapse(1);
+
+			if (t.element)
+				t.element.hide();
+
+			if (e = DOM.get(t.id))
+				DOM.removeClass(e.firstChild, t.classPrefix + 'ItemActive');
+
+			t.onHideMenu.dispatch(t);
+		},
+
+		add : function(o) {
+			var t = this, co;
+
+			o = t.parent(o);
+
+			if (t.isRendered && (co = DOM.get('menu_' + t.id)))
+				t._add(DOM.select('tbody', co)[0], o);
+
+			return o;
+		},
+
+		collapse : function(d) {
+			this.parent(d);
+			this.hideMenu(1);
+		},
+
+		remove : function(o) {
+			DOM.remove(o.id);
+			this.destroy();
+
+			return this.parent(o);
+		},
+
+		destroy : function() {
+			var t = this, co = DOM.get('menu_' + t.id);
+
+			if (t.keyboardNav) t.keyboardNav.destroy();
+			Event.remove(co, 'mouseover', t.mouseOverFunc);
+			Event.remove(DOM.select('a', co), 'focus', t.mouseOverFunc);
+			Event.remove(co, 'click', t.mouseClickFunc);
+			Event.remove(co, 'keydown', t._keyHandler);
+
+			if (t.element)
+				t.element.remove();
+
+			DOM.remove(co);
+		},
+
+		renderNode : function() {
+			var t = this, s = t.settings, n, tb, co, w;
+
+			w = DOM.create('div', {role: 'listbox', id : 'menu_' + t.id, 'class' : s['class'], 'style' : 'position:absolute;left:0;top:0;z-index:200000;outline:0'});
+			if (t.settings.parent) {
+				DOM.setAttrib(w, 'aria-parent', 'menu_' + t.settings.parent.id);
+			}
+			co = DOM.add(w, 'div', {role: 'presentation', id : 'menu_' + t.id + '_co', 'class' : t.classPrefix + (s['class'] ? ' ' + s['class'] : '')});
+			t.element = new Element('menu_' + t.id, {blocker : 1, container : s.container});
+
+			if (s.menu_line)
+				DOM.add(co, 'span', {'class' : t.classPrefix + 'Line'});
+
+//			n = DOM.add(co, 'div', {id : 'menu_' + t.id + '_co', 'class' : 'mceMenuContainer'});
+			n = DOM.add(co, 'table', {role: 'presentation', id : 'menu_' + t.id + '_tbl', border : 0, cellPadding : 0, cellSpacing : 0});
+			tb = DOM.add(n, 'tbody');
+
+			each(t.items, function(o) {
+				t._add(tb, o);
+			});
+
+			t.rendered = true;
+
+			return w;
+		},
+
+		// Internal functions
+		_setupKeyboardNav : function(){
+			var contextMenu, menuItems, t=this; 
+			contextMenu = DOM.get('menu_' + t.id);
+			menuItems = DOM.select('a[role=option]', 'menu_' + t.id);
+			menuItems.splice(0,0,contextMenu);
+			t.keyboardNav = new tinymce.ui.KeyboardNavigation({
+				root: 'menu_' + t.id,
+				items: menuItems,
+				onCancel: function() {
+					t.hideMenu();
+				},
+				enableUpDown: true
+			});
+			contextMenu.focus();
+		},
+
+		_keyHandler : function(evt) {
+			var t = this, e;
+			switch (evt.keyCode) {
+				case 37: // Left
+					if (t.settings.parent) {
+						t.hideMenu();
+						t.settings.parent.focus();
+						Event.cancel(evt);
+					}
+					break;
+				case 39: // Right
+					if (t.mouseOverFunc)
+						t.mouseOverFunc(evt);
+					break;
+			}
+		},
+
+		_add : function(tb, o) {
+			var n, s = o.settings, a, ro, it, cp = this.classPrefix, ic;
+
+			if (s.separator) {
+				ro = DOM.add(tb, 'tr', {id : o.id, 'class' : cp + 'ItemSeparator'});
+				DOM.add(ro, 'td', {'class' : cp + 'ItemSeparator'});
+
+				if (n = ro.previousSibling)
+					DOM.addClass(n, 'mceLast');
+
+				return;
+			}
+
+			n = ro = DOM.add(tb, 'tr', {id : o.id, 'class' : cp + 'Item ' + cp + 'ItemEnabled'});
+			n = it = DOM.add(n, s.titleItem ? 'th' : 'td');
+			n = a = DOM.add(n, 'a', {id: o.id + '_aria',  role: s.titleItem ? 'presentation' : 'option', href : 'javascript:;', onclick : "return false;", onmousedown : 'return false;'});
+
+			if (s.parent) {
+				DOM.setAttrib(a, 'aria-haspopup', 'true');
+				DOM.setAttrib(a, 'aria-owns', 'menu_' + o.id);
+			}
+
+			DOM.addClass(it, s['class']);
+//			n = DOM.add(n, 'span', {'class' : 'item'});
+
+			ic = DOM.add(n, 'span', {'class' : 'mceIcon' + (s.icon ? ' mce_' + s.icon : '')});
+
+			if (s.icon_src)
+				DOM.add(ic, 'img', {src : s.icon_src});
+
+			n = DOM.add(n, s.element || 'span', {'class' : 'mceText', title : o.settings.title}, o.settings.title);
+
+			if (o.settings.style) {
+				if (typeof o.settings.style == "function")
+					o.settings.style = o.settings.style();
+
+				DOM.setAttrib(n, 'style', o.settings.style);
+			}
+
+			if (tb.childNodes.length == 1)
+				DOM.addClass(ro, 'mceFirst');
+
+			if ((n = ro.previousSibling) && DOM.hasClass(n, cp + 'ItemSeparator'))
+				DOM.addClass(ro, 'mceFirst');
+
+			if (o.collapse)
+				DOM.addClass(ro, cp + 'ItemSub');
+
+			if (n = ro.previousSibling)
+				DOM.removeClass(n, 'mceLast');
+
+			DOM.addClass(ro, 'mceLast');
+		}
+	});
+})(tinymce);
+(function(tinymce) {
+	var DOM = tinymce.DOM;
+
+	tinymce.create('tinymce.ui.Button:tinymce.ui.Control', {
+		Button : function(id, s, ed) {
+			this.parent(id, s, ed);
+			this.classPrefix = 'mceButton';
+		},
+
+		renderHTML : function() {
+			var cp = this.classPrefix, s = this.settings, h, l;
+
+			l = DOM.encode(s.label || '');
+			h = '<a role="button" id="' + this.id + '" href="javascript:;" class="' + cp + ' ' + cp + 'Enabled ' + s['class'] + (l ? ' ' + cp + 'Labeled' : '') +'" onmousedown="return false;" onclick="return false;" aria-labelledby="' + this.id + '_voice" title="' + DOM.encode(s.title) + '">';
+			if (s.image && !(this.editor  &&this.editor.forcedHighContrastMode) )
+				h += '<span class="mceIcon ' + s['class'] + '"><img class="mceIcon" src="' + s.image + '" alt="' + DOM.encode(s.title) + '" /></span>' + (l ? '<span class="' + cp + 'Label">' + l + '</span>' : '');
+			else
+				h += '<span class="mceIcon ' + s['class'] + '"></span>' + (l ? '<span class="' + cp + 'Label">' + l + '</span>' : '');
+
+			h += '<span class="mceVoiceLabel mceIconOnly" style="display: none;" id="' + this.id + '_voice">' + s.title + '</span>';
+			h += '</a>';
+			return h;
+		},
+
+		postRender : function() {
+			var t = this, s = t.settings, imgBookmark;
+
+			// In IE a large image that occupies the entire editor area will be deselected when a button is clicked, so
+			// need to keep the selection in case the selection is lost
+			if (tinymce.isIE && t.editor) {
+				tinymce.dom.Event.add(t.id, 'mousedown', function(e) {
+					var nodeName = t.editor.selection.getNode().nodeName;
+					imgBookmark = nodeName === 'IMG' ? t.editor.selection.getBookmark() : null;
+				});
+			}
+			tinymce.dom.Event.add(t.id, 'click', function(e) {
+				if (!t.isDisabled()) {
+					// restore the selection in case the selection is lost in IE
+					if (tinymce.isIE && t.editor && imgBookmark !== null) {
+						t.editor.selection.moveToBookmark(imgBookmark);
+					}
+					return s.onclick.call(s.scope, e);
+				}
+			});
+			tinymce.dom.Event.add(t.id, 'keydown', function(e) {
+				if (!t.isDisabled() && e.keyCode==tinymce.VK.SPACEBAR) {
+					tinymce.dom.Event.cancel(e);
+					return s.onclick.call(s.scope, e);
+				}
+			});
+		}
+	});
+})(tinymce);
+
+(function(tinymce) {
+	var DOM = tinymce.DOM, Event = tinymce.dom.Event, each = tinymce.each, Dispatcher = tinymce.util.Dispatcher, undef;
+
+	tinymce.create('tinymce.ui.ListBox:tinymce.ui.Control', {
+		ListBox : function(id, s, ed) {
+			var t = this;
+
+			t.parent(id, s, ed);
+
+			t.items = [];
+
+			t.onChange = new Dispatcher(t);
+
+			t.onPostRender = new Dispatcher(t);
+
+			t.onAdd = new Dispatcher(t);
+
+			t.onRenderMenu = new tinymce.util.Dispatcher(this);
+
+			t.classPrefix = 'mceListBox';
+			t.marked = {};
+		},
+
+		select : function(va) {
+			var t = this, fv, f;
+
+			t.marked = {};
+
+			if (va == undef)
+				return t.selectByIndex(-1);
+
+			// Is string or number make function selector
+			if (va && typeof(va)=="function")
+				f = va;
+			else {
+				f = function(v) {
+					return v == va;
+				};
+			}
+
+			// Do we need to do something?
+			if (va != t.selectedValue) {
+				// Find item
+				each(t.items, function(o, i) {
+					if (f(o.value)) {
+						fv = 1;
+						t.selectByIndex(i);
+						return false;
+					}
+				});
+
+				if (!fv)
+					t.selectByIndex(-1);
+			}
+		},
+
+		selectByIndex : function(idx) {
+			var t = this, e, o, label;
+
+			t.marked = {};
+
+			if (idx != t.selectedIndex) {
+				e = DOM.get(t.id + '_text');
+				label = DOM.get(t.id + '_voiceDesc');
+				o = t.items[idx];
+
+				if (o) {
+					t.selectedValue = o.value;
+					t.selectedIndex = idx;
+					DOM.setHTML(e, DOM.encode(o.title));
+					DOM.setHTML(label, t.settings.title + " - " + o.title);
+					DOM.removeClass(e, 'mceTitle');
+					DOM.setAttrib(t.id, 'aria-valuenow', o.title);
+				} else {
+					DOM.setHTML(e, DOM.encode(t.settings.title));
+					DOM.setHTML(label, DOM.encode(t.settings.title));
+					DOM.addClass(e, 'mceTitle');
+					t.selectedValue = t.selectedIndex = null;
+					DOM.setAttrib(t.id, 'aria-valuenow', t.settings.title);
+				}
+				e = 0;
+			}
+		},
+
+		mark : function(value) {
+			this.marked[value] = true;
+		},
+
+		add : function(n, v, o) {
+			var t = this;
+
+			o = o || {};
+			o = tinymce.extend(o, {
+				title : n,
+				value : v
+			});
+
+			t.items.push(o);
+			t.onAdd.dispatch(t, o);
+		},
+
+		getLength : function() {
+			return this.items.length;
+		},
+
+		renderHTML : function() {
+			var h = '', t = this, s = t.settings, cp = t.classPrefix;
+
+			h = '<span role="listbox" aria-haspopup="true" aria-labelledby="' + t.id +'_voiceDesc" aria-describedby="' + t.id + '_voiceDesc"><table role="presentation" tabindex="0" id="' + t.id + '" cellpadding="0" cellspacing="0" class="' + cp + ' ' + cp + 'Enabled' + (s['class'] ? (' ' + s['class']) : '') + '"><tbody><tr>';
+			h += '<td>' + DOM.createHTML('span', {id: t.id + '_voiceDesc', 'class': 'voiceLabel', style:'display:none;'}, t.settings.title); 
+			h += DOM.createHTML('a', {id : t.id + '_text', tabindex : -1, href : 'javascript:;', 'class' : 'mceText', onclick : "return false;", onmousedown : 'return false;'}, DOM.encode(t.settings.title)) + '</td>';
+			h += '<td>' + DOM.createHTML('a', {id : t.id + '_open', tabindex : -1, href : 'javascript:;', 'class' : 'mceOpen', onclick : "return false;", onmousedown : 'return false;'}, '<span><span style="display:none;" class="mceIconOnly" aria-hidden="true">\u25BC</span></span>') + '</td>';
+			h += '</tr></tbody></table></span>';
+
+			return h;
+		},
+
+		showMenu : function() {
+			var t = this, p2, e = DOM.get(this.id), m;
+
+			if (t.isDisabled() || t.items.length === 0)
+				return;
+
+			if (t.menu && t.menu.isMenuVisible)
+				return t.hideMenu();
+
+			if (!t.isMenuRendered) {
+				t.renderMenu();
+				t.isMenuRendered = true;
+			}
+
+			p2 = DOM.getPos(e);
+
+			m = t.menu;
+			m.settings.offset_x = p2.x;
+			m.settings.offset_y = p2.y;
+			m.settings.keyboard_focus = !tinymce.isOpera; // Opera is buggy when it comes to auto focus
+
+			// Select in menu
+			each(t.items, function(o) {
+				if (m.items[o.id]) {
+					m.items[o.id].setSelected(0);
+				}
+			});
+
+			each(t.items, function(o) {
+				if (m.items[o.id] && t.marked[o.value]) {
+					m.items[o.id].setSelected(1);
+				}
+
+				if (o.value === t.selectedValue) {
+					m.items[o.id].setSelected(1);
+				}
+			});
+
+			m.showMenu(0, e.clientHeight);
+
+			Event.add(DOM.doc, 'mousedown', t.hideMenu, t);
+			DOM.addClass(t.id, t.classPrefix + 'Selected');
+
+			//DOM.get(t.id + '_text').focus();
+		},
+
+		hideMenu : function(e) {
+			var t = this;
+
+			if (t.menu && t.menu.isMenuVisible) {
+				DOM.removeClass(t.id, t.classPrefix + 'Selected');
+
+				// Prevent double toogles by canceling the mouse click event to the button
+				if (e && e.type == "mousedown" && (e.target.id == t.id + '_text' || e.target.id == t.id + '_open'))
+					return;
+
+				if (!e || !DOM.getParent(e.target, '.mceMenu')) {
+					DOM.removeClass(t.id, t.classPrefix + 'Selected');
+					Event.remove(DOM.doc, 'mousedown', t.hideMenu, t);
+					t.menu.hideMenu();
+				}
+			}
+		},
+
+		renderMenu : function() {
+			var t = this, m;
+
+			m = t.settings.control_manager.createDropMenu(t.id + '_menu', {
+				menu_line : 1,
+				'class' : t.classPrefix + 'Menu mceNoIcons',
+				max_width : 250,
+				max_height : 150
+			});
+
+			m.onHideMenu.add(function() {
+				t.hideMenu();
+				t.focus();
+			});
+
+			m.add({
+				title : t.settings.title,
+				'class' : 'mceMenuItemTitle',
+				onclick : function() {
+					if (t.settings.onselect('') !== false)
+						t.select(''); // Must be runned after
+				}
+			});
+
+			each(t.items, function(o) {
+				// No value then treat it as a title
+				if (o.value === undef) {
+					m.add({
+						title : o.title,
+						role : "option",
+						'class' : 'mceMenuItemTitle',
+						onclick : function() {
+							if (t.settings.onselect('') !== false)
+								t.select(''); // Must be runned after
+						}
+					});
+				} else {
+					o.id = DOM.uniqueId();
+					o.role= "option";
+					o.onclick = function() {
+						if (t.settings.onselect(o.value) !== false)
+							t.select(o.value); // Must be runned after
+					};
+
+					m.add(o);
+				}
+			});
+
+			t.onRenderMenu.dispatch(t, m);
+			t.menu = m;
+		},
+
+		postRender : function() {
+			var t = this, cp = t.classPrefix;
+
+			Event.add(t.id, 'click', t.showMenu, t);
+			Event.add(t.id, 'keydown', function(evt) {
+				if (evt.keyCode == 32) { // Space
+					t.showMenu(evt);
+					Event.cancel(evt);
+				}
+			});
+			Event.add(t.id, 'focus', function() {
+				if (!t._focused) {
+					t.keyDownHandler = Event.add(t.id, 'keydown', function(e) {
+						if (e.keyCode == 40) {
+							t.showMenu();
+							Event.cancel(e);
+						}
+					});
+					t.keyPressHandler = Event.add(t.id, 'keypress', function(e) {
+						var v;
+						if (e.keyCode == 13) {
+							// Fake select on enter
+							v = t.selectedValue;
+							t.selectedValue = null; // Needs to be null to fake change
+							Event.cancel(e);
+							t.settings.onselect(v);
+						}
+					});
+				}
+
+				t._focused = 1;
+			});
+			Event.add(t.id, 'blur', function() {
+				Event.remove(t.id, 'keydown', t.keyDownHandler);
+				Event.remove(t.id, 'keypress', t.keyPressHandler);
+				t._focused = 0;
+			});
+
+			// Old IE doesn't have hover on all elements
+			if (tinymce.isIE6 || !DOM.boxModel) {
+				Event.add(t.id, 'mouseover', function() {
+					if (!DOM.hasClass(t.id, cp + 'Disabled'))
+						DOM.addClass(t.id, cp + 'Hover');
+				});
+
+				Event.add(t.id, 'mouseout', function() {
+					if (!DOM.hasClass(t.id, cp + 'Disabled'))
+						DOM.removeClass(t.id, cp + 'Hover');
+				});
+			}
+
+			t.onPostRender.dispatch(t, DOM.get(t.id));
+		},
+
+		destroy : function() {
+			this.parent();
+
+			Event.clear(this.id + '_text');
+			Event.clear(this.id + '_open');
+		}
+	});
+})(tinymce);
+
+(function(tinymce) {
+	var DOM = tinymce.DOM, Event = tinymce.dom.Event, each = tinymce.each, Dispatcher = tinymce.util.Dispatcher, undef;
+
+	tinymce.create('tinymce.ui.NativeListBox:tinymce.ui.ListBox', {
+		NativeListBox : function(id, s) {
+			this.parent(id, s);
+			this.classPrefix = 'mceNativeListBox';
+		},
+
+		setDisabled : function(s) {
+			DOM.get(this.id).disabled = s;
+			this.setAriaProperty('disabled', s);
+		},
+
+		isDisabled : function() {
+			return DOM.get(this.id).disabled;
+		},
+
+		select : function(va) {
+			var t = this, fv, f;
+
+			if (va == undef)
+				return t.selectByIndex(-1);
+
+			// Is string or number make function selector
+			if (va && typeof(va)=="function")
+				f = va;
+			else {
+				f = function(v) {
+					return v == va;
+				};
+			}
+
+			// Do we need to do something?
+			if (va != t.selectedValue) {
+				// Find item
+				each(t.items, function(o, i) {
+					if (f(o.value)) {
+						fv = 1;
+						t.selectByIndex(i);
+						return false;
+					}
+				});
+
+				if (!fv)
+					t.selectByIndex(-1);
+			}
+		},
+
+		selectByIndex : function(idx) {
+			DOM.get(this.id).selectedIndex = idx + 1;
+			this.selectedValue = this.items[idx] ? this.items[idx].value : null;
+		},
+
+		add : function(n, v, a) {
+			var o, t = this;
+
+			a = a || {};
+			a.value = v;
+
+			if (t.isRendered())
+				DOM.add(DOM.get(this.id), 'option', a, n);
+
+			o = {
+				title : n,
+				value : v,
+				attribs : a
+			};
+
+			t.items.push(o);
+			t.onAdd.dispatch(t, o);
+		},
+
+		getLength : function() {
+			return this.items.length;
+		},
+
+		renderHTML : function() {
+			var h, t = this;
+
+			h = DOM.createHTML('option', {value : ''}, '-- ' + t.settings.title + ' --');
+
+			each(t.items, function(it) {
+				h += DOM.createHTML('option', {value : it.value}, it.title);
+			});
+
+			h = DOM.createHTML('select', {id : t.id, 'class' : 'mceNativeListBox', 'aria-labelledby': t.id + '_aria'}, h);
+			h += DOM.createHTML('span', {id : t.id + '_aria', 'style': 'display: none'}, t.settings.title);
+			return h;
+		},
+
+		postRender : function() {
+			var t = this, ch, changeListenerAdded = true;
+
+			t.rendered = true;
+
+			function onChange(e) {
+				var v = t.items[e.target.selectedIndex - 1];
+
+				if (v && (v = v.value)) {
+					t.onChange.dispatch(t, v);
+
+					if (t.settings.onselect)
+						t.settings.onselect(v);
+				}
+			};
+
+			Event.add(t.id, 'change', onChange);
+
+			// Accessibility keyhandler
+			Event.add(t.id, 'keydown', function(e) {
+				var bf, DOM_VK_LEFT = 37, DOM_VK_RIGHT = 39, DOM_VK_UP = 38, DOM_VK_DOWN = 40, DOM_VK_RETURN = 13, DOM_VK_SPACE = 32;
+
+				Event.remove(t.id, 'change', ch);
+				changeListenerAdded = false;
+
+				bf = Event.add(t.id, 'blur', function() {
+					if (changeListenerAdded) return;
+					changeListenerAdded = true;
+					Event.add(t.id, 'change', onChange);
+					Event.remove(t.id, 'blur', bf);
+				});
+
+				if (e.keyCode == DOM_VK_RETURN || e.keyCode == DOM_VK_SPACE) {
+					onChange(e);
+					return Event.cancel(e);
+				} else if (e.keyCode == DOM_VK_DOWN || e.keyCode == DOM_VK_UP) {
+					// allow native implementation (navigate select element options)
+					e.stopImmediatePropagation();
+				}
+			});
+
+			t.onPostRender.dispatch(t, DOM.get(t.id));
+		}
+	});
+})(tinymce);
+
+(function(tinymce) {
+	var DOM = tinymce.DOM, Event = tinymce.dom.Event, each = tinymce.each;
+
+	tinymce.create('tinymce.ui.MenuButton:tinymce.ui.Button', {
+		MenuButton : function(id, s, ed) {
+			this.parent(id, s, ed);
+
+			this.onRenderMenu = new tinymce.util.Dispatcher(this);
+
+			s.menu_container = s.menu_container || DOM.doc.body;
+		},
+
+		showMenu : function() {
+			var t = this, p1, p2, e = DOM.get(t.id), m;
+
+			if (t.isDisabled())
+				return;
+
+			if (!t.isMenuRendered) {
+				t.renderMenu();
+				t.isMenuRendered = true;
+			}
+
+			if (t.isMenuVisible)
+				return t.hideMenu();
+
+			p1 = DOM.getPos(t.settings.menu_container);
+			p2 = DOM.getPos(e);
+
+			m = t.menu;
+			m.settings.offset_x = p2.x;
+			m.settings.offset_y = p2.y;
+			m.settings.vp_offset_x = p2.x;
+			m.settings.vp_offset_y = p2.y;
+			m.settings.keyboard_focus = t._focused;
+			m.showMenu(0, e.firstChild.clientHeight);
+
+			Event.add(DOM.doc, 'mousedown', t.hideMenu, t);
+			t.setState('Selected', 1);
+
+			t.isMenuVisible = 1;
+		},
+
+		renderMenu : function() {
+			var t = this, m;
+
+			m = t.settings.control_manager.createDropMenu(t.id + '_menu', {
+				menu_line : 1,
+				'class' : this.classPrefix + 'Menu',
+				icons : t.settings.icons
+			});
+
+			m.onHideMenu.add(function() {
+				t.hideMenu();
+				t.focus();
+			});
+
+			t.onRenderMenu.dispatch(t, m);
+			t.menu = m;
+		},
+
+		hideMenu : function(e) {
+			var t = this;
+
+			// Prevent double toogles by canceling the mouse click event to the button
+			if (e && e.type == "mousedown" && DOM.getParent(e.target, function(e) {return e.id === t.id || e.id === t.id + '_open';}))
+				return;
+
+			if (!e || !DOM.getParent(e.target, '.mceMenu')) {
+				t.setState('Selected', 0);
+				Event.remove(DOM.doc, 'mousedown', t.hideMenu, t);
+				if (t.menu)
+					t.menu.hideMenu();
+			}
+
+			t.isMenuVisible = 0;
+		},
+
+		postRender : function() {
+			var t = this, s = t.settings;
+
+			Event.add(t.id, 'click', function() {
+				if (!t.isDisabled()) {
+					if (s.onclick)
+						s.onclick(t.value);
+
+					t.showMenu();
+				}
+			});
+		}
+	});
+})(tinymce);
+
+(function(tinymce) {
+	var DOM = tinymce.DOM, Event = tinymce.dom.Event, each = tinymce.each;
+
+	tinymce.create('tinymce.ui.SplitButton:tinymce.ui.MenuButton', {
+		SplitButton : function(id, s, ed) {
+			this.parent(id, s, ed);
+			this.classPrefix = 'mceSplitButton';
+		},
+
+		renderHTML : function() {
+			var h, t = this, s = t.settings, h1;
+
+			h = '<tbody><tr>';
+
+			if (s.image)
+				h1 = DOM.createHTML('img ', {src : s.image, role: 'presentation', 'class' : 'mceAction ' + s['class']});
+			else
+				h1 = DOM.createHTML('span', {'class' : 'mceAction ' + s['class']}, '');
+
+			h1 += DOM.createHTML('span', {'class': 'mceVoiceLabel mceIconOnly', id: t.id + '_voice', style: 'display:none;'}, s.title);
+			h += '<td >' + DOM.createHTML('a', {role: 'button', id : t.id + '_action', tabindex: '-1', href : 'javascript:;', 'class' : 'mceAction ' + s['class'], onclick : "return false;", onmousedown : 'return false;', title : s.title}, h1) + '</td>';
+	
+			h1 = DOM.createHTML('span', {'class' : 'mceOpen ' + s['class']}, '<span style="display:none;" class="mceIconOnly" aria-hidden="true">\u25BC</span>');
+			h += '<td >' + DOM.createHTML('a', {role: 'button', id : t.id + '_open', tabindex: '-1', href : 'javascript:;', 'class' : 'mceOpen ' + s['class'], onclick : "return false;", onmousedown : 'return false;', title : s.title}, h1) + '</td>';
+
+			h += '</tr></tbody>';
+			h = DOM.createHTML('table', { role: 'presentation',   'class' : 'mceSplitButton mceSplitButtonEnabled ' + s['class'], cellpadding : '0', cellspacing : '0', title : s.title}, h);
+			return DOM.createHTML('div', {id : t.id, role: 'button', tabindex: '0', 'aria-labelledby': t.id + '_voice', 'aria-haspopup': 'true'}, h);
+		},
+
+		postRender : function() {
+			var t = this, s = t.settings, activate;
+
+			if (s.onclick) {
+				activate = function(evt) {
+					if (!t.isDisabled()) {
+						s.onclick(t.value);
+						Event.cancel(evt);
+					}
+				};
+				Event.add(t.id + '_action', 'click', activate);
+				Event.add(t.id, ['click', 'keydown'], function(evt) {
+					var DOM_VK_SPACE = 32, DOM_VK_ENTER = 14, DOM_VK_RETURN = 13, DOM_VK_UP = 38, DOM_VK_DOWN = 40;
+					if ((evt.keyCode === 32 || evt.keyCode === 13 || evt.keyCode === 14) && !evt.altKey && !evt.ctrlKey && !evt.metaKey) {
+						activate();
+						Event.cancel(evt);
+					} else if (evt.type === 'click' || evt.keyCode === DOM_VK_DOWN) {
+						t.showMenu();
+						Event.cancel(evt);
+					}
+				});
+			}
+
+			Event.add(t.id + '_open', 'click', function (evt) {
+				t.showMenu();
+				Event.cancel(evt);
+			});
+			Event.add([t.id, t.id + '_open'], 'focus', function() {t._focused = 1;});
+			Event.add([t.id, t.id + '_open'], 'blur', function() {t._focused = 0;});
+
+			// Old IE doesn't have hover on all elements
+			if (tinymce.isIE6 || !DOM.boxModel) {
+				Event.add(t.id, 'mouseover', function() {
+					if (!DOM.hasClass(t.id, 'mceSplitButtonDisabled'))
+						DOM.addClass(t.id, 'mceSplitButtonHover');
+				});
+
+				Event.add(t.id, 'mouseout', function() {
+					if (!DOM.hasClass(t.id, 'mceSplitButtonDisabled'))
+						DOM.removeClass(t.id, 'mceSplitButtonHover');
+				});
+			}
+		},
+
+		destroy : function() {
+			this.parent();
+
+			Event.clear(this.id + '_action');
+			Event.clear(this.id + '_open');
+			Event.clear(this.id);
+		}
+	});
+})(tinymce);
+
+(function(tinymce) {
+	var DOM = tinymce.DOM, Event = tinymce.dom.Event, is = tinymce.is, each = tinymce.each;
+
+	tinymce.create('tinymce.ui.ColorSplitButton:tinymce.ui.SplitButton', {
+		ColorSplitButton : function(id, s, ed) {
+			var t = this;
+
+			t.parent(id, s, ed);
+
+			t.settings = s = tinymce.extend({
+				colors : '000000,993300,333300,003300,003366,000080,333399,333333,800000,FF6600,808000,008000,008080,0000FF,666699,808080,FF0000,FF9900,99CC00,339966,33CCCC,3366FF,800080,999999,FF00FF,FFCC00,FFFF00,00FF00,00FFFF,00CCFF,993366,C0C0C0,FF99CC,FFCC99,FFFF99,CCFFCC,CCFFFF,99CCFF,CC99FF,FFFFFF',
+				grid_width : 8,
+				default_color : '#888888'
+			}, t.settings);
+
+			t.onShowMenu = new tinymce.util.Dispatcher(t);
+
+			t.onHideMenu = new tinymce.util.Dispatcher(t);
+
+			t.value = s.default_color;
+		},
+
+		showMenu : function() {
+			var t = this, r, p, e, p2;
+
+			if (t.isDisabled())
+				return;
+
+			if (!t.isMenuRendered) {
+				t.renderMenu();
+				t.isMenuRendered = true;
+			}
+
+			if (t.isMenuVisible)
+				return t.hideMenu();
+
+			e = DOM.get(t.id);
+			DOM.show(t.id + '_menu');
+			DOM.addClass(e, 'mceSplitButtonSelected');
+			p2 = DOM.getPos(e);
+			DOM.setStyles(t.id + '_menu', {
+				left : p2.x,
+				top : p2.y + e.firstChild.clientHeight,
+				zIndex : 200000
+			});
+			e = 0;
+
+			Event.add(DOM.doc, 'mousedown', t.hideMenu, t);
+			t.onShowMenu.dispatch(t);
+
+			if (t._focused) {
+				t._keyHandler = Event.add(t.id + '_menu', 'keydown', function(e) {
+					if (e.keyCode == 27)
+						t.hideMenu();
+				});
+
+				DOM.select('a', t.id + '_menu')[0].focus(); // Select first link
+			}
+
+			t.keyboardNav = new tinymce.ui.KeyboardNavigation({
+				root: t.id + '_menu',
+				items: DOM.select('a', t.id + '_menu'),
+				onCancel: function() {
+					t.hideMenu();
+					t.focus();
+				}
+			});
+
+			t.keyboardNav.focus();
+			t.isMenuVisible = 1;
+		},
+
+		hideMenu : function(e) {
+			var t = this;
+
+			if (t.isMenuVisible) {
+				// Prevent double toogles by canceling the mouse click event to the button
+				if (e && e.type == "mousedown" && DOM.getParent(e.target, function(e) {return e.id === t.id + '_open';}))
+					return;
+
+				if (!e || !DOM.getParent(e.target, '.mceSplitButtonMenu')) {
+					DOM.removeClass(t.id, 'mceSplitButtonSelected');
+					Event.remove(DOM.doc, 'mousedown', t.hideMenu, t);
+					Event.remove(t.id + '_menu', 'keydown', t._keyHandler);
+					DOM.hide(t.id + '_menu');
+				}
+
+				t.isMenuVisible = 0;
+				t.onHideMenu.dispatch();
+				t.keyboardNav.destroy();
+			}
+		},
+
+		renderMenu : function() {
+			var t = this, m, i = 0, s = t.settings, n, tb, tr, w, context;
+
+			w = DOM.add(s.menu_container, 'div', {role: 'listbox', id : t.id + '_menu', 'class' : s.menu_class + ' ' + s['class'], style : 'position:absolute;left:0;top:-1000px;'});
+			m = DOM.add(w, 'div', {'class' : s['class'] + ' mceSplitButtonMenu'});
+			DOM.add(m, 'span', {'class' : 'mceMenuLine'});
+
+			n = DOM.add(m, 'table', {role: 'presentation', 'class' : 'mceColorSplitMenu'});
+			tb = DOM.add(n, 'tbody');
+
+			// Generate color grid
+			i = 0;
+			each(is(s.colors, 'array') ? s.colors : s.colors.split(','), function(c) {
+				c = c.replace(/^#/, '');
+
+				if (!i--) {
+					tr = DOM.add(tb, 'tr');
+					i = s.grid_width - 1;
+				}
+
+				n = DOM.add(tr, 'td');
+				var settings = {
+					href : 'javascript:;',
+					style : {
+						backgroundColor : '#' + c
+					},
+					'title': t.editor.getLang('colors.' + c, c),
+					'data-mce-color' : '#' + c
+				};
+
+				// adding a proper ARIA role = button causes JAWS to read things incorrectly on IE.
+				if (!tinymce.isIE ) {
+					settings.role = 'option';
+				}
+
+				n = DOM.add(n, 'a', settings);
+
+				if (t.editor.forcedHighContrastMode) {
+					n = DOM.add(n, 'canvas', { width: 16, height: 16, 'aria-hidden': 'true' });
+					if (n.getContext && (context = n.getContext("2d"))) {
+						context.fillStyle = '#' + c;
+						context.fillRect(0, 0, 16, 16);
+					} else {
+						// No point leaving a canvas element around if it's not supported for drawing on anyway.
+						DOM.remove(n);
+					}
+				}
+			});
+
+			if (s.more_colors_func) {
+				n = DOM.add(tb, 'tr');
+				n = DOM.add(n, 'td', {colspan : s.grid_width, 'class' : 'mceMoreColors'});
+				n = DOM.add(n, 'a', {role: 'option', id : t.id + '_more', href : 'javascript:;', onclick : 'return false;', 'class' : 'mceMoreColors'}, s.more_colors_title);
+
+				Event.add(n, 'click', function(e) {
+					s.more_colors_func.call(s.more_colors_scope || this);
+					return Event.cancel(e); // Cancel to fix onbeforeunload problem
+				});
+			}
+
+			DOM.addClass(m, 'mceColorSplitMenu');
+
+			// Prevent IE from scrolling and hindering click to occur #4019
+			Event.add(t.id + '_menu', 'mousedown', function(e) {return Event.cancel(e);});
+
+			Event.add(t.id + '_menu', 'click', function(e) {
+				var c;
+
+				e = DOM.getParent(e.target, 'a', tb);
+
+				if (e && e.nodeName.toLowerCase() == 'a' && (c = e.getAttribute('data-mce-color')))
+					t.setColor(c);
+
+				return false; // Prevent IE auto save warning
+			});
+
+			return w;
+		},
+
+		setColor : function(c) {
+			this.displayColor(c);
+			this.hideMenu();
+			this.settings.onselect(c);
+		},
+		
+		displayColor : function(c) {
+			var t = this;
+
+			DOM.setStyle(t.id + '_preview', 'backgroundColor', c);
+
+			t.value = c;
+		},
+
+		postRender : function() {
+			var t = this, id = t.id;
+
+			t.parent();
+			DOM.add(id + '_action', 'div', {id : id + '_preview', 'class' : 'mceColorPreview'});
+			DOM.setStyle(t.id + '_preview', 'backgroundColor', t.value);
+		},
+
+		destroy : function() {
+			var self = this;
+
+			self.parent();
+
+			Event.clear(self.id + '_menu');
+			Event.clear(self.id + '_more');
+			DOM.remove(self.id + '_menu');
+
+			if (self.keyboardNav) {
+				self.keyboardNav.destroy();
+			}
+		}
+	});
+})(tinymce);
+
+(function(tinymce) {
+// Shorten class names
+var dom = tinymce.DOM, each = tinymce.each, Event = tinymce.dom.Event;
+tinymce.create('tinymce.ui.ToolbarGroup:tinymce.ui.Container', {
+	renderHTML : function() {
+		var t = this, h = [], controls = t.controls, each = tinymce.each, settings = t.settings;
+
+		h.push('<div id="' + t.id + '" role="group" aria-labelledby="' + t.id + '_voice">');
+		//TODO: ACC test this out - adding a role = application for getting the landmarks working well.
+		h.push("<span role='application'>");
+		h.push('<span id="' + t.id + '_voice" class="mceVoiceLabel" style="display:none;">' + dom.encode(settings.name) + '</span>');
+		each(controls, function(toolbar) {
+			h.push(toolbar.renderHTML());
+		});
+		h.push("</span>");
+		h.push('</div>');
+
+		return h.join('');
+	},
+	
+	focus : function() {
+		var t = this;
+		dom.get(t.id).focus();
+	},
+	
+	postRender : function() {
+		var t = this, items = [];
+
+		each(t.controls, function(toolbar) {
+			each (toolbar.controls, function(control) {
+				if (control.id) {
+					items.push(control);
+				}
+			});
+		});
+
+		t.keyNav = new tinymce.ui.KeyboardNavigation({
+			root: t.id,
+			items: items,
+			onCancel: function() {
+				//Move focus if webkit so that navigation back will read the item.
+				if (tinymce.isWebKit) {
+					dom.get(t.editor.id+"_ifr").focus();
+				}
+				t.editor.focus();
+			},
+			excludeFromTabOrder: !t.settings.tab_focus_toolbar
+		});
+	},
+	
+	destroy : function() {
+		var self = this;
+
+		self.parent();
+		self.keyNav.destroy();
+		Event.clear(self.id);
+	}
+});
+})(tinymce);
+
+(function(tinymce) {
+// Shorten class names
+var dom = tinymce.DOM, each = tinymce.each;
+tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
+	renderHTML : function() {
+		var t = this, h = '', c, co, s = t.settings, i, pr, nx, cl;
+
+		cl = t.controls;
+		for (i=0; i<cl.length; i++) {
+			// Get current control, prev control, next control and if the control is a list box or not
+			co = cl[i];
+			pr = cl[i - 1];
+			nx = cl[i + 1];
+
+			// Add toolbar start
+			if (i === 0) {
+				c = 'mceToolbarStart';
+
+				if (co.Button)
+					c += ' mceToolbarStartButton';
+				else if (co.SplitButton)
+					c += ' mceToolbarStartSplitButton';
+				else if (co.ListBox)
+					c += ' mceToolbarStartListBox';
+
+				h += dom.createHTML('td', {'class' : c}, dom.createHTML('span', null, '<!-- IE -->'));
+			}
+
+			// Add toolbar end before list box and after the previous button
+			// This is to fix the o2k7 editor skins
+			if (pr && co.ListBox) {
+				if (pr.Button || pr.SplitButton)
+					h += dom.createHTML('td', {'class' : 'mceToolbarEnd'}, dom.createHTML('span', null, '<!-- IE -->'));
+			}
+
+			// Render control HTML
+
+			// IE 8 quick fix, needed to propertly generate a hit area for anchors
+			if (dom.stdMode)
+				h += '<td style="position: relative">' + co.renderHTML() + '</td>';
+			else
+				h += '<td>' + co.renderHTML() + '</td>';
+
+			// Add toolbar start after list box and before the next button
+			// This is to fix the o2k7 editor skins
+			if (nx && co.ListBox) {
+				if (nx.Button || nx.SplitButton)
+					h += dom.createHTML('td', {'class' : 'mceToolbarStart'}, dom.createHTML('span', null, '<!-- IE -->'));
+			}
+		}
+
+		c = 'mceToolbarEnd';
+
+		if (co.Button)
+			c += ' mceToolbarEndButton';
+		else if (co.SplitButton)
+			c += ' mceToolbarEndSplitButton';
+		else if (co.ListBox)
+			c += ' mceToolbarEndListBox';
+
+		h += dom.createHTML('td', {'class' : c}, dom.createHTML('span', null, '<!-- IE -->'));
+
+		return dom.createHTML('table', {id : t.id, 'class' : 'mceToolbar' + (s['class'] ? ' ' + s['class'] : ''), cellpadding : '0', cellspacing : '0', align : t.settings.align || '', role: 'presentation', tabindex: '-1'}, '<tbody><tr>' + h + '</tr></tbody>');
+	}
+});
+})(tinymce);
+
+(function(tinymce) {
+	var Dispatcher = tinymce.util.Dispatcher, each = tinymce.each;
+
+	tinymce.create('tinymce.AddOnManager', {
+		AddOnManager : function() {
+			var self = this;
+
+			self.items = [];
+			self.urls = {};
+			self.lookup = {};
+			self.onAdd = new Dispatcher(self);
+		},
+
+		get : function(n) {
+			if (this.lookup[n]) {
+				return this.lookup[n].instance;
+			} else {
+				return undefined;
+			}
+		},
+
+		dependencies : function(n) {
+			var result;
+			if (this.lookup[n]) {
+				result = this.lookup[n].dependencies;
+			}
+			return result || [];
+		},
+
+		requireLangPack : function(n) {
+			var s = tinymce.settings;
+
+			if (s && s.language && s.language_load !== false)
+				tinymce.ScriptLoader.add(this.urls[n] + '/langs/' + s.language + '.js');
+		},
+
+		add : function(id, o, dependencies) {
+			this.items.push(o);
+			this.lookup[id] = {instance:o, dependencies:dependencies};
+			this.onAdd.dispatch(this, id, o);
+
+			return o;
+		},
+		createUrl: function(baseUrl, dep) {
+			if (typeof dep === "object") {
+				return dep
+			} else {
+				return {prefix: baseUrl.prefix, resource: dep, suffix: baseUrl.suffix};
+			}
+		},
+
+		addComponents: function(pluginName, scripts) {
+			var pluginUrl = this.urls[pluginName];
+			tinymce.each(scripts, function(script){
+				tinymce.ScriptLoader.add(pluginUrl+"/"+script);	
+			});
+		},
+
+		load : function(n, u, cb, s) {
+			var t = this, url = u;
+
+			function loadDependencies() {
+				var dependencies = t.dependencies(n);
+				tinymce.each(dependencies, function(dep) {
+					var newUrl = t.createUrl(u, dep);
+					t.load(newUrl.resource, newUrl, undefined, undefined);
+				});
+				if (cb) {
+					if (s) {
+						cb.call(s);
+					} else {
+						cb.call(tinymce.ScriptLoader);
+					}
+				}
+			}
+
+			if (t.urls[n])
+				return;
+			if (typeof u === "object")
+				url = u.prefix + u.resource + u.suffix;
+
+			if (url.indexOf('/') !== 0 && url.indexOf('://') == -1)
+				url = tinymce.baseURL + '/' + url;
+
+			t.urls[n] = url.substring(0, url.lastIndexOf('/'));
+
+			if (t.lookup[n]) {
+				loadDependencies();
+			} else {
+				tinymce.ScriptLoader.add(url, loadDependencies, s);
+			}
+		}
+	});
+
+	// Create plugin and theme managers
+	tinymce.PluginManager = new tinymce.AddOnManager();
+	tinymce.ThemeManager = new tinymce.AddOnManager();
+}(tinymce));
+
+(function(tinymce) {
+	// Shorten names
+	var each = tinymce.each, extend = tinymce.extend,
+		DOM = tinymce.DOM, Event = tinymce.dom.Event,
+		ThemeManager = tinymce.ThemeManager, PluginManager = tinymce.PluginManager,
+		explode = tinymce.explode,
+		Dispatcher = tinymce.util.Dispatcher, undef, instanceCounter = 0;
+
+	// Setup some URLs where the editor API is located and where the document is
+	tinymce.documentBaseURL = window.location.href.replace(/[\?#].*$/, '').replace(/[\/\\][^\/]+$/, '');
+	if (!/[\/\\]$/.test(tinymce.documentBaseURL))
+		tinymce.documentBaseURL += '/';
+
+	tinymce.baseURL = new tinymce.util.URI(tinymce.documentBaseURL).toAbsolute(tinymce.baseURL);
+
+	tinymce.baseURI = new tinymce.util.URI(tinymce.baseURL);
+
+	// Add before unload listener
+	// This was required since IE was leaking memory if you added and removed beforeunload listeners
+	// with attachEvent/detatchEvent so this only adds one listener and instances can the attach to the onBeforeUnload event
+	tinymce.onBeforeUnload = new Dispatcher(tinymce);
+
+	// Must be on window or IE will leak if the editor is placed in frame or iframe
+	Event.add(window, 'beforeunload', function(e) {
+		tinymce.onBeforeUnload.dispatch(tinymce, e);
+	});
+
+	tinymce.onAddEditor = new Dispatcher(tinymce);
+
+	tinymce.onRemoveEditor = new Dispatcher(tinymce);
+
+	tinymce.EditorManager = extend(tinymce, {
+		editors : [],
+
+		i18n : {},
+
+		activeEditor : null,
+
+		init : function(s) {
+			var t = this, pl, sl = tinymce.ScriptLoader, e, el = [], ed;
+
+			function createId(elm) {
+				var id = elm.id;
+	
+				// Use element id, or unique name or generate a unique id
+				if (!id) {
+					id = elm.name;
+	
+					if (id && !DOM.get(id)) {
+						id = elm.name;
+					} else {
+						// Generate unique name
+						id = DOM.uniqueId();
+					}
+
+					elm.setAttribute('id', id);
+				}
+
+				return id;
+			};
+
+			function execCallback(se, n, s) {
+				var f = se[n];
+
+				if (!f)
+					return;
+
+				if (tinymce.is(f, 'string')) {
+					s = f.replace(/\.\w+$/, '');
+					s = s ? tinymce.resolve(s) : 0;
+					f = tinymce.resolve(f);
+				}
+
+				return f.apply(s || this, Array.prototype.slice.call(arguments, 2));
+			};
+
+			function hasClass(n, c) {
+				return c.constructor === RegExp ? c.test(n.className) : DOM.hasClass(n, c);
+			};
+
+			t.settings = s;
+
+			// Legacy call
+			Event.bind(window, 'ready', function() {
+				var l, co;
+
+				execCallback(s, 'onpageload');
+
+				switch (s.mode) {
+					case "exact":
+						l = s.elements || '';
+
+						if(l.length > 0) {
+							each(explode(l), function(v) {
+								if (DOM.get(v)) {
+									ed = new tinymce.Editor(v, s);
+									el.push(ed);
+									ed.render(1);
+								} else {
+									each(document.forms, function(f) {
+										each(f.elements, function(e) {
+											if (e.name === v) {
+												v = 'mce_editor_' + instanceCounter++;
+												DOM.setAttrib(e, 'id', v);
+
+												ed = new tinymce.Editor(v, s);
+												el.push(ed);
+												ed.render(1);
+											}
+										});
+									});
+								}
+							});
+						}
+						break;
+
+					case "textareas":
+					case "specific_textareas":
+						each(DOM.select('textarea'), function(elm) {
+							if (s.editor_deselector && hasClass(elm, s.editor_deselector))
+								return;
+
+							if (!s.editor_selector || hasClass(elm, s.editor_selector)) {
+								ed = new tinymce.Editor(createId(elm), s);
+								el.push(ed);
+								ed.render(1);
+							}
+						});
+						break;
+					
+					default:
+						if (s.types) {
+							// Process type specific selector
+							each(s.types, function(type) {
+								each(DOM.select(type.selector), function(elm) {
+									var editor = new tinymce.Editor(createId(elm), tinymce.extend({}, s, type));
+									el.push(editor);
+									editor.render(1);
+								});
+							});
+						} else if (s.selector) {
+							// Process global selector
+							each(DOM.select(s.selector), function(elm) {
+								var editor = new tinymce.Editor(createId(elm), s);
+								el.push(editor);
+								editor.render(1);
+							});
+						}
+				}
+
+				// Call onInit when all editors are initialized
+				if (s.oninit) {
+					l = co = 0;
+
+					each(el, function(ed) {
+						co++;
+
+						if (!ed.initialized) {
+							// Wait for it
+							ed.onInit.add(function() {
+								l++;
+
+								// All done
+								if (l == co)
+									execCallback(s, 'oninit');
+							});
+						} else
+							l++;
+
+						// All done
+						if (l == co)
+							execCallback(s, 'oninit');					
+					});
+				}
+			});
+		},
+
+		get : function(id) {
+			if (id === undef)
+				return this.editors;
+
+			if (!this.editors.hasOwnProperty(id))
+				return undef;
+
+			return this.editors[id];
+		},
+
+		getInstanceById : function(id) {
+			return this.get(id);
+		},
+
+		add : function(editor) {
+			var self = this, editors = self.editors;
+
+			// Add named and index editor instance
+			editors[editor.id] = editor;
+			editors.push(editor);
+
+			self._setActive(editor);
+			self.onAddEditor.dispatch(self, editor);
+
+
+			return editor;
+		},
+
+		remove : function(editor) {
+			var t = this, i, editors = t.editors;
+
+			// Not in the collection
+			if (!editors[editor.id])
+				return null;
+
+			delete editors[editor.id];
+
+			for (i = 0; i < editors.length; i++) {
+				if (editors[i] == editor) {
+					editors.splice(i, 1);
+					break;
+				}
+			}
+
+			// Select another editor since the active one was removed
+			if (t.activeEditor == editor)
+				t._setActive(editors[0]);
+
+			editor.destroy();
+			t.onRemoveEditor.dispatch(t, editor);
+
+			return editor;
+		},
+
+		execCommand : function(c, u, v) {
+			var t = this, ed = t.get(v), w;
+
+			function clr() {
+				ed.destroy();
+				w.detachEvent('onunload', clr);
+				w = w.tinyMCE = w.tinymce = null; // IE leak
+			};
+
+			// Manager commands
+			switch (c) {
+				case "mceFocus":
+					ed.focus();
+					return true;
+
+				case "mceAddEditor":
+				case "mceAddControl":
+					if (!t.get(v))
+						new tinymce.Editor(v, t.settings).render();
+
+					return true;
+
+				case "mceAddFrameControl":
+					w = v.window;
+
+					// Add tinyMCE global instance and tinymce namespace to specified window
+					w.tinyMCE = tinyMCE;
+					w.tinymce = tinymce;
+
+					tinymce.DOM.doc = w.document;
+					tinymce.DOM.win = w;
+
+					ed = new tinymce.Editor(v.element_id, v);
+					ed.render();
+
+					// Fix IE memory leaks
+					if (tinymce.isIE && ! tinymce.isIE11) {
+						w.attachEvent('onunload', clr);
+					}
+
+					v.page_window = null;
+
+					return true;
+
+				case "mceRemoveEditor":
+				case "mceRemoveControl":
+					if (ed)
+						ed.remove();
+
+					return true;
+
+				case 'mceToggleEditor':
+					if (!ed) {
+						t.execCommand('mceAddControl', 0, v);
+						return true;
+					}
+
+					if (ed.isHidden())
+						ed.show();
+					else
+						ed.hide();
+
+					return true;
+			}
+
+			// Run command on active editor
+			if (t.activeEditor)
+				return t.activeEditor.execCommand(c, u, v);
+
+			return false;
+		},
+
+		execInstanceCommand : function(id, c, u, v) {
+			var ed = this.get(id);
+
+			if (ed)
+				return ed.execCommand(c, u, v);
+
+			return false;
+		},
+
+		triggerSave : function() {
+			each(this.editors, function(e) {
+				e.save();
+			});
+		},
+
+		addI18n : function(p, o) {
+			var lo, i18n = this.i18n;
+
+			if (!tinymce.is(p, 'string')) {
+				each(p, function(o, lc) {
+					each(o, function(o, g) {
+						each(o, function(o, k) {
+							if (g === 'common')
+								i18n[lc + '.' + k] = o;
+							else
+								i18n[lc + '.' + g + '.' + k] = o;
+						});
+					});
+				});
+			} else {
+				each(o, function(o, k) {
+					i18n[p + '.' + k] = o;
+				});
+			}
+		},
+
+		// Private methods
+
+		_setActive : function(editor) {
+			this.selectedInstance = this.activeEditor = editor;
+		}
+	});
+})(tinymce);
+
+(function(tinymce) {
+	// Shorten these names
+	var DOM = tinymce.DOM, Event = tinymce.dom.Event, extend = tinymce.extend,
+		each = tinymce.each, isGecko = tinymce.isGecko,
+		isIE = tinymce.isIE, isWebKit = tinymce.isWebKit, is = tinymce.is,
+		ThemeManager = tinymce.ThemeManager, PluginManager = tinymce.PluginManager,
+		explode = tinymce.explode;
+
+	tinymce.create('tinymce.Editor', {
+		Editor : function(id, settings) {
+			var self = this, TRUE = true;
+
+			self.settings = settings = extend({
+				id : id,
+				language : 'en',
+				theme : 'advanced',
+				skin : 'default',
+				delta_width : 0,
+				delta_height : 0,
+				popup_css : '',
+				plugins : '',
+				document_base_url : tinymce.documentBaseURL,
+				add_form_submit_trigger : TRUE,
+				submit_patch : TRUE,
+				add_unload_trigger : TRUE,
+				convert_urls : TRUE,
+				relative_urls : TRUE,
+				remove_script_host : TRUE,
+				table_inline_editing : false,
+				object_resizing : TRUE,
+				accessibility_focus : TRUE,
+				doctype : tinymce.isIE6 ? '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">' : '<!DOCTYPE>', // Use old doctype on IE 6 to avoid horizontal scroll
+				visual : TRUE,
+				font_size_style_values : 'xx-small,x-small,small,medium,large,x-large,xx-large',
+				font_size_legacy_values : 'xx-small,small,medium,large,x-large,xx-large,300%', // See: http://www.w3.org/TR/CSS2/fonts.html#propdef-font-size
+				apply_source_formatting : TRUE,
+				directionality : 'ltr',
+				forced_root_block : 'p',
+				hidden_input : TRUE,
+				padd_empty_editor : TRUE,
+				render_ui : TRUE,
+				indentation : '30px',
+				fix_table_elements : TRUE,
+				inline_styles : TRUE,
+				convert_fonts_to_spans : TRUE,
+				indent : 'simple',
+				indent_before : 'p,h1,h2,h3,h4,h5,h6,blockquote,div,title,style,pre,script,td,ul,li,area,table,thead,tfoot,tbody,tr,section,article,hgroup,aside,figure,option,optgroup,datalist',
+				indent_after : 'p,h1,h2,h3,h4,h5,h6,blockquote,div,title,style,pre,script,td,ul,li,area,table,thead,tfoot,tbody,tr,section,article,hgroup,aside,figure,option,optgroup,datalist',
+				validate : TRUE,
+				entity_encoding : 'named',
+				url_converter : self.convertURL,
+				url_converter_scope : self,
+				ie7_compat : TRUE
+			}, settings);
+
+			self.id = self.editorId = id;
+
+			self.isNotDirty = false;
+
+			self.plugins = {};
+
+			self.documentBaseURI = new tinymce.util.URI(settings.document_base_url || tinymce.documentBaseURL, {
+				base_uri : tinyMCE.baseURI
+			});
+
+			self.baseURI = tinymce.baseURI;
+
+			self.contentCSS = [];
+
+			self.contentStyles = [];
+
+			// Creates all events like onClick, onSetContent etc see Editor.Events.js for the actual logic
+			self.setupEvents();
+
+			// Internal command handler objects
+			self.execCommands = {};
+			self.queryStateCommands = {};
+			self.queryValueCommands = {};
+
+			// Call setup
+			self.execCallback('setup', self);
+		},
+
+		render : function(nst) {
+			var t = this, s = t.settings, id = t.id, sl = tinymce.ScriptLoader;
+
+			// Page is not loaded yet, wait for it
+			if (!Event.domLoaded) {
+				Event.add(window, 'ready', function() {
+					t.render();
+				});
+				return;
+			}
+
+			tinyMCE.settings = s;
+
+			// Element not found, then skip initialization
+			if (!t.getElement())
+				return;
+
+			// Is a iPad/iPhone and not on iOS5, then skip initialization. We need to sniff 
+			// here since the browser says it has contentEditable support but there is no visible caret.
+			if (tinymce.isIDevice && !tinymce.isIOS5)
+				return;
+
+			// Add hidden input for non input elements inside form elements
+			if (!/TEXTAREA|INPUT/i.test(t.getElement().nodeName) && s.hidden_input && DOM.getParent(id, 'form'))
+				DOM.insertAfter(DOM.create('input', {type : 'hidden', name : id}), id);
+
+			// Hide target element early to prevent content flashing
+			if (!s.content_editable) {
+				t.orgVisibility = t.getElement().style.visibility;
+				t.getElement().style.visibility = 'hidden';
+			}
+
+			if (tinymce.WindowManager)
+				t.windowManager = new tinymce.WindowManager(t);
+
+			if (s.encoding == 'xml') {
+				t.onGetContent.add(function(ed, o) {
+					if (o.save)
+						o.content = DOM.encode(o.content);
+				});
+			}
+
+			if (s.add_form_submit_trigger) {
+				t.onSubmit.addToTop(function() {
+					if (t.initialized) {
+						t.save();
+						t.isNotDirty = 1;
+					}
+				});
+			}
+
+			if (s.add_unload_trigger) {
+				t._beforeUnload = tinyMCE.onBeforeUnload.add(function() {
+					if (t.initialized && !t.destroyed && !t.isHidden())
+						t.save({format : 'raw', no_events : true});
+				});
+			}
+
+			tinymce.addUnload(t.destroy, t);
+
+			if (s.submit_patch) {
+				t.onBeforeRenderUI.add(function() {
+					var n = t.getElement().form;
+
+					if (!n)
+						return;
+
+					// Already patched
+					if (n._mceOldSubmit)
+						return;
+
+					// Check page uses id="submit" or name="submit" for it's submit button
+					if (!n.submit.nodeType && !n.submit.length) {
+						t.formElement = n;
+						n._mceOldSubmit = n.submit;
+						n.submit = function() {
+							// Save all instances
+							tinymce.triggerSave();
+							t.isNotDirty = 1;
+
+							return t.formElement._mceOldSubmit(t.formElement);
+						};
+					}
+
+					n = null;
+				});
+			}
+
+			// Load scripts
+			function loadScripts() {
+				if (s.language && s.language_load !== false)
+					sl.add(tinymce.baseURL + '/langs/' + s.language + '.js');
+
+				if (s.theme && typeof s.theme != "function" && s.theme.charAt(0) != '-' && !ThemeManager.urls[s.theme])
+					ThemeManager.load(s.theme, 'themes/' + s.theme + '/editor_template' + tinymce.suffix + '.js');
+
+				each(explode(s.plugins), function(p) {
+					if (p &&!PluginManager.urls[p]) {
+						if (p.charAt(0) == '-') {
+							p = p.substr(1, p.length);
+							var dependencies = PluginManager.dependencies(p);
+							each(dependencies, function(dep) {
+								var defaultSettings = {prefix:'plugins/', resource: dep, suffix:'/editor_plugin' + tinymce.suffix + '.js'};
+								dep = PluginManager.createUrl(defaultSettings, dep);
+								PluginManager.load(dep.resource, dep);
+							});
+						} else {
+							// Skip safari plugin, since it is removed as of 3.3b1
+							if (p == 'safari') {
+								return;
+							}
+							PluginManager.load(p, {prefix:'plugins/', resource: p, suffix:'/editor_plugin' + tinymce.suffix + '.js'});
+						}
+					}
+				});
+
+				// Init when que is loaded
+				sl.loadQueue(function() {
+					if (!t.removed)
+						t.init();
+				});
+			};
+
+			loadScripts();
+		},
+
+		init : function() {
+			var n, t = this, s = t.settings, w, h, mh, e = t.getElement(), o, ti, u, bi, bc, re, i, initializedPlugins = [];
+
+			tinymce.add(t);
+
+			s.aria_label = s.aria_label || DOM.getAttrib(e, 'aria-label', t.getLang('aria.rich_text_area'));
+
+			if (s.theme) {
+				if (typeof s.theme != "function") {
+					s.theme = s.theme.replace(/-/, '');
+					o = ThemeManager.get(s.theme);
+					t.theme = new o();
+
+					if (t.theme.init)
+						t.theme.init(t, ThemeManager.urls[s.theme] || tinymce.documentBaseURL.replace(/\/$/, ''));
+				} else {
+					t.theme = s.theme;
+				}
+			}
+
+			function initPlugin(p) {
+				var c = PluginManager.get(p), u = PluginManager.urls[p] || tinymce.documentBaseURL.replace(/\/$/, ''), po;
+				if (c && tinymce.inArray(initializedPlugins,p) === -1) {
+					each(PluginManager.dependencies(p), function(dep){
+						initPlugin(dep);
+					});
+					po = new c(t, u);
+
+					t.plugins[p] = po;
+
+					if (po.init) {
+						po.init(t, u);
+						initializedPlugins.push(p);
+					}
+				}
+			}
+			
+			// Create all plugins
+			each(explode(s.plugins.replace(/\-/g, '')), initPlugin);
+
+			// Setup popup CSS path(s)
+			if (s.popup_css !== false) {
+				if (s.popup_css)
+					s.popup_css = t.documentBaseURI.toAbsolute(s.popup_css);
+				else
+					s.popup_css = t.baseURI.toAbsolute("themes/" + s.theme + "/skins/" + s.skin + "/dialog.css");
+			}
+
+			if (s.popup_css_add)
+				s.popup_css += ',' + t.documentBaseURI.toAbsolute(s.popup_css_add);
+
+			t.controlManager = new tinymce.ControlManager(t);
+
+			// Enables users to override the control factory
+			t.onBeforeRenderUI.dispatch(t, t.controlManager);
+
+			// Measure box
+			if (s.render_ui && t.theme) {
+				t.orgDisplay = e.style.display;
+
+				if (typeof s.theme != "function") {
+					w = s.width || e.style.width || e.offsetWidth;
+					h = s.height || e.style.height || e.offsetHeight;
+					mh = s.min_height || 100;
+					re = /^[0-9\.]+(|px)$/i;
+
+					if (re.test('' + w))
+						w = Math.max(parseInt(w, 10) + (o.deltaWidth || 0), 100);
+
+					if (re.test('' + h))
+						h = Math.max(parseInt(h, 10) + (o.deltaHeight || 0), mh);
+
+					// Render UI
+					o = t.theme.renderUI({
+						targetNode : e,
+						width : w,
+						height : h,
+						deltaWidth : s.delta_width,
+						deltaHeight : s.delta_height
+					});
+
+					// Resize editor
+					DOM.setStyles(o.sizeContainer || o.editorContainer, {
+						width : w,
+						height : h
+					});
+
+					h = (o.iframeHeight || h) + (typeof(h) == 'number' ? (o.deltaHeight || 0) : '');
+					if (h < mh)
+						h = mh;
+				} else {
+					o = s.theme(t, e);
+
+					// Convert element type to id:s
+					if (o.editorContainer.nodeType) {
+						o.editorContainer = o.editorContainer.id = o.editorContainer.id || t.id + "_parent";
+					}
+
+					// Convert element type to id:s
+					if (o.iframeContainer.nodeType) {
+						o.iframeContainer = o.iframeContainer.id = o.iframeContainer.id || t.id + "_iframecontainer";
+					}
+
+					// Use specified iframe height or the targets offsetHeight
+					h = o.iframeHeight || e.offsetHeight;
+
+					// Store away the selection when it's changed to it can be restored later with a editor.focus() call
+					if (isIE) {
+						t.onInit.add(function(ed) {
+							ed.dom.bind(ed.getBody(), 'beforedeactivate keydown keyup', function() {
+								ed.bookmark = ed.selection.getBookmark(1);
+							});
+						});
+
+						t.onNodeChange.add(function(ed) {
+							if (document.activeElement.id == ed.id + "_ifr") {
+								ed.bookmark = ed.selection.getBookmark(1);
+							}
+						});
+					}
+				}
+
+				t.editorContainer = o.editorContainer;
+			}
+
+			// Load specified content CSS last
+			if (s.content_css) {
+				each(explode(s.content_css), function(u) {
+					t.contentCSS.push(t.documentBaseURI.toAbsolute(u));
+				});
+			}
+
+			// Load specified content CSS last
+			if (s.content_style) {
+				t.contentStyles.push(s.content_style);
+			}
+
+			// Content editable mode ends here
+			if (s.content_editable) {
+				e = n = o = null; // Fix IE leak
+				return t.initContentBody();
+			}
+
+			// User specified a document.domain value
+			if (document.domain && location.hostname != document.domain)
+				tinymce.relaxedDomain = document.domain;
+
+			t.iframeHTML = s.doctype + '<html><head xmlns="http://www.w3.org/1999/xhtml">';
+
+			// We only need to override paths if we have to
+			// IE has a bug where it remove site absolute urls to relative ones if this is specified
+			if (s.document_base_url != tinymce.documentBaseURL)
+				t.iframeHTML += '<base href="' + t.documentBaseURI.getURI() + '" />';
+
+			// IE8 doesn't support carets behind images setting ie7_compat would force IE8+ to run in IE7 compat mode.
+			if (tinymce.isIE8) {
+				if (s.ie7_compat)
+					t.iframeHTML += '<meta http-equiv="X-UA-Compatible" content="IE=7" />';
+				else
+					t.iframeHTML += '<meta http-equiv="X-UA-Compatible" content="IE=edge" />';
+			}
+
+			t.iframeHTML += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
+
+			// Load the CSS by injecting them into the HTML this will reduce "flicker"
+			for (i = 0; i < t.contentCSS.length; i++) {
+				t.iframeHTML += '<link type="text/css" rel="stylesheet" href="' + t.contentCSS[i] + '" />';
+			}
+
+			t.contentCSS = [];
+
+			bi = s.body_id || 'tinymce';
+			if (bi.indexOf('=') != -1) {
+				bi = t.getParam('body_id', '', 'hash');
+				bi = bi[t.id] || bi;
+			}
+
+			bc = s.body_class || '';
+			if (bc.indexOf('=') != -1) {
+				bc = t.getParam('body_class', '', 'hash');
+				bc = bc[t.id] || '';
+			}
+
+			t.iframeHTML += '</head><body id="' + bi + '" class="mceContentBody ' + bc + '" onload="window.parent.tinyMCE.get(\'' + t.id + '\').onLoad.dispatch();"><br></body></html>';
+
+			// Domain relaxing enabled, then set document domain
+			if (tinymce.relaxedDomain && (isIE || (tinymce.isOpera && parseFloat(opera.version()) < 11))) {
+				// We need to write the contents here in IE since multiple writes messes up refresh button and back button
+				u = 'javascript:(function(){document.open();document.domain="' + document.domain + '";var ed = window.parent.tinyMCE.get("' + t.id + '");document.write(ed.iframeHTML);document.close();ed.initContentBody();})()';
+			}
+
+			// Create iframe
+			// TODO: ACC add the appropriate description on this.
+			n = DOM.add(o.iframeContainer, 'iframe', { 
+				id : t.id + "_ifr",
+				src : u || 'javascript:""', // Workaround for HTTPS warning in IE6/7
+				frameBorder : '0',
+				allowTransparency : "true",
+				title : s.aria_label,
+				style : {
+					width : '100%',
+					height : h,
+					display : 'block' // Important for Gecko to render the iframe correctly
+				}
+			});
+
+			t.contentAreaContainer = o.iframeContainer;
+
+			if (o.editorContainer) {
+				DOM.get(o.editorContainer).style.display = t.orgDisplay;
+			}
+
+			// Restore visibility on target element
+			e.style.visibility = t.orgVisibility;
+
+			DOM.get(t.id).style.display = 'none';
+			DOM.setAttrib(t.id, 'aria-hidden', true);
+
+			if (!tinymce.relaxedDomain || !u)
+				t.initContentBody();
+
+			e = n = o = null; // Cleanup
+		},
+
+		initContentBody : function() {
+			var self = this, settings = self.settings, targetElm = DOM.get(self.id), doc = self.getDoc(), html, body, contentCssText;
+
+			// Setup iframe body
+			if ((!isIE || !tinymce.relaxedDomain) && !settings.content_editable) {
+				doc.open();
+				doc.write(self.iframeHTML);
+				doc.close();
+
+				if (tinymce.relaxedDomain)
+					doc.domain = tinymce.relaxedDomain;
+			}
+
+			if (settings.content_editable) {
+				DOM.addClass(targetElm, 'mceContentBody');
+				self.contentDocument = doc = settings.content_document || document;
+				self.contentWindow = settings.content_window || window;
+				self.bodyElement = targetElm;
+
+				// Prevent leak in IE
+				settings.content_document = settings.content_window = null;
+			}
+
+			// It will not steal focus while setting contentEditable
+			body = self.getBody();
+			body.disabled = true;
+
+			if (!settings.readonly)
+				body.contentEditable = self.getParam('content_editable_state', true);
+
+			body.disabled = false;
+
+			self.schema = new tinymce.html.Schema(settings);
+
+			self.dom = new tinymce.dom.DOMUtils(doc, {
+				keep_values : true,
+				url_converter : self.convertURL,
+				url_converter_scope : self,
+				hex_colors : settings.force_hex_style_colors,
+				class_filter : settings.class_filter,
+				update_styles : true,
+				root_element : settings.content_editable ? self.id : null,
+				schema : self.schema
+			});
+
+			self.parser = new tinymce.html.DomParser(settings, self.schema);
+
+			// Convert src and href into data-mce-src, data-mce-href and data-mce-style
+			self.parser.addAttributeFilter('src,href,style', function(nodes, name) {
+				var i = nodes.length, node, dom = self.dom, value, internalName;
+
+				while (i--) {
+					node = nodes[i];
+					value = node.attr(name);
+					internalName = 'data-mce-' + name;
+
+					// Add internal attribute if we need to we don't on a refresh of the document
+					if (!node.attributes.map[internalName]) {	
+						if (name === "style")
+							node.attr(internalName, dom.serializeStyle(dom.parseStyle(value), node.name));
+						else
+							node.attr(internalName, self.convertURL(value, name, node.name));
+					}
+				}
+			});
+
+			// Keep scripts from executing
+			self.parser.addNodeFilter('script', function(nodes, name) {
+				var i = nodes.length, node;
+
+				while (i--) {
+					node = nodes[i];
+					node.attr('type', 'mce-' + (node.attr('type') || 'text/javascript'));
+				}
+			});
+
+			self.parser.addNodeFilter('#cdata', function(nodes, name) {
+				var i = nodes.length, node;
+
+				while (i--) {
+					node = nodes[i];
+					node.type = 8;
+					node.name = '#comment';
+					node.value = '[CDATA[' + node.value + ']]';
+				}
+			});
+
+			self.parser.addNodeFilter('p,h1,h2,h3,h4,h5,h6,div', function(nodes, name) {
+				var i = nodes.length, node, nonEmptyElements = self.schema.getNonEmptyElements();
+
+				while (i--) {
+					node = nodes[i];
+
+					if (node.isEmpty(nonEmptyElements))
+						node.empty().append(new tinymce.html.Node('br', 1)).shortEnded = true;
+				}
+			});
+
+			self.serializer = new tinymce.dom.Serializer(settings, self.dom, self.schema);
+
+			self.selection = new tinymce.dom.Selection(self.dom, self.getWin(), self.serializer, self);
+
+			self.formatter = new tinymce.Formatter(self);
+
+			self.undoManager = new tinymce.UndoManager(self);
+
+			self.forceBlocks = new tinymce.ForceBlocks(self);
+			self.enterKey = new tinymce.EnterKey(self);
+			self.editorCommands = new tinymce.EditorCommands(self);
+
+			self.onExecCommand.add(function(editor, command) {
+				// Don't refresh the select lists until caret move
+				if (!/^(FontName|FontSize)$/.test(command))
+					self.nodeChanged();
+			});
+
+			// Pass through
+			self.serializer.onPreProcess.add(function(se, o) {
+				return self.onPreProcess.dispatch(self, o, se);
+			});
+
+			self.serializer.onPostProcess.add(function(se, o) {
+				return self.onPostProcess.dispatch(self, o, se);
+			});
+
+			self.onPreInit.dispatch(self);
+
+			if (!settings.browser_spellcheck && !settings.gecko_spellcheck)
+				doc.body.spellcheck = false;
+
+			if (!settings.readonly) {
+				self.bindNativeEvents();
+			}
+
+			self.controlManager.onPostRender.dispatch(self, self.controlManager);
+			self.onPostRender.dispatch(self);
+
+			self.quirks = tinymce.util.Quirks(self);
+
+			if (settings.directionality)
+				body.dir = settings.directionality;
+
+			if (settings.nowrap)
+				body.style.whiteSpace = "nowrap";
+
+			if (settings.protect) {
+				self.onBeforeSetContent.add(function(ed, o) {
+					each(settings.protect, function(pattern) {
+						o.content = o.content.replace(pattern, function(str) {
+							return '<!--mce:protected ' + escape(str) + '-->';
+						});
+					});
+				});
+			}
+
+			// Add visual aids when new contents is added
+			self.onSetContent.add(function() {
+				self.addVisual(self.getBody());
+			});
+
+			// Remove empty contents
+			if (settings.padd_empty_editor) {
+				self.onPostProcess.add(function(ed, o) {
+					o.content = o.content.replace(/^(<p[^>]*>(&nbsp;|&#160;|\s|\u00a0|)<\/p>[\r\n]*|<br \/>[\r\n]*)$/, '');
+				});
+			}
+
+			self.load({initial : true, format : 'html'});
+			self.startContent = self.getContent({format : 'raw'});
+
+			self.initialized = true;
+
+			self.onInit.dispatch(self);
+			self.execCallback('setupcontent_callback', self.id, body, doc);
+			self.execCallback('init_instance_callback', self);
+			self.focus(true);
+			self.nodeChanged({initial : true});
+
+			// Add editor specific CSS styles
+			if (self.contentStyles.length > 0) {
+				contentCssText = '';
+
+				each(self.contentStyles, function(style) {
+					contentCssText += style + "\r\n";
+				});
+
+				self.dom.addStyle(contentCssText);
+			}
+
+			// Load specified content CSS last
+			each(self.contentCSS, function(url) {
+				self.dom.loadCSS(url);
+			});
+
+			// Handle auto focus
+			if (settings.auto_focus) {
+				setTimeout(function () {
+					var ed = tinymce.get(settings.auto_focus);
+
+					ed.selection.select(ed.getBody(), 1);
+					ed.selection.collapse(1);
+					ed.getBody().focus();
+					ed.getWin().focus();
+				}, 100);
+			}
+
+			// Clean up references for IE
+			targetElm = doc = body = null;
+		},
+
+		focus : function(skip_focus) {
+			var oed, self = this, selection = self.selection, contentEditable = self.settings.content_editable, ieRng, controlElm, doc = self.getDoc(), body;
+
+			if (!skip_focus) {
+				if (self.bookmark) {
+					selection.moveToBookmark(self.bookmark);
+					self.bookmark = null;
+				}
+
+				// Get selected control element
+				ieRng = selection.getRng();
+				if (ieRng.item) {
+					controlElm = ieRng.item(0);
+				}
+
+				self._refreshContentEditable();
+
+				// Focus the window iframe
+				if (!contentEditable) {
+					self.getWin().focus();
+				}
+
+				// Focus the body as well since it's contentEditable
+				if (tinymce.isGecko || contentEditable) {
+					body = self.getBody();
+
+					// Check for setActive since it doesn't scroll to the element
+					if (body.setActive && ! tinymce.isIE11) {
+						body.setActive();
+					} else {
+						body.focus();
+					}
+
+					if (contentEditable) {
+						selection.normalize();
+					}
+				}
+
+				// Restore selected control element
+				// This is needed when for example an image is selected within a
+				// layer a call to focus will then remove the control selection
+				if (controlElm && controlElm.ownerDocument == doc) {
+					ieRng = doc.body.createControlRange();
+					ieRng.addElement(controlElm);
+					ieRng.select();
+				}
+			}
+
+			if (tinymce.activeEditor != self) {
+				if ((oed = tinymce.activeEditor) != null)
+					oed.onDeactivate.dispatch(oed, self);
+
+				self.onActivate.dispatch(self, oed);
+			}
+
+			tinymce._setActive(self);
+		},
+
+		execCallback : function(n) {
+			var t = this, f = t.settings[n], s;
+
+			if (!f)
+				return;
+
+			// Look through lookup
+			if (t.callbackLookup && (s = t.callbackLookup[n])) {
+				f = s.func;
+				s = s.scope;
+			}
+
+			if (is(f, 'string')) {
+				s = f.replace(/\.\w+$/, '');
+				s = s ? tinymce.resolve(s) : 0;
+				f = tinymce.resolve(f);
+				t.callbackLookup = t.callbackLookup || {};
+				t.callbackLookup[n] = {func : f, scope : s};
+			}
+
+			return f.apply(s || t, Array.prototype.slice.call(arguments, 1));
+		},
+
+		translate : function(s) {
+			var c = this.settings.language || 'en', i18n = tinymce.i18n;
+
+			if (!s)
+				return '';
+
+			return i18n[c + '.' + s] || s.replace(/\{\#([^\}]+)\}/g, function(a, b) {
+				return i18n[c + '.' + b] || '{#' + b + '}';
+			});
+		},
+
+		getLang : function(n, dv) {
+			return tinymce.i18n[(this.settings.language || 'en') + '.' + n] || (is(dv) ? dv : '{#' + n + '}');
+		},
+
+		getParam : function(n, dv, ty) {
+			var tr = tinymce.trim, v = is(this.settings[n]) ? this.settings[n] : dv, o;
+
+			if (ty === 'hash') {
+				o = {};
+
+				if (is(v, 'string')) {
+					each(v.indexOf('=') > 0 ? v.split(/[;,](?![^=;,]*(?:[;,]|$))/) : v.split(','), function(v) {
+						v = v.split('=');
+
+						if (v.length > 1)
+							o[tr(v[0])] = tr(v[1]);
+						else
+							o[tr(v[0])] = tr(v);
+					});
+				} else
+					o = v;
+
+				return o;
+			}
+
+			return v;
+		},
+
+		nodeChanged : function(o) {
+			var self = this, selection = self.selection, node;
+
+			// Fix for bug #1896577 it seems that this can not be fired while the editor is loading
+			if (self.initialized) {
+				o = o || {};
+
+				// Get start node
+				node = selection.getStart() || self.getBody();
+				node = isIE && node.ownerDocument != self.getDoc() ? self.getBody() : node; // Fix for IE initial state
+
+				// Get parents and add them to object
+				o.parents = [];
+				self.dom.getParent(node, function(node) {
+					if (node.nodeName == 'BODY')
+						return true;
+
+					o.parents.push(node);
+				});
+
+				self.onNodeChange.dispatch(
+					self,
+					o ? o.controlManager || self.controlManager : self.controlManager,
+					node,
+					selection.isCollapsed(),
+					o
+				);
+			}
+		},
+
+		addButton : function(name, settings) {
+			var self = this;
+
+			self.buttons = self.buttons || {};
+			self.buttons[name] = settings;
+		},
+
+		addCommand : function(name, callback, scope) {
+			this.execCommands[name] = {func : callback, scope : scope || this};
+		},
+
+		addQueryStateHandler : function(name, callback, scope) {
+			this.queryStateCommands[name] = {func : callback, scope : scope || this};
+		},
+
+		addQueryValueHandler : function(name, callback, scope) {
+			this.queryValueCommands[name] = {func : callback, scope : scope || this};
+		},
+
+		addShortcut : function(pa, desc, cmd_func, sc) {
+			var t = this, c;
+
+			if (t.settings.custom_shortcuts === false)
+				return false;
+
+			t.shortcuts = t.shortcuts || {};
+
+			if (is(cmd_func, 'string')) {
+				c = cmd_func;
+
+				cmd_func = function() {
+					t.execCommand(c, false, null);
+				};
+			}
+
+			if (is(cmd_func, 'object')) {
+				c = cmd_func;
+
+				cmd_func = function() {
+					t.execCommand(c[0], c[1], c[2]);
+				};
+			}
+
+			each(explode(pa), function(pa) {
+				var o = {
+					func : cmd_func,
+					scope : sc || this,
+					desc : t.translate(desc),
+					alt : false,
+					ctrl : false,
+					shift : false
+				};
+
+				each(explode(pa, '+'), function(v) {
+					switch (v) {
+						case 'alt':
+						case 'ctrl':
+						case 'shift':
+							o[v] = true;
+							break;
+
+						default:
+							o.charCode = v.charCodeAt(0);
+							o.keyCode = v.toUpperCase().charCodeAt(0);
+					}
+				});
+
+				t.shortcuts[(o.ctrl ? 'ctrl' : '') + ',' + (o.alt ? 'alt' : '') + ',' + (o.shift ? 'shift' : '') + ',' + o.keyCode] = o;
+			});
+
+			return true;
+		},
+
+		execCommand : function(cmd, ui, val, a) {
+			var t = this, s = 0, o, st;
+
+			if (!/^(mceAddUndoLevel|mceEndUndoLevel|mceBeginUndoLevel|mceRepaint|SelectAll)$/.test(cmd) && (!a || !a.skip_focus))
+				t.focus();
+
+			a = extend({}, a);
+			t.onBeforeExecCommand.dispatch(t, cmd, ui, val, a);
+			if (a.terminate)
+				return false;
+
+			// Command callback
+			if (t.execCallback('execcommand_callback', t.id, t.selection.getNode(), cmd, ui, val)) {
+				t.onExecCommand.dispatch(t, cmd, ui, val, a);
+				return true;
+			}
+
+			// Registred commands
+			if (o = t.execCommands[cmd]) {
+				st = o.func.call(o.scope, ui, val);
+
+				// Fall through on true
+				if (st !== true) {
+					t.onExecCommand.dispatch(t, cmd, ui, val, a);
+					return st;
+				}
+			}
+
+			// Plugin commands
+			each(t.plugins, function(p) {
+				if (p.execCommand && p.execCommand(cmd, ui, val)) {
+					t.onExecCommand.dispatch(t, cmd, ui, val, a);
+					s = 1;
+					return false;
+				}
+			});
+
+			if (s)
+				return true;
+
+			// Theme commands
+			if (t.theme && t.theme.execCommand && t.theme.execCommand(cmd, ui, val)) {
+				t.onExecCommand.dispatch(t, cmd, ui, val, a);
+				return true;
+			}
+
+			// Editor commands
+			if (t.editorCommands.execCommand(cmd, ui, val)) {
+				t.onExecCommand.dispatch(t, cmd, ui, val, a);
+				return true;
+			}
+
+			// Browser commands
+			t.getDoc().execCommand(cmd, ui, val);
+			t.onExecCommand.dispatch(t, cmd, ui, val, a);
+		},
+
+		queryCommandState : function(cmd) {
+			var t = this, o, s;
+
+			// Is hidden then return undefined
+			if (t._isHidden())
+				return;
+
+			// Registred commands
+			if (o = t.queryStateCommands[cmd]) {
+				s = o.func.call(o.scope);
+
+				// Fall though on true
+				if (s !== true)
+					return s;
+			}
+
+			// Registred commands
+			o = t.editorCommands.queryCommandState(cmd);
+			if (o !== -1)
+				return o;
+
+			// Browser commands
+			try {
+				return this.getDoc().queryCommandState(cmd);
+			} catch (ex) {
+				// Fails sometimes see bug: 1896577
+			}
+		},
+
+		queryCommandValue : function(c) {
+			var t = this, o, s;
+
+			// Is hidden then return undefined
+			if (t._isHidden())
+				return;
+
+			// Registred commands
+			if (o = t.queryValueCommands[c]) {
+				s = o.func.call(o.scope);
+
+				// Fall though on true
+				if (s !== true)
+					return s;
+			}
+
+			// Registred commands
+			o = t.editorCommands.queryCommandValue(c);
+			if (is(o))
+				return o;
+
+			// Browser commands
+			try {
+				return this.getDoc().queryCommandValue(c);
+			} catch (ex) {
+				// Fails sometimes see bug: 1896577
+			}
+		},
+
+		show : function() {
+			var self = this;
+
+			DOM.show(self.getContainer());
+			DOM.hide(self.id);
+			self.load();
+		},
+
+		hide : function() {
+			var self = this, doc = self.getDoc();
+
+			// Fixed bug where IE has a blinking cursor left from the editor
+			if (isIE && doc)
+				doc.execCommand('SelectAll');
+
+			// We must save before we hide so Safari doesn't crash
+			self.save();
+
+			// defer the call to hide to prevent an IE9 crash #4921
+			DOM.hide(self.getContainer());
+			DOM.setStyle(self.id, 'display', self.orgDisplay);
+		},
+
+		isHidden : function() {
+			return !DOM.isHidden(this.id);
+		},
+
+		setProgressState : function(b, ti, o) {
+			this.onSetProgressState.dispatch(this, b, ti, o);
+
+			return b;
+		},
+
+		load : function(o) {
+			var t = this, e = t.getElement(), h;
+
+			if (e) {
+				o = o || {};
+				o.load = true;
+
+				// Double encode existing entities in the value
+				h = t.setContent(is(e.value) ? e.value : e.innerHTML, o);
+				o.element = e;
+
+				if (!o.no_events)
+					t.onLoadContent.dispatch(t, o);
+
+				o.element = e = null;
+
+				return h;
+			}
+		},
+
+		save : function(o) {
+			var t = this, e = t.getElement(), h, f;
+
+			if (!e || !t.initialized)
+				return;
+
+			o = o || {};
+			o.save = true;
+
+			o.element = e;
+			h = o.content = t.getContent(o);
+
+			if (!o.no_events)
+				t.onSaveContent.dispatch(t, o);
+
+			h = o.content;
+
+			if (!/TEXTAREA|INPUT/i.test(e.nodeName)) {
+				e.innerHTML = h;
+
+				// Update hidden form element
+				if (f = DOM.getParent(t.id, 'form')) {
+					each(f.elements, function(e) {
+						if (e.name == t.id) {
+							e.value = h;
+							return false;
+						}
+					});
+				}
+			} else
+				e.value = h;
+
+			o.element = e = null;
+
+			return h;
+		},
+
+		setContent : function(content, args) {
+			var self = this, rootNode, body = self.getBody(), forcedRootBlockName;
+
+			// Setup args object
+			args = args || {};
+			args.format = args.format || 'html';
+			args.set = true;
+			args.content = content;
+
+			// Do preprocessing
+			if (!args.no_events)
+				self.onBeforeSetContent.dispatch(self, args);
+
+			content = args.content;
+
+			// Padd empty content in Gecko and Safari. Commands will otherwise fail on the content
+			// It will also be impossible to place the caret in the editor unless there is a BR element present
+			if (!tinymce.isIE && (content.length === 0 || /^\s+$/.test(content))) {
+				forcedRootBlockName = self.settings.forced_root_block;
+				if (forcedRootBlockName)
+					content = '<' + forcedRootBlockName + '><br data-mce-bogus="1"></' + forcedRootBlockName + '>';
+				else
+					content = '<br data-mce-bogus="1">';
+
+				body.innerHTML = content;
+				self.selection.select(body, true);
+				self.selection.collapse(true);
+				return;
+			}
+
+			// Parse and serialize the html
+			if (args.format !== 'raw') {
+				content = new tinymce.html.Serializer({}, self.schema).serialize(
+					self.parser.parse(content)
+				);
+			}
+
+			// Set the new cleaned contents to the editor
+			args.content = tinymce.trim(content);
+			self.dom.setHTML(body, args.content);
+
+			// Do post processing
+			if (!args.no_events)
+				self.onSetContent.dispatch(self, args);
+
+			// Don't normalize selection if the focused element isn't the body in content editable mode since it will steal focus otherwise
+			if (!self.settings.content_editable || document.activeElement === self.getBody()) {
+				self.selection.normalize();
+			}
+
+			return args.content;
+		},
+
+		getContent : function(args) {
+			var self = this, content, body = self.getBody();
+
+			// Setup args object
+			args = args || {};
+			args.format = args.format || 'html';
+			args.get = true;
+			args.getInner = true;
+
+			// Do preprocessing
+			if (!args.no_events)
+				self.onBeforeGetContent.dispatch(self, args);
+
+			// Get raw contents or by default the cleaned contents
+			if (args.format == 'raw')
+				content = body.innerHTML;
+			else if (args.format == 'text')
+				content = body.innerText || body.textContent;
+			else
+				content = self.serializer.serialize(body, args);
+
+			// Trim whitespace in beginning/end of HTML
+			if (args.format != 'text') {
+				args.content = tinymce.trim(content);
+			} else {
+				args.content = content;
+			}
+
+			// Do post processing
+			if (!args.no_events)
+				self.onGetContent.dispatch(self, args);
+
+			return args.content;
+		},
+
+		isDirty : function() {
+			var self = this;
+
+			return tinymce.trim(self.startContent) != tinymce.trim(self.getContent({format : 'raw', no_events : 1})) && !self.isNotDirty;
+		},
+
+		getContainer : function() {
+			var self = this;
+
+			if (!self.container)
+				self.container = DOM.get(self.editorContainer || self.id + '_parent');
+
+			return self.container;
+		},
+
+		getContentAreaContainer : function() {
+			return this.contentAreaContainer;
+		},
+
+		getElement : function() {
+			return DOM.get(this.settings.content_element || this.id);
+		},
+
+		getWin : function() {
+			var self = this, elm;
+
+			if (!self.contentWindow) {
+				elm = DOM.get(self.id + "_ifr");
+
+				if (elm)
+					self.contentWindow = elm.contentWindow;
+			}
+
+			return self.contentWindow;
+		},
+
+		getDoc : function() {
+			var self = this, win;
+
+			if (!self.contentDocument) {
+				win = self.getWin();
+
+				if (win)
+					self.contentDocument = win.document;
+			}
+
+			return self.contentDocument;
+		},
+
+		getBody : function() {
+			return this.bodyElement || this.getDoc().body;
+		},
+
+		convertURL : function(url, name, elm) {
+			var self = this, settings = self.settings;
+
+			// Use callback instead
+			if (settings.urlconverter_callback)
+				return self.execCallback('urlconverter_callback', url, elm, true, name);
+
+			// Don't convert link href since thats the CSS files that gets loaded into the editor also skip local file URLs
+			if (!settings.convert_urls || (elm && elm.nodeName == 'LINK') || url.indexOf('file:') === 0)
+				return url;
+
+			// Convert to relative
+			if (settings.relative_urls)
+				return self.documentBaseURI.toRelative(url);
+
+			// Convert to absolute
+			url = self.documentBaseURI.toAbsolute(url, settings.remove_script_host);
+
+			return url;
+		},
+
+		addVisual : function(elm) {
+			var self = this, settings = self.settings, dom = self.dom, cls;
+
+			elm = elm || self.getBody();
+
+			if (!is(self.hasVisual))
+				self.hasVisual = settings.visual;
+
+			each(dom.select('table,a', elm), function(elm) {
+				var value;
+
+				switch (elm.nodeName) {
+					case 'TABLE':
+						cls = settings.visual_table_class || 'mceItemTable';
+						value = dom.getAttrib(elm, 'border');
+
+						if (!value || value == '0') {
+							if (self.hasVisual)
+								dom.addClass(elm, cls);
+							else
+								dom.removeClass(elm, cls);
+						}
+
+						return;
+
+					case 'A':
+						if (!dom.getAttrib(elm, 'href', false)) {
+							value = dom.getAttrib(elm, 'name') || elm.id;
+							cls = 'mceItemAnchor';
+
+							if (value) {
+								if (self.hasVisual)
+									dom.addClass(elm, cls);
+								else
+									dom.removeClass(elm, cls);
+							}
+						}
+
+						return;
+				}
+			});
+
+			self.onVisualAid.dispatch(self, elm, self.hasVisual);
+		},
+
+		remove : function() {
+			var self = this, elm = self.getContainer(), doc = self.getDoc();
+
+			if (!self.removed) {
+				self.removed = 1; // Cancels post remove event execution
+
+				// Fixed bug where IE has a blinking cursor left from the editor
+				if (isIE && doc)
+					doc.execCommand('SelectAll');
+
+				// We must save before we hide so Safari doesn't crash
+				self.save();
+
+				DOM.setStyle(self.id, 'display', self.orgDisplay);
+
+				// Don't clear the window or document if content editable
+				// is enabled since other instances might still be present
+				if (!self.settings.content_editable) {
+					Event.unbind(self.getWin());
+					Event.unbind(self.getDoc());
+				}
+
+				Event.unbind(self.getBody());
+				Event.clear(elm);
+
+				self.execCallback('remove_instance_callback', self);
+				self.onRemove.dispatch(self);
+
+				// Clear all execCommand listeners this is required to avoid errors if the editor was removed inside another command
+				self.onExecCommand.listeners = [];
+
+				tinymce.remove(self);
+				DOM.remove(elm);
+			}
+		},
+
+		destroy : function(s) {
+			var t = this;
+
+			// One time is enough
+			if (t.destroyed)
+				return;
+
+			// We must unbind on Gecko since it would otherwise produce the pesky "attempt to run compile-and-go script on a cleared scope" message
+			if (isGecko) {
+				Event.unbind(t.getDoc());
+				Event.unbind(t.getWin());
+				Event.unbind(t.getBody());
+			}
+
+			if (!s) {
+				tinymce.removeUnload(t.destroy);
+				tinyMCE.onBeforeUnload.remove(t._beforeUnload);
+
+				// Manual destroy
+				if (t.theme && t.theme.destroy)
+					t.theme.destroy();
+
+				// Destroy controls, selection and dom
+				t.controlManager.destroy();
+				t.selection.destroy();
+				t.dom.destroy();
+			}
+
+			if (t.formElement) {
+				t.formElement.submit = t.formElement._mceOldSubmit;
+				t.formElement._mceOldSubmit = null;
+			}
+
+			t.contentAreaContainer = t.formElement = t.container = t.settings.content_element = t.bodyElement = t.contentDocument = t.contentWindow = null;
+
+			if (t.selection)
+				t.selection = t.selection.win = t.selection.dom = t.selection.dom.doc = null;
+
+			t.destroyed = 1;
+		},
+
+		// Internal functions
+
+		_refreshContentEditable : function() {
+			var self = this, body, parent;
+
+			// Check if the editor was hidden and the re-initalize contentEditable mode by removing and adding the body again
+			if (self._isHidden()) {
+				body = self.getBody();
+				parent = body.parentNode;
+
+				parent.removeChild(body);
+				parent.appendChild(body);
+
+				body.focus();
+			}
+		},
+
+		_isHidden : function() {
+			var s;
+
+			if (!isGecko)
+				return 0;
+
+			// Weird, wheres that cursor selection?
+			s = this.selection.getSel();
+			return (!s || !s.rangeCount || s.rangeCount === 0);
+		}
+	});
+})(tinymce);
+(function(tinymce) {
+	var each = tinymce.each;
+
+	tinymce.Editor.prototype.setupEvents = function() {
+		var self = this, settings = self.settings;
+
+		// Add events to the editor
+		each([
+			'onPreInit',
+
+			'onBeforeRenderUI',
+
+			'onPostRender',
+
+			'onLoad',
+
+			'onInit',
+
+			'onRemove',
+
+			'onActivate',
+
+			'onDeactivate',
+
+			'onClick',
+
+			'onEvent',
+
+			'onMouseUp',
+
+			'onMouseDown',
+
+			'onDblClick',
+
+			'onKeyDown',
+
+			'onKeyUp',
+
+			'onKeyPress',
+
+			'onContextMenu',
+
+			'onSubmit',
+
+			'onReset',
+
+			'onPaste',
+
+			'onPreProcess',
+
+			'onPostProcess',
+
+			'onBeforeSetContent',
+
+			'onBeforeGetContent',
+
+			'onSetContent',
+
+			'onGetContent',
+
+			'onLoadContent',
+
+			'onSaveContent',
+
+			'onNodeChange',
+
+			'onChange',
+
+			'onBeforeExecCommand',
+
+			'onExecCommand',
+
+			'onUndo',
+
+			'onRedo',
+
+			'onVisualAid',
+
+			'onSetProgressState',
+
+			'onSetAttrib'
+		], function(name) {
+			self[name] = new tinymce.util.Dispatcher(self);
+		});
+
+		// Handle legacy cleanup_callback option
+		if (settings.cleanup_callback) {
+			self.onBeforeSetContent.add(function(ed, o) {
+				o.content = ed.execCallback('cleanup_callback', 'insert_to_editor', o.content, o);
+			});
+
+			self.onPreProcess.add(function(ed, o) {
+				if (o.set)
+					ed.execCallback('cleanup_callback', 'insert_to_editor_dom', o.node, o);
+
+				if (o.get)
+					ed.execCallback('cleanup_callback', 'get_from_editor_dom', o.node, o);
+			});
+
+			self.onPostProcess.add(function(ed, o) {
+				if (o.set)
+					o.content = ed.execCallback('cleanup_callback', 'insert_to_editor', o.content, o);
+
+				if (o.get)						
+					o.content = ed.execCallback('cleanup_callback', 'get_from_editor', o.content, o);
+			});
+		}
+
+		// Handle legacy save_callback option
+		if (settings.save_callback) {
+			self.onGetContent.add(function(ed, o) {
+				if (o.save)
+					o.content = ed.execCallback('save_callback', ed.id, o.content, ed.getBody());
+			});
+		}
+
+		// Handle legacy handle_event_callback option
+		if (settings.handle_event_callback) {
+			self.onEvent.add(function(ed, e, o) {
+				if (self.execCallback('handle_event_callback', e, ed, o) === false) {
+					e.preventDefault();
+					e.stopPropagation();
+				}
+			});
+		}
+
+		// Handle legacy handle_node_change_callback option
+		if (settings.handle_node_change_callback) {
+			self.onNodeChange.add(function(ed, cm, n) {
+				ed.execCallback('handle_node_change_callback', ed.id, n, -1, -1, true, ed.selection.isCollapsed());
+			});
+		}
+
+		// Handle legacy save_callback option
+		if (settings.save_callback) {
+			self.onSaveContent.add(function(ed, o) {
+				var h = ed.execCallback('save_callback', ed.id, o.content, ed.getBody());
+
+				if (h)
+					o.content = h;
+			});
+		}
+
+		// Handle legacy onchange_callback option
+		if (settings.onchange_callback) {
+			self.onChange.add(function(ed, l) {
+				ed.execCallback('onchange_callback', ed, l);
+			});
+		}
+	};
+
+	tinymce.Editor.prototype.bindNativeEvents = function() {
+		// 'focus', 'blur', 'dblclick', 'beforedeactivate', submit, reset
+		var self = this, i, settings = self.settings, dom = self.dom, nativeToDispatcherMap;
+
+		nativeToDispatcherMap = {
+			mouseup : 'onMouseUp',
+			mousedown : 'onMouseDown',
+			click : 'onClick',
+			keyup : 'onKeyUp',
+			keydown : 'onKeyDown',
+			keypress : 'onKeyPress',
+			submit : 'onSubmit',
+			reset : 'onReset',
+			contextmenu : 'onContextMenu',
+			dblclick : 'onDblClick',
+			paste : 'onPaste' // Doesn't work in all browsers yet
+		};
+
+		// Handler that takes a native event and sends it out to a dispatcher like onKeyDown
+		function eventHandler(evt, args) {
+			var type = evt.type;
+
+			// Don't fire events when it's removed
+			if (self.removed)
+				return;
+
+			// Sends the native event out to a global dispatcher then to the specific event dispatcher
+			if (self.onEvent.dispatch(self, evt, args) !== false) {
+				self[nativeToDispatcherMap[evt.fakeType || evt.type]].dispatch(self, evt, args);
+			}
+		};
+
+		// Opera doesn't support focus event for contentEditable elements so we need to fake it
+		function doOperaFocus(e) {
+			self.focus(true);
+		};
+
+		function nodeChanged(ed, e) {
+			// Normalize selection for example <b>a</b><i>|a</i> becomes <b>a|</b><i>a</i> except for Ctrl+A since it selects everything
+			if (e.keyCode != 65 || !tinymce.VK.metaKeyPressed(e)) {
+				self.selection.normalize();
+			}
+
+			self.nodeChanged();
+		}
+
+		// Add DOM events
+		each(nativeToDispatcherMap, function(dispatcherName, nativeName) {
+			var root = settings.content_editable ? self.getBody() : self.getDoc();
+
+			switch (nativeName) {
+				case 'contextmenu':
+					dom.bind(root, nativeName, eventHandler);
+					break;
+
+				case 'paste':
+					dom.bind(self.getBody(), nativeName, eventHandler);
+					break;
+
+				case 'submit':
+				case 'reset':
+					dom.bind(self.getElement().form || tinymce.DOM.getParent(self.id, 'form'), nativeName, eventHandler);
+					break;
+
+				default:
+					dom.bind(root, nativeName, eventHandler);
+			}
+		});
+
+		// Set the editor as active when focused
+		dom.bind(settings.content_editable ? self.getBody() : (tinymce.isGecko ? self.getDoc() : self.getWin()), 'focus', function(e) {
+			self.focus(true);
+		});
+
+		if (settings.content_editable && tinymce.isOpera) {
+			dom.bind(self.getBody(), 'click', doOperaFocus);
+			dom.bind(self.getBody(), 'keydown', doOperaFocus);
+		}
+
+		// Add node change handler
+		self.onMouseUp.add(nodeChanged);
+
+		self.onKeyUp.add(function(ed, e) {
+			var keyCode = e.keyCode;
+
+			if ((keyCode >= 33 && keyCode <= 36) || (keyCode >= 37 && keyCode <= 40) || keyCode == 13 || keyCode == 45 || keyCode == 46 || keyCode == 8 || (tinymce.isMac && (keyCode == 91 || keyCode == 93)) || e.ctrlKey)
+				nodeChanged(ed, e);
+		});
+
+		// Add reset handler
+		self.onReset.add(function() {
+			self.setContent(self.startContent, {format : 'raw'});
+		});
+
+		// Add shortcuts
+		function handleShortcut(e, execute) {
+			if (e.altKey || e.ctrlKey || e.metaKey) {
+				each(self.shortcuts, function(shortcut) {
+					var ctrlState = tinymce.isMac ? e.metaKey : e.ctrlKey;
+
+					if (shortcut.ctrl != ctrlState || shortcut.alt != e.altKey || shortcut.shift != e.shiftKey)
+						return;
+
+					if (e.keyCode == shortcut.keyCode || (e.charCode && e.charCode == shortcut.charCode)) {
+						e.preventDefault();
+
+						if (execute) {
+							shortcut.func.call(shortcut.scope);
+						}
+
+						return true;
+					}
+				});
+			}
+		};
+
+		self.onKeyUp.add(function(ed, e) {
+			handleShortcut(e);
+		});
+
+		self.onKeyPress.add(function(ed, e) {
+			handleShortcut(e);
+		});
+
+		self.onKeyDown.add(function(ed, e) {
+			handleShortcut(e, true);
+		});
+
+		if (tinymce.isOpera) {
+			self.onClick.add(function(ed, e) {
+				e.preventDefault();
+			});
+		}
+	};
+})(tinymce);
+(function(tinymce) {
+	// Added for compression purposes
+	var each = tinymce.each, undef, TRUE = true, FALSE = false;
+
+	tinymce.EditorCommands = function(editor) {
+		var dom = editor.dom,
+			selection = editor.selection,
+			commands = {state: {}, exec : {}, value : {}},
+			settings = editor.settings,
+			formatter = editor.formatter,
+			bookmark;
+
+		function execCommand(command, ui, value) {
+			var func;
+
+			command = command.toLowerCase();
+			if (func = commands.exec[command]) {
+				func(command, ui, value);
+				return TRUE;
+			}
+
+			return FALSE;
+		};
+
+		function queryCommandState(command) {
+			var func;
+
+			command = command.toLowerCase();
+			if (func = commands.state[command])
+				return func(command);
+
+			return -1;
+		};
+
+		function queryCommandValue(command) {
+			var func;
+
+			command = command.toLowerCase();
+			if (func = commands.value[command])
+				return func(command);
+
+			return FALSE;
+		};
+
+		function addCommands(command_list, type) {
+			type = type || 'exec';
+
+			each(command_list, function(callback, command) {
+				each(command.toLowerCase().split(','), function(command) {
+					commands[type][command] = callback;
+				});
+			});
+		};
+
+		// Expose public methods
+		tinymce.extend(this, {
+			execCommand : execCommand,
+			queryCommandState : queryCommandState,
+			queryCommandValue : queryCommandValue,
+			addCommands : addCommands
+		});
+
+		// Private methods
+
+		function execNativeCommand(command, ui, value) {
+			if (ui === undef)
+				ui = FALSE;
+
+			if (value === undef)
+				value = null;
+
+			return editor.getDoc().execCommand(command, ui, value);
+		};
+
+		function isFormatMatch(name) {
+			return formatter.match(name);
+		};
+
+		function toggleFormat(name, value) {
+			formatter.toggle(name, value ? {value : value} : undef);
+		};
+
+		function storeSelection(type) {
+			bookmark = selection.getBookmark(type);
+		};
+
+		function restoreSelection() {
+			selection.moveToBookmark(bookmark);
+		};
+
+		// Add execCommand overrides
+		addCommands({
+			// Ignore these, added for compatibility
+			'mceResetDesignMode,mceBeginUndoLevel' : function() {},
+
+			// Add undo manager logic
+			'mceEndUndoLevel,mceAddUndoLevel' : function() {
+				editor.undoManager.add();
+			},
+
+			'Cut,Copy,Paste' : function(command) {
+				var doc = editor.getDoc(), failed;
+
+				// Try executing the native command
+				try {
+					execNativeCommand(command);
+				} catch (ex) {
+					// Command failed
+					failed = TRUE;
+				}
+
+				// Present alert message about clipboard access not being available
+				if (failed || !doc.queryCommandSupported(command)) {
+					if (tinymce.isGecko) {
+						editor.windowManager.confirm(editor.getLang('clipboard_msg'), function(state) {
+							if (state)
+								open('http://www.mozilla.org/editor/midasdemo/securityprefs.html', '_blank');
+						});
+					} else
+						editor.windowManager.alert(editor.getLang('clipboard_no_support'));
+				}
+			},
+
+			// Override unlink command
+			unlink : function(command) {
+				if (selection.isCollapsed())
+					selection.select(selection.getNode());
+
+				execNativeCommand(command);
+				selection.collapse(FALSE);
+			},
+
+			// Override justify commands to use the text formatter engine
+			'JustifyLeft,JustifyCenter,JustifyRight,JustifyFull' : function(command) {
+				var align = command.substring(7);
+
+				// Remove all other alignments first
+				each('left,center,right,full'.split(','), function(name) {
+					if (align != name)
+						formatter.remove('align' + name);
+				});
+
+				toggleFormat('align' + align);
+				execCommand('mceRepaint');
+			},
+
+			// Override list commands to fix WebKit bug
+			'InsertUnorderedList,InsertOrderedList' : function(command) {
+				var listElm, listParent;
+
+				execNativeCommand(command);
+
+				// WebKit produces lists within block elements so we need to split them
+				// we will replace the native list creation logic to custom logic later on
+				// TODO: Remove this when the list creation logic is removed
+				listElm = dom.getParent(selection.getNode(), 'ol,ul');
+				if (listElm) {
+					listParent = listElm.parentNode;
+
+					// If list is within a text block then split that block
+					if (/^(H[1-6]|P|ADDRESS|PRE)$/.test(listParent.nodeName)) {
+						storeSelection();
+						dom.split(listParent, listElm);
+						restoreSelection();
+					}
+				}
+			},
+
+			// Override commands to use the text formatter engine
+			'Bold,Italic,Underline,Strikethrough,Superscript,Subscript' : function(command) {
+				toggleFormat(command);
+			},
+
+			// Override commands to use the text formatter engine
+			'ForeColor,HiliteColor,FontName' : function(command, ui, value) {
+				toggleFormat(command, value);
+			},
+
+			FontSize : function(command, ui, value) {
+				var fontClasses, fontSizes;
+
+				// Convert font size 1-7 to styles
+				if (value >= 1 && value <= 7) {
+					fontSizes = tinymce.explode(settings.font_size_style_values);
+					fontClasses = tinymce.explode(settings.font_size_classes);
+
+					if (fontClasses)
+						value = fontClasses[value - 1] || value;
+					else
+						value = fontSizes[value - 1] || value;
+				}
+
+				toggleFormat(command, value);
+			},
+
+			RemoveFormat : function(command) {
+				formatter.remove(command);
+			},
+
+			mceBlockQuote : function(command) {
+				toggleFormat('blockquote');
+			},
+
+			FormatBlock : function(command, ui, value) {
+				return toggleFormat(value || 'p');
+			},
+
+			mceCleanup : function() {
+				var bookmark = selection.getBookmark();
+
+				editor.setContent(editor.getContent({cleanup : TRUE}), {cleanup : TRUE});
+
+				selection.moveToBookmark(bookmark);
+			},
+
+			mceRemoveNode : function(command, ui, value) {
+				var node = value || selection.getNode();
+
+				// Make sure that the body node isn't removed
+				if (node != editor.getBody()) {
+					storeSelection();
+					editor.dom.remove(node, TRUE);
+					restoreSelection();
+				}
+			},
+
+			mceSelectNodeDepth : function(command, ui, value) {
+				var counter = 0;
+
+				dom.getParent(selection.getNode(), function(node) {
+					if (node.nodeType == 1 && counter++ == value) {
+						selection.select(node);
+						return FALSE;
+					}
+				}, editor.getBody());
+			},
+
+			mceSelectNode : function(command, ui, value) {
+				selection.select(value);
+			},
+
+			mceInsertContent : function(command, ui, value) {
+				var parser, serializer, parentNode, rootNode, fragment, args,
+					marker, nodeRect, viewPortRect, rng, node, node2, bookmarkHtml, viewportBodyElement;
+
+				//selection.normalize();
+
+				// Setup parser and serializer
+				parser = editor.parser;
+				serializer = new tinymce.html.Serializer({}, editor.schema);
+				bookmarkHtml = '<span id="mce_marker" data-mce-type="bookmark">\uFEFF</span>';
+
+				// Run beforeSetContent handlers on the HTML to be inserted
+				args = {content: value, format: 'html'};
+				selection.onBeforeSetContent.dispatch(selection, args);
+				value = args.content;
+
+				// Add caret at end of contents if it's missing
+				if (value.indexOf('{$caret}') == -1)
+					value += '{$caret}';
+
+				// Replace the caret marker with a span bookmark element
+				value = value.replace(/\{\$caret\}/, bookmarkHtml);
+
+				// Insert node maker where we will insert the new HTML and get it's parent
+				if (!selection.isCollapsed())
+					editor.getDoc().execCommand('Delete', false, null);
+
+				parentNode = selection.getNode();
+
+				// Parse the fragment within the context of the parent node
+				args = {context : parentNode.nodeName.toLowerCase()};
+				fragment = parser.parse(value, args);
+
+				// Move the caret to a more suitable location
+				node = fragment.lastChild;
+				if (node.attr('id') == 'mce_marker') {
+					marker = node;
+
+					for (node = node.prev; node; node = node.walk(true)) {
+						if (node.type == 3 || !dom.isBlock(node.name)) {
+							node.parent.insert(marker, node, node.name === 'br');
+							break;
+						}
+					}
+				}
+
+				// If parser says valid we can insert the contents into that parent
+				if (!args.invalid) {
+					value = serializer.serialize(fragment);
+
+					// Check if parent is empty or only has one BR element then set the innerHTML of that parent
+					node = parentNode.firstChild;
+					node2 = parentNode.lastChild;
+					if (!node || (node === node2 && node.nodeName === 'BR'))
+						dom.setHTML(parentNode, value);
+					else
+						selection.setContent(value);
+				} else {
+					// If the fragment was invalid within that context then we need
+					// to parse and process the parent it's inserted into
+
+					// Insert bookmark node and get the parent
+					selection.setContent(bookmarkHtml);
+					parentNode = selection.getNode();
+					rootNode = editor.getBody();
+
+					// Opera will return the document node when selection is in root
+					if (parentNode.nodeType == 9)
+						parentNode = node = rootNode;
+					else
+						node = parentNode;
+
+					// Find the ancestor just before the root element
+					while (node !== rootNode) {
+						parentNode = node;
+						node = node.parentNode;
+					}
+
+					// Get the outer/inner HTML depending on if we are in the root and parser and serialize that
+					value = parentNode == rootNode ? rootNode.innerHTML : dom.getOuterHTML(parentNode);
+					value = serializer.serialize(
+						parser.parse(
+							// Need to replace by using a function since $ in the contents would otherwise be a problem
+							value.replace(/<span (id="mce_marker"|id=mce_marker).+?<\/span>/i, function() {
+								return serializer.serialize(fragment);
+							})
+						)
+					);
+
+					// Set the inner/outer HTML depending on if we are in the root or not
+					if (parentNode == rootNode)
+						dom.setHTML(rootNode, value);
+					else
+						dom.setOuterHTML(parentNode, value);
+				}
+
+				marker = dom.get('mce_marker');
+
+				// Scroll range into view scrollIntoView on element can't be used since it will scroll the main view port as well
+				nodeRect = dom.getRect(marker);
+				viewPortRect = dom.getViewPort(editor.getWin());
+
+				// Check if node is out side the viewport if it is then scroll to it
+				if ((nodeRect.y + nodeRect.h > viewPortRect.y + viewPortRect.h || nodeRect.y < viewPortRect.y) ||
+					(nodeRect.x > viewPortRect.x + viewPortRect.w || nodeRect.x < viewPortRect.x)) {
+					viewportBodyElement = tinymce.isIE ? editor.getDoc().documentElement : editor.getBody();
+					viewportBodyElement.scrollLeft = nodeRect.x;
+					viewportBodyElement.scrollTop = nodeRect.y - viewPortRect.h + 25;
+				}
+
+				// Move selection before marker and remove it
+				rng = dom.createRng();
+
+				// If previous sibling is a text node set the selection to the end of that node
+				node = marker.previousSibling;
+				if (node && node.nodeType == 3) {
+					rng.setStart(node, node.nodeValue.length);
+				} else {
+					// If the previous sibling isn't a text node or doesn't exist set the selection before the marker node
+					rng.setStartBefore(marker);
+					rng.setEndBefore(marker);
+				}
+
+				// Remove the marker node and set the new range
+				dom.remove(marker);
+				selection.setRng(rng);
+
+				// Dispatch after event and add any visual elements needed
+				selection.onSetContent.dispatch(selection, args);
+				editor.addVisual();
+			},
+
+			mceInsertRawHTML : function(command, ui, value) {
+				selection.setContent('tiny_mce_marker');
+				editor.setContent(editor.getContent().replace(/tiny_mce_marker/g, function() { return value }));
+			},
+
+			mceToggleFormat : function(command, ui, value) {
+				toggleFormat(value);
+			},
+
+			mceSetContent : function(command, ui, value) {
+				editor.setContent(value);
+			},
+
+			'Indent,Outdent' : function(command) {
+				var intentValue, indentUnit, value;
+
+				// Setup indent level
+				intentValue = settings.indentation;
+				indentUnit = /[a-z%]+$/i.exec(intentValue);
+				intentValue = parseInt(intentValue);
+
+				if (!queryCommandState('InsertUnorderedList') && !queryCommandState('InsertOrderedList')) {
+					// If forced_root_blocks is set to false we don't have a block to indent so lets create a div
+					if (!settings.forced_root_block && !dom.getParent(selection.getNode(), dom.isBlock)) {
+						formatter.apply('div');
+					}
+
+					each(selection.getSelectedBlocks(), function(element) {
+						if (command == 'outdent') {
+							value = Math.max(0, parseInt(element.style.paddingLeft || 0) - intentValue);
+							dom.setStyle(element, 'paddingLeft', value ? value + indentUnit : '');
+						} else
+							dom.setStyle(element, 'paddingLeft', (parseInt(element.style.paddingLeft || 0) + intentValue) + indentUnit);
+					});
+				} else
+					execNativeCommand(command);
+			},
+
+			mceRepaint : function() {
+				var bookmark;
+
+				if (tinymce.isGecko) {
+					try {
+						storeSelection(TRUE);
+
+						if (selection.getSel())
+							selection.getSel().selectAllChildren(editor.getBody());
+
+						selection.collapse(TRUE);
+						restoreSelection();
+					} catch (ex) {
+						// Ignore
+					}
+				}
+			},
+
+			mceToggleFormat : function(command, ui, value) {
+				formatter.toggle(value);
+			},
+
+			InsertHorizontalRule : function() {
+				editor.execCommand('mceInsertContent', false, '<hr />');
+			},
+
+			mceToggleVisualAid : function() {
+				editor.hasVisual = !editor.hasVisual;
+				editor.addVisual();
+			},
+
+			mceReplaceContent : function(command, ui, value) {
+				editor.execCommand('mceInsertContent', false, value.replace(/\{\$selection\}/g, selection.getContent({format : 'text'})));
+			},
+
+			mceInsertLink : function(command, ui, value) {
+				var anchor;
+
+				if (typeof(value) == 'string')
+					value = {href : value};
+
+				anchor = dom.getParent(selection.getNode(), 'a');
+
+				// Spaces are never valid in URLs and it's a very common mistake for people to make so we fix it here.
+				value.href = value.href.replace(' ', '%20');
+
+				// Remove existing links if there could be child links or that the href isn't specified
+				if (!anchor || !value.href) {
+					formatter.remove('link');
+				}		
+
+				// Apply new link to selection
+				if (value.href) {
+					formatter.apply('link', value, anchor);
+				}
+			},
+
+			selectAll : function() {
+				var root = dom.getRoot(), rng = dom.createRng();
+
+				// Old IE does a better job with selectall than new versions
+				if (selection.getRng().setStart) {
+					rng.setStart(root, 0);
+					rng.setEnd(root, root.childNodes.length);
+
+					selection.setRng(rng);
+				} else {
+					execNativeCommand('SelectAll');
+				}
+			}
+		});
+
+		// Add queryCommandState overrides
+		addCommands({
+			// Override justify commands
+			'JustifyLeft,JustifyCenter,JustifyRight,JustifyFull' : function(command) {
+				var name = 'align' + command.substring(7);
+				var nodes = selection.isCollapsed() ? [dom.getParent(selection.getNode(), dom.isBlock)] : selection.getSelectedBlocks();
+				var matches = tinymce.map(nodes, function(node) {
+					return !!formatter.matchNode(node, name);
+				});
+				return tinymce.inArray(matches, TRUE) !== -1;
+			},
+
+			'Bold,Italic,Underline,Strikethrough,Superscript,Subscript' : function(command) {
+				return isFormatMatch(command);
+			},
+
+			mceBlockQuote : function() {
+				return isFormatMatch('blockquote');
+			},
+
+			Outdent : function() {
+				var node;
+
+				if (settings.inline_styles) {
+					if ((node = dom.getParent(selection.getStart(), dom.isBlock)) && parseInt(node.style.paddingLeft) > 0)
+						return TRUE;
+
+					if ((node = dom.getParent(selection.getEnd(), dom.isBlock)) && parseInt(node.style.paddingLeft) > 0)
+						return TRUE;
+				}
+
+				return queryCommandState('InsertUnorderedList') || queryCommandState('InsertOrderedList') || (!settings.inline_styles && !!dom.getParent(selection.getNode(), 'BLOCKQUOTE'));
+			},
+
+			'InsertUnorderedList,InsertOrderedList' : function(command) {
+				var list = dom.getParent(selection.getNode(), 'ul,ol');
+				return list && 
+				     (command === 'insertunorderedlist' && list.tagName === 'UL'
+				   || command === 'insertorderedlist' && list.tagName === 'OL');
+			}
+		}, 'state');
+
+		// Add queryCommandValue overrides
+		addCommands({
+			'FontSize,FontName' : function(command) {
+				var value = 0, parent;
+
+				if (parent = dom.getParent(selection.getNode(), 'span')) {
+					if (command == 'fontsize')
+						value = parent.style.fontSize;
+					else
+						value = parent.style.fontFamily.replace(/, /g, ',').replace(/[\'\"]/g, '').toLowerCase();
+				}
+
+				return value;
+			}
+		}, 'value');
+
+		// Add undo manager logic
+		addCommands({
+			Undo : function() {
+				editor.undoManager.undo();
+			},
+
+			Redo : function() {
+				editor.undoManager.redo();
+			}
+		});
+	};
+})(tinymce);
+
+(function(tinymce) {
+	var Dispatcher = tinymce.util.Dispatcher;
+
+	tinymce.UndoManager = function(editor) {
+		var self, index = 0, data = [], beforeBookmark, onAdd, onUndo, onRedo;
+
+		function getContent() {
+			// Remove whitespace before/after and remove pure bogus nodes
+			return tinymce.trim(editor.getContent({format : 'raw', no_events : 1}).replace(/<span[^>]+data-mce-bogus[^>]+>[\u200B\uFEFF]+<\/span>/g, ''));
+		};
+
+		function addNonTypingUndoLevel() {
+			self.typing = false;
+			self.add();
+		};
+
+		// Create event instances
+		onBeforeAdd = new Dispatcher(self);
+		onAdd       = new Dispatcher(self);
+		onUndo      = new Dispatcher(self);
+		onRedo      = new Dispatcher(self);
+
+		// Pass though onAdd event from UndoManager to Editor as onChange
+		onAdd.add(function(undoman, level) {
+			if (undoman.hasUndo())
+				return editor.onChange.dispatch(editor, level, undoman);
+		});
+
+		// Pass though onUndo event from UndoManager to Editor
+		onUndo.add(function(undoman, level) {
+			return editor.onUndo.dispatch(editor, level, undoman);
+		});
+
+		// Pass though onRedo event from UndoManager to Editor
+		onRedo.add(function(undoman, level) {
+			return editor.onRedo.dispatch(editor, level, undoman);
+		});
+
+		// Add initial undo level when the editor is initialized
+		editor.onInit.add(function() {
+			self.add();
+		});
+
+		// Get position before an execCommand is processed
+		editor.onBeforeExecCommand.add(function(ed, cmd, ui, val, args) {
+			if (cmd != 'Undo' && cmd != 'Redo' && cmd != 'mceRepaint' && (!args || !args.skip_undo)) {
+				self.beforeChange();
+			}
+		});
+
+		// Add undo level after an execCommand call was made
+		editor.onExecCommand.add(function(ed, cmd, ui, val, args) {
+			if (cmd != 'Undo' && cmd != 'Redo' && cmd != 'mceRepaint' && (!args || !args.skip_undo)) {
+				self.add();
+			}
+		});
+
+		// Add undo level on save contents, drag end and blur/focusout
+		editor.onSaveContent.add(addNonTypingUndoLevel);
+		editor.dom.bind(editor.dom.getRoot(), 'dragend', addNonTypingUndoLevel);
+		editor.dom.bind(editor.getBody(), 'focusout', function(e) {
+			if (!editor.removed && self.typing) {
+				addNonTypingUndoLevel();
+			}
+		});
+
+		editor.onKeyUp.add(function(editor, e) {
+			var keyCode = e.keyCode;
+
+			if ((keyCode >= 33 && keyCode <= 36) || (keyCode >= 37 && keyCode <= 40) || keyCode == 45 || keyCode == 13 || e.ctrlKey) {
+				addNonTypingUndoLevel();
+			}
+		});
+
+		editor.onKeyDown.add(function(editor, e) {
+			var keyCode = e.keyCode;
+
+			// Is caracter positon keys left,right,up,down,home,end,pgdown,pgup,enter
+			if ((keyCode >= 33 && keyCode <= 36) || (keyCode >= 37 && keyCode <= 40) || keyCode == 45) {
+				if (self.typing) {
+					addNonTypingUndoLevel();
+				}
+
+				return;
+			}
+
+			// If key isn't shift,ctrl,alt,capslock,metakey
+			if ((keyCode < 16 || keyCode > 20) && keyCode != 224 && keyCode != 91 && !self.typing) {
+				self.beforeChange();
+				self.typing = true;
+				self.add();
+			}
+		});
+
+		editor.onMouseDown.add(function(editor, e) {
+			if (self.typing) {
+				addNonTypingUndoLevel();
+			}
+		});
+
+		// Add keyboard shortcuts for undo/redo keys
+		editor.addShortcut('ctrl+z', 'undo_desc', 'Undo');
+		editor.addShortcut('ctrl+y', 'redo_desc', 'Redo');
+
+		self = {
+			// Explose for debugging reasons
+			data : data,
+
+			typing : false,
+			
+			onBeforeAdd: onBeforeAdd,
+
+			onAdd : onAdd,
+
+			onUndo : onUndo,
+
+			onRedo : onRedo,
+
+			beforeChange : function() {
+				beforeBookmark = editor.selection.getBookmark(2, true);
+			},
+
+			add : function(level) {
+				var i, settings = editor.settings, lastLevel;
+
+				level = level || {};
+				level.content = getContent();
+				
+				self.onBeforeAdd.dispatch(self, level);
+
+				// Add undo level if needed
+				lastLevel = data[index];
+				if (lastLevel && lastLevel.content == level.content)
+					return null;
+
+				// Set before bookmark on previous level
+				if (data[index])
+					data[index].beforeBookmark = beforeBookmark;
+
+				// Time to compress
+				if (settings.custom_undo_redo_levels) {
+					if (data.length > settings.custom_undo_redo_levels) {
+						for (i = 0; i < data.length - 1; i++)
+							data[i] = data[i + 1];
+
+						data.length--;
+						index = data.length;
+					}
+				}
+
+				// Get a non intrusive normalized bookmark
+				level.bookmark = editor.selection.getBookmark(2, true);
+
+				// Crop array if needed
+				if (index < data.length - 1)
+					data.length = index + 1;
+
+				data.push(level);
+				index = data.length - 1;
+
+				self.onAdd.dispatch(self, level);
+				editor.isNotDirty = 0;
+
+				return level;
+			},
+
+			undo : function() {
+				var level, i;
+
+				if (self.typing) {
+					self.add();
+					self.typing = false;
+				}
+
+				if (index > 0) {
+					level = data[--index];
+
+					editor.setContent(level.content, {format : 'raw'});
+					editor.selection.moveToBookmark(level.beforeBookmark);
+
+					self.onUndo.dispatch(self, level);
+				}
+
+				return level;
+			},
+
+			redo : function() {
+				var level;
+
+				if (index < data.length - 1) {
+					level = data[++index];
+
+					editor.setContent(level.content, {format : 'raw'});
+					editor.selection.moveToBookmark(level.bookmark);
+
+					self.onRedo.dispatch(self, level);
+				}
+
+				return level;
+			},
+
+			clear : function() {
+				data = [];
+				index = 0;
+				self.typing = false;
+			},
+
+			hasUndo : function() {
+				return index > 0 || this.typing;
+			},
+
+			hasRedo : function() {
+				return index < data.length - 1 && !this.typing;
+			}
+		};
+
+		return self;
+	};
+})(tinymce);
+
+tinymce.ForceBlocks = function(editor) {
+	var settings = editor.settings, dom = editor.dom, selection = editor.selection, blockElements = editor.schema.getBlockElements();
+
+	function addRootBlocks() {
+		var node = selection.getStart(), rootNode = editor.getBody(), rng, startContainer, startOffset, endContainer, endOffset, rootBlockNode, tempNode, offset = -0xFFFFFF, wrapped, isInEditorDocument;
+
+		if (!node || node.nodeType !== 1 || !settings.forced_root_block)
+			return;
+
+		// Check if node is wrapped in block
+		while (node && node != rootNode) {
+			if (blockElements[node.nodeName])
+				return;
+
+			node = node.parentNode;
+		}
+
+		// Get current selection
+		rng = selection.getRng();
+		if (rng.setStart) {
+			startContainer = rng.startContainer;
+			startOffset = rng.startOffset;
+			endContainer = rng.endContainer;
+			endOffset = rng.endOffset;
+		} else {
+			// Force control range into text range
+			if (rng.item) {
+				node = rng.item(0);
+				rng = editor.getDoc().body.createTextRange();
+				rng.moveToElementText(node);
+			}
+
+			isInEditorDocument = rng.parentElement().ownerDocument === editor.getDoc();
+			tmpRng = rng.duplicate();
+			tmpRng.collapse(true);
+			startOffset = tmpRng.move('character', offset) * -1;
+
+			if (!tmpRng.collapsed) {
+				tmpRng = rng.duplicate();
+				tmpRng.collapse(false);
+				endOffset = (tmpRng.move('character', offset) * -1) - startOffset;
+			}
+		}
+
+		// Wrap non block elements and text nodes
+		node = rootNode.firstChild;
+		while (node) {
+			if (node.nodeType === 3 || (node.nodeType == 1 && !blockElements[node.nodeName])) {
+				// Remove empty text nodes
+				if (node.nodeType === 3 && node.nodeValue.length == 0) {
+					tempNode = node;
+					node = node.nextSibling;
+					dom.remove(tempNode);
+					continue;
+				}
+
+				if (!rootBlockNode) {
+					rootBlockNode = dom.create(settings.forced_root_block);
+					node.parentNode.insertBefore(rootBlockNode, node);
+					wrapped = true;
+				}
+
+				tempNode = node;
+				node = node.nextSibling;
+				rootBlockNode.appendChild(tempNode);
+			} else {
+				rootBlockNode = null;
+				node = node.nextSibling;
+			}
+		}
+
+		if (wrapped) {
+			if (rng.setStart) {
+				rng.setStart(startContainer, startOffset);
+				rng.setEnd(endContainer, endOffset);
+				selection.setRng(rng);
+			} else {
+				// Only select if the previous selection was inside the document to prevent auto focus in quirks mode
+				if (isInEditorDocument) {
+					try {
+						rng = editor.getDoc().body.createTextRange();
+						rng.moveToElementText(rootNode);
+						rng.collapse(true);
+						rng.moveStart('character', startOffset);
+
+						if (endOffset > 0)
+							rng.moveEnd('character', endOffset);
+
+						rng.select();
+					} catch (ex) {
+						// Ignore
+					}
+				}
+			}
+
+			editor.nodeChanged();
+		}
+	};
+
+	// Force root blocks
+	if (settings.forced_root_block) {
+		editor.onKeyUp.add(addRootBlocks);
+		editor.onNodeChange.add(addRootBlocks);
+	}
+};
+
+(function(tinymce) {
+	// Shorten names
+	var DOM = tinymce.DOM, Event = tinymce.dom.Event, each = tinymce.each, extend = tinymce.extend;
+
+	tinymce.create('tinymce.ControlManager', {
+		ControlManager : function(ed, s) {
+			var t = this, i;
+
+			s = s || {};
+			t.editor = ed;
+			t.controls = {};
+			t.onAdd = new tinymce.util.Dispatcher(t);
+			t.onPostRender = new tinymce.util.Dispatcher(t);
+			t.prefix = s.prefix || ed.id + '_';
+			t._cls = {};
+
+			t.onPostRender.add(function() {
+				each(t.controls, function(c) {
+					c.postRender();
+				});
+			});
+		},
+
+		get : function(id) {
+			return this.controls[this.prefix + id] || this.controls[id];
+		},
+
+		setActive : function(id, s) {
+			var c = null;
+
+			if (c = this.get(id))
+				c.setActive(s);
+
+			return c;
+		},
+
+		setDisabled : function(id, s) {
+			var c = null;
+
+			if (c = this.get(id))
+				c.setDisabled(s);
+
+			return c;
+		},
+
+		add : function(c) {
+			var t = this;
+
+			if (c) {
+				t.controls[c.id] = c;
+				t.onAdd.dispatch(c, t);
+			}
+
+			return c;
+		},
+
+		createControl : function(name) {
+			var ctrl, i, l, self = this, editor = self.editor, factories, ctrlName;
+
+			// Build control factory cache
+			if (!self.controlFactories) {
+				self.controlFactories = [];
+				each(editor.plugins, function(plugin) {
+					if (plugin.createControl) {
+						self.controlFactories.push(plugin);
+					}
+				});
+			}
+
+			// Create controls by asking cached factories
+			factories = self.controlFactories;
+			for (i = 0, l = factories.length; i < l; i++) {
+				ctrl = factories[i].createControl(name, self);
+
+				if (ctrl) {
+					return self.add(ctrl);
+				}
+			}
+
+			// Create sepearator
+			if (name === "|" || name === "separator") {
+				return self.createSeparator();
+			}
+
+			// Create control from button collection
+			if (editor.buttons && (ctrl = editor.buttons[name])) {
+				return self.createButton(name, ctrl);
+			}
+
+			return self.add(ctrl);
+		},
+
+		createDropMenu : function(id, s, cc) {
+			var t = this, ed = t.editor, c, bm, v, cls;
+
+			s = extend({
+				'class' : 'mceDropDown',
+				constrain : ed.settings.constrain_menus
+			}, s);
+
+			s['class'] = s['class'] + ' ' + ed.getParam('skin') + 'Skin';
+			if (v = ed.getParam('skin_variant'))
+				s['class'] += ' ' + ed.getParam('skin') + 'Skin' + v.substring(0, 1).toUpperCase() + v.substring(1);
+
+			s['class'] += ed.settings.directionality == "rtl" ? ' mceRtl' : '';
+
+			id = t.prefix + id;
+			cls = cc || t._cls.dropmenu || tinymce.ui.DropMenu;
+			c = t.controls[id] = new cls(id, s);
+			c.onAddItem.add(function(c, o) {
+				var s = o.settings;
+
+				s.title = ed.getLang(s.title, s.title);
+
+				if (!s.onclick) {
+					s.onclick = function(v) {
+						if (s.cmd)
+							ed.execCommand(s.cmd, s.ui || false, s.value);
+					};
+				}
+			});
+
+			ed.onRemove.add(function() {
+				c.destroy();
+			});
+
+			// Fix for bug #1897785, #1898007
+			if (tinymce.isIE) {
+				c.onShowMenu.add(function() {
+					// IE 8 needs focus in order to store away a range with the current collapsed caret location
+					ed.focus();
+
+					bm = ed.selection.getBookmark(1);
+				});
+
+				c.onHideMenu.add(function() {
+					if (bm) {
+						ed.selection.moveToBookmark(bm);
+						bm = 0;
+					}
+				});
+			}
+
+			return t.add(c);
+		},
+
+		createListBox : function(id, s, cc) {
+			var t = this, ed = t.editor, cmd, c, cls;
+
+			if (t.get(id))
+				return null;
+
+			s.title = ed.translate(s.title);
+			s.scope = s.scope || ed;
+
+			if (!s.onselect) {
+				s.onselect = function(v) {
+					ed.execCommand(s.cmd, s.ui || false, v || s.value);
+				};
+			}
+
+			s = extend({
+				title : s.title,
+				'class' : 'mce_' + id,
+				scope : s.scope,
+				control_manager : t
+			}, s);
+
+			id = t.prefix + id;
+
+
+			function useNativeListForAccessibility(ed) {
+				return ed.settings.use_accessible_selects && !tinymce.isGecko
+			}
+
+			if (ed.settings.use_native_selects || useNativeListForAccessibility(ed))
+				c = new tinymce.ui.NativeListBox(id, s);
+			else {
+				cls = cc || t._cls.listbox || tinymce.ui.ListBox;
+				c = new cls(id, s, ed);
+			}
+
+			t.controls[id] = c;
+
+			// Fix focus problem in Safari
+			if (tinymce.isWebKit) {
+				c.onPostRender.add(function(c, n) {
+					// Store bookmark on mousedown
+					Event.add(n, 'mousedown', function() {
+						ed.bookmark = ed.selection.getBookmark(1);
+					});
+
+					// Restore on focus, since it might be lost
+					Event.add(n, 'focus', function() {
+						ed.selection.moveToBookmark(ed.bookmark);
+						ed.bookmark = null;
+					});
+				});
+			}
+
+			if (c.hideMenu)
+				ed.onMouseDown.add(c.hideMenu, c);
+
+			return t.add(c);
+		},
+
+		createButton : function(id, s, cc) {
+			var t = this, ed = t.editor, o, c, cls;
+
+			if (t.get(id))
+				return null;
+
+			s.title = ed.translate(s.title);
+			s.label = ed.translate(s.label);
+			s.scope = s.scope || ed;
+
+			if (!s.onclick && !s.menu_button) {
+				s.onclick = function() {
+					ed.execCommand(s.cmd, s.ui || false, s.value);
+				};
+			}
+
+			s = extend({
+				title : s.title,
+				'class' : 'mce_' + id,
+				unavailable_prefix : ed.getLang('unavailable', ''),
+				scope : s.scope,
+				control_manager : t
+			}, s);
+
+			id = t.prefix + id;
+
+			if (s.menu_button) {
+				cls = cc || t._cls.menubutton || tinymce.ui.MenuButton;
+				c = new cls(id, s, ed);
+				ed.onMouseDown.add(c.hideMenu, c);
+			} else {
+				cls = t._cls.button || tinymce.ui.Button;
+				c = new cls(id, s, ed);
+			}
+
+			return t.add(c);
+		},
+
+		createMenuButton : function(id, s, cc) {
+			s = s || {};
+			s.menu_button = 1;
+
+			return this.createButton(id, s, cc);
+		},
+
+		createSplitButton : function(id, s, cc) {
+			var t = this, ed = t.editor, cmd, c, cls;
+
+			if (t.get(id))
+				return null;
+
+			s.title = ed.translate(s.title);
+			s.scope = s.scope || ed;
+
+			if (!s.onclick) {
+				s.onclick = function(v) {
+					ed.execCommand(s.cmd, s.ui || false, v || s.value);
+				};
+			}
+
+			if (!s.onselect) {
+				s.onselect = function(v) {
+					ed.execCommand(s.cmd, s.ui || false, v || s.value);
+				};
+			}
+
+			s = extend({
+				title : s.title,
+				'class' : 'mce_' + id,
+				scope : s.scope,
+				control_manager : t
+			}, s);
+
+			id = t.prefix + id;
+			cls = cc || t._cls.splitbutton || tinymce.ui.SplitButton;
+			c = t.add(new cls(id, s, ed));
+			ed.onMouseDown.add(c.hideMenu, c);
+
+			return c;
+		},
+
+		createColorSplitButton : function(id, s, cc) {
+			var t = this, ed = t.editor, cmd, c, cls, bm;
+
+			if (t.get(id))
+				return null;
+
+			s.title = ed.translate(s.title);
+			s.scope = s.scope || ed;
+
+			if (!s.onclick) {
+				s.onclick = function(v) {
+					if (tinymce.isIE)
+						bm = ed.selection.getBookmark(1);
+
+					ed.execCommand(s.cmd, s.ui || false, v || s.value);
+				};
+			}
+
+			if (!s.onselect) {
+				s.onselect = function(v) {
+					ed.execCommand(s.cmd, s.ui || false, v || s.value);
+				};
+			}
+
+			s = extend({
+				title : s.title,
+				'class' : 'mce_' + id,
+				'menu_class' : ed.getParam('skin') + 'Skin',
+				scope : s.scope,
+				more_colors_title : ed.getLang('more_colors')
+			}, s);
+
+			id = t.prefix + id;
+			cls = cc || t._cls.colorsplitbutton || tinymce.ui.ColorSplitButton;
+			c = new cls(id, s, ed);
+			ed.onMouseDown.add(c.hideMenu, c);
+
+			// Remove the menu element when the editor is removed
+			ed.onRemove.add(function() {
+				c.destroy();
+			});
+
+			// Fix for bug #1897785, #1898007
+			if (tinymce.isIE) {
+				c.onShowMenu.add(function() {
+					// IE 8 needs focus in order to store away a range with the current collapsed caret location
+					ed.focus();
+					bm = ed.selection.getBookmark(1);
+				});
+
+				c.onHideMenu.add(function() {
+					if (bm) {
+						ed.selection.moveToBookmark(bm);
+						bm = 0;
+					}
+				});
+			}
+
+			return t.add(c);
+		},
+
+		createToolbar : function(id, s, cc) {
+			var c, t = this, cls;
+
+			id = t.prefix + id;
+			cls = cc || t._cls.toolbar || tinymce.ui.Toolbar;
+			c = new cls(id, s, t.editor);
+
+			if (t.get(id))
+				return null;
+
+			return t.add(c);
+		},
+		
+		createToolbarGroup : function(id, s, cc) {
+			var c, t = this, cls;
+			id = t.prefix + id;
+			cls = cc || this._cls.toolbarGroup || tinymce.ui.ToolbarGroup;
+			c = new cls(id, s, t.editor);
+			
+			if (t.get(id))
+				return null;
+			
+			return t.add(c);
+		},
+
+		createSeparator : function(cc) {
+			var cls = cc || this._cls.separator || tinymce.ui.Separator;
+
+			return new cls();
+		},
+
+		setControlType : function(n, c) {
+			return this._cls[n.toLowerCase()] = c;
+		},
+	
+		destroy : function() {
+			each(this.controls, function(c) {
+				c.destroy();
+			});
+
+			this.controls = null;
+		}
+	});
+})(tinymce);
+
+(function(tinymce) {
+	var Dispatcher = tinymce.util.Dispatcher, each = tinymce.each, isIE = tinymce.isIE, isOpera = tinymce.isOpera;
+
+	tinymce.create('tinymce.WindowManager', {
+		WindowManager : function(ed) {
+			var t = this;
+
+			t.editor = ed;
+			t.onOpen = new Dispatcher(t);
+			t.onClose = new Dispatcher(t);
+			t.params = {};
+			t.features = {};
+		},
+
+		open : function(s, p) {
+			var t = this, f = '', x, y, mo = t.editor.settings.dialog_type == 'modal', w, sw, sh, vp = tinymce.DOM.getViewPort(), u;
+
+			// Default some options
+			s = s || {};
+			p = p || {};
+			sw = isOpera ? vp.w : screen.width; // Opera uses windows inside the Opera window
+			sh = isOpera ? vp.h : screen.height;
+			s.name = s.name || 'mc_' + new Date().getTime();
+			s.width = parseInt(s.width || 320);
+			s.height = parseInt(s.height || 240);
+			s.resizable = true;
+			s.left = s.left || parseInt(sw / 2.0) - (s.width / 2.0);
+			s.top = s.top || parseInt(sh / 2.0) - (s.height / 2.0);
+			p.inline = false;
+			p.mce_width = s.width;
+			p.mce_height = s.height;
+			p.mce_auto_focus = s.auto_focus;
+
+			if (mo) {
+				if (isIE) {
+					s.center = true;
+					s.help = false;
+					s.dialogWidth = s.width + 'px';
+					s.dialogHeight = s.height + 'px';
+					s.scroll = s.scrollbars || false;
+				}
+			}
+
+			// Build features string
+			each(s, function(v, k) {
+				if (tinymce.is(v, 'boolean'))
+					v = v ? 'yes' : 'no';
+
+				if (!/^(name|url)$/.test(k)) {
+					if (isIE && mo)
+						f += (f ? ';' : '') + k + ':' + v;
+					else
+						f += (f ? ',' : '') + k + '=' + v;
+				}
+			});
+
+			t.features = s;
+			t.params = p;
+			t.onOpen.dispatch(t, s, p);
+
+			u = s.url || s.file;
+			u = tinymce._addVer(u);
+
+			try {
+				if (isIE && mo) {
+					w = 1;
+					window.showModalDialog(u, window, f);
+				} else
+					w = window.open(u, s.name, f);
+			} catch (ex) {
+				// Ignore
+			}
+
+			if (!w)
+				alert(t.editor.getLang('popup_blocked'));
+		},
+
+		close : function(w) {
+			w.close();
+			this.onClose.dispatch(this);
+		},
+
+		createInstance : function(cl, a, b, c, d, e) {
+			var f = tinymce.resolve(cl);
+
+			return new f(a, b, c, d, e);
+		},
+
+		confirm : function(t, cb, s, w) {
+			w = w || window;
+
+			cb.call(s || this, w.confirm(this._decode(this.editor.getLang(t, t))));
+		},
+
+		alert : function(tx, cb, s, w) {
+			var t = this;
+
+			w = w || window;
+			w.alert(t._decode(t.editor.getLang(tx, tx)));
+
+			if (cb)
+				cb.call(s || t);
+		},
+
+		resizeBy : function(dw, dh, win) {
+			win.resizeBy(dw, dh);
+		},
+
+		// Internal functions
+
+		_decode : function(s) {
+			return tinymce.DOM.decode(s).replace(/\\n/g, '\n');
+		}
+	});
+}(tinymce));
+(function(tinymce) {
+	tinymce.Formatter = function(ed) {
+		var formats = {},
+			each = tinymce.each,
+			dom = ed.dom,
+			selection = ed.selection,
+			TreeWalker = tinymce.dom.TreeWalker,
+			rangeUtils = new tinymce.dom.RangeUtils(dom),
+			isValid = ed.schema.isValidChild,
+			isArray = tinymce.isArray,
+			isBlock = dom.isBlock,
+			forcedRootBlock = ed.settings.forced_root_block,
+			nodeIndex = dom.nodeIndex,
+			INVISIBLE_CHAR = '\uFEFF',
+			MCE_ATTR_RE = /^(src|href|style)$/,
+			FALSE = false,
+			TRUE = true,
+			formatChangeData,
+			undef,
+			getContentEditable = dom.getContentEditable;
+
+		function isTextBlock(name) {
+			if (name.nodeType) {
+				name = name.nodeName;
+			}
+
+			return !!ed.schema.getTextBlockElements()[name.toLowerCase()];
+		}
+
+		function getParents(node, selector) {
+			return dom.getParents(node, selector, dom.getRoot());
+		};
+
+		function isCaretNode(node) {
+			return node.nodeType === 1 && node.id === '_mce_caret';
+		};
+
+		function defaultFormats() {
+			register({
+				alignleft : [
+					{selector : 'figure,p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles : {textAlign : 'left'}, defaultBlock: 'div'},
+					{selector : 'img,table', collapsed : false, styles : {'float' : 'left'}}
+				],
+
+				aligncenter : [
+					{selector : 'figure,p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles : {textAlign : 'center'}, defaultBlock: 'div'},
+					{selector : 'img', collapsed : false, styles : {display : 'block', marginLeft : 'auto', marginRight : 'auto'}},
+					{selector : 'table', collapsed : false, styles : {marginLeft : 'auto', marginRight : 'auto'}}
+				],
+
+				alignright : [
+					{selector : 'figure,p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles : {textAlign : 'right'}, defaultBlock: 'div'},
+					{selector : 'img,table', collapsed : false, styles : {'float' : 'right'}}
+				],
+
+				alignfull : [
+					{selector : 'figure,p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles : {textAlign : 'justify'}, defaultBlock: 'div'}
+				],
+
+				bold : [
+					{inline : 'strong', remove : 'all'},
+					{inline : 'span', styles : {fontWeight : 'bold'}},
+					{inline : 'b', remove : 'all'}
+				],
+
+				italic : [
+					{inline : 'em', remove : 'all'},
+					{inline : 'span', styles : {fontStyle : 'italic'}},
+					{inline : 'i', remove : 'all'}
+				],
+
+				underline : [
+					{inline : 'span', styles : {textDecoration : 'underline'}, exact : true},
+					{inline : 'u', remove : 'all'}
+				],
+
+				strikethrough : [
+					{inline : 'span', styles : {textDecoration : 'line-through'}, exact : true},
+					{inline : 'strike', remove : 'all'}
+				],
+
+				forecolor : {inline : 'span', styles : {color : '%value'}, wrap_links : false},
+				hilitecolor : {inline : 'span', styles : {backgroundColor : '%value'}, wrap_links : false},
+				fontname : {inline : 'span', styles : {fontFamily : '%value'}},
+				fontsize : {inline : 'span', styles : {fontSize : '%value'}},
+				fontsize_class : {inline : 'span', attributes : {'class' : '%value'}},
+				blockquote : {block : 'blockquote', wrapper : 1, remove : 'all'},
+				subscript : {inline : 'sub'},
+				superscript : {inline : 'sup'},
+
+				link : {inline : 'a', selector : 'a', remove : 'all', split : true, deep : true,
+					onmatch : function(node) {
+						return true;
+					},
+
+					onformat : function(elm, fmt, vars) {
+						each(vars, function(value, key) {
+							dom.setAttrib(elm, key, value);
+						});
+					}
+				},
+
+				removeformat : [
+					{selector : 'b,strong,em,i,font,u,strike', remove : 'all', split : true, expand : false, block_expand : true, deep : true},
+					{selector : 'span', attributes : ['style', 'class'], remove : 'empty', split : true, expand : false, deep : true},
+					{selector : '*', attributes : ['style', 'class'], split : false, expand : false, deep : true}
+				]
+			});
+
+			// Register default block formats
+			each('p h1 h2 h3 h4 h5 h6 div address pre div code dt dd samp'.split(/\s/), function(name) {
+				register(name, {block : name, remove : 'all'});
+			});
+
+			// Register user defined formats
+			register(ed.settings.formats);
+		};
+
+		function addKeyboardShortcuts() {
+			// Add some inline shortcuts
+			ed.addShortcut('ctrl+b', 'bold_desc', 'Bold');
+			ed.addShortcut('ctrl+i', 'italic_desc', 'Italic');
+			ed.addShortcut('ctrl+u', 'underline_desc', 'Underline');
+
+			// BlockFormat shortcuts keys
+			for (var i = 1; i <= 6; i++) {
+				ed.addShortcut('ctrl+' + i, '', ['FormatBlock', false, 'h' + i]);
+			}
+
+			ed.addShortcut('ctrl+7', '', ['FormatBlock', false, 'p']);
+			ed.addShortcut('ctrl+8', '', ['FormatBlock', false, 'div']);
+			ed.addShortcut('ctrl+9', '', ['FormatBlock', false, 'address']);
+		};
+
+		// Public functions
+
+		function get(name) {
+			return name ? formats[name] : formats;
+		};
+
+		function register(name, format) {
+			if (name) {
+				if (typeof(name) !== 'string') {
+					each(name, function(format, name) {
+						register(name, format);
+					});
+				} else {
+					// Force format into array and add it to internal collection
+					format = format.length ? format : [format];
+
+					each(format, function(format) {
+						// Set deep to false by default on selector formats this to avoid removing
+						// alignment on images inside paragraphs when alignment is changed on paragraphs
+						if (format.deep === undef)
+							format.deep = !format.selector;
+
+						// Default to true
+						if (format.split === undef)
+							format.split = !format.selector || format.inline;
+
+						// Default to true
+						if (format.remove === undef && format.selector && !format.inline)
+							format.remove = 'none';
+
+						// Mark format as a mixed format inline + block level
+						if (format.selector && format.inline) {
+							format.mixed = true;
+							format.block_expand = true;
+						}
+
+						// Split classes if needed
+						if (typeof(format.classes) === 'string')
+							format.classes = format.classes.split(/\s+/);
+					});
+
+					formats[name] = format;
+				}
+			}
+		};
+
+		var getTextDecoration = function(node) {
+			var decoration;
+
+			ed.dom.getParent(node, function(n) {
+				decoration = ed.dom.getStyle(n, 'text-decoration');
+				return decoration && decoration !== 'none';
+			});
+
+			return decoration;
+		};
+
+		var processUnderlineAndColor = function(node) {
+			var textDecoration;
+			if (node.nodeType === 1 && node.parentNode && node.parentNode.nodeType === 1) {
+				textDecoration = getTextDecoration(node.parentNode);
+				if (ed.dom.getStyle(node, 'color') && textDecoration) {
+					ed.dom.setStyle(node, 'text-decoration', textDecoration);
+				} else if (ed.dom.getStyle(node, 'textdecoration') === textDecoration) {
+					ed.dom.setStyle(node, 'text-decoration', null);
+				}
+			}
+		};
+
+		function apply(name, vars, node) {
+			var formatList = get(name), format = formatList[0], bookmark, rng, i, isCollapsed = selection.isCollapsed();
+
+			function setElementFormat(elm, fmt) {
+				fmt = fmt || format;
+
+				if (elm) {
+					if (fmt.onformat) {
+						fmt.onformat(elm, fmt, vars, node);
+					}
+
+					each(fmt.styles, function(value, name) {
+						dom.setStyle(elm, name, replaceVars(value, vars));
+					});
+
+					each(fmt.attributes, function(value, name) {
+						dom.setAttrib(elm, name, replaceVars(value, vars));
+					});
+
+					each(fmt.classes, function(value) {
+						value = replaceVars(value, vars);
+
+						if (!dom.hasClass(elm, value))
+							dom.addClass(elm, value);
+					});
+				}
+			};
+			function adjustSelectionToVisibleSelection() {
+				function findSelectionEnd(start, end) {
+					var walker = new TreeWalker(end);
+					for (node = walker.current(); node; node = walker.prev()) {
+						if (node.childNodes.length > 1 || node == start || node.tagName == 'BR') {
+							return node;
+						}
+					}
+				};
+
+				// Adjust selection so that a end container with a end offset of zero is not included in the selection
+				// as this isn't visible to the user.
+				var rng = ed.selection.getRng();
+				var start = rng.startContainer;
+				var end = rng.endContainer;
+
+				if (start != end && rng.endOffset === 0) {
+					var newEnd = findSelectionEnd(start, end);
+					var endOffset = newEnd.nodeType == 3 ? newEnd.length : newEnd.childNodes.length;
+
+					rng.setEnd(newEnd, endOffset);
+				}
+
+				return rng;
+			}
+			
+			function applyStyleToList(node, bookmark, wrapElm, newWrappers, process){
+				var nodes = [], listIndex = -1, list, startIndex = -1, endIndex = -1, currentWrapElm;
+				
+				// find the index of the first child list.
+				each(node.childNodes, function(n, index) {
+					if (n.nodeName === "UL" || n.nodeName === "OL") {
+						listIndex = index;
+						list = n;
+						return false;
+					}
+				});
+				
+				// get the index of the bookmarks
+				each(node.childNodes, function(n, index) {
+					if (n.nodeName === "SPAN" && dom.getAttrib(n, "data-mce-type") == "bookmark") {
+						if (n.id == bookmark.id + "_start") {
+							startIndex = index;
+						} else if (n.id == bookmark.id + "_end") {
+							endIndex = index;
+						}
+					}
+				});
+				
+				// if the selection spans across an embedded list, or there isn't an embedded list - handle processing normally
+				if (listIndex <= 0 || (startIndex < listIndex && endIndex > listIndex)) {
+					each(tinymce.grep(node.childNodes), process);
+					return 0;
+				} else {
+					currentWrapElm = dom.clone(wrapElm, FALSE);
+
+					// create a list of the nodes on the same side of the list as the selection
+					each(tinymce.grep(node.childNodes), function(n, index) {
+						if ((startIndex < listIndex && index < listIndex) || (startIndex > listIndex && index > listIndex)) {
+							nodes.push(n); 
+							n.parentNode.removeChild(n);
+						}
+					});
+
+					// insert the wrapping element either before or after the list.
+					if (startIndex < listIndex) {
+						node.insertBefore(currentWrapElm, list);
+					} else if (startIndex > listIndex) {
+						node.insertBefore(currentWrapElm, list.nextSibling);
+					}
+					
+					// add the new nodes to the list.
+					newWrappers.push(currentWrapElm);
+
+					each(nodes, function(node) {
+						currentWrapElm.appendChild(node);
+					});
+
+					return currentWrapElm;
+				}
+			};
+
+			function applyRngStyle(rng, bookmark, node_specific) {
+				var newWrappers = [], wrapName, wrapElm, contentEditable = true;
+
+				// Setup wrapper element
+				wrapName = format.inline || format.block;
+				wrapElm = dom.create(wrapName);
+				setElementFormat(wrapElm);
+
+				rangeUtils.walk(rng, function(nodes) {
+					var currentWrapElm;
+
+					function process(node) {
+						var nodeName, parentName, found, hasContentEditableState, lastContentEditable;
+
+						lastContentEditable = contentEditable;
+						nodeName = node.nodeName.toLowerCase();
+						parentName = node.parentNode.nodeName.toLowerCase();
+
+						// Node has a contentEditable value
+						if (node.nodeType === 1 && getContentEditable(node)) {
+							lastContentEditable = contentEditable;
+							contentEditable = getContentEditable(node) === "true";
+							hasContentEditableState = true; // We don't want to wrap the container only it's children
+						}
+
+						// Stop wrapping on br elements
+						if (isEq(nodeName, 'br')) {
+							currentWrapElm = 0;
+
+							// Remove any br elements when we wrap things
+							if (format.block)
+								dom.remove(node);
+
+							return;
+						}
+
+						// If node is wrapper type
+						if (format.wrapper && matchNode(node, name, vars)) {
+							currentWrapElm = 0;
+							return;
+						}
+
+						// Can we rename the block
+						if (contentEditable && !hasContentEditableState && format.block && !format.wrapper && isTextBlock(nodeName)) {
+							node = dom.rename(node, wrapName);
+							setElementFormat(node);
+							newWrappers.push(node);
+							currentWrapElm = 0;
+							return;
+						}
+
+						// Handle selector patterns
+						if (format.selector) {
+							// Look for matching formats
+							each(formatList, function(format) {
+								// Check collapsed state if it exists
+								if ('collapsed' in format && format.collapsed !== isCollapsed) {
+									return;
+								}
+
+								if (dom.is(node, format.selector) && !isCaretNode(node)) {
+									setElementFormat(node, format);
+									found = true;
+								}
+							});
+
+							// Continue processing if a selector match wasn't found and a inline element is defined
+							if (!format.inline || found) {
+								currentWrapElm = 0;
+								return;
+							}
+						}
+
+						// Is it valid to wrap this item
+						if (contentEditable && !hasContentEditableState && isValid(wrapName, nodeName) && isValid(parentName, wrapName) &&
+								!(!node_specific && node.nodeType === 3 && node.nodeValue.length === 1 && node.nodeValue.charCodeAt(0) === 65279) && !isCaretNode(node) && (!format.inline || !isBlock(node))) {
+							// Start wrapping
+							if (!currentWrapElm) {
+								// Wrap the node
+								currentWrapElm = dom.clone(wrapElm, FALSE);
+								node.parentNode.insertBefore(currentWrapElm, node);
+								newWrappers.push(currentWrapElm);
+							}
+
+							currentWrapElm.appendChild(node);
+						} else if (nodeName == 'li' && bookmark) {
+							// Start wrapping - if we are in a list node and have a bookmark, then we will always begin by wrapping in a new element.
+							currentWrapElm = applyStyleToList(node, bookmark, wrapElm, newWrappers, process);
+						} else {
+							// Start a new wrapper for possible children
+							currentWrapElm = 0;
+							
+							each(tinymce.grep(node.childNodes), process);
+
+							if (hasContentEditableState) {
+								contentEditable = lastContentEditable; // Restore last contentEditable state from stack
+							}
+
+							// End the last wrapper
+							currentWrapElm = 0;
+						}
+					};
+
+					// Process siblings from range
+					each(nodes, process);
+				});
+
+				// Wrap links inside as well, for example color inside a link when the wrapper is around the link
+				if (format.wrap_links === false) {
+					each(newWrappers, function(node) {
+						function process(node) {
+							var i, currentWrapElm, children;
+
+							if (node.nodeName === 'A') {
+								currentWrapElm = dom.clone(wrapElm, FALSE);
+								newWrappers.push(currentWrapElm);
+
+								children = tinymce.grep(node.childNodes);
+								for (i = 0; i < children.length; i++)
+									currentWrapElm.appendChild(children[i]);
+
+								node.appendChild(currentWrapElm);
+							}
+
+							each(tinymce.grep(node.childNodes), process);
+						};
+
+						process(node);
+					});
+				}
+
+				// Cleanup
+				
+				each(newWrappers, function(node) {
+					var childCount;
+
+					function getChildCount(node) {
+						var count = 0;
+
+						each(node.childNodes, function(node) {
+							if (!isWhiteSpaceNode(node) && !isBookmarkNode(node))
+								count++;
+						});
+
+						return count;
+					};
+
+					function mergeStyles(node) {
+						var child, clone;
+
+						each(node.childNodes, function(node) {
+							if (node.nodeType == 1 && !isBookmarkNode(node) && !isCaretNode(node)) {
+								child = node;
+								return FALSE; // break loop
+							}
+						});
+
+						// If child was found and of the same type as the current node
+						if (child && matchName(child, format)) {
+							clone = dom.clone(child, FALSE);
+							setElementFormat(clone);
+
+							dom.replace(clone, node, TRUE);
+							dom.remove(child, 1);
+						}
+
+						return clone || node;
+					};
+
+					childCount = getChildCount(node);
+
+					// Remove empty nodes but only if there is multiple wrappers and they are not block
+					// elements so never remove single <h1></h1> since that would remove the currrent empty block element where the caret is at
+					if ((newWrappers.length > 1 || !isBlock(node)) && childCount === 0) {
+						dom.remove(node, 1);
+						return;
+					}
+
+					if (format.inline || format.wrapper) {
+						// Merges the current node with it's children of similar type to reduce the number of elements
+						if (!format.exact && childCount === 1)
+							node = mergeStyles(node);
+
+						// Remove/merge children
+						each(formatList, function(format) {
+							// Merge all children of similar type will move styles from child to parent
+							// this: <span style="color:red"><b><span style="color:red; font-size:10px">text</span></b></span>
+							// will become: <span style="color:red"><b><span style="font-size:10px">text</span></b></span>
+							each(dom.select(format.inline, node), function(child) {
+								var parent;
+
+								// When wrap_links is set to false we don't want
+								// to remove the format on children within links
+								if (format.wrap_links === false) {
+									parent = child.parentNode;
+
+									do {
+										if (parent.nodeName === 'A')
+											return;
+									} while (parent = parent.parentNode);
+								}
+
+								removeFormat(format, vars, child, format.exact ? child : null);
+							});
+						});
+
+						// Remove child if direct parent is of same type
+						if (matchNode(node.parentNode, name, vars)) {
+							dom.remove(node, 1);
+							node = 0;
+							return TRUE;
+						}
+
+						// Look for parent with similar style format
+						if (format.merge_with_parents) {
+							dom.getParent(node.parentNode, function(parent) {
+								if (matchNode(parent, name, vars)) {
+									dom.remove(node, 1);
+									node = 0;
+									return TRUE;
+								}
+							});
+						}
+
+						// Merge next and previous siblings if they are similar <b>text</b><b>text</b> becomes <b>texttext</b>
+						if (node && format.merge_siblings !== false) {
+							node = mergeSiblings(getNonWhiteSpaceSibling(node), node);
+							node = mergeSiblings(node, getNonWhiteSpaceSibling(node, TRUE));
+						}
+					}
+				});
+			};
+
+			if (format) {
+				if (node) {
+					if (node.nodeType) {
+						rng = dom.createRng();
+						rng.setStartBefore(node);
+						rng.setEndAfter(node);
+						applyRngStyle(expandRng(rng, formatList), null, true);
+					} else {
+						applyRngStyle(node, null, true);
+					}
+				} else {
+					if (!isCollapsed || !format.inline || dom.select('td.mceSelected,th.mceSelected').length) {
+						// Obtain selection node before selection is unselected by applyRngStyle()
+						var curSelNode = ed.selection.getNode();
+
+						// If the formats have a default block and we can't find a parent block then start wrapping it with a DIV this is for forced_root_blocks: false
+						// It's kind of a hack but people should be using the default block type P since all desktop editors work that way
+						if (!forcedRootBlock && formatList[0].defaultBlock && !dom.getParent(curSelNode, dom.isBlock)) {
+							apply(formatList[0].defaultBlock);
+						}
+
+						// Apply formatting to selection
+						ed.selection.setRng(adjustSelectionToVisibleSelection());
+						bookmark = selection.getBookmark();
+						applyRngStyle(expandRng(selection.getRng(TRUE), formatList), bookmark);
+
+						// Colored nodes should be underlined so that the color of the underline matches the text color.
+						if (format.styles && (format.styles.color || format.styles.textDecoration)) {
+							tinymce.walk(curSelNode, processUnderlineAndColor, 'childNodes');
+							processUnderlineAndColor(curSelNode);
+						}
+
+						selection.moveToBookmark(bookmark);
+						moveStart(selection.getRng(TRUE));
+						ed.nodeChanged();
+					} else
+						performCaretAction('apply', name, vars);
+				}
+			}
+		};
+
+		function remove(name, vars, node) {
+			var formatList = get(name), format = formatList[0], bookmark, i, rng, contentEditable = true;
+
+			// Merges the styles for each node
+			function process(node) {
+				var children, i, l, localContentEditable, lastContentEditable, hasContentEditableState;
+
+				// Skip on text nodes as they have neither format to remove nor children
+				if (node.nodeType === 3) {
+					return;
+				}
+
+				// Node has a contentEditable value
+				if (node.nodeType === 1 && getContentEditable(node)) {
+					lastContentEditable = contentEditable;
+					contentEditable = getContentEditable(node) === "true";
+					hasContentEditableState = true; // We don't want to wrap the container only it's children
+				}
+
+				// Grab the children first since the nodelist might be changed
+				children = tinymce.grep(node.childNodes);
+
+				// Process current node
+				if (contentEditable && !hasContentEditableState) {
+					for (i = 0, l = formatList.length; i < l; i++) {
+						if (removeFormat(formatList[i], vars, node, node))
+							break;
+					}
+				}
+
+				// Process the children
+				if (format.deep) {
+					if (children.length) {					
+						for (i = 0, l = children.length; i < l; i++)
+							process(children[i]);
+
+						if (hasContentEditableState) {
+							contentEditable = lastContentEditable; // Restore last contentEditable state from stack
+						}
+					}
+				}
+			};
+
+			function findFormatRoot(container) {
+				var formatRoot;
+
+				// Find format root
+				each(getParents(container.parentNode).reverse(), function(parent) {
+					var format;
+
+					// Find format root element
+					if (!formatRoot && parent.id != '_start' && parent.id != '_end') {
+						// Is the node matching the format we are looking for
+						format = matchNode(parent, name, vars);
+						if (format && format.split !== false)
+							formatRoot = parent;
+					}
+				});
+
+				return formatRoot;
+			};
+
+			function wrapAndSplit(format_root, container, target, split) {
+				var parent, clone, lastClone, firstClone, i, formatRootParent;
+
+				// Format root found then clone formats and split it
+				if (format_root) {
+					formatRootParent = format_root.parentNode;
+
+					for (parent = container.parentNode; parent && parent != formatRootParent; parent = parent.parentNode) {
+						clone = dom.clone(parent, FALSE);
+
+						for (i = 0; i < formatList.length; i++) {
+							if (removeFormat(formatList[i], vars, clone, clone)) {
+								clone = 0;
+								break;
+							}
+						}
+
+						// Build wrapper node
+						if (clone) {
+							if (lastClone)
+								clone.appendChild(lastClone);
+
+							if (!firstClone)
+								firstClone = clone;
+
+							lastClone = clone;
+						}
+					}
+
+					// Never split block elements if the format is mixed
+					if (split && (!format.mixed || !isBlock(format_root)))
+						container = dom.split(format_root, container);
+
+					// Wrap container in cloned formats
+					if (lastClone) {
+						target.parentNode.insertBefore(lastClone, target);
+						firstClone.appendChild(target);
+					}
+				}
+
+				return container;
+			};
+
+			function splitToFormatRoot(container) {
+				return wrapAndSplit(findFormatRoot(container), container, container, true);
+			};
+
+			function unwrap(start) {
+				var node = dom.get(start ? '_start' : '_end'),
+					out = node[start ? 'firstChild' : 'lastChild'];
+
+				// If the end is placed within the start the result will be removed
+				// So this checks if the out node is a bookmark node if it is it
+				// checks for another more suitable node
+				if (isBookmarkNode(out))
+					out = out[start ? 'firstChild' : 'lastChild'];
+
+				dom.remove(node, true);
+
+				return out;
+			};
+
+			function removeRngStyle(rng) {
+				var startContainer, endContainer, node;
+
+				rng = expandRng(rng, formatList, TRUE);
+
+				if (format.split) {
+					startContainer = getContainer(rng, TRUE);
+					endContainer = getContainer(rng);
+
+					if (startContainer != endContainer) {
+						// WebKit will render the table incorrectly if we wrap a TD in a SPAN so lets see if the can use the first child instead
+						// This will happen if you tripple click a table cell and use remove formatting
+						if (/^(TR|TD)$/.test(startContainer.nodeName) && startContainer.firstChild) {
+							startContainer = (startContainer.nodeName == "TD" ? startContainer.firstChild : startContainer.firstChild.firstChild) || startContainer;
+						}
+
+						// Wrap start/end nodes in span element since these might be cloned/moved
+						startContainer = wrap(startContainer, 'span', {id : '_start', 'data-mce-type' : 'bookmark'});
+						endContainer = wrap(endContainer, 'span', {id : '_end', 'data-mce-type' : 'bookmark'});
+
+						// Split start/end
+						splitToFormatRoot(startContainer);
+						splitToFormatRoot(endContainer);
+
+						// Unwrap start/end to get real elements again
+						startContainer = unwrap(TRUE);
+						endContainer = unwrap();
+					} else
+						startContainer = endContainer = splitToFormatRoot(startContainer);
+
+					// Update range positions since they might have changed after the split operations
+					rng.startContainer = startContainer.parentNode;
+					rng.startOffset = nodeIndex(startContainer);
+					rng.endContainer = endContainer.parentNode;
+					rng.endOffset = nodeIndex(endContainer) + 1;
+				}
+
+				// Remove items between start/end
+				rangeUtils.walk(rng, function(nodes) {
+					each(nodes, function(node) {
+						process(node);
+
+						// Remove parent span if it only contains text-decoration: underline, yet a parent node is also underlined.
+						if (node.nodeType === 1 && ed.dom.getStyle(node, 'text-decoration') === 'underline' && node.parentNode && getTextDecoration(node.parentNode) === 'underline') {
+							removeFormat({'deep': false, 'exact': true, 'inline': 'span', 'styles': {'textDecoration' : 'underline'}}, null, node);
+						}
+					});
+				});
+			};
+
+			// Handle node
+			if (node) {
+				if (node.nodeType) {
+					rng = dom.createRng();
+					rng.setStartBefore(node);
+					rng.setEndAfter(node);
+					removeRngStyle(rng);
+				} else {
+					removeRngStyle(node);
+				}
+
+				return;
+			}
+
+			if (!selection.isCollapsed() || !format.inline || dom.select('td.mceSelected,th.mceSelected').length) {
+				bookmark = selection.getBookmark();
+				removeRngStyle(selection.getRng(TRUE));
+				selection.moveToBookmark(bookmark);
+
+				// Check if start element still has formatting then we are at: "<b>text|</b>text" and need to move the start into the next text node
+				if (format.inline && match(name, vars, selection.getStart())) {
+					moveStart(selection.getRng(true));
+				}
+
+				ed.nodeChanged();
+			} else
+				performCaretAction('remove', name, vars);
+		};
+
+		function toggle(name, vars, node) {
+			var fmt = get(name);
+
+			if (match(name, vars, node) && (!('toggle' in fmt[0]) || fmt[0].toggle))
+				remove(name, vars, node);
+			else
+				apply(name, vars, node);
+		};
+
+		function matchNode(node, name, vars, similar) {
+			var formatList = get(name), format, i, classes;
+
+			function matchItems(node, format, item_name) {
+				var key, value, items = format[item_name], i;
+
+				// Custom match
+				if (format.onmatch) {
+					return format.onmatch(node, format, item_name);
+				}
+
+				// Check all items
+				if (items) {
+					// Non indexed object
+					if (items.length === undef) {
+						for (key in items) {
+							if (items.hasOwnProperty(key)) {
+								if (item_name === 'attributes')
+									value = dom.getAttrib(node, key);
+								else
+									value = getStyle(node, key);
+
+								if (similar && !value && !format.exact)
+									return;
+
+								if ((!similar || format.exact) && !isEq(value, replaceVars(items[key], vars)))
+									return;
+							}
+						}
+					} else {
+						// Only one match needed for indexed arrays
+						for (i = 0; i < items.length; i++) {
+							if (item_name === 'attributes' ? dom.getAttrib(node, items[i]) : getStyle(node, items[i]))
+								return format;
+						}
+					}
+				}
+
+				return format;
+			};
+
+			if (formatList && node) {
+				// Check each format in list
+				for (i = 0; i < formatList.length; i++) {
+					format = formatList[i];
+
+					// Name name, attributes, styles and classes
+					if (matchName(node, format) && matchItems(node, format, 'attributes') && matchItems(node, format, 'styles')) {
+						// Match classes
+						if (classes = format.classes) {
+							for (i = 0; i < classes.length; i++) {
+								if (!dom.hasClass(node, classes[i]))
+									return;
+							}
+						}
+
+						return format;
+					}
+				}
+			}
+		};
+
+		function match(name, vars, node) {
+			var startNode;
+
+			function matchParents(node) {
+				// Find first node with similar format settings
+				node = dom.getParent(node, function(node) {
+					return !!matchNode(node, name, vars, true);
+				});
+
+				// Do an exact check on the similar format element
+				return matchNode(node, name, vars);
+			};
+
+			// Check specified node
+			if (node)
+				return matchParents(node);
+
+			// Check selected node
+			node = selection.getNode();
+			if (matchParents(node))
+				return TRUE;
+
+			// Check start node if it's different
+			startNode = selection.getStart();
+			if (startNode != node) {
+				if (matchParents(startNode))
+					return TRUE;
+			}
+
+			return FALSE;
+		};
+
+		function matchAll(names, vars) {
+			var startElement, matchedFormatNames = [], checkedMap = {}, i, ni, name;
+
+			// Check start of selection for formats
+			startElement = selection.getStart();
+			dom.getParent(startElement, function(node) {
+				var i, name;
+
+				for (i = 0; i < names.length; i++) {
+					name = names[i];
+
+					if (!checkedMap[name] && matchNode(node, name, vars)) {
+						checkedMap[name] = true;
+						matchedFormatNames.push(name);
+					}
+				}
+			}, dom.getRoot());
+
+			return matchedFormatNames;
+		};
+
+		function canApply(name) {
+			var formatList = get(name), startNode, parents, i, x, selector;
+
+			if (formatList) {
+				startNode = selection.getStart();
+				parents = getParents(startNode);
+
+				for (x = formatList.length - 1; x >= 0; x--) {
+					selector = formatList[x].selector;
+
+					// Format is not selector based, then always return TRUE
+					if (!selector)
+						return TRUE;
+
+					for (i = parents.length - 1; i >= 0; i--) {
+						if (dom.is(parents[i], selector))
+							return TRUE;
+					}
+				}
+			}
+
+			return FALSE;
+		};
+
+		function formatChanged(formats, callback, similar) {
+			var currentFormats;
+
+			// Setup format node change logic
+			if (!formatChangeData) {
+				formatChangeData = {};
+				currentFormats = {};
+
+				ed.onNodeChange.addToTop(function(ed, cm, node) {
+					var parents = getParents(node), matchedFormats = {};
+
+					// Check for new formats
+					each(formatChangeData, function(callbacks, format) {
+						each(parents, function(node) {
+							if (matchNode(node, format, {}, callbacks.similar)) {
+								if (!currentFormats[format]) {
+									// Execute callbacks
+									each(callbacks, function(callback) {
+										callback(true, {node: node, format: format, parents: parents});
+									});
+
+									currentFormats[format] = callbacks;
+								}
+
+								matchedFormats[format] = callbacks;
+								return false;
+							}
+						});
+					});
+
+					// Check if current formats still match
+					each(currentFormats, function(callbacks, format) {
+						if (!matchedFormats[format]) {
+							delete currentFormats[format];
+
+							each(callbacks, function(callback) {
+								callback(false, {node: node, format: format, parents: parents});
+							});
+						}
+					});
+				});
+			}
+
+			// Add format listeners
+			each(formats.split(','), function(format) {
+				if (!formatChangeData[format]) {
+					formatChangeData[format] = [];
+					formatChangeData[format].similar = similar;
+				}
+
+				formatChangeData[format].push(callback);
+			});
+
+			return this;
+		};
+
+		// Expose to public
+		tinymce.extend(this, {
+			get : get,
+			register : register,
+			apply : apply,
+			remove : remove,
+			toggle : toggle,
+			match : match,
+			matchAll : matchAll,
+			matchNode : matchNode,
+			canApply : canApply,
+			formatChanged: formatChanged
+		});
+
+		// Initialize
+		defaultFormats();
+		addKeyboardShortcuts();
+
+		// Private functions
+
+		function matchName(node, format) {
+			// Check for inline match
+			if (isEq(node, format.inline))
+				return TRUE;
+
+			// Check for block match
+			if (isEq(node, format.block))
+				return TRUE;
+
+			// Check for selector match
+			if (format.selector)
+				return dom.is(node, format.selector);
+		};
+
+		function isEq(str1, str2) {
+			str1 = str1 || '';
+			str2 = str2 || '';
+
+			str1 = '' + (str1.nodeName || str1);
+			str2 = '' + (str2.nodeName || str2);
+
+			return str1.toLowerCase() == str2.toLowerCase();
+		};
+
+		function getStyle(node, name) {
+			var styleVal = dom.getStyle(node, name);
+
+			// Force the format to hex
+			if (name == 'color' || name == 'backgroundColor')
+				styleVal = dom.toHex(styleVal);
+
+			// Opera will return bold as 700
+			if (name == 'fontWeight' && styleVal == 700)
+				styleVal = 'bold';
+
+			return '' + styleVal;
+		};
+
+		function replaceVars(value, vars) {
+			if (typeof(value) != "string")
+				value = value(vars);
+			else if (vars) {
+				value = value.replace(/%(\w+)/g, function(str, name) {
+					return vars[name] || str;
+				});
+			}
+
+			return value;
+		};
+
+		function isWhiteSpaceNode(node) {
+			return node && node.nodeType === 3 && /^([\t \r\n]+|)$/.test(node.nodeValue);
+		};
+
+		function wrap(node, name, attrs) {
+			var wrapper = dom.create(name, attrs);
+
+			node.parentNode.insertBefore(wrapper, node);
+			wrapper.appendChild(node);
+
+			return wrapper;
+		};
+
+		function expandRng(rng, format, remove) {
+			var sibling, lastIdx, leaf, endPoint,
+				startContainer = rng.startContainer,
+				startOffset = rng.startOffset,
+				endContainer = rng.endContainer,
+				endOffset = rng.endOffset;
+
+			// This function walks up the tree if there is no siblings before/after the node
+			function findParentContainer(start) {
+				var container, parent, child, sibling, siblingName, root;
+
+				container = parent = start ? startContainer : endContainer;
+				siblingName = start ? 'previousSibling' : 'nextSibling';
+				root = dom.getRoot();
+
+				function isBogusBr(node) {
+					return node.nodeName == "BR" && node.getAttribute('data-mce-bogus') && !node.nextSibling;
+				};
+
+				// If it's a text node and the offset is inside the text
+				if (container.nodeType == 3 && !isWhiteSpaceNode(container)) {
+					if (start ? startOffset > 0 : endOffset < container.nodeValue.length) {
+						return container;
+					}
+				}
+
+				for (;;) {
+					// Stop expanding on block elements
+					if (!format[0].block_expand && isBlock(parent))
+						return parent;
+
+					// Walk left/right
+					for (sibling = parent[siblingName]; sibling; sibling = sibling[siblingName]) {
+						if (!isBookmarkNode(sibling) && !isWhiteSpaceNode(sibling) && !isBogusBr(sibling)) {
+							return parent;
+						}
+					}
+
+					// Check if we can move up are we at root level or body level
+					if (parent.parentNode == root) {
+						container = parent;
+						break;
+					}
+
+					parent = parent.parentNode;
+				}
+
+				return container;
+			};
+
+			// This function walks down the tree to find the leaf at the selection.
+			// The offset is also returned as if node initially a leaf, the offset may be in the middle of the text node.
+			function findLeaf(node, offset) {
+				if (offset === undef)
+					offset = node.nodeType === 3 ? node.length : node.childNodes.length;
+				while (node && node.hasChildNodes()) {
+					node = node.childNodes[offset];
+					if (node)
+						offset = node.nodeType === 3 ? node.length : node.childNodes.length;
+				}
+				return { node: node, offset: offset };
+			}
+
+			// If index based start position then resolve it
+			if (startContainer.nodeType == 1 && startContainer.hasChildNodes()) {
+				lastIdx = startContainer.childNodes.length - 1;
+				startContainer = startContainer.childNodes[startOffset > lastIdx ? lastIdx : startOffset];
+
+				if (startContainer.nodeType == 3)
+					startOffset = 0;
+			}
+
+			// If index based end position then resolve it
+			if (endContainer.nodeType == 1 && endContainer.hasChildNodes()) {
+				lastIdx = endContainer.childNodes.length - 1;
+				endContainer = endContainer.childNodes[endOffset > lastIdx ? lastIdx : endOffset - 1];
+
+				if (endContainer.nodeType == 3)
+					endOffset = endContainer.nodeValue.length;
+			}
+
+			// Expands the node to the closes contentEditable false element if it exists
+			function findParentContentEditable(node) {
+				var parent = node;
+
+				while (parent) {
+					if (parent.nodeType === 1 && getContentEditable(parent)) {
+						return getContentEditable(parent) === "false" ? parent : node;
+					}
+
+					parent = parent.parentNode;
+				}
+
+				return node;
+			};
+
+			function findWordEndPoint(container, offset, start) {
+				var walker, node, pos, lastTextNode;
+
+				function findSpace(node, offset) {
+					var pos, pos2, str = node.nodeValue;
+
+					if (typeof(offset) == "undefined") {
+						offset = start ? str.length : 0;
+					}
+
+					if (start) {
+						pos = str.lastIndexOf(' ', offset);
+						pos2 = str.lastIndexOf('\u00a0', offset);
+						pos = pos > pos2 ? pos : pos2;
+
+						// Include the space on remove to avoid tag soup
+						if (pos !== -1 && !remove) {
+							pos++;
+						}
+					} else {
+						pos = str.indexOf(' ', offset);
+						pos2 = str.indexOf('\u00a0', offset);
+						pos = pos !== -1 && (pos2 === -1 || pos < pos2) ? pos : pos2;
+					}
+
+					return pos;
+				};
+
+				if (container.nodeType === 3) {
+					pos = findSpace(container, offset);
+
+					if (pos !== -1) {
+						return {container : container, offset : pos};
+					}
+
+					lastTextNode = container;
+				}
+
+				// Walk the nodes inside the block
+				walker = new TreeWalker(container, dom.getParent(container, isBlock) || ed.getBody());
+				while (node = walker[start ? 'prev' : 'next']()) {
+					if (node.nodeType === 3) {
+						lastTextNode = node;
+						pos = findSpace(node);
+
+						if (pos !== -1) {
+							return {container : node, offset : pos};
+						}
+					} else if (isBlock(node)) {
+						break;
+					}
+				}
+
+				if (lastTextNode) {
+					if (start) {
+						offset = 0;
+					} else {
+						offset = lastTextNode.length;
+					}
+
+					return {container: lastTextNode, offset: offset};
+				}
+			};
+
+			function findSelectorEndPoint(container, sibling_name) {
+				var parents, i, y, curFormat;
+
+				if (container.nodeType == 3 && container.nodeValue.length === 0 && container[sibling_name])
+					container = container[sibling_name];
+
+				parents = getParents(container);
+				for (i = 0; i < parents.length; i++) {
+					for (y = 0; y < format.length; y++) {
+						curFormat = format[y];
+
+						// If collapsed state is set then skip formats that doesn't match that
+						if ("collapsed" in curFormat && curFormat.collapsed !== rng.collapsed)
+							continue;
+
+						if (dom.is(parents[i], curFormat.selector))
+							return parents[i];
+					}
+				}
+
+				return container;
+			};
+
+			function findBlockEndPoint(container, sibling_name, sibling_name2) {
+				var node;
+
+				// Expand to block of similar type
+				if (!format[0].wrapper)
+					node = dom.getParent(container, format[0].block);
+
+				// Expand to first wrappable block element or any block element
+				if (!node)
+					node = dom.getParent(container.nodeType == 3 ? container.parentNode : container, isTextBlock);
+
+				// Exclude inner lists from wrapping
+				if (node && format[0].wrapper)
+					node = getParents(node, 'ul,ol').reverse()[0] || node;
+
+				// Didn't find a block element look for first/last wrappable element
+				if (!node) {
+					node = container;
+
+					while (node[sibling_name] && !isBlock(node[sibling_name])) {
+						node = node[sibling_name];
+
+						// Break on BR but include it will be removed later on
+						// we can't remove it now since we need to check if it can be wrapped
+						if (isEq(node, 'br'))
+							break;
+					}
+				}
+
+				return node || container;
+			};
+
+			// Expand to closest contentEditable element
+			startContainer = findParentContentEditable(startContainer);
+			endContainer = findParentContentEditable(endContainer);
+
+			// Exclude bookmark nodes if possible
+			if (isBookmarkNode(startContainer.parentNode) || isBookmarkNode(startContainer)) {
+				startContainer = isBookmarkNode(startContainer) ? startContainer : startContainer.parentNode;
+				startContainer = startContainer.nextSibling || startContainer;
+
+				if (startContainer.nodeType == 3)
+					startOffset = 0;
+			}
+
+			if (isBookmarkNode(endContainer.parentNode) || isBookmarkNode(endContainer)) {
+				endContainer = isBookmarkNode(endContainer) ? endContainer : endContainer.parentNode;
+				endContainer = endContainer.previousSibling || endContainer;
+
+				if (endContainer.nodeType == 3)
+					endOffset = endContainer.length;
+			}
+
+			if (format[0].inline) {
+				if (rng.collapsed) {
+					// Expand left to closest word boundery
+					endPoint = findWordEndPoint(startContainer, startOffset, true);
+					if (endPoint) {
+						startContainer = endPoint.container;
+						startOffset = endPoint.offset;
+					}
+
+					// Expand right to closest word boundery
+					endPoint = findWordEndPoint(endContainer, endOffset);
+					if (endPoint) {
+						endContainer = endPoint.container;
+						endOffset = endPoint.offset;
+					}
+				}
+
+				// Avoid applying formatting to a trailing space.
+				leaf = findLeaf(endContainer, endOffset);
+				if (leaf.node) {
+					while (leaf.node && leaf.offset === 0 && leaf.node.previousSibling)
+						leaf = findLeaf(leaf.node.previousSibling);
+
+					if (leaf.node && leaf.offset > 0 && leaf.node.nodeType === 3 &&
+							leaf.node.nodeValue.charAt(leaf.offset - 1) === ' ') {
+
+						if (leaf.offset > 1) {
+							endContainer = leaf.node;
+							endContainer.splitText(leaf.offset - 1);
+						}
+					}
+				}
+			}
+
+			// Move start/end point up the tree if the leaves are sharp and if we are in different containers
+			// Example * becomes !: !<p><b><i>*text</i><i>text*</i></b></p>!
+			// This will reduce the number of wrapper elements that needs to be created
+			// Move start point up the tree
+			if (format[0].inline || format[0].block_expand) {
+				if (!format[0].inline || (startContainer.nodeType != 3 || startOffset === 0)) {
+					startContainer = findParentContainer(true);
+				}
+
+				if (!format[0].inline || (endContainer.nodeType != 3 || endOffset === endContainer.nodeValue.length)) {
+					endContainer = findParentContainer();
+				}
+			}
+
+			// Expand start/end container to matching selector
+			if (format[0].selector && format[0].expand !== FALSE && !format[0].inline) {
+				// Find new startContainer/endContainer if there is better one
+				startContainer = findSelectorEndPoint(startContainer, 'previousSibling');
+				endContainer = findSelectorEndPoint(endContainer, 'nextSibling');
+			}
+
+			// Expand start/end container to matching block element or text node
+			if (format[0].block || format[0].selector) {
+				// Find new startContainer/endContainer if there is better one
+				startContainer = findBlockEndPoint(startContainer, 'previousSibling');
+				endContainer = findBlockEndPoint(endContainer, 'nextSibling');
+
+				// Non block element then try to expand up the leaf
+				if (format[0].block) {
+					if (!isBlock(startContainer))
+						startContainer = findParentContainer(true);
+
+					if (!isBlock(endContainer))
+						endContainer = findParentContainer();
+				}
+			}
+
+			// Setup index for startContainer
+			if (startContainer.nodeType == 1) {
+				startOffset = nodeIndex(startContainer);
+				startContainer = startContainer.parentNode;
+			}
+
+			// Setup index for endContainer
+			if (endContainer.nodeType == 1) {
+				endOffset = nodeIndex(endContainer) + 1;
+				endContainer = endContainer.parentNode;
+			}
+
+			// Return new range like object
+			return {
+				startContainer : startContainer,
+				startOffset : startOffset,
+				endContainer : endContainer,
+				endOffset : endOffset
+			};
+		}
+
+		function removeFormat(format, vars, node, compare_node) {
+			var i, attrs, stylesModified;
+
+			// Check if node matches format
+			if (!matchName(node, format))
+				return FALSE;
+
+			// Should we compare with format attribs and styles
+			if (format.remove != 'all') {
+				// Remove styles
+				each(format.styles, function(value, name) {
+					value = replaceVars(value, vars);
+
+					// Indexed array
+					if (typeof(name) === 'number') {
+						name = value;
+						compare_node = 0;
+					}
+
+					if (!compare_node || isEq(getStyle(compare_node, name), value))
+						dom.setStyle(node, name, '');
+
+					stylesModified = 1;
+				});
+
+				// Remove style attribute if it's empty
+				if (stylesModified && dom.getAttrib(node, 'style') == '') {
+					node.removeAttribute('style');
+					node.removeAttribute('data-mce-style');
+				}
+
+				// Remove attributes
+				each(format.attributes, function(value, name) {
+					var valueOut;
+
+					value = replaceVars(value, vars);
+
+					// Indexed array
+					if (typeof(name) === 'number') {
+						name = value;
+						compare_node = 0;
+					}
+
+					if (!compare_node || isEq(dom.getAttrib(compare_node, name), value)) {
+						// Keep internal classes
+						if (name == 'class') {
+							value = dom.getAttrib(node, name);
+							if (value) {
+								// Build new class value where everything is removed except the internal prefixed classes
+								valueOut = '';
+								each(value.split(/\s+/), function(cls) {
+									if (/mce\w+/.test(cls))
+										valueOut += (valueOut ? ' ' : '') + cls;
+								});
+
+								// We got some internal classes left
+								if (valueOut) {
+									dom.setAttrib(node, name, valueOut);
+									return;
+								}
+							}
+						}
+
+						// IE6 has a bug where the attribute doesn't get removed correctly
+						if (name == "class")
+							node.removeAttribute('className');
+
+						// Remove mce prefixed attributes
+						if (MCE_ATTR_RE.test(name))
+							node.removeAttribute('data-mce-' + name);
+
+						node.removeAttribute(name);
+					}
+				});
+
+				// Remove classes
+				each(format.classes, function(value) {
+					value = replaceVars(value, vars);
+
+					if (!compare_node || dom.hasClass(compare_node, value))
+						dom.removeClass(node, value);
+				});
+
+				// Check for non internal attributes
+				attrs = dom.getAttribs(node);
+				for (i = 0; i < attrs.length; i++) {
+					if (attrs[i].nodeName.indexOf('_') !== 0)
+						return FALSE;
+				}
+			}
+
+			// Remove the inline child if it's empty for example <b> or <span>
+			if (format.remove != 'none') {
+				removeNode(node, format);
+				return TRUE;
+			}
+		};
+
+		function removeNode(node, format) {
+			var parentNode = node.parentNode, rootBlockElm;
+
+			function find(node, next, inc) {
+				node = getNonWhiteSpaceSibling(node, next, inc);
+
+				return !node || (node.nodeName == 'BR' || isBlock(node));
+			};
+
+			if (format.block) {
+				if (!forcedRootBlock) {
+					// Append BR elements if needed before we remove the block
+					if (isBlock(node) && !isBlock(parentNode)) {
+						if (!find(node, FALSE) && !find(node.firstChild, TRUE, 1))
+							node.insertBefore(dom.create('br'), node.firstChild);
+
+						if (!find(node, TRUE) && !find(node.lastChild, FALSE, 1))
+							node.appendChild(dom.create('br'));
+					}
+				} else {
+					// Wrap the block in a forcedRootBlock if we are at the root of document
+					if (parentNode == dom.getRoot()) {
+						if (!format.list_block || !isEq(node, format.list_block)) {
+							each(tinymce.grep(node.childNodes), function(node) {
+								if (isValid(forcedRootBlock, node.nodeName.toLowerCase())) {
+									if (!rootBlockElm)
+										rootBlockElm = wrap(node, forcedRootBlock);
+									else
+										rootBlockElm.appendChild(node);
+								} else
+									rootBlockElm = 0;
+							});
+						}
+					}
+				}
+			}
+
+			// Never remove nodes that isn't the specified inline element if a selector is specified too
+			if (format.selector && format.inline && !isEq(format.inline, node))
+				return;
+
+			dom.remove(node, 1);
+		};
+
+		function getNonWhiteSpaceSibling(node, next, inc) {
+			if (node) {
+				next = next ? 'nextSibling' : 'previousSibling';
+
+				for (node = inc ? node : node[next]; node; node = node[next]) {
+					if (node.nodeType == 1 || !isWhiteSpaceNode(node))
+						return node;
+				}
+			}
+		};
+
+		function isBookmarkNode(node) {
+			return node && node.nodeType == 1 && node.getAttribute('data-mce-type') == 'bookmark';
+		};
+
+		function mergeSiblings(prev, next) {
+			var marker, sibling, tmpSibling;
+
+			function compareElements(node1, node2) {
+				// Not the same name
+				if (node1.nodeName != node2.nodeName)
+					return FALSE;
+
+				function getAttribs(node) {
+					var attribs = {};
+
+					each(dom.getAttribs(node), function(attr) {
+						var name = attr.nodeName.toLowerCase();
+
+						// Don't compare internal attributes or style
+						if (name.indexOf('_') !== 0 && name !== 'style')
+							attribs[name] = dom.getAttrib(node, name);
+					});
+
+					return attribs;
+				};
+
+				function compareObjects(obj1, obj2) {
+					var value, name;
+
+					for (name in obj1) {
+						// Obj1 has item obj2 doesn't have
+						if (obj1.hasOwnProperty(name)) {
+							value = obj2[name];
+
+							// Obj2 doesn't have obj1 item
+							if (value === undef)
+								return FALSE;
+
+							// Obj2 item has a different value
+							if (obj1[name] != value)
+								return FALSE;
+
+							// Delete similar value
+							delete obj2[name];
+						}
+					}
+
+					// Check if obj 2 has something obj 1 doesn't have
+					for (name in obj2) {
+						// Obj2 has item obj1 doesn't have
+						if (obj2.hasOwnProperty(name))
+							return FALSE;
+					}
+
+					return TRUE;
+				};
+
+				// Attribs are not the same
+				if (!compareObjects(getAttribs(node1), getAttribs(node2)))
+					return FALSE;
+
+				// Styles are not the same
+				if (!compareObjects(dom.parseStyle(dom.getAttrib(node1, 'style')), dom.parseStyle(dom.getAttrib(node2, 'style'))))
+					return FALSE;
+
+				return TRUE;
+			};
+
+			function findElementSibling(node, sibling_name) {
+				for (sibling = node; sibling; sibling = sibling[sibling_name]) {
+					if (sibling.nodeType == 3 && sibling.nodeValue.length !== 0)
+						return node;
+
+					if (sibling.nodeType == 1 && !isBookmarkNode(sibling))
+						return sibling;
+				}
+
+				return node;
+			};
+
+			// Check if next/prev exists and that they are elements
+			if (prev && next) {
+				// If previous sibling is empty then jump over it
+				prev = findElementSibling(prev, 'previousSibling');
+				next = findElementSibling(next, 'nextSibling');
+
+				// Compare next and previous nodes
+				if (compareElements(prev, next)) {
+					// Append nodes between
+					for (sibling = prev.nextSibling; sibling && sibling != next;) {
+						tmpSibling = sibling;
+						sibling = sibling.nextSibling;
+						prev.appendChild(tmpSibling);
+					}
+
+					// Remove next node
+					dom.remove(next);
+
+					// Move children into prev node
+					each(tinymce.grep(next.childNodes), function(node) {
+						prev.appendChild(node);
+					});
+
+					return prev;
+				}
+			}
+
+			return next;
+		};
+
+		function getContainer(rng, start) {
+			var container, offset, lastIdx, walker;
+
+			container = rng[start ? 'startContainer' : 'endContainer'];
+			offset = rng[start ? 'startOffset' : 'endOffset'];
+
+			if (container.nodeType == 1) {
+				lastIdx = container.childNodes.length - 1;
+
+				if (!start && offset)
+					offset--;
+
+				container = container.childNodes[offset > lastIdx ? lastIdx : offset];
+			}
+
+			// If start text node is excluded then walk to the next node
+			if (container.nodeType === 3 && start && offset >= container.nodeValue.length) {
+				container = new TreeWalker(container, ed.getBody()).next() || container;
+			}
+
+			// If end text node is excluded then walk to the previous node
+			if (container.nodeType === 3 && !start && offset === 0) {
+				container = new TreeWalker(container, ed.getBody()).prev() || container;
+			}
+
+			return container;
+		};
+
+		function performCaretAction(type, name, vars) {
+			var caretContainerId = '_mce_caret', debug = ed.settings.caret_debug;
+
+			// Creates a caret container bogus element
+			function createCaretContainer(fill) {
+				var caretContainer = dom.create('span', {id: caretContainerId, 'data-mce-bogus': true, style: debug ? 'color:red' : ''});
+
+				if (fill) {
+					caretContainer.appendChild(ed.getDoc().createTextNode(INVISIBLE_CHAR));
+				}
+
+				return caretContainer;
+			};
+
+			function isCaretContainerEmpty(node, nodes) {
+				while (node) {
+					if ((node.nodeType === 3 && node.nodeValue !== INVISIBLE_CHAR) || node.childNodes.length > 1) {
+						return false;
+					}
+
+					// Collect nodes
+					if (nodes && node.nodeType === 1) {
+						nodes.push(node);
+					}
+
+					node = node.firstChild;
+				}
+
+				return true;
+			};
+			
+			// Returns any parent caret container element
+			function getParentCaretContainer(node) {
+				while (node) {
+					if (node.id === caretContainerId) {
+						return node;
+					}
+
+					node = node.parentNode;
+				}
+			};
+
+			// Finds the first text node in the specified node
+			function findFirstTextNode(node) {
+				var walker;
+
+				if (node) {
+					walker = new TreeWalker(node, node);
+
+					for (node = walker.current(); node; node = walker.next()) {
+						if (node.nodeType === 3) {
+							return node;
+						}
+					}
+				}
+			};
+
+			// Removes the caret container for the specified node or all on the current document
+			function removeCaretContainer(node, move_caret) {
+				var child, rng;
+
+				if (!node) {
+					node = getParentCaretContainer(selection.getStart());
+
+					if (!node) {
+						while (node = dom.get(caretContainerId)) {
+							removeCaretContainer(node, false);
+						}
+					}
+				} else {
+					rng = selection.getRng(true);
+
+					if (isCaretContainerEmpty(node)) {
+						if (move_caret !== false) {
+							rng.setStartBefore(node);
+							rng.setEndBefore(node);
+						}
+
+						dom.remove(node);
+					} else {
+						child = findFirstTextNode(node);
+
+						if (child.nodeValue.charAt(0) === INVISIBLE_CHAR) {
+							child = child.deleteData(0, 1);
+						}
+
+						dom.remove(node, 1);
+					}
+
+					selection.setRng(rng);
+				}
+			};
+			
+			// Applies formatting to the caret postion
+			function applyCaretFormat() {
+				var rng, caretContainer, textNode, offset, bookmark, container, text;
+
+				rng = selection.getRng(true);
+				offset = rng.startOffset;
+				container = rng.startContainer;
+				text = container.nodeValue;
+
+				caretContainer = getParentCaretContainer(selection.getStart());
+				if (caretContainer) {
+					textNode = findFirstTextNode(caretContainer);
+				}
+
+				// Expand to word is caret is in the middle of a text node and the char before/after is a alpha numeric character
+				if (text && offset > 0 && offset < text.length && /\w/.test(text.charAt(offset)) && /\w/.test(text.charAt(offset - 1))) {
+					// Get bookmark of caret position
+					bookmark = selection.getBookmark();
+
+					// Collapse bookmark range (WebKit)
+					rng.collapse(true);
+
+					// Expand the range to the closest word and split it at those points
+					rng = expandRng(rng, get(name));
+					rng = rangeUtils.split(rng);
+
+					// Apply the format to the range
+					apply(name, vars, rng);
+
+					// Move selection back to caret position
+					selection.moveToBookmark(bookmark);
+				} else {
+					if (!caretContainer || textNode.nodeValue !== INVISIBLE_CHAR) {
+						caretContainer = createCaretContainer(true);
+						textNode = caretContainer.firstChild;
+
+						rng.insertNode(caretContainer);
+						offset = 1;
+
+						apply(name, vars, caretContainer);
+					} else {
+						apply(name, vars, caretContainer);
+					}
+
+					// Move selection to text node
+					selection.setCursorLocation(textNode, offset);
+				}
+			};
+
+			function removeCaretFormat() {
+				var rng = selection.getRng(true), container, offset, bookmark,
+					hasContentAfter, node, formatNode, parents = [], i, caretContainer;
+
+				container = rng.startContainer;
+				offset = rng.startOffset;
+				node = container;
+
+				if (container.nodeType == 3) {
+					if (offset != container.nodeValue.length || container.nodeValue === INVISIBLE_CHAR) {
+						hasContentAfter = true;
+					}
+
+					node = node.parentNode;
+				}
+
+				while (node) {
+					if (matchNode(node, name, vars)) {
+						formatNode = node;
+						break;
+					}
+
+					if (node.nextSibling) {
+						hasContentAfter = true;
+					}
+
+					parents.push(node);
+					node = node.parentNode;
+				}
+
+				// Node doesn't have the specified format
+				if (!formatNode) {
+					return;
+				}
+
+				// Is there contents after the caret then remove the format on the element
+				if (hasContentAfter) {
+					// Get bookmark of caret position
+					bookmark = selection.getBookmark();
+
+					// Collapse bookmark range (WebKit)
+					rng.collapse(true);
+
+					// Expand the range to the closest word and split it at those points
+					rng = expandRng(rng, get(name), true);
+					rng = rangeUtils.split(rng);
+
+					// Remove the format from the range
+					remove(name, vars, rng);
+
+					// Move selection back to caret position
+					selection.moveToBookmark(bookmark);
+				} else {
+					caretContainer = createCaretContainer();
+
+					node = caretContainer;
+					for (i = parents.length - 1; i >= 0; i--) {
+						node.appendChild(dom.clone(parents[i], false));
+						node = node.firstChild;
+					}
+
+					// Insert invisible character into inner most format element
+					node.appendChild(dom.doc.createTextNode(INVISIBLE_CHAR));
+					node = node.firstChild;
+
+					var block = dom.getParent(formatNode, isTextBlock);
+
+					if (block && dom.isEmpty(block)) {
+						// Replace formatNode with caretContainer when removing format from empty block like <p><b>|</b></p>
+						formatNode.parentNode.replaceChild(caretContainer, formatNode);
+					} else {
+						// Insert caret container after the formated node
+						dom.insertAfter(caretContainer, formatNode);
+					}
+
+					// Move selection to text node
+					selection.setCursorLocation(node, 1);
+
+					// If the formatNode is empty, we can remove it safely. 
+					if (dom.isEmpty(formatNode)) {
+						dom.remove(formatNode);
+					}
+				}
+			};
+
+			// Checks if the parent caret container node isn't empty if that is the case it
+			// will remove the bogus state on all children that isn't empty
+			function unmarkBogusCaretParents() {
+				var i, caretContainer, node;
+
+				caretContainer = getParentCaretContainer(selection.getStart());
+				if (caretContainer && !dom.isEmpty(caretContainer)) {
+					tinymce.walk(caretContainer, function(node) {
+						if (node.nodeType == 1 && node.id !== caretContainerId && !dom.isEmpty(node)) {
+							dom.setAttrib(node, 'data-mce-bogus', null);
+						}
+					}, 'childNodes');
+				}
+			};
+
+			// Only bind the caret events once
+			if (!self._hasCaretEvents) {
+				// Mark current caret container elements as bogus when getting the contents so we don't end up with empty elements
+				ed.onBeforeGetContent.addToTop(function() {
+					var nodes = [], i;
+
+					if (isCaretContainerEmpty(getParentCaretContainer(selection.getStart()), nodes)) {
+						// Mark children
+						i = nodes.length;
+						while (i--) {
+							dom.setAttrib(nodes[i], 'data-mce-bogus', '1');
+						}
+					}
+				});
+
+				// Remove caret container on mouse up and on key up
+				tinymce.each('onMouseUp onKeyUp'.split(' '), function(name) {
+					ed[name].addToTop(function() {
+						removeCaretContainer();
+						unmarkBogusCaretParents();
+					});
+				});
+
+				// Remove caret container on keydown and it's a backspace, enter or left/right arrow keys
+				ed.onKeyDown.addToTop(function(ed, e) {
+					var keyCode = e.keyCode;
+
+					if (keyCode == 8 || keyCode == 37 || keyCode == 39) {
+						removeCaretContainer(getParentCaretContainer(selection.getStart()));
+					}
+
+					unmarkBogusCaretParents();
+				});
+
+				// Remove bogus state if they got filled by contents using editor.selection.setContent
+				selection.onSetContent.add(unmarkBogusCaretParents);
+
+				self._hasCaretEvents = true;
+			}
+
+			// Do apply or remove caret format
+			if (type == "apply") {
+				applyCaretFormat();
+			} else {
+				removeCaretFormat();
+			}
+		};
+
+		function moveStart(rng) {
+			var container = rng.startContainer,
+					offset = rng.startOffset, isAtEndOfText,
+					walker, node, nodes, tmpNode;
+
+			// Convert text node into index if possible
+			if (container.nodeType == 3 && offset >= container.nodeValue.length) {
+				// Get the parent container location and walk from there
+				offset = nodeIndex(container);
+				container = container.parentNode;
+				isAtEndOfText = true;
+			}
+
+			// Move startContainer/startOffset in to a suitable node
+			if (container.nodeType == 1) {
+				nodes = container.childNodes;
+				container = nodes[Math.min(offset, nodes.length - 1)];
+				walker = new TreeWalker(container, dom.getParent(container, dom.isBlock));
+
+				// If offset is at end of the parent node walk to the next one
+				if (offset > nodes.length - 1 || isAtEndOfText)
+					walker.next();
+
+				for (node = walker.current(); node; node = walker.next()) {
+					if (node.nodeType == 3 && !isWhiteSpaceNode(node)) {
+						// IE has a "neat" feature where it moves the start node into the closest element
+						// we can avoid this by inserting an element before it and then remove it after we set the selection
+						tmpNode = dom.create('a', null, INVISIBLE_CHAR);
+						node.parentNode.insertBefore(tmpNode, node);
+
+						// Set selection and remove tmpNode
+						rng.setStart(node, 0);
+						selection.setRng(rng);
+						dom.remove(tmpNode);
+
+						return;
+					}
+				}
+			}
+		};
+	};
+})(tinymce);
+
+tinymce.onAddEditor.add(function(tinymce, ed) {
+	var filters, fontSizes, dom, settings = ed.settings;
+
+	function replaceWithSpan(node, styles) {
+		tinymce.each(styles, function(value, name) {
+			if (value)
+				dom.setStyle(node, name, value);
+		});
+
+		dom.rename(node, 'span');
+	};
+
+	function convert(editor, params) {
+		dom = editor.dom;
+
+		if (settings.convert_fonts_to_spans) {
+			tinymce.each(dom.select('font,u,strike', params.node), function(node) {
+				filters[node.nodeName.toLowerCase()](ed.dom, node);
+			});
+		}
+	};
+
+	if (settings.inline_styles) {
+		fontSizes = tinymce.explode(settings.font_size_legacy_values);
+
+		filters = {
+			font : function(dom, node) {
+				replaceWithSpan(node, {
+					backgroundColor : node.style.backgroundColor,
+					color : node.color,
+					fontFamily : node.face,
+					fontSize : fontSizes[parseInt(node.size, 10) - 1]
+				});
+			},
+
+			u : function(dom, node) {
+				replaceWithSpan(node, {
+					textDecoration : 'underline'
+				});
+			},
+
+			strike : function(dom, node) {
+				replaceWithSpan(node, {
+					textDecoration : 'line-through'
+				});
+			}
+		};
+
+		ed.onPreProcess.add(convert);
+		ed.onSetContent.add(convert);
+
+		ed.onInit.add(function() {
+			ed.selection.onSetContent.add(convert);
+		});
+	}
+});
+
+(function(tinymce) {
+	var TreeWalker = tinymce.dom.TreeWalker;
+
+	tinymce.EnterKey = function(editor) {
+		var dom = editor.dom, selection = editor.selection, settings = editor.settings, undoManager = editor.undoManager, nonEmptyElementsMap = editor.schema.getNonEmptyElements();
+
+		function handleEnterKey(evt) {
+			var rng = selection.getRng(true), tmpRng, editableRoot, container, offset, parentBlock, documentMode, shiftKey,
+				newBlock, fragment, containerBlock, parentBlockName, containerBlockName, newBlockName, isAfterLastNodeInContainer;
+
+			// Returns true if the block can be split into two blocks or not
+			function canSplitBlock(node) {
+				return node &&
+					dom.isBlock(node) &&
+					!/^(TD|TH|CAPTION|FORM)$/.test(node.nodeName) &&
+					!/^(fixed|absolute)/i.test(node.style.position) && 
+					dom.getContentEditable(node) !== "true";
+			};
+
+			// Renders empty block on IE
+			function renderBlockOnIE(block) {
+				var oldRng;
+
+				if (tinymce.isIE && !tinymce.isIE11 && dom.isBlock(block)) {
+					oldRng = selection.getRng();
+					block.appendChild(dom.create('span', null, '\u00a0'));
+					selection.select(block);
+					block.lastChild.outerHTML = '';
+					selection.setRng(oldRng);
+				}
+			};
+
+			// Remove the first empty inline element of the block so this: <p><b><em></em></b>x</p> becomes this: <p>x</p>
+			function trimInlineElementsOnLeftSideOfBlock(block) {
+				var node = block, firstChilds = [], i;
+
+				// Find inner most first child ex: <p><i><b>*</b></i></p>
+				while (node = node.firstChild) {
+					if (dom.isBlock(node)) {
+						return;
+					}
+
+					if (node.nodeType == 1 && !nonEmptyElementsMap[node.nodeName.toLowerCase()]) {
+						firstChilds.push(node);
+					}
+				}
+
+				i = firstChilds.length;
+				while (i--) {
+					node = firstChilds[i];
+					if (!node.hasChildNodes() || (node.firstChild == node.lastChild && node.firstChild.nodeValue === '')) {
+						dom.remove(node);
+					} else {
+						// Remove <a> </a> see #5381
+						if (node.nodeName == "A" && (node.innerText || node.textContent) === ' ') {
+							dom.remove(node);
+						}
+					}
+				}
+			};
+			
+			// Moves the caret to a suitable position within the root for example in the first non pure whitespace text node or before an image
+			function moveToCaretPosition(root) {
+				var walker, node, rng, y, viewPort, lastNode = root, tempElm;
+
+				rng = dom.createRng();
+
+				if (root.hasChildNodes()) {
+					walker = new TreeWalker(root, root);
+
+					while (node = walker.current()) {
+						if (node.nodeType == 3) {
+							rng.setStart(node, 0);
+							rng.setEnd(node, 0);
+							break;
+						}
+
+						if (nonEmptyElementsMap[node.nodeName.toLowerCase()]) {
+							rng.setStartBefore(node);
+							rng.setEndBefore(node);
+							break;
+						}
+
+						lastNode = node;
+						node = walker.next();
+					}
+
+					if (!node) {
+						rng.setStart(lastNode, 0);
+						rng.setEnd(lastNode, 0);
+					}
+				} else {
+					if (root.nodeName == 'BR') {
+						if (root.nextSibling && dom.isBlock(root.nextSibling)) {
+							// Trick on older IE versions to render the caret before the BR between two lists
+							if (!documentMode || documentMode < 9) {
+								tempElm = dom.create('br');
+								root.parentNode.insertBefore(tempElm, root);
+							}
+
+							rng.setStartBefore(root);
+							rng.setEndBefore(root);
+						} else {
+							rng.setStartAfter(root);
+							rng.setEndAfter(root);
+						}
+					} else {
+						rng.setStart(root, 0);
+						rng.setEnd(root, 0);
+					}
+				}
+
+				selection.setRng(rng);
+
+				// Remove tempElm created for old IE:s
+				dom.remove(tempElm);
+
+				viewPort = dom.getViewPort(editor.getWin());
+
+				// scrollIntoView seems to scroll the parent window in most browsers now including FF 3.0b4 so it's time to stop using it and do it our selfs
+				y = dom.getPos(root).y;
+				if (y < viewPort.y || y + 25 > viewPort.y + viewPort.h) {
+					editor.getWin().scrollTo(0, y < viewPort.y ? y : y - viewPort.h + 25); // Needs to be hardcoded to roughly one line of text if a huge text block is broken into two blocks
+				}
+			};
+
+			// Creates a new block element by cloning the current one or creating a new one if the name is specified
+			// This function will also copy any text formatting from the parent block and add it to the new one
+			function createNewBlock(name) {
+				var node = container, block, clonedNode, caretNode;
+
+				block = name || parentBlockName == "TABLE" ? dom.create(name || newBlockName) : parentBlock.cloneNode(false);
+				caretNode = block;
+
+				// Clone any parent styles
+				if (settings.keep_styles !== false) {
+					do {
+						if (/^(SPAN|STRONG|B|EM|I|FONT|STRIKE|U)$/.test(node.nodeName)) {
+							// Never clone a caret containers
+							if (node.id == '_mce_caret') {
+								continue;
+							}
+
+							clonedNode = node.cloneNode(false);
+							dom.setAttrib(clonedNode, 'id', ''); // Remove ID since it needs to be document unique
+
+							if (block.hasChildNodes()) {
+								clonedNode.appendChild(block.firstChild);
+								block.appendChild(clonedNode);
+							} else {
+								caretNode = clonedNode;
+								block.appendChild(clonedNode);
+							}
+						}
+					} while (node = node.parentNode);
+				}
+
+				// BR is needed in empty blocks on non IE browsers
+				if (!tinymce.isIE || tinymce.isIE11) {
+					caretNode.innerHTML = '<br data-mce-bogus="1">';
+				}
+
+				return block;
+			};
+
+			// Returns true/false if the caret is at the start/end of the parent block element
+			function isCaretAtStartOrEndOfBlock(start) {
+				var walker, node, name;
+
+				// Caret is in the middle of a text node like "a|b"
+				if (container.nodeType == 3 && (start ? offset > 0 : offset < container.nodeValue.length)) {
+					return false;
+				}
+
+				// If after the last element in block node edge case for #5091
+				if (container.parentNode == parentBlock && isAfterLastNodeInContainer && !start) {
+					return true;
+				}
+
+				// If the caret if before the first element in parentBlock
+				if (start && container.nodeType == 1 && container == parentBlock.firstChild) {
+					return true;
+				}
+
+				// Caret can be before/after a table
+				if (container.nodeName === "TABLE" || (container.previousSibling && container.previousSibling.nodeName == "TABLE")) {
+					return (isAfterLastNodeInContainer && !start) || (!isAfterLastNodeInContainer && start);
+				}
+
+				// Walk the DOM and look for text nodes or non empty elements
+				walker = new TreeWalker(container, parentBlock);
+	
+				// If caret is in beginning or end of a text block then jump to the next/previous node
+				if (container.nodeType == 3) {
+					if (start && offset == 0) {
+						walker.prev();
+					} else if (!start && offset == container.nodeValue.length) {
+						walker.next();
+					}
+				}
+
+				while (node = walker.current()) {
+					if (node.nodeType === 1) {
+						// Ignore bogus elements
+						if (!node.getAttribute('data-mce-bogus')) {
+							// Keep empty elements like <img /> <input /> but not trailing br:s like <p>text|<br></p>
+							name = node.nodeName.toLowerCase();
+							if (nonEmptyElementsMap[name] && name !== 'br') {
+								return false;
+							}
+						}
+					} else if (node.nodeType === 3 && !/^[ \t\r\n]*$/.test(node.nodeValue)) {
+						return false;
+					}
+
+					if (start) {
+						walker.prev();
+					} else {
+						walker.next();
+					}
+				}
+
+				return true;
+			};
+
+			// Wraps any text nodes or inline elements in the specified forced root block name
+			function wrapSelfAndSiblingsInDefaultBlock(container, offset) {
+				var newBlock, parentBlock, startNode, node, next, blockName = newBlockName || 'P';
+
+				// Not in a block element or in a table cell or caption
+				parentBlock = dom.getParent(container, dom.isBlock);
+				if (!parentBlock || !canSplitBlock(parentBlock)) {
+					parentBlock = parentBlock || editableRoot;
+
+					if (!parentBlock.hasChildNodes()) {
+						newBlock = dom.create(blockName);
+						parentBlock.appendChild(newBlock);
+						rng.setStart(newBlock, 0);
+						rng.setEnd(newBlock, 0);
+						return newBlock;
+					}
+
+					// Find parent that is the first child of parentBlock
+					node = container;
+					while (node.parentNode != parentBlock) {
+						node = node.parentNode;
+					}
+
+					// Loop left to find start node start wrapping at
+					while (node && !dom.isBlock(node)) {
+						startNode = node;
+						node = node.previousSibling;
+					}
+
+					if (startNode) {
+						newBlock = dom.create(blockName);
+						startNode.parentNode.insertBefore(newBlock, startNode);
+
+						// Start wrapping until we hit a block
+						node = startNode;
+						while (node && !dom.isBlock(node)) {
+							next = node.nextSibling;
+							newBlock.appendChild(node);
+							node = next;
+						}
+
+						// Restore range to it's past location
+						rng.setStart(container, offset);
+						rng.setEnd(container, offset);
+					}
+				}
+
+				return container;
+			};
+
+			// Inserts a block or br before/after or in the middle of a split list of the LI is empty
+			function handleEmptyListItem() {
+				function isFirstOrLastLi(first) {
+					var node = containerBlock[first ? 'firstChild' : 'lastChild'];
+
+					// Find first/last element since there might be whitespace there
+					while (node) {
+						if (node.nodeType == 1) {
+							break;
+						}
+
+						node = node[first ? 'nextSibling' : 'previousSibling'];
+					}
+
+					return node === parentBlock;
+				};
+
+				newBlock = newBlockName ? createNewBlock(newBlockName) : dom.create('BR');
+
+				if (isFirstOrLastLi(true) && isFirstOrLastLi()) {
+					// Is first and last list item then replace the OL/UL with a text block
+					dom.replace(newBlock, containerBlock);
+				} else if (isFirstOrLastLi(true)) {
+					// First LI in list then remove LI and add text block before list
+					containerBlock.parentNode.insertBefore(newBlock, containerBlock);
+				} else if (isFirstOrLastLi()) {
+					// Last LI in list then temove LI and add text block after list
+					dom.insertAfter(newBlock, containerBlock);
+					renderBlockOnIE(newBlock);
+				} else {
+					// Middle LI in list the split the list and insert a text block in the middle
+					// Extract after fragment and insert it after the current block
+					tmpRng = rng.cloneRange();
+					tmpRng.setStartAfter(parentBlock);
+					tmpRng.setEndAfter(containerBlock);
+					fragment = tmpRng.extractContents();
+					dom.insertAfter(fragment, containerBlock);
+					dom.insertAfter(newBlock, containerBlock);
+				}
+
+				dom.remove(parentBlock);
+				moveToCaretPosition(newBlock);
+				undoManager.add();
+			};
+
+			// Walks the parent block to the right and look for any contents
+			function hasRightSideContent() {
+				var walker = new TreeWalker(container, parentBlock), node;
+
+				while (node = walker.next()) {
+					if (nonEmptyElementsMap[node.nodeName.toLowerCase()] || node.length > 0) {
+						return true;
+					}
+				}
+			}
+
+			// Inserts a BR element if the forced_root_block option is set to false or empty string
+			function insertBr() {
+				var brElm, extraBr, marker;
+
+				if (container && container.nodeType == 3 && offset >= container.nodeValue.length) {
+					// Insert extra BR element at the end block elements
+					if ((!tinymce.isIE || tinymce.isIE11) && !hasRightSideContent()) {
+						brElm = dom.create('br');
+						rng.insertNode(brElm);
+						rng.setStartAfter(brElm);
+						rng.setEndAfter(brElm);
+						extraBr = true;
+					}
+				}
+
+				brElm = dom.create('br');
+				rng.insertNode(brElm);
+
+				// Rendering modes below IE8 doesn't display BR elements in PRE unless we have a \n before it
+				if ((tinymce.isIE && !tinymce.isIE11) && parentBlockName == 'PRE' && (!documentMode || documentMode < 8)) {
+					brElm.parentNode.insertBefore(dom.doc.createTextNode('\r'), brElm);
+				}
+
+				// Insert temp marker and scroll to that
+				marker = dom.create('span', {}, '&nbsp;');
+				brElm.parentNode.insertBefore(marker, brElm);
+				selection.scrollIntoView(marker);
+				dom.remove(marker);
+
+				if (!extraBr) {
+					rng.setStartAfter(brElm);
+					rng.setEndAfter(brElm);
+				} else {
+					rng.setStartBefore(brElm);
+					rng.setEndBefore(brElm);
+				}
+
+				selection.setRng(rng);
+				undoManager.add();
+			};
+
+			// Trims any linebreaks at the beginning of node user for example when pressing enter in a PRE element
+			function trimLeadingLineBreaks(node) {
+				do {
+					if (node.nodeType === 3) {
+						node.nodeValue = node.nodeValue.replace(/^[\r\n]+/, '');
+					}
+
+					node = node.firstChild;
+				} while (node);
+			};
+
+			function getEditableRoot(node) {
+				var root = dom.getRoot(), parent, editableRoot;
+
+				// Get all parents until we hit a non editable parent or the root
+				parent = node;
+				while (parent !== root && dom.getContentEditable(parent) !== "false") {
+					if (dom.getContentEditable(parent) === "true") {
+						editableRoot = parent;
+					}
+
+					parent = parent.parentNode;
+				}
+				
+				return parent !== root ? editableRoot : root;
+			};
+
+			// Adds a BR at the end of blocks that only contains an IMG or INPUT since these might be floated and then they won't expand the block
+			function addBrToBlockIfNeeded(block) {
+				var lastChild;
+
+				// IE will render the blocks correctly other browsers needs a BR
+				if (!tinymce.isIE || tinymce.isIE11) {
+					block.normalize(); // Remove empty text nodes that got left behind by the extract
+
+					// Check if the block is empty or contains a floated last child
+					lastChild = block.lastChild;
+					if (!lastChild || (/^(left|right)$/gi.test(dom.getStyle(lastChild, 'float', true)))) {
+						dom.add(block, 'br');
+					}
+				}
+			};
+
+			// Delete any selected contents
+			if (!rng.collapsed) {
+				editor.execCommand('Delete');
+				return;
+			}
+
+			// Event is blocked by some other handler for example the lists plugin
+			if (evt.isDefaultPrevented()) {
+				return;
+			}
+
+			// Setup range items and newBlockName
+			container = rng.startContainer;
+			offset = rng.startOffset;
+			newBlockName = (settings.force_p_newlines ? 'p' : '') || settings.forced_root_block;
+			newBlockName = newBlockName ? newBlockName.toUpperCase() : '';
+			documentMode = dom.doc.documentMode;
+			shiftKey = evt.shiftKey;
+
+			// Resolve node index
+			if (container.nodeType == 1 && container.hasChildNodes()) {
+				isAfterLastNodeInContainer = offset > container.childNodes.length - 1;
+				container = container.childNodes[Math.min(offset, container.childNodes.length - 1)] || container;
+				if (isAfterLastNodeInContainer && container.nodeType == 3) {
+					offset = container.nodeValue.length;
+				} else {
+					offset = 0;
+				}
+			}
+
+			// Get editable root node normaly the body element but sometimes a div or span
+			editableRoot = getEditableRoot(container);
+
+			// If there is no editable root then enter is done inside a contentEditable false element
+			if (!editableRoot) {
+				return;
+			}
+
+			undoManager.beforeChange();
+
+			// If editable root isn't block nor the root of the editor
+			if (!dom.isBlock(editableRoot) && editableRoot != dom.getRoot()) {
+				if (!newBlockName || shiftKey) {
+					insertBr();
+				}
+
+				return;
+			}
+
+			// Wrap the current node and it's sibling in a default block if it's needed.
+			// for example this <td>text|<b>text2</b></td> will become this <td><p>text|<b>text2</p></b></td>
+			// This won't happen if root blocks are disabled or the shiftKey is pressed
+			if ((newBlockName && !shiftKey) || (!newBlockName && shiftKey)) {
+				container = wrapSelfAndSiblingsInDefaultBlock(container, offset);
+			}
+
+			// Find parent block and setup empty block paddings
+			parentBlock = dom.getParent(container, dom.isBlock);
+			containerBlock = parentBlock ? dom.getParent(parentBlock.parentNode, dom.isBlock) : null;
+
+			// Setup block names
+			parentBlockName = parentBlock ? parentBlock.nodeName.toUpperCase() : ''; // IE < 9 & HTML5
+			containerBlockName = containerBlock ? containerBlock.nodeName.toUpperCase() : ''; // IE < 9 & HTML5
+
+			// Enter inside block contained within a LI then split or insert before/after LI
+			if (containerBlockName == 'LI' && !evt.ctrlKey) {
+				parentBlock = containerBlock;
+				parentBlockName = containerBlockName;
+			}
+
+			// Handle enter in LI
+			if (parentBlockName == 'LI') {
+				if (!newBlockName && shiftKey) {
+					insertBr();
+					return;
+				}
+
+				// Handle enter inside an empty list item
+				if (dom.isEmpty(parentBlock)) {
+					// Let the list plugin or browser handle nested lists for now
+					if (/^(UL|OL|LI)$/.test(containerBlock.parentNode.nodeName)) {
+						return false;
+					}
+
+					handleEmptyListItem();
+					return;
+				}
+			}
+
+			// Don't split PRE tags but insert a BR instead easier when writing code samples etc
+			if (parentBlockName == 'PRE' && settings.br_in_pre !== false) {
+				if (!shiftKey) {
+					insertBr();
+					return;
+				}
+			} else {
+				// If no root block is configured then insert a BR by default or if the shiftKey is pressed
+				if ((!newBlockName && !shiftKey && parentBlockName != 'LI') || (newBlockName && shiftKey)) {
+					insertBr();
+					return;
+				}
+			}
+
+			// Default block name if it's not configured
+			newBlockName = newBlockName || 'P';
+
+			// Insert new block before/after the parent block depending on caret location
+			if (isCaretAtStartOrEndOfBlock()) {
+				// If the caret is at the end of a header we produce a P tag after it similar to Word unless we are in a hgroup
+				if (/^(H[1-6]|PRE)$/.test(parentBlockName) && containerBlockName != 'HGROUP') {
+					newBlock = createNewBlock(newBlockName);
+				} else {
+					newBlock = createNewBlock();
+				}
+
+				// Split the current container block element if enter is pressed inside an empty inner block element
+				if (settings.end_container_on_empty_block && canSplitBlock(containerBlock) && dom.isEmpty(parentBlock)) {
+					// Split container block for example a BLOCKQUOTE at the current blockParent location for example a P
+					newBlock = dom.split(containerBlock, parentBlock);
+				} else {
+					dom.insertAfter(newBlock, parentBlock);
+				}
+
+				moveToCaretPosition(newBlock);
+			} else if (isCaretAtStartOrEndOfBlock(true)) {
+				// Insert new block before
+				newBlock = parentBlock.parentNode.insertBefore(createNewBlock(), parentBlock);
+				renderBlockOnIE(newBlock);
+			} else {
+				// Extract after fragment and insert it after the current block
+				tmpRng = rng.cloneRange();
+				tmpRng.setEndAfter(parentBlock);
+				fragment = tmpRng.extractContents();
+				trimLeadingLineBreaks(fragment);
+				newBlock = fragment.firstChild;
+				dom.insertAfter(fragment, parentBlock);
+				trimInlineElementsOnLeftSideOfBlock(newBlock);
+				addBrToBlockIfNeeded(parentBlock);
+				moveToCaretPosition(newBlock);
+			}
+
+			dom.setAttrib(newBlock, 'id', ''); // Remove ID since it needs to be document unique
+			undoManager.add();
+		}
+
+		editor.onKeyDown.add(function(ed, evt) {
+			if (evt.keyCode == 13) {
+				if (handleEnterKey(evt) !== false) {
+					evt.preventDefault();
+				}
+			}
+		});
+	};
+})(tinymce);
+
+
+

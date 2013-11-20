@@ -1,4 +1,5 @@
 class EmailTemplatesController < ApplicationController
+  before_filter :authenticate
   # GET /templates
   # GET /templates.json
   def index

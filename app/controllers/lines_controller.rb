@@ -1,4 +1,5 @@
 class LinesController < ApplicationController
+  before_filter :authenticate
   # GET /lines
   # GET /lines.json
   def index

@@ -1,4 +1,5 @@
 class CodesController < ApplicationController
+  before_filter :authenticate
   # GET /codes
   # GET /codes.json
   def index

@@ -1,4 +1,5 @@
 class InvoicesController < ApplicationController
+  before_filter :authenticate
   # GET /invoices
   # GET /invoices.json
   def index
@@ -19,7 +20,8 @@ class InvoicesController < ApplicationController
       format.html { render layout: "invoice"}
       format.json { render json: @invoice }
       format.pdf do
-        render :pdf => "invoices", :layout => "pdf.html", :zoom => 0.85, :show_as_html => params[:debug].present?
+                            # always change zoom/parameters here in invoice_mailer.rb to ensure consistent invoices
+        render :pdf => "invoices", :layout => "pdf.html", :zoom => 0.75, :show_as_html => params[:debug].present?
         #, :show_as_html => true
       end
     end

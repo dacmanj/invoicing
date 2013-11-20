@@ -12,7 +12,7 @@ class InvoiceMailer < ActionMailer::Base
 	    format.html
 	    format.pdf do
 	      attachments['invoice.pdf'] = WickedPdf.new.pdf_from_string(
-	        render_to_string(:pdf => "invoice",:zoom => 0.85, :template => 'invoices/show.pdf.erb')
+	        render_to_string(:pdf => "invoice",:zoom => 0.75, :template => 'invoices/show.pdf.erb')
 	      )
 	  	end
 	end

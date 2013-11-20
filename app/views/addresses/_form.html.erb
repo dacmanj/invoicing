@@ -1,8 +1,7 @@
 <%= simple_form_for(@address) do |f| %>
-  <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.association :contact %>
+    <%= f.association :contact, :as => :hidden %>
     <%= f.input :address_lines, :input_html => { :rows => "2" } %>
     <%= f.input :city %>
     <%= f.input :state %>

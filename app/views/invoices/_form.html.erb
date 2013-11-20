@@ -3,7 +3,9 @@
 
   <div class="form-inputs">
     <%= f.association :account %>
-    <%= f.association :contacts %>
+    <%= f.input :contact do %>
+      <%= f.select :contacts, options_for_select(Contact.all.map { |r| [r.name, r.id, { 'data-company-id' => r.account.id }] }), {include_blank: false}, {:multiple => true, :class => "select optional form-control input-xxlarge"} %>
+    <% end %>
     <%= f.association :user %>
     <%= f.input :date %>
 

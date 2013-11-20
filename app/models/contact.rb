@@ -22,8 +22,10 @@ class Contact < ActiveRecord::Base
 
 	attr_accessible :active, :account_id, :database_id, :first_name, :last_name, :title, :address_attributes
 
+	scope :active, where(:active => true) 
+
 	def name
-		first_name + " " + last_name
+		"#{first_name} #{last_name}"
 	end
 
 end

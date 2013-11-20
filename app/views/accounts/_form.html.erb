@@ -3,11 +3,13 @@
 
   <div class="form-inputs">
     <%= f.input :name %>
-    <%= f.input :default_account_ar_account %>
-    <%= f.association :contacts %>
+    <%= f.input :default_account_ar_account, collection: Account.valid_ar_accounts, include_blank: false %>
+    <% if (f.object.new_record?) %>
+    	<%= render "contact", :f => f %>
+    <% else %>
+		<%= f.association :contacts, collection: Contacts.find_by_company_id(f.object.id).active.all(order: 'name') %>
+	<% end %>
   </div>
 
-  <div class="form-actions">
     <%= f.button :submit, :class => "btn btn-primary" %>
-  </div>
 <% end %>

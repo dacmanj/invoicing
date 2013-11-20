@@ -25,6 +25,8 @@ class AccountsController < ApplicationController
   # GET /account/new.json
   def new
     @account = Account.new
+    @contact = Contact.new
+    @address = Address.new
 
     respond_to do |format|
       format.html # new.html.erb

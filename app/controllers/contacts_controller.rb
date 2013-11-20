@@ -27,6 +27,9 @@ class ContactsController < ApplicationController
   def new
     @contact = Contact.new
     @contact.address = @contact.build_address
+    if !params[:id].blank?
+      @contact.account_id = params[:id]
+    end
 
     @contact.active = true
 

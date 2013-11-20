@@ -1,8 +1,22 @@
 <h3>Users</h3>
-<ul class="users">
+<table class="users table table-striped">
+<tr>
+	<th>User</th>
+	<th>Email</th>
+	<th></th>
+
+</tr>
   <% @users.each do |user| %>
-    <li>
-      <%= link_to user.name, user %> signed up <%= user.created_at.to_date %>
-    </li>
+  <tr>
+  	<td>
+      <%= link_to user.name, edit_user_path(user.id) %>
+	</td>
+	<td>
+	<%= user.email %>
+	</td>
+    <td><%= link_to  content_tag(:i, "", class: "glyphicon glyphicon-trash glyphicon-trash-white"), user, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %></td>
+
   <% end %>
 </ul>
+
+<%= link_to 'New User', '', :class => "btn btn-primary" %>

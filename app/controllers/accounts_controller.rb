@@ -37,6 +37,7 @@ class AccountsController < ApplicationController
   # GET /account/1/edit
   def edit
     @account = Account.find(params[:id])
+    @contacts = @account.contacts
   end
 
   # POST /account

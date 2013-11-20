@@ -14,5 +14,8 @@
 #
 
 class Payment < ActiveRecord::Base
+	belongs_to :invoice
+	belongs_to :account
+	
   attr_accessible :amount, :account_id, :invoice_id, :payment_date, :payment_type, :reference_number
 end

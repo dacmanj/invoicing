@@ -17,6 +17,8 @@ class Invoice < ActiveRecord::Base
 
 	has_many :lines
 	has_many :items, :through => :lines
+  has_many :payments
+
 	has_and_belongs_to_many :contacts
 	accepts_nested_attributes_for :lines, reject_if: proc { |attr| attr['description'].blank? && attr['quantity'].blank? && attr['item_id'].blank? && attr['unit_price'].blank? }
 	accepts_nested_attributes_for :contacts, :reject_if => :all_blank
@@ -46,6 +48,20 @@ class Invoice < ActiveRecord::Base
     templates = Hash[EmailTemplate.all.to_a.each_with_object({}){|c,h| h[c.id] = { :name => c.name, :message => parse_template(c.message), :subject => parse_template(c.subject) }}].to_json
   end
 
+  def payments_total
+    paid = 0
+    self.payments.each{|p| paid += p.amount }
+    paid
+  end
+
+  def balance_due
+    balance_due = self.total - self.payments_total
+  end
+
+  def unpaid?
+    (self.total > self.payments_total)
+  end
+
   def contact_email
   	emails = []
   	self.contacts.each do |c|
@@ -53,6 +69,11 @@ class Invoice < ActiveRecord::Base
   	end
 
   	emails.join(",")
+  end
+
+  def name
+    account_name = (self.account.name unless self.account.blank?) || ""
+    "#{account_name}-#{self.id}-#{self.date}-#{self.total}"
   end
 
 end

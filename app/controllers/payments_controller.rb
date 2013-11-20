@@ -26,6 +26,11 @@ class PaymentsController < ApplicationController
   # GET /payments/new.json
   def new
     @payment = Payment.new
+    unless params[:id].blank?
+      @payment.invoice = Invoice.find(params[:id]) 
+      @payment.account = @payment.invoice.account
+    end
+
 
     respond_to do |format|
       format.html # new.html.erb
@@ -45,7 +50,7 @@ class PaymentsController < ApplicationController
 
     respond_to do |format|
       if @payment.save
-        format.html { redirect_to @payment, notice: 'Payment was successfully created.' }
+        format.html { redirect_to invoices_url, notice: 'Payment was successfully created.' }
         format.json { render json: @payment, status: :created, location: @payment }
       else
         format.html { render action: "new" }

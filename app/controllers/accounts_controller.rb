@@ -38,6 +38,8 @@ class AccountsController < ApplicationController
   def edit
     @account = Account.find(params[:id])
     @contacts = @account.contacts
+    @invoices = @account.invoices
+    @payments = @account.payments
   end
 
   # POST /account

@@ -3,6 +3,7 @@
 <table class="table table-bordered table-striped">
   <tr>
     <th>Name</th>
+    <th>Balance Due</th>
     <th>Invoices Outstanding</th>
     <th></th>
   </tr>
@@ -10,7 +11,14 @@
 <% @accounts.each do |account| %>
   <tr>
     <td><%= link_to account.name, edit_account_path(account) %></td>
-    <td><%= link_to  content_tag(:i, "", class: "glyphicon glyphicon-trash glyphicon-trash-white"), account, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %></td>
+    <td><%= number_to_currency account.balance_due %></td>
+    <td>
+    	<% account.unpaid_invoices.each do |invoice| %>
+    		<%= link_to invoice.name, edit_invoice_path(invoice.id) %>
+			<% end %>
+
+    </td>
+    <td><%= link_to content_tag(:i, "", class: "glyphicon glyphicon-trash glyphicon-trash-white"), account, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %></td>
   </tr>
 <% end %>
 </table>

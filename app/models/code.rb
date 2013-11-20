@@ -12,4 +12,8 @@
 
 class Code < ActiveRecord::Base
   attr_accessible :category, :code, :value
+
+  def self.code_collection(category)
+	Code.find_all_by_category(category).map{ |h| [h.value,h.code]} 
+  end
 end

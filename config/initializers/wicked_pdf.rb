@@ -1,13 +1,8 @@
 WickedPdf.config do |config|  
-  if Rails.env == 'production' then
-    config.exe_path = Rails.root.to_s + "/bin/wkhtmltopdf-amd64"
-  else  ### Following allows for development on my MacBook or Linux box
-    if /darwin/ =~ RUBY_PLATFORM then
-      config.exe_path = '/usr/local/bin/wkhtmltopdf' 
-    elsif /linux/ =~ RUBY_PLATFORM then
-      config.exe_path = '/usr/bin/wkhtmltopdf' 
-    else
-      raise "UnableToLocateWkhtmltopdf"
-    end
+  if Rails.env.staging? || Rails.env.production?
+    exe_path = Rails.root.join('bin', 'wkhtmltopdf-amd64').to_s
+  else
+    exe_path = Rails.root.join('bin', 'wkhtmltopdf').to_s
+    # exe_path = '/usr/local/bin/wkhtmltopdf'
   end
 end

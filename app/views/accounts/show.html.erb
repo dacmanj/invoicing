@@ -6,7 +6,7 @@
 </p>
 
 <p>
-  <b>Default account ar account:</b>
+  <b>Default A/R GL Account:</b>
   <%= @account.default_account_ar_account %>
 </p>
 
@@ -16,5 +16,7 @@
 </p>
 
 <div>
-<%= link_to 'Edit', edit_account_path(@account), :class => "btn" %> <%= link_to 'Back', accounts_path, :class => "btn" %>
+<%= link_to 'New Invoice', new_account_invoice_path(@account), :class => "btn btn-primary" %>
+<%= link_to 'Edit', edit_account_path(@account), :class => "btn btn-default" %>
+<%= link_to 'Back', accounts_path, :class => "btn btn-default" %>
 </div>

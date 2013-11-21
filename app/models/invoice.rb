@@ -23,7 +23,17 @@ class Invoice < ActiveRecord::Base
 	accepts_nested_attributes_for :lines, reject_if: proc { |attr| attr['description'].blank? && attr['quantity'].blank? && attr['item_id'].blank? && attr['unit_price'].blank? }
 	accepts_nested_attributes_for :contacts, :reject_if => :all_blank
 
-  attr_accessible :account_id, :contact_ids, :user_id, :lines_attributes, :date
+  attr_accessible :account_id, :contact_ids, :user_id, :lines_attributes, :date, :primary_contact_id
+
+  before_save :set_primary_contact_if_blank, :set_account_if_blank
+
+  def set_primary_contact_if_blank
+      self.primary_contact_id = self.contacts.first.id if self.primary_contact_id.blank?
+  end
+
+  def set_account_if_blank
+      self.account_id = self.contacts.first.account_id if self.account_id.blank? and !self.contacts.blank?
+  end
 
   def total
   	t = 0

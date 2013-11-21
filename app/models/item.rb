@@ -33,6 +33,33 @@ class Item < ActiveRecord::Base
   	quantity * unit_price
   end
 
+
+  def assign_to_invoice(id)
+    if (id?)
+      invoice = Invoice.find(id)
+      line = Line.new
+      line.invoice_id = invoice.id
+      line.description = self.description 
+      line.item_id = self.id
+      line.quantity = self.quantity
+      line.unit_price = self.unit_price
+      line.save!
+
+      if invoice.account_id?
+        self.account_id = invoice.account_id
+      else
+        invoice.account_id = self.account_id
+        invoice.save!
+      end
+
+      unless self.recurring?
+        self.line_id = line.id 
+        self.invoice_id = invoice.id 
+      end
+      self.save!
+    end
+  end
+
   def self.import file, override
   	errors = Array.new
   	CSV.foreach(file.path, headers: true) do |row|

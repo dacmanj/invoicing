@@ -38,6 +38,7 @@ Invoicing::Application.routes.draw do
 
   root :to => "invoices#index"
   resources :users, :only => [:index, :show, :edit, :update ]
+  match '/accounts/:account_id/invoices/new' => 'invoices#new', :as => "new_account_invoice"
   match '/accounts/:id/contacts/new' => 'contacts#new', :as => "new_account_contact"
   match '/invoices/:id/payments/new' => 'payments#new', :as => "new_invoice_payment"
   match '/invoices/:id/build' => 'invoices#build'

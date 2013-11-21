@@ -14,12 +14,12 @@
 
 class Account < ActiveRecord::Base
 	has_many :contacts
-	has_many :addresses, :through => :contacts
+	has_many :address, :through => :contacts
 	has_many :invoices
 	has_many :payments
 	
-	accepts_nested_attributes_for :contacts, :addresses
-  	attr_accessible :address_id, :contact, :contacts, :default_account_ar_account, :name, :contact_attributes
+	accepts_nested_attributes_for :contacts, :address
+  	attr_accessible :address_id, :primary_contact_id, :contacts, :default_account_ar_account, :name, :contacts_attributes, :address_attributes
 
 
   	def self.valid_ar_accounts

@@ -1,7 +1,6 @@
-<h1>Editing invoice</h1>
+<h1>Editing Invoice</h1>
 
 <%= render 'form' %>
 
-
-<%= link_to 'Show', @invoice, :class => "btn" %>
-<%= link_to 'Back', invoices_path, :class => "btn"  %>
+<%= link_to content_tag(:i, 'Show', {:class => "glyphicon glyphicon-file"} ), @invoice, :class => "btn btn-default" %>
+<%= link_to 'Back', invoices_path, :class => "btn btn-default"  %>

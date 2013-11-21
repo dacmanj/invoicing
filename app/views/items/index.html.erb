@@ -9,8 +9,8 @@
       <th>Invoice</th>
       <th>Description</th>
       <th>Notes</th>
-      <th>Revenue GL Code</th>
-      <th>Quantity</th>
+      <th>Rev. GL Code</th>
+      <th>Qty</th>
       <th>Unit price</th>
       <th></th>
       <th></th>
@@ -22,7 +22,7 @@
       <td><%= check_box_tag 'item_id[]', item.id, false %></td>
       <td><%= item.account.name unless item.account.blank? %></td>
       <td><%= item.line.invoice.id unless item.line.blank? || item.line.invoice.blank? %></td>
-      <td><%= item.description %></td>
+      <td><%= truncate(item.description, :length => 30) %></td>
       <td><%= truncate(item.notes,:length => 30) %></td>
       <td><%= item.revenue_gl_code %></td>
       <td><%= item.quantity %></td>
@@ -43,7 +43,7 @@
     </div>
     <div class="form-group">
       <label class="sr-only" for="account">Assign Invoice</label>
-      <%= select_tag "account", options_for_select(Invoice.order("id DESC").collect{ |a| [a.name, a.id] }.insert(0, "Assign Invoice...")), {:class => "select optional form-control"}%> 
+      <%= select_tag "invoice", options_for_select(Invoice.order("id DESC").collect{ |a| [a.name, a.id] }.insert(0, "Assign Invoice...")), {:class => "select optional form-control"}%> 
     </div>
     <div class="checkbox">
       <label class="sr_only" for="delete" style="padding: 1px 5px">

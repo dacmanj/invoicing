@@ -1,10 +1,9 @@
 <%= f.simple_fields_for :address do |a| %>
 
   <div class="form-inputs">
-    <%= a.input :contact, as: :hidden %>
     <%= a.input :address_lines, :input_html => { :rows => "2" }, as: :text, required: false %>
     <%= a.input :city, required: false %>
-    <%= a.input :state, required: false %>
+    <%= a.input :state, :collection => us_states %>
     <%= a.input :zip, required: false %>
     <%= a.input :email, required: false %>
     <%= a.input :phone, required: false %>

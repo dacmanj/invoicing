@@ -1,11 +1,23 @@
 <%= simple_form_for(@invoice, :defaults => { :input_html => { :class => 'input-xxlarge' } }) do |f| %>
   <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.association :account %>
-    <%= f.input :contact do %>
-      <%= f.select :contacts, options_for_select(Contact.all.map { |r| [r.name, r.id, { 'data-company-id' => r.account.id }] }, :selected => @invoice.contacts.map{|c| c.id}), {include_blank: false}, {:multiple => true, :class => "select optional form-control input-xxlarge"} %>
-    <% end %>
+    <%= f.association :account, {:class => "col-md-4"} %>
+    <% contact_pool = Contact.find_all_by_account_id(@invoice.account_id) || Contact.all %>
+    <div class = "form-group">
+      <label for="contacts">Primary Contact (printed on invoice)</label>
+      <div class="input-group">
+        <%= f.select :primary_contact_id, options_for_select(contact_pool.map {|r| [r.name, r.id, {'data-account-id' => r.account_id }]}, :selected => @invoice.primary_contact_id), {include_blank: true}, {:class => "select optional form-control input-xxlarge"} %>
+        </div>
+    </div>
+
+    <div class = "form-group">
+      <label for="contacts">All Invoice Contacts (emailed reminders, etc.)</label>
+      <div class="input-group">
+        <%= f.select :contact_ids, options_for_select(contact_pool.map { |r| [r.name, r.id, { 'data-account-id' => r.account.id }] }, :selected => @invoice.contacts.map{|c| c.id}), {include_blank: false}, {:multiple => true, :class => "select optional form-control input-xxlarge"} %>
+      </div>
+    </div>
+
+
     <%= f.association :user %>
     <%= f.input :date %>
 
@@ -31,9 +43,12 @@
   </div>
 
 
+  <div class="form-group well">
   <%= link_to 'New Line Item', '', :class => "duplicate_nested_form btn btn-primary" %>
-  <%= f.button :submit, :class => "btn btn-primary" %>
+  </div>
 
+  <div class="form-group">
+    <%= f.button :submit, :class => "btn btn-primary" %>
   </div>
 
 

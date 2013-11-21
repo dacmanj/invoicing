@@ -81,6 +81,7 @@ class ItemsController < ApplicationController
     errors = Array.new
     @items.each do |i| 
       i.account_id = params[:account] || i.account_id
+      i.assign_to_invoice(params[:invoice])
       i.save!
       i.destroy if params[:delete] == "true"
 

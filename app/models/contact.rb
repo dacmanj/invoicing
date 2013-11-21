@@ -20,7 +20,7 @@ class Contact < ActiveRecord::Base
 	accepts_nested_attributes_for :address
 	has_and_belongs_to_many :invoices
 
-	attr_accessible :active, :account_id, :database_id, :first_name, :last_name, :title, :address_attributes
+	attr_accessible :active, :account_id, :database_id, :first_name, :last_name, :title, :address, :address_attributes
 
 	scope :active, where(:active => true) 
 

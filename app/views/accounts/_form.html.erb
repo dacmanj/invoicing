@@ -10,7 +10,7 @@
   <div class="well">
     <h2>Contacts</h2>
     <% if (f.object.new_record?) %>
-    	<%= render "contact", :f => f %>
+    	<%= render "contacts", :f => f %>
     <% else %>
       <table class="table table-bordered table-striped">
         <tr>
@@ -25,7 +25,7 @@
             <td><%= (link_to simple_format([contact.address.address_lines, contact.address.city_state_zip].join("\n")), edit_contact_path(contact.id)) unless contact.address.blank? %></td>
 
             <td>
-              <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-pencil"), {:id => contact.id,:action => "edit"}, :class => "btn btn-primary" %>
+              <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-pencil"), {:id => contact.id,:action => "edit", :controller => :contacts }, :class => "btn btn-primary" %>
               <%= link_to content_tag(:i, "", class: "glyphicon glyphicon-trash"), contact, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %>
             </td>
           </tr>
@@ -35,5 +35,6 @@
 	   <% end %>
         </div>
 
+<%= f.button :submit, :class => "btn btn-primary" %>
 
 <% end %>

@@ -26,8 +26,9 @@ Invoicing::Application.routes.draw do
   resources :lines
 
 
-  resources :items
-
+  resources :items do
+    collection { post :import }
+  end
 
   root :to => "home#index"
   resources :users, :only => [:index, :show, :edit, :update ]

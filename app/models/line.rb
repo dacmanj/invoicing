@@ -15,7 +15,7 @@
 
 class Line < ActiveRecord::Base
 	belongs_to :invoice
-	belongs_to :item
+	has_one :item
 
   attr_accessible :description, :item_id, :quantity, :hidden, :unit_price, :invoice_id
 

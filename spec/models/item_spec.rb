@@ -10,6 +10,9 @@
 #  item_image_url  :string(255)
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  notes           :string(255)
+#  recurring       :boolean
+#  expensify_id    :string(255)
 #
 
 require 'spec_helper'

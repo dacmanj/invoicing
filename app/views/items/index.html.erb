@@ -1,24 +1,31 @@
-<h1>Invoice items</h1>
+<h1>Invoice Items</h1>
 
 <table class="table table-striped">
   <tr>
+    <th></th>
     <th>Description</th>
-    <th>Revenue gl code</th>
+    <th>Notes</th>
+
+    <th>Revenue GL Code</th>
     <th>Quantity</th>
     <th>Unit price</th>
-    <th>Item image url</th>
+    <th></th>
     <th></th>
 
   </tr>
-
 <% @items.each do |item| %>
   <tr>
+    <td><%= check_box_tag 'work_log_id[]', item.id, false %></td>
     <td><%= item.description %></td>
+    <td><%= truncate(item.notes,:length => 30) %></td>
     <td><%= item.revenue_gl_code %></td>
     <td><%= item.quantity %></td>
     <td><%= item.unit_price %></td>
-    <td><%= item.item_image_url %></td>
-    <td><%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td>
+        <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-file"), item.item_image_url, html_options = { :target => "_BLANK", :class => "btn btn-primary"} %>
+        <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-pencil"), {:id => item.id,:action => "edit"}, :class => "btn btn-primary" %>
+        <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-trash"), item, confirm: 'Are you sure?', method: :delete, :class => "btn btn-danger" %>
+    </td>
   </tr>
 <% end %>
 </table>
@@ -26,3 +33,17 @@
 <br />
 
 <%= link_to 'New Item', new_item_path, :class => "btn btn-primary" %>
+
+<h2>Import Items</h2>
+
+<%= form_tag import_items_path, multipart: true do %>
+  <div class="form-group">
+    <%= file_field_tag :file, :class => "file_field_tag" %>
+  </div>
+  <div class="checkbox">
+    <label>
+     <%= check_box_tag :override, :class => "check_box" %> Update Duplicates
+    </label>
+  </div>
+  <%= submit_tag "Import", :class => "btn btn-primary" %>
+<% end %>

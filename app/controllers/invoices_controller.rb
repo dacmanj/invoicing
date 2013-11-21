@@ -41,12 +41,13 @@ class InvoicesController < ApplicationController
   # GET /invoices/new.json
   def new
     @invoice = Invoice.new
+    @invoice.user = current_user
     @invoice.lines.build
 
     if params[:account_id]
       @invoice.account = Account.find(params[:account_id])
       @invoice.primary_contact_id = @invoice.account.contacts.first.id unless @invoice.account.blank? or @invoice.account.contacts.blank?
-           
+
     end
 
     respond_to do |format|

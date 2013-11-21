@@ -4,7 +4,7 @@
 
   <table class="table table-striped">
     <tr>
-      <th></th>
+      <th><%= check_box_tag 'select_all_item_id', '', false %></th>
       <th>Account</th>
       <th>Invoice</th>
       <th>Description</th>
@@ -35,11 +35,25 @@
     </tr>
   <% end %>
   </table>
-  <div class="form-group col-md-2">
-  <%= select_tag "account", options_for_select(Account.all.collect{ |a| [a.name, a.id] }), {:include_blank => true , :class => "select optional form-control"}%> 
-  </div>
+  <div class="form-inline well">
 
-  <%= submit_tag "Apply Bulk Action", :class => "btn btn-danger" %>
+    <div class="form-group">
+      <label class="sr-only" for="account">Assign Account</label>
+      <%= select_tag "account", options_for_select(Account.all.collect{ |a| [a.name, a.id] }.insert(0, "Assign Account...")), {:class => "select optional form-control"}%> 
+    </div>
+    <div class="form-group">
+      <label class="sr-only" for="account">Assign Invoice</label>
+      <%= select_tag "account", options_for_select(Invoice.order("id DESC").collect{ |a| [a.name, a.id] }.insert(0, "Assign Invoice...")), {:class => "select optional form-control"}%> 
+    </div>
+    <div class="checkbox">
+      <label class="sr_only" for="delete" style="padding: 1px 5px">
+        <%= check_box_tag 'delete' %>
+        Delete
+      </label>
+    </div>
+
+    <%= submit_tag "Apply Bulk Action", :class => "btn btn-danger" %>
+  </div>
 
 <% end %>
 <br />

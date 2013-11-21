@@ -23,6 +23,10 @@ class Line < ActiveRecord::Base
   	@item
   end
 
+  def name
+    "#{self.invoice.name}-#{id}"
+  end
+
   def total
   	t = 0
   	unless self.quantity.blank? || self.unit_price.blank?

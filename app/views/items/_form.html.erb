@@ -2,6 +2,9 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
+    <%= f.association :account %>
+    <%= f.association :line %>
+
     <%= f.input :description %>
     <%= f.input :notes %>
     <%= f.input :revenue_gl_code %>

@@ -13,20 +13,25 @@
 #  notes           :string(255)
 #  recurring       :boolean
 #  expensify_id    :string(255)
+#  invoice_id      :integer
+#  account_id      :integer
+#  line_id         :integer
 #
 
 class Item < ActiveRecord::Base
   belongs_to :account
   belongs_to :line
-  belongs_to :invoice
+
+  scope :not_assigned_to_account, where("account_id is NULL")
+  scope :not_assigned_to_line, where("account_id is NOT NULL AND line_id is NULL")
+  scope :active, where(:active => true) 
+
 
   attr_accessible :description, :item_image_url, :quantity, :receivable_gl_code, :revenue_gl_code, :unit_price, :notes, :recurring, :expensify_id
 
   def total
   	quantity * unit_price
   end
-
-
 
   def self.import file, override
   	errors = Array.new

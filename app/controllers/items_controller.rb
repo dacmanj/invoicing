@@ -76,6 +76,21 @@ class ItemsController < ApplicationController
     end
   end
 
+  def edit_multiple
+    @items = Item.find_all_by_id(params[:item_id])
+    errors = Array.new
+    @items.each do |i| 
+      i.account_id = params[:account] || i.account_id
+      i.save!
+      i.destroy if params[:delete] == "true"
+
+    end
+
+    message =  (errors.length > 0) ? errors.join(", ") : "Items successfully updated."
+    redirect_to items_url, notice: message
+
+  end
+
   # DELETE /items/1
   # DELETE /items/1.json
   def destroy

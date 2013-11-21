@@ -27,13 +27,20 @@ Invoicing::Application.routes.draw do
 
 
   resources :items do
-    collection { post :import }
+    collection do
+      post :import
+    end
+    collection do
+      post :edit_multiple
+    end
+
   end
 
   root :to => "home#index"
   resources :users, :only => [:index, :show, :edit, :update ]
   match '/accounts/:id/contacts/new' => 'contacts#new', :as => "new_account_contact"
   match '/invoices/:id/payments/new' => 'payments#new', :as => "new_invoice_payment"
+  match '/invoices/:id/build' => 'invoices#build'
   match '/invoices/:id/email' => 'invoices#email'
   match '/invoices/:id/send_email' => 'invoices#send_email'
   match '/auth/:provider/callback' => 'sessions#create'

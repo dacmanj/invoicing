@@ -13,6 +13,9 @@
 #  notes           :string(255)
 #  recurring       :boolean
 #  expensify_id    :string(255)
+#  invoice_id      :integer
+#  account_id      :integer
+#  line_id         :integer
 #
 
 require 'spec_helper'

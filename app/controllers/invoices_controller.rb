@@ -72,6 +72,10 @@ class InvoicesController < ApplicationController
     end
   end
 
+  def build
+    @invoice = Invoice.find(params[:id])
+  end
+
   # PUT /invoices/1
   # PUT /invoices/1.json
   def update

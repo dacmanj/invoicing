@@ -74,6 +74,7 @@ class InvoicesController < ApplicationController
 
   def build
     @invoice = Invoice.find(params[:id])
+    
   end
 
   # PUT /invoices/1

@@ -23,7 +23,8 @@ class Item < ActiveRecord::Base
   belongs_to :line
 
   scope :not_assigned_to_account, where("account_id is NULL")
-  scope :not_assigned_to_line, where("account_id is NOT NULL AND line_id is NULL")
+  scope :not_assigned_to_line, where("line_id is NULL")
+  scope :unassigned, where(:unassigned => true)
   scope :active, where(:active => true) 
 
 
@@ -33,13 +34,19 @@ class Item < ActiveRecord::Base
   	quantity * unit_price
   end
 
+  def unassigned
+    line_item.blank? || line_item.invoice_id.blank?
+  end
 
   def assign_to_invoice(id)
     if (id?)
       invoice = Invoice.find(id)
       line = Line.new
       line.invoice_id = invoice.id
-      line.description = self.description 
+      if self.item_image_url
+        img_link = "(<a href='#{self.item_image_url}'>Receipt</a>)'"
+      end
+      line.description = "#{self.description} #{img_link}"
       line.item_id = self.id
       line.quantity = self.quantity
       line.unit_price = self.unit_price

@@ -3,7 +3,14 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = Item.all
+    @items = Item.scoped
+    unassigned = params[:unassigned]
+    notes = params[:notes]
+    description = params[:description]
+
+      @items = @items.where("notes ILIKE ?", "%#{notes}%") unless notes.blank?
+      @items = @items.where("description ILIKE ?", "%#{description}%") unless description.blank?
+      @items = @items.where("line_id is NULL") unless (unassigned != "yes")
 
     respond_to do |format|
       format.html # index.html.erb
@@ -80,10 +87,13 @@ class ItemsController < ApplicationController
     @items = Item.find_all_by_id(params[:item_id])
     errors = Array.new
     @items.each do |i| 
-      i.account_id = params[:account] || i.account_id
-      i.assign_to_invoice(params[:invoice])
+      if params[:delete] == "1"
+        i.destroy
+        next
+      end
+      i.account_id = params[:account_id] || i.account_id
+      i.assign_to_invoice(params[:invoice_id]) unless params[:delete] or params[:invoice_id].blank?
       i.save!
-      i.destroy if params[:delete] == "true"
 
     end
 

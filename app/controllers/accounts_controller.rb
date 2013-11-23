@@ -2,7 +2,7 @@ class AccountsController < ApplicationController
   # GET /account
   # GET /account.json
   def index
-    @accounts = Account.all
+    @accounts = Account.order(:name)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -50,7 +50,7 @@ class AccountsController < ApplicationController
 
     respond_to do |format|
       if @account.save
-        format.html { redirect_to @account, notice: 'Account was successfully created.' }
+        format.html { redirect_to accounts_url, notice: 'Account was successfully created.' }
         format.json { render json: @account, status: :created, location: @account }
       else
         format.html { render action: "new" }
@@ -66,7 +66,7 @@ class AccountsController < ApplicationController
 
     respond_to do |format|
       if @account.update_attributes(params[:account])
-        format.html { redirect_to @account, notice: 'Account was successfully updated.' }
+        format.html { redirect_to accounts_url, notice: 'Account was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -82,8 +82,14 @@ class AccountsController < ApplicationController
     @account.destroy
 
     respond_to do |format|
-      format.html { redirect_to account_url }
+      format.html { redirect_to accounts_url }
       format.json { head :no_content }
     end
+  end
+
+  def import
+    errors = Account.import(params[:file],params[:override])
+    message =  (errors.length > 0) ? errors.join(", ") : "Items successfully imported."
+    redirect_to accounts_url, notice: message
   end
 end

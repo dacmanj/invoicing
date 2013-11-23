@@ -19,7 +19,7 @@ class Account < ActiveRecord::Base
 	has_many :payments
 	
 	accepts_nested_attributes_for :contacts, :address
-  	attr_accessible :address_id, :primary_contact_id, :contacts, :default_account_ar_account, :name, :contacts_attributes, :address_attributes
+  	attr_accessible :address_id, :primary_contact_id, :contacts, :default_account_ar_account, :name, :contacts_attributes, :address_attributes, :database_id
 
 
   	def self.valid_ar_accounts
@@ -36,5 +36,37 @@ class Account < ActiveRecord::Base
   	def unpaid_invoices
   		self.invoices.reject{|x| !x.unpaid? }
   	end
+
+    def self.import file, override
+      errors = Array.new
+      CSV.foreach(file.path, headers: true) do |row|
+        account = (find(row[:id]) unless row["id"].blank?) || (find_by_database_id(row["database_id"]) unless row["database_id"].blank?) || new
+        #account.attributes = row.to_hash.slice(*accessible_attributes)
+        account.database_id = row["database_id"]
+        account.name = row["company"]
+
+        account.default_account_ar_account = account.default_account_ar_account || "1110"
+        contact = account.contacts.build
+        contact.first_name = row["first_name"]
+        contact.last_name = row["last_name"]
+        contact.title = row["title"]
+        contact.active = true
+        address = Address.new
+        contact.address = address
+        if row["address"].blank?
+          address.address_lines = [row["address_line_1"],row["address_line_2"],row["address_line_3"]].join("\n")
+        else
+          address.address_lines = row["address"]
+        end
+
+        address.city = row["city"]
+        address.state = row["state"]
+        address.zip = row["zip"]
+        account.save!
+        contact.save!
+        address.save!
+    end
+    errors
+    end
 
 end

@@ -73,12 +73,14 @@ class Item < ActiveRecord::Base
   		if !(row['billable'] == "true")
   			next
   		end
-  		e_id = find_by_expensify_id(row["expensify_id"])
-  		if e_id and !override
+  		item = (find_by_expensify_id(row["expensify_id"]) unless row["expensify_id"].blank? )
+      a_id = Account.find_by_database_id(row["database_id"])
+  		if item and !override
   			errors.push ("Ignoring potential duplicate #{row['expensify_id']}")
   			next
   		end
-	    item = e_id || new
+      item = item || new
+      item.account_id = a_id
 	    item.attributes = row.to_hash.slice(*accessible_attributes)
 	    item.revenue_gl_code = item.revenue_gl_code || "4442"
 	    item.save!

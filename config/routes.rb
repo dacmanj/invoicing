@@ -20,7 +20,11 @@ Invoicing::Application.routes.draw do
   resources :contacts
 
 
-  resources :accounts
+  resources :accounts do
+    collection do
+      post :import
+    end
+  end
 
 
   resources :lines

@@ -84,16 +84,21 @@ class ItemsController < ApplicationController
   end
 
   def edit_multiple
+    if (params[:new_invoice] == "1")
+      redirect_to :controller => 'invoices', :action => 'new', :item_id => params[:item_id], :account_id => params[:account_id]
+      return
+    end
     @items = Item.find_all_by_id(params[:item_id])
+
     errors = Array.new
     @items.each do |i| 
       if params[:delete] == "1"
         i.destroy
         next
       end
-      i.account_id = params[:account_id] || i.account_id
-      i.assign_to_invoice(params[:invoice_id]) unless params[:delete] or params[:invoice_id].blank?
-      i.save!
+    i.account_id = params[:account_id] || i.account_id
+    i.assign_to_invoice(params[:invoice_id]) unless params[:delete] or params[:invoice_id].blank?
+    i.save!
 
     end
 

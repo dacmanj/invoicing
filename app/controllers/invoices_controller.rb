@@ -42,13 +42,28 @@ class InvoicesController < ApplicationController
   def new
     @invoice = Invoice.new
     @invoice.user = current_user
-    @invoice.lines.build
 
     if params[:account_id]
       @invoice.account = Account.find(params[:account_id])
       @invoice.primary_contact_id = @invoice.account.contacts.first.id unless @invoice.account.blank? or @invoice.account.contacts.blank?
-
     end
+
+    if params[:item_id]
+      @items = Item.find_all_by_id(params[:item_id])
+      @items.each do |i|
+        line = Line.new
+        if i.item_image_url
+          img_link = "(<a href='#{i.item_image_url}'>Receipt</a>)'"
+        end
+        line.description = "#{i.description} #{img_link}"
+        line.item_id = i.id
+        line.quantity = i.quantity
+        line.unit_price = i.unit_price
+        @invoice.lines.push line
+      end
+    end
+
+    @invoice.lines.build
 
     respond_to do |format|
       format.html # new.html.erb

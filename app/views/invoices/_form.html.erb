@@ -24,12 +24,12 @@
 
   <div><%=f.simple_fields_for :lines do |lines_form| %>
     <div class="duplicatable_nested_form well">  
-    	<%=   lines_form.input :description, label: 'Line Text', :input_html => { :class =>
-'tinymce' }  %>
-    	<%=   lines_form.input :item_id, collection: Item.all, label_method: :description %>
-    	<%=	  lines_form.input :quantity, :input_html => { min: 0 } %>
-    	<%=	  lines_form.input :unit_price, :input_html => { min: 0 } %>
+      <%=   lines_form.input :item_id, collection: Item.all, label_method: :description %>
+      <%=   lines_form.input :quantity, :input_html => { min: 0 } %>
+      <%=   lines_form.input :unit_price, :input_html => { min: 0 } %>
       <%=   lines_form.input :hidden %> 
+    	<%=   lines_form.input :description, label: 'Line Text', :input_html => { :class =>
+'tinymce', :rows => 10 }  %>
       
       <% if lines_form.object.new_record? %>
         <%= link_to content_tag(:i, "", class: "glyphicon glyphicon-trash"), '', :remote => true , :class => 'destroy_duplicate_nested_form btn btn-danger'%>

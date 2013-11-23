@@ -1,0 +1,33 @@
+<h3>Import</h3>
+
+<div class="well">
+	<h2>Import Items</h2>
+
+	<%= form_tag import_items_path, multipart: true do %>
+	  <div class="form-group">
+	    <%= file_field_tag :file, :class => "file_field_tag" %>
+	  </div>
+	  <div class="checkbox">
+	    <label>
+	     <%= check_box_tag :override, :class => "check_box" %> Update Duplicates
+	    </label>
+	  </div>
+	  <%= submit_tag "Import", :class => "btn btn-primary" %>
+	<% end %>
+</div>
+
+<div class="well">
+	<h2>Import Accounts</h2>
+
+	<%= form_tag import_items_path, multipart: true do %>
+	  <div class="form-group">
+	    <%= file_field_tag :file, :class => "file_field_tag" %>
+	  </div>
+	  <div class="checkbox">
+	    <label>
+	     <%= check_box_tag :override, :class => "check_box" %> Update Duplicates
+	    </label>
+	  </div>
+	  <%= submit_tag "Import", :class => "btn btn-primary" %>
+	<% end %>
+</div>

@@ -16,12 +16,18 @@ class User < ActiveRecord::Base
   validates_presence_of :name
 
   def self.create_with_omniauth(auth)
-    create! do |user|
-      user.provider = auth['provider']
-      user.uid = auth['uid']
-      if auth['info']
-         user.name = auth['info']['name'] || ""
-         user.email = auth['info']['email'] || ""
+    email = auth["info"]["email"]
+    domain = /@(.+$)/.match(email)[1]
+    if (domain.casecmp("pflag.org") != 0)
+      raise UserDomainError, "#{domain} is an invalid email address domain."
+    else
+      create! do |user|
+        user.provider = auth['provider']
+        user.uid = auth['uid']
+        if auth['info']
+           user.name = auth['info']['name'] || ""
+           user.email = auth['info']['email'] || ""
+        end
       end
     end
   end

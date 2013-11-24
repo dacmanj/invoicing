@@ -3,7 +3,11 @@ class ContactsController < ApplicationController
   # GET /contacts
   # GET /contacts.json
   def index
-    @contacts = Contact.all
+    @contacts = Contact.scoped
+
+    if params[:account_id].present?
+      @contacts = @contacts.where(:account_id => params[:account_id])
+    end
 
     respond_to do |format|
       format.html # index.html.erb

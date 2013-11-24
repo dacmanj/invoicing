@@ -25,10 +25,10 @@ class Invoice < ActiveRecord::Base
 
   attr_accessible :account_id, :contact_ids, :user_id, :lines_attributes, :date, :primary_contact_id
 
-  before_save :set_primary_contact_if_blank, :set_account_if_blank
+  before_save :set_account_if_blank, :set_primary_contact_if_blank
 
   def set_primary_contact_if_blank
-      self.primary_contact_id = self.contacts.first.id if self.primary_contact_id.blank?
+      self.primary_contact_id = self.contacts.first.id if !self.contacts.blank? && self.primary_contact_id.blank?
   end
 
   def set_account_if_blank

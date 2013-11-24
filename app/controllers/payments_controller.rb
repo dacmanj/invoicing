@@ -75,6 +75,12 @@ class PaymentsController < ApplicationController
     end
   end
 
+  def import
+    errors = Payment.import(params[:file])
+    message =  (errors.length > 0) ? errors.join(", ") : "Payments successfully imported."
+    redirect_to payments_url, notice: message
+  end
+
   # DELETE /payments/1
   # DELETE /payments/1.json
   def destroy

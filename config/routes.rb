@@ -14,7 +14,11 @@ Invoicing::Application.routes.draw do
     resources :lines, only: :destroy
   end
 
-  resources :payments
+  resources :payments do
+      collection do
+    post :import
+  end
+
 
 
   resources :contacts

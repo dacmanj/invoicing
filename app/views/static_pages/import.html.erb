@@ -31,3 +31,14 @@
 	  <%= submit_tag "Import", :class => "btn btn-primary" %>
 	<% end %>
 </div>
+
+<div class="well">
+	<h2>Import Payments</h2>
+
+	<%= form_tag import_payments_path, multipart: true do %>
+	  <div class="form-group">
+	    <%= file_field_tag :file, :class => "file_field_tag" %>
+	  </div>
+	  <%= submit_tag "Import", :class => "btn btn-primary" %>
+	<% end %>
+</div>

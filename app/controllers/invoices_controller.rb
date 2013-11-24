@@ -3,7 +3,7 @@ class InvoicesController < ApplicationController
   # GET /invoices
   # GET /invoices.json
   def index
-    @invoices = Invoice.order(:id)
+    @invoices = Invoice.order("id DESC")
 
     respond_to do |format|
       format.html # index.html.erb

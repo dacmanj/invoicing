@@ -18,4 +18,19 @@ class Payment < ActiveRecord::Base
 	belongs_to :account
 	
   attr_accessible :amount, :account_id, :invoice_id, :payment_date, :payment_type, :reference_number
+
+  def self.import file, override
+  	errors = Array.new
+  	CSV.foreach(file.path, headers: true) do |row|
+  		i = Invoice.find(row["invoice_id"])
+  		a = i.account
+  		payment = new
+	    payment.account = a
+	    payment.invoice = Inv
+	    item.attributes = row.to_hash.slice(*accessible_attributes)
+	    item.revenue_gl_code = item.revenue_gl_code || "4442"
+	    item.save!
+	end
+  errors
+  end
 end

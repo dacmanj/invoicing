@@ -12,7 +12,12 @@ class ItemsController < ApplicationController
     description = params[:description]
 
     if item_id || account_id
-      @items = @items.where("items.id = ? OR account_id = ?", item_id, account_id)
+      if account_id
+        @items = @items.where("items.id = ?", item_id)
+      else
+        @items = @items.where("lines.id IS NULL and account.id = ?",account_id)
+      end
+
     else
       if (assigned == "yes")
         @items = @items.where("lines.id IS NOT NULL")

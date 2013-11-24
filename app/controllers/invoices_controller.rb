@@ -3,7 +3,7 @@ class InvoicesController < ApplicationController
   # GET /invoices
   # GET /invoices.json
   def index
-    @invoices = Invoice.all
+    @invoices = Invoice.order(:id)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -64,7 +64,7 @@ class InvoicesController < ApplicationController
       end
     end
 
-    @invoice.account = @invoice.account || @items.first.account
+    @invoice.account = @invoice.account || (@items.first.account unless @items.blank?)
 
     @invoice.lines.build
 

@@ -11,8 +11,8 @@ class ItemsController < ApplicationController
     notes = params[:notes]
     description = params[:description]
 
-    if item_id
-      @items = @items.where("items.id = ?", item_id)
+    if item_id || account_id
+      @items = @items.where("items.id = ? OR account_id = ?", item_id, account_id)
     else
       if (assigned == "yes")
         @items = @items.where("lines.id IS NOT NULL")
@@ -114,7 +114,7 @@ class ItemsController < ApplicationController
         i.destroy
         next
       end
-    i.account_id = params[:account_id] || i.account_id
+    i.account_id = (params[:account_id] unless params[:account_id].blank?) || i.account_id
     i.assign_to_invoice(params[:invoice_id]) unless params[:delete] or params[:invoice_id].blank?
     i.save!
 

@@ -2,7 +2,15 @@ class AccountsController < ApplicationController
   # GET /account
   # GET /account.json
   def index
-    @accounts = Account.order(:name)
+    name = params[:name]
+
+    @accounts = Account.where("name ILIKE ?", "%#{name}%").order(:name) unless name.blank?
+    @accounts = @accounts || Account.order(:name)
+
+    if params[:outstanding_balance]
+      @accounts = @accounts.select{|a| a.balance_due > 0 }
+      @accounts = @accounts.sort_by{ |e| e["name"]}
+    end
 
     respond_to do |format|
       format.html # index.html.erb

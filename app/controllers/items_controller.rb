@@ -3,14 +3,26 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = Item.order(:account_id,:invoice_id).scoped
+    @items = Item.includes(:lines).order("items.account_id, items.invoice_id")
+
+    item_id = params[:item_id]
+    account_id = params[:account_id]
     assigned = params[:assigned]
     notes = params[:notes]
     description = params[:description]
-      @items = @items.where("line_id is NULL") unless (assigned == "yes")
-      @items = @items.where("notes ILIKE ?", "%#{notes}%") unless notes.blank?
-      @items = @items.where("description ILIKE ?", "%#{description}%") unless description.blank?
 
+    if item_id
+      @items = @items.where("items.id = ?", item_id)
+    else
+      if (assigned == "yes")
+        @items = @items.where("lines.id IS NOT NULL")
+      else
+        @items = @items.where("lines.id IS NULL")
+      end
+      @items = @items.where("items.notes ILIKE ?", "%#{notes}%") unless notes.blank?
+      @items = @items.where("items.description ILIKE ?", "%#{description}%") unless description.blank?
+      @items = @items.where("account_id = ? OR recurring = true",account_id) unless account_id.blank?
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @items }

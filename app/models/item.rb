@@ -20,7 +20,7 @@
 
 class Item < ActiveRecord::Base
   belongs_to :account
-  belongs_to :line
+  has_many :lines
 
   scope :not_assigned_to_account, where("account_id is NULL")
   scope :not_assigned_to_line, where("line_id is NULL")
@@ -28,7 +28,7 @@ class Item < ActiveRecord::Base
   scope :active, where(:active => true) 
 
 
-  attr_accessible :description, :item_image_url, :quantity, :receivable_gl_code, :revenue_gl_code, :unit_price, :notes, :recurring, :expensify_id, :account_id, :line_id
+  attr_accessible :description, :item_image_url, :quantity, :receivable_gl_code, :revenue_gl_code, :unit_price, :notes, :recurring, :expensify_id, :account_id, :line_ids
 
   def total
   	quantity * unit_price

@@ -15,8 +15,9 @@ Invoicing::Application.routes.draw do
   end
 
   resources :payments do
-      collection do
-    post :import
+    collection do
+        post :import
+    end
   end
 
 

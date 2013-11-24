@@ -19,17 +19,18 @@ class Payment < ActiveRecord::Base
 	
   attr_accessible :amount, :account_id, :invoice_id, :payment_date, :payment_type, :reference_number
 
-  def self.import file, override
+  def self.import file
   	errors = Array.new
   	CSV.foreach(file.path, headers: true) do |row|
+      payment = new
   		i = Invoice.find(row["invoice_id"])
-  		a = i.account
-  		payment = new
-	    payment.account = a
-	    payment.invoice = Inv
-	    item.attributes = row.to_hash.slice(*accessible_attributes)
-	    item.revenue_gl_code = item.revenue_gl_code || "4442"
-	    item.save!
+      payment.invoice = i
+  		payment.account = i.account
+      payment.payment_date = Date.strptime row["payment_date"], '%m/%d/%Y' unless row["payment_date"].blank?
+      payment.payment_type = row["payment_type"] unless row["payment_type"].blank?
+      payment.reference_number = row["reference_number"] unless row["reference_number"].blank?
+      payment.amount = row["amount"]
+	    payment.save!
 	end
   errors
   end

@@ -8,9 +8,9 @@
     <%= text_field_tag :description, "#{params[:description]}",:placeholder => "Description" %>
   </div>
   <div class="checkbox">
-    <label for="unassigned">
-      <%= check_box_tag :unassigned, "", (params[:unassigned] == "yes") %>
-      Unassigned
+    <label for="assigned">
+      <%= check_box_tag :assigned, "yes", (params[:assigned] == "yes") %>
+      Assigned?
     </label>
   </div>
   <div class="form-group">
@@ -19,7 +19,31 @@
   </div>
 <% end %>
 <%= form_tag edit_multiple_items_path do %>
+  <div class="form-inline well">
 
+    <div class="form-group">
+      <label class="sr-only" for="account_id">Assign Account</label>
+      <%= select_tag "account_id", options_for_select(Account.order(:name).collect{ |a| [a.name, a.id] }.insert(0, ["Assign Account...",""])), {:class => "select optional form-control"}%> 
+    </div>
+    <div class="form-group">
+      <label class="sr-only" for="account">Assign Invoice</label>
+      <%= select_tag "invoice_id", options_for_select(Invoice.order("id DESC").collect{ |a| [a.name, a.id] }.insert(0, ["Assign Invoice...",""])), {:class => "select optional form-control"}%> 
+    </div>
+    <div class="checkbox">
+      <label class="sr_only" for="new_invoice" style="padding: 1px 5px">
+        <%= check_box_tag 'new_invoice' %>
+        New Invoice
+      </label>
+    </div>
+    <div class="checkbox">
+      <label class="sr_only" for="delete" style="padding: 1px 5px">
+        <%= check_box_tag 'delete' %>
+        Delete
+      </label>
+    </div>
+
+    <%= submit_tag "Apply Bulk Action", :class => "btn btn-danger" %>
+  </div>
   <table class="table table-striped">
     <tr>
       <th><%= check_box_tag 'select_all_item_id', '', false %></th>

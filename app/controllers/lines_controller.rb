@@ -61,7 +61,7 @@ class LinesController < ApplicationController
 
     respond_to do |format|
       if @line.update_attributes(params[:line])
-        format.html { redirect_to @line, notice: 'Line was successfully updated.' }
+        format.html { redirect_to @lines, notice: 'Line was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

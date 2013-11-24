@@ -3,14 +3,13 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = Item.scoped
-    unassigned = params[:unassigned]
+    @items = Item.order(:account_id,:invoice_id).scoped
+    assigned = params[:assigned]
     notes = params[:notes]
     description = params[:description]
-
+      @items = @items.where("line_id is NULL") unless (assigned == "yes")
       @items = @items.where("notes ILIKE ?", "%#{notes}%") unless notes.blank?
       @items = @items.where("description ILIKE ?", "%#{description}%") unless description.blank?
-      @items = @items.where("line_id is NULL") unless (unassigned != "yes")
 
     respond_to do |format|
       format.html # index.html.erb
@@ -84,10 +83,17 @@ class ItemsController < ApplicationController
   end
 
   def edit_multiple
+
+
     if (params[:new_invoice] == "1")
-      redirect_to :controller => 'invoices', :action => 'new', :item_id => params[:item_id], :account_id => params[:account_id]
+      if !params[:account_id].blank?
+        redirect_to :controller => 'invoices', :action => 'new', :item_id => params[:item_id], :account_id => params[:account_id]
+      else
+        redirect_to :controller => 'invoices', :action => 'new', :item_id => params[:item_id]
+      end
       return
     end
+
     @items = Item.find_all_by_id(params[:item_id])
 
     errors = Array.new

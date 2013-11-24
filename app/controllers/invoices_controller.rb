@@ -57,11 +57,14 @@ class InvoicesController < ApplicationController
         end
         line.description = "#{i.description} #{img_link}"
         line.item_id = i.id
+        line.notes = i.notes
         line.quantity = i.quantity
         line.unit_price = i.unit_price
         @invoice.lines.push line
       end
     end
+
+    @invoice.account = @invoice.account || @items.first.account
 
     @invoice.lines.build
 

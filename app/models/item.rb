@@ -28,7 +28,7 @@ class Item < ActiveRecord::Base
   scope :active, where(:active => true) 
 
 
-  attr_accessible :description, :item_image_url, :quantity, :receivable_gl_code, :revenue_gl_code, :unit_price, :notes, :recurring, :expensify_id
+  attr_accessible :description, :item_image_url, :quantity, :receivable_gl_code, :revenue_gl_code, :unit_price, :notes, :recurring, :expensify_id, :account_id, :line_id
 
   def total
   	quantity * unit_price
@@ -74,13 +74,13 @@ class Item < ActiveRecord::Base
   			next
   		end
   		item = (find_by_expensify_id(row["expensify_id"]) unless row["expensify_id"].blank? )
-      a_id = Account.find_by_database_id(row["database_id"])
+      a = Account.find_by_database_id(row["database_id"])
   		if item and !override
   			errors.push ("Ignoring potential duplicate #{row['expensify_id']}")
   			next
   		end
       item = item || new
-      item.account_id = a_id
+      item.account = a
 	    item.attributes = row.to_hash.slice(*accessible_attributes)
 	    item.revenue_gl_code = item.revenue_gl_code || "4442"
 	    item.save!

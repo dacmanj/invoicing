@@ -63,7 +63,7 @@ Invoicing::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  config.asset_host = 'https://invoicing-pflag.herokuapp.com' 
+  config.asset_host = 'invoicing-pflag.herokuapp.com' 
   config.action_mailer.default :content_type => "text/html"
 
   # ActionMailer Config

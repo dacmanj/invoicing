@@ -64,19 +64,24 @@ include ActionView::Helpers::NumberHelper
 
   end
 
+  def template_keys
+    template_keys = ["account_name", "contact_name", "contact_first_name", "contact_last_name",
+                      "invoice_number", "invoice_total", "balance_due", "account_balance_due", "other_invoices"];
+  end
+
   def parse_template(msg)
 
-    msg % { :account_name => (self.account.name unless account.blank?) || "",
-                :contact_name => (self.contacts.first.name unless self.contacts.first.blank?) || "", 
-                :contact_first_name => (self.contacts.first.first_name unless self.contacts.first.blank?) || "", 
-                :contact_last_name => (self.contacts.first.last_name unless self.contacts.first.blank?) || "", 
-                :invoice_number => self.id,
-                :invoice_total => number_to_currency(self.total),
-                :balance_due => number_to_currency(self.balance_due),
-                :account_balance_due => self.account.balance_due,
-                :other_invoices => self.other_past_due_invoices_table
+    msg % {  :account_name => (self.account.name unless account.blank?) || "",
+             :contact_name => (self.contacts.first.name unless self.contacts.first.blank?) || "", 
+             :contact_first_name => (self.contacts.first.first_name unless self.contacts.first.blank?) || "", 
+             :contact_last_name => (self.contacts.first.last_name unless self.contacts.first.blank?) || "", 
+             :invoice_number => self.id,
+             :invoice_total => number_to_currency(self.total),
+             :balance_due => number_to_currency(self.balance_due),
+             :account_balance_due => self.account.balance_due,
+             :other_invoices => self.other_past_due_invoices_table
 
-                 }
+    }
 
   end
 

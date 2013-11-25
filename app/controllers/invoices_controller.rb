@@ -121,6 +121,31 @@ class InvoicesController < ApplicationController
     end
   end
 
+  def edit_multiple
+    @invoices = Invoice.find_all_by_id(params[:invoice_id])
+    errors = Array.new
+
+    email_template_id = params[:email_template_id]
+    template = EmailTemplate.find(email_template_id)
+
+    @invoices.each do |i| 
+      if params[:delete] == "1"
+        i.destroy
+        next
+        InvoiceMailer.send_invoice(@i,params = {:subject => "test", :message => "test", :email=>"david@dcmanjr.com"}).deliver
+        email = { :email => i.contacts.map{|h| "#{h.address.name} <#{h.address.email}>" unless h.address.blank? || h.address.email.blank? }.join(","),
+                  :message => i.parse_template(template.message),
+                  :subject => i.parse_template(template.subject) }
+
+      end
+
+    end
+
+    message =  (errors.length > 0) ? errors.join(", ") : "Invoices successfully emailed."
+    redirect_to invoices_url, notice: message
+
+  end
+
   # DELETE /invoices/1
   # DELETE /invoices/1.json
   def destroy

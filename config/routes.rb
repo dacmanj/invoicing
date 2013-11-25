@@ -12,6 +12,9 @@ Invoicing::Application.routes.draw do
 
   resources :invoices do
     resources :lines, only: :destroy
+    collection do
+      post :edit_multiple
+    end
   end
 
   resources :payments do

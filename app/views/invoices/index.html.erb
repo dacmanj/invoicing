@@ -20,50 +20,63 @@
   </div>
 <% end %>
 
-
-<table class="table table-bordered table-striped">
-  <tr>
-    <th>Invoice #</th>
-    <th>Invoice Date</th>th>
-    <th>Company</th>
-    <th>Contact</th>
-    <th>Total</th>
-    <th>Balance Due</th>
-    <th style="min-width: 250px;"></th>
-  </tr>
-
-<% @invoices.each do |invoice| %>
-  <tr>
-    <td><%= link_to content_tag(:i, invoice.id, :class => "glyphicon glyphicon-pencil"), edit_invoice_path(invoice.id) %></td>
-    <td>
-      <%= invoice.date %>
-    </td>
-    <td>
-      <% unless invoice.account.blank? %>
-        <%= link_to invoice.account.name, edit_account_path(invoice.account) %>
-      <% end %>     
-    </td>
-    <td>
-      <% unless invoice.contacts.blank? %>
-        <%= link_to invoice.contacts.first.name, edit_contact_path(invoice.contacts.first) %>
-      <% end %>
-    </td>
-    <td>
-      <%= number_to_currency invoice.total %>
-    </td>
-    <td>
-      <%= number_to_currency invoice.balance_due %>
-    </td>
-    <td>
-    <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-usd"), new_invoice_payment_path(:id => invoice.id), :class => "btn btn-primary" %>
-    <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-pencil"), {:id => invoice.id,:action => "edit"}, :class => "btn btn-primary" %>
-    <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-file"), invoice_path(invoice, :format => :pdf), :class => "btn btn-primary", :target => "_BLANK" %>
-    <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-send"), {:id => invoice.id,:action => "email"}, :class => "btn btn-primary" %>
-    <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-trash"), invoice, confirm: 'Are you sure?', method: :delete, :class => "btn btn-danger" %>
+<%= form_tag edit_multiple_invoices_path do %>
+  <div class="form-inline well">
+    <div class="form-group col-md-3">
+      <label class="sr-only" for="account_id"> Bulk Email</label>
+      <%= select_tag "email_template_id", options_for_select(EmailTemplate.order(:name).collect{ |a| [a.name, a.id] }.insert(0, ["Select Template...",""])), {:class => "select optional form-control"}%> 
+    </div>
+    <%= submit_tag "Send Email", :class => "btn btn-danger" %>
+  </div>
 
 
-    </td>
-  </tr>
+  <table class="table table-bordered table-striped">
+    <tr>
+      <th>
+        <%= check_box_tag 'select_all_invoice_id', '', false %>
+      </th>
+      <th>Invoice #</th>
+      <th>Invoice Date</th>
+      <th>Company</th>
+      <th>Contact</th>
+      <th>Total</th>
+      <th>Balance Due</th>
+      <th style="min-width: 250px;"></th>
+    </tr>
+
+  <% @invoices.each do |invoice| %>
+    <tr>
+      <td><%= check_box_tag 'invoice_id[]', invoice.id, false %></td>
+      <td><%= link_to content_tag(:i, invoice.id, :class => "glyphicon glyphicon-pencil"), edit_invoice_path(invoice.id) %></td>
+      <td>
+        <%= invoice.date %>
+      </td>
+      <td>
+        <% unless invoice.account.blank? %>
+          <%= link_to invoice.account.name, edit_account_path(invoice.account) %>
+        <% end %>     
+      </td>
+      <td>
+        <% unless invoice.contacts.blank? %>
+          <%= link_to invoice.contacts.first.name, edit_contact_path(invoice.contacts.first) %>
+        <% end %>
+      </td>
+      <td>
+        <%= number_to_currency invoice.total %>
+      </td>
+      <td>
+        <%= number_to_currency invoice.balance_due %>
+      </td>
+      <td>
+      <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-usd"), new_invoice_payment_path(:id => invoice.id), :class => "btn btn-primary" %>
+      <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-pencil"), {:id => invoice.id,:action => "edit"}, :class => "btn btn-primary" %>
+      <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-file"), invoice_path(invoice, :format => :pdf), :class => "btn btn-primary", :target => "_BLANK" %>
+      <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-send"), {:id => invoice.id,:action => "email"}, :class => "btn btn-primary" %>
+      <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-trash"), invoice, confirm: 'Are you sure?', method: :delete, :class => "btn btn-danger" %>
+
+
+      </td>
+    </tr>
+  <% end %>
+  </table>
 <% end %>
-</table>
-

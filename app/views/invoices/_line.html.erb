@@ -2,10 +2,10 @@
 	    	<%=  line.description.html_safe %>
 	    </div>
 	    <div class="col-md-1">
-	    	<%= line.quantity %>
+	    	<%= line.quantity unless line.quantity == 1  %>
 	    </div>
 	    <div class="col-md-1">
-	    	<%= number_to_currency line.unit_price %>
+	    	<%= number_to_currency line.unit_price unless line.quantity == 1 %>
 	    </div>
 	    <div class="col-md-1">
 	    	<%= number_to_currency line.total %>

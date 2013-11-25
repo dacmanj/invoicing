@@ -4,6 +4,9 @@ class InvoicesController < ApplicationController
   # GET /invoices.json
   def index
     @invoices = Invoice.order("id DESC")
+    if (params[:outstanding_balance] == "yes")
+      @invoices = @invoices.select{|h| h.balance_due != 0}
+    end
 
     respond_to do |format|
       format.html # index.html.erb

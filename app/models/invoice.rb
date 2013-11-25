@@ -12,6 +12,7 @@
 #
 
 class Invoice < ActiveRecord::Base
+include ActionView::Helpers::NumberHelper
 	belongs_to :account
 	belongs_to :user
 
@@ -43,13 +44,38 @@ class Invoice < ActiveRecord::Base
   	t
   end
 
+  def other_past_due_invoices_table
+
+    other_invoices = self.account.invoices.select{|h| h.balance_due != 0 && h.id != self.id}
+    if other_invoices.length == 0
+      return ""
+    end
+
+    html = "<h3>Other Outstanding Invoices</h3>"
+    html += "<table><tbody>"
+    html += "<thead><tr><th>Invoice Date</th><th>Invoice Number<th>Amount Due</th></tr></thead>"
+    due = 0
+
+    other_invoices.each do |i|
+      html += "<tr><td>#{i.date.strftime("%m/%d/%Y")}</td><td>#{number_to_currency(i.balance_due)}</td></tr>"
+    end
+
+    html += "</tbody></table>"
+
+  end
+
   def parse_template(msg)
+
     msg % { :account_name => (self.account.name unless account.blank?) || "",
                 :contact_name => (self.contacts.first.name unless self.contacts.first.blank?) || "", 
                 :contact_first_name => (self.contacts.first.first_name unless self.contacts.first.blank?) || "", 
                 :contact_last_name => (self.contacts.first.last_name unless self.contacts.first.blank?) || "", 
                 :invoice_number => self.id,
-                :invoice_total => self.total
+                :invoice_total => number_to_currency(self.total),
+                :balance_due => number_to_currency(self.balance_due),
+                :account_balance_due => self.account.balance_due,
+                :other_invoices => self.other_past_due_invoices_table
+
                  }
 
   end

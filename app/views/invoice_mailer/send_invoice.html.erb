@@ -13,7 +13,7 @@
       <tbody>
         <tr>
           <td>
-            <%=wicked_pdf_image_tag("logo.png", width: '129', height: '120')%>
+            <%=wicked_pdf_image_tag("logo.png", width: '129', height: '120') || image_tag("logo.png", width: '129', height: '120') %>
           </td>
           <td>
             <center>
@@ -51,7 +51,40 @@
     </table>
 
     <table width="100%" class="lines">
-          <%= render "invoices/lines", :lines => @invoice.lines %>      
+      <thead>
+      <tr>
+        <th>
+            Description
+        </th>
+        <th>
+          Qty         
+        </th>
+        <th>
+          Unit Price
+        </th>
+        <th>
+          Amount
+        </th>     
+      </tr>
+      </thead>
+      <tbody>
+      <% @invoice.lines.each do |line| %>
+        <tr>
+          <td>
+            <%= line.description.html_safe %>     
+          </td>
+          <td class="number">
+            <%= line.quantity unless line.quantity == 1 %>      
+          </td>
+          <td>
+            <%= number_to_currency line.unit_price unless line.quantity == 1 %>
+          </td>
+          <td>
+            <%= number_to_currency line.total %>      
+          </td>
+        </tr>
+      <% end %>
+    </tbody>    
     </table>
 
     <div style="text-align: right; background-color: #cccccc; padding: 5px;">

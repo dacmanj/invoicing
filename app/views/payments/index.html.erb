@@ -1,22 +1,32 @@
 <h1>Payments</h1>
+  <%= link_to new_payment_path, :class => 'btn btn-primary' do %>
+    <i class="icon-plus icon-white"></i>
+    New Payment
+  <% end %>
 
 <table class="table table-striped">
   <tr>
     <th>Invoice</th>
+    <th>Payment ID</th>
     <th>Accounts</th>
     <th>Payment date</th>
     <th>Payment type</th>
     <th>Reference number</th>
     <th>Amount</th>
-    <th></th>
+    <th style="min-width: 100px;"></th>
 
   </tr>
 
 <% @payments.each do |payment| %>
   <tr>
-    <td><%= payment.invoice_id %></td>
-    <td><%= payment.account.name unless payment.account.blank? %></td>
-    <td><%= payment.payment_date %></td>
+    <td>        
+        <%= link_to content_tag(:i, payment.invoice_id, :class => "glyphicon glyphicon-pencil"), {:id => payment.invoice_id,:action => "edit", :controller => "invoices"} %>
+    </td>
+    <td>        
+        <%= link_to content_tag(:i, payment.id, :class => "glyphicon glyphicon-pencil"), edit_payment_path(payment.id) %>
+    </td>
+    <td><%= link_to payment.account.name, edit_account_path(payment.account_id) unless payment.account.blank? %></td>
+    <td><%= payment.payment_date.strftime("%m/%d/%Y") unless payment.payment_date.blank? %></td>
     <td><%= payment.payment_type %></td>
     <td><%= payment.reference_number %></td>
     <td><%= number_to_currency(payment.amount) %></td>

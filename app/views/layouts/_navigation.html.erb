@@ -10,16 +10,43 @@
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li>
-            <%= link_to 'Invoices', invoices_path %>
-          </li>
           <% if user_signed_in? %>
+          <li>
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            Invoices <b class="caret"></b></a>
+
+            <ul class="dropdown-menu">
+              <li>
+                <%= link_to 'New Invoice', new_invoice_path %>
+              </li>
+              <li>
+                <%= link_to 'Outstanding Invoices', invoices_path(:outstanding_balance => "yes") %>
+              </li>
+              <li>
+                <%= link_to 'All Invoices', invoices_path %>
+              </li>
+              </ul>
+
+          </li>
 
           <li>
             <%= link_to 'Accounts', accounts_path %>
           </li>
           <li>
-            <%= link_to 'Payments', payments_path %>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              Payments
+            <b class="caret"></b></a>
+
+            <ul class="dropdown-menu">
+              <li>
+                <%= link_to "Payments", payments_path %>
+              </li>
+
+              <li>
+                <%= link_to "New Payment", new_payment_path %>
+              </li>
+            </ul>
+
           </li>
           <li>
             <%= link_to 'Items', items_path %>
@@ -32,6 +59,9 @@
               </li>
               <li>
                 <%= link_to 'Users', users_path %>
+              </li>
+              <li>
+                <%= link_to 'Codes', codes_path %>
               </li>
             </ul>
           </li>

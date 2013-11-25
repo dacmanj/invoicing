@@ -1,0 +1,25 @@
+<div class="page-header">
+  <%= link_to email_records_path, :class => 'btn btn-default' do %>
+    <i class="icon-list-alt"></i>
+    Back
+  <% end %>
+  <h1>Listing Email Record</h1>
+</div>
+
+<dl>
+  <dt>Account:</dt>
+  <dd><%= link_to email_record.account_id, account_path(email_record.account_id) %></dd>
+
+  <dt>Invoice:</dt>
+  <dd><%= link_to email_record.invoice_id, invoice_path(email_record.invoice_id) %></dd>
+
+  <dt>Email:</dt>
+  <dd><%= @email_record.email %></dd>
+
+  <dt>Subject:</dt>
+  <dd><%= @email_record.subject %></dd>
+
+  <dt>Message:</dt>
+  <dd><%= @email_record.message.html_safe %></dd>
+
+</dl>

@@ -2,13 +2,14 @@
 #
 # Table name: invoices
 #
-#  id         :integer          not null, primary key
-#  contact_id :integer
-#  account_id :integer
-#  user_id    :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  date       :date
+#  id                 :integer          not null, primary key
+#  contact_id         :integer
+#  account_id         :integer
+#  user_id            :integer
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  date               :date
+#  primary_contact_id :integer
 #
 
 require 'spec_helper'

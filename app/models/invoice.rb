@@ -2,13 +2,14 @@
 #
 # Table name: invoices
 #
-#  id         :integer          not null, primary key
-#  contact_id :integer
-#  account_id :integer
-#  user_id    :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  date       :date
+#  id                 :integer          not null, primary key
+#  contact_id         :integer
+#  account_id         :integer
+#  user_id            :integer
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  date               :date
+#  primary_contact_id :integer
 #
 
 class Invoice < ActiveRecord::Base
@@ -16,6 +17,7 @@ include ActionView::Helpers::NumberHelper
 	belongs_to :account
 	belongs_to :user
 
+  has_many :email_records
 	has_many :lines, dependent: :destroy
 	has_many :items, :through => :lines
   has_many :payments

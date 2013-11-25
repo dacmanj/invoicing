@@ -17,6 +17,15 @@ class InvoiceMailer < ActionMailer::Base
 	        render_to_string(:pdf => "invoice", :template => 'invoices/show.pdf.erb', :layout => 'pdf.html', :formats => [:pdf]), :zoom => 0.75
 	      )
 	  	end
-	end
+    end
+
+    email_record = EmailRecord.new
+    email_record.account = @invoice.account
+    email_record.invoice = @invoice
+    email_record.subject = @subject
+    email_record.message = @message
+    email_record.email = @email
+    email_record.save!
+
   end
 end

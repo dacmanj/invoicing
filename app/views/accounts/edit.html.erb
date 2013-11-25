@@ -81,4 +81,41 @@
         </tr>
       <% end %>
       </table>
-</div>
+      </div>
+
+      <div class="well">
+      <h2>Emails</h2>
+      <table class="table table-bordered table-striped">
+        <tr>
+          <th>Date</th>
+          <th>Invoice</th>
+          <th>To</th>
+          <th>Subject</th>
+          <th>Message</th>
+          <th></th>
+        </tr>
+
+      <% @email_records.each do |email| %>
+        <tr>
+          <td>
+            <%= email.created_at.strftime ("%m/%d/%y %l:%M %P") %>
+          </td>        
+          <td>
+            <%= link_to content_tag(:i, email.invoice_id, :class => "glyphicon glyphicon-pencil"), {:id => email.invoice_id,:action => "edit", :controller => "invoices"} %>
+          </td>
+          <td>
+            <%= email.email %>
+          </td>
+          <td>
+            <%= email.subject %>
+          </td>
+          <td>
+            <%= email.message %>
+          </td>
+          <td>
+            <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-trash"), email, confirm: 'Are you sure?', method: :delete, :class => "btn btn-danger" %>
+          </td>
+        </tr>
+      <% end %>
+      </table>
+      </div>

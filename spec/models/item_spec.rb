@@ -3,7 +3,7 @@
 # Table name: items
 #
 #  id              :integer          not null, primary key
-#  description     :string(255)
+#  description     :text
 #  revenue_gl_code :string(255)
 #  quantity        :decimal(, )
 #  unit_price      :decimal(, )

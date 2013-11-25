@@ -11,6 +11,7 @@
 #  updated_at  :datetime         not null
 #  invoice_id  :integer
 #  hidden      :boolean
+#  notes       :string(255)
 #
 
 require 'spec_helper'

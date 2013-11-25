@@ -1,0 +1,38 @@
+<div class="page-header">
+  <%= link_to new_email_record_path, :class => 'btn btn-primary' do %>
+    <i class="icon-plus icon-white"></i>
+    New Email record
+  <% end %>
+  <h1>Email Log</h1>
+</div>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Account</th>
+      <th>Invoice</th>
+      <th>To</th>
+      <th>Subject</th>
+      <th>Message</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+<% @email_records.each do |email_record| %>
+    <tr>
+      <td><%= link_to email_record.account_id, account_path(email_record.account_id) %></td>
+      <td><%= link_to email_record.invoice_id, invoice_path(email_record.invoice_id) %></td>
+      <td><%= email_record.email %></td>
+      <td><%= email_record.subject %></td>
+      <td><%= truncate email_record.message %></td>
+
+      <td>
+        <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-file"), email_record, :class => "btn btn-primary", :target => "_BLANK" %>
+        <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-trash"), email_record, confirm: 'Are you sure?', method: :delete, :class => "btn btn-danger" %>
+   
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

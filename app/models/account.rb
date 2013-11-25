@@ -10,9 +10,11 @@
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
 #  database_id                :string(255)
+#  primary_contact_id         :integer
 #
 
 class Account < ActiveRecord::Base
+  has_many :email_records
 	has_many :contacts
 	has_many :address, :through => :contacts
 	has_many :invoices

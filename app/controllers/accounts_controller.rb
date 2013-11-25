@@ -50,6 +50,7 @@ class AccountsController < ApplicationController
     @contacts = @account.contacts
     @invoices = @account.invoices
     @payments = @account.payments
+    @email_records = @account.email_records
   end
 
   # POST /account

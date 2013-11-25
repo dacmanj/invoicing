@@ -1,12 +1,12 @@
 class InvoiceMailer < ActionMailer::Base
-  default from: "PFLAG National <info@pflag.org>"
+  default from: "PFLAG National <invoices@pflag.org>"
 
   def send_invoice(invoice,params)
     @invoice = invoice
 
     @subject = params[:subject]
     @message = params[:message]
-    @email = "david.manuel@pflag.org"
+    @email = params[:email]
 
     #params[:email]
 

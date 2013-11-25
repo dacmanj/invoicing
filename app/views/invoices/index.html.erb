@@ -26,7 +26,16 @@
       <label class="sr-only" for="account_id"> Bulk Email</label>
       <%= select_tag "email_template_id", options_for_select(EmailTemplate.order(:name).collect{ |a| [a.name, a.id] }.insert(0, ["Select Template...",""])), {:class => "select optional form-control"}%> 
     </div>
+    
+    <div class="checkbox">
+      <label for="test_email">
+        <%= check_box_tag :test_email, "yes", (params[:test_email] == "yes") %>
+        Test Email
+      </label>
+    </div>
+
     <%= submit_tag "Send Email", :class => "btn btn-danger" %>
+
   </div>
 
 
@@ -49,7 +58,7 @@
       <td><%= check_box_tag 'invoice_id[]', invoice.id, false %></td>
       <td><%= link_to content_tag(:i, invoice.id, :class => "glyphicon glyphicon-pencil"), edit_invoice_path(invoice.id) %></td>
       <td>
-        <%= invoice.date %>
+        <%= invoice.date.strftime("%m/%d/%Y") unless invoice.date.blank? %>
       </td>
       <td>
         <% unless invoice.account.blank? %>

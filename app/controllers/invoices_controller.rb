@@ -132,18 +132,26 @@ class InvoicesController < ApplicationController
       if params[:delete] == "1"
         i.destroy
         next
-        InvoiceMailer.send_invoice(@i,params = {:subject => "test", :message => "test", :email=>"david@dcmanjr.com"}).deliver
-        email = { :email => i.contacts.map{|h| "#{h.address.name} <#{h.address.email}>" unless h.address.blank? || h.address.email.blank? }.join(","),
-                  :message => i.parse_template(template.message),
+      end
+        email = { :message => i.parse_template(template.message),
                   :subject => i.parse_template(template.subject) }
 
-      end
+        email[:email] = "#{current_user.name} <#{current_user.email}>"
+        if params[:test_email] != "yes" && (i.contacts.count == 0 || i.contacts.map{|h| h.address.email unless h.address.blank?})
+          errors.push("No valid email addresses on invoice #{i.id}")
+        else
+          email[:email] = i.contacts.map{|h| "#{h.address.name} <#{h.address.email}>" unless h.address.blank? || h.address.email.blank? }.push("#{i.user.email unless i.user.blank?}").join(",") unless params[:test_email] == "yes"
+          InvoiceMailer.send_invoice(i,email).deliver
+        end
 
     end
 
     message =  (errors.length > 0) ? errors.join(", ") : "Invoices successfully emailed."
-    redirect_to invoices_url, notice: message
-
+    if errors.length > 0
+      redirect_to invoices_url
+    else
+      redirect_to invoices_url, notice: message
+    end
   end
 
   # DELETE /invoices/1

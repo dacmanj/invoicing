@@ -1,13 +1,13 @@
 module ApplicationHelper
   def flash_class(level)
     case level
-    when :notice then "info"
-    when :success then "info"
-    when :error then "error"
-    when :alert then "warning"
+    when :notice then "alert-info"
+    when :success then "alert-success"
+    when :error then "alert-danger"
+    when :alert then "alert-warning"
     end
   end
-
+  
   def logo
     image_tag("logo.png", :width => "50px", :height => "50px", :alt => "PFLAG Logo", :class => "round")
   end

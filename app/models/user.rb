@@ -31,5 +31,7 @@ class User < ActiveRecord::Base
       end
     end
   end
+end
 
+class UserDomainError < StandardError
 end

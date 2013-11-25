@@ -64,7 +64,7 @@
 	          <%= payment.id %>
           </td>
           <td>
-          	<%= Code.find_by_category_and_code("Payment Types",payment.payment_type).value unless payment.payment_type.blank? %>
+          	<%= payment.payment_type %>
 		  </td>
 		  <td>
 			  <%= payment.reference_number %>

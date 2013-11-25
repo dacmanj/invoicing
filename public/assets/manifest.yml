@@ -3,8 +3,8 @@ logo.png: logo-4e3cfd8057f445789ab901572ee4324b.png
 logo/index.png: logo-4e3cfd8057f445789ab901572ee4324b.png
 logo2.png: logo2-0a6e2de71a93daef9c7e5a2ba4eb145d.png
 logo2/index.png: logo2-0a6e2de71a93daef9c7e5a2ba4eb145d.png
-application.js: application-355c013388782630a2b42765108bc0fc.js
-application/index.js: application-355c013388782630a2b42765108bc0fc.js
+application.js: application-dbcb2f8d85dce11b587b91d84ed03e21.js
+application/index.js: application-dbcb2f8d85dce11b587b91d84ed03e21.js
 application.css: application-9b31f282614aaebb072dec7e099730f7.css
 application/index.css: application-9b31f282614aaebb072dec7e099730f7.css
 jquery.min.map: jquery.min-6336c5bca4c709e809647cdfcb484d0a.map

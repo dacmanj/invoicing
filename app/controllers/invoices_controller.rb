@@ -136,6 +136,8 @@ class InvoicesController < ApplicationController
         email = { :message => i.parse_template(template.message),
                   :subject => i.parse_template(template.subject) }
 
+        email[:email_cc] = "#{i.user.email unless i.user.blank? || params[:test_email]}"
+
         email[:email] = "#{current_user.name} <#{current_user.email}>"
         if params[:test_email] != "yes" && (i.contacts.count == 0 || i.contacts.map{|h| h.address.email unless h.address.blank?})
           errors.push("No valid email addresses on invoice #{i.id}")

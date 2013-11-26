@@ -52,7 +52,7 @@ Invoicing::Application.routes.draw do
   end
 
   root :to => "static_pages#home"
-  resources :users, :only => [:index, :show, :edit, :update ]
+  resources :users
 
   match '/import' => 'static_pages#import'
   match '/accounts/:account_id/invoices/new' => 'invoices#new', :as => "new_account_invoice"

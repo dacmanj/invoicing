@@ -1,10 +1,7 @@
 <div class="page-header">
-  <%= link_to new_invoice_path, :class => 'btn btn-primary' do %>
-    <i class="icon-plus icon-white"></i>
-    New Invoice
-  <% end %>
-  <h1>Invoices</h1>
-  <h3>Total Outstanding <%= number_to_currency(Invoice.select{|h| h.balance_due > 0}.map{|h| h.balance_due}.inject{|sum,h| sum+h}) %></h3>
+
+  <h1>Invoices  <%= link_to content_tag(:i, '', :class => "glyphicon glyphicon-plus-sign"), new_invoice_path  %></h1>
+  <h4>Total Outstanding Invoices <%= number_to_currency(Invoice.select{|h| h.balance_due > 0}.map{|h| h.balance_due}.inject{|sum,h| sum+h}) %></h4>
 
 <%= form_tag invoices_path, :method => :get, :class => "form-inline well" do |f| %>
   <div class="form-group">
@@ -88,5 +85,18 @@
       </td>
     </tr>
   <% end %>
+  <tr>
+  <td colspan="5">
+    Totals  
+  </td>
+  <td>
+    <%= number_to_currency(@invoices.map{|h| h.total}.inject{|sum,h| sum+h}) %>
+  </td>
+  <td>
+    <%= number_to_currency(@invoices.select{|h| h.balance_due > 0}.map{|h| h.balance_due}.inject{|sum,h| sum+h}) %>
+  </td>
+  <td>
+  </td>
+  </tr>
   </table>
 <% end %>

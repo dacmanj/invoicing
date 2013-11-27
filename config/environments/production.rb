@@ -63,6 +63,8 @@ Invoicing::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
   config.action_mailer.default :content_type => "text/html"
+  config.action_mailer.default_url_options = { :host => 'invoicing-pflag.herokuapp.com' }
+
 
   # ActionMailer Config
   # Setup for production - deliveries, no errors raised

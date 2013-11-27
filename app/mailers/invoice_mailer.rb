@@ -16,6 +16,7 @@ class InvoiceMailer < ActionMailer::Base
   	mail(:subject => @subject, :to =>  @email, :cc => email_cc) do |format|
 	    format.html
 	    format.pdf do
+        @wicked = true;
 	      attachments['invoice.pdf'] = WickedPdf.new.pdf_from_string(render_to_string(:pdf => "invoice", :template => 'invoices/show.pdf.erb', :layout => 'pdf.html', :formats => [:pdf]), :zoom => 0.75)
 	  	end
     end

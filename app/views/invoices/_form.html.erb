@@ -1,7 +1,10 @@
 <%= simple_form_for(@invoice, :defaults => { :input_html => { :class => 'input-xxlarge' } }) do |f| %>
   <%= f.error_notification %>
+    <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-edit"), '', :id => "invoice_account_edit", :class => "account_buttons" %>
+    <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-plus-sign"), new_account_path, :class => "account_buttons" %>
 
     <%= f.association :account, { :collection => Account.all(order: :name), :class => "col-md-4"} %>
+
     <% contact_pool = Contact.find_all_by_account_id(@invoice.account_id) || Contact.all %>
     <div class = "form-group">
       <label for="contacts">Primary Contact (printed on invoice)</label>

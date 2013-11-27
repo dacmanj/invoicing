@@ -17,6 +17,9 @@ class InvoicesController < ApplicationController
       @invoices = @invoices.select{|h| h.balance_due != 0}
     end
 
+    if (params[:name])
+      @invoices = @invoices.select{|h| h.name.downcase.match(params[:name].downcase)}
+    end
 
 
     respond_to do |format|

@@ -26,7 +26,7 @@ class PaymentsController < ApplicationController
   # GET /payments/new.json
   def new
     @payment = Payment.new
-    @payment.invoice = Invoice.find(params[:id]) 
+    @payment.invoice = params[:id].blank? ? Invoice.new : Invoice.find(params[:id])
     @payment.account = @payment.invoice.account unless @payment.invoice.blank?
 
 

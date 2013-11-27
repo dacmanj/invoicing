@@ -2,8 +2,7 @@
       <tbody>
         <tr>
           <td>
-               <%= wicked_pdf_image_tag("logo.png", width: '129', height: '120') %>
-               <%= raise wicked_pdf_image_tag("logo.png", width: '129', height: '120') %>
+               <%= image_tag( 'file://' + Rails.root.join('app', 'assets', 'images', 'logo.png').to_s, width: '129', height: '120') %>
           </td>
           <td>
             <center>

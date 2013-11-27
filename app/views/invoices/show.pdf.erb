@@ -2,7 +2,11 @@
       <tbody>
         <tr>
           <td>
-            <%=wicked_pdf_image_tag("logo.png", width: '129', height: '120') %>
+            <% if params[:action] != "show" %>
+               <%= wicked_pdf_image_tag("logo.png", width: '129', height: '120') %>
+            <% else %>
+               <%= image_tag("logo.png", width: '129', height: '120') %>
+             <% end %>
           </td>
           <td>
             <center>

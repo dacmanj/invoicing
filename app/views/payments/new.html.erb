@@ -1,3 +1,17 @@
 <h1>New Payment</h1>
 
-<%= render 'form' %>
+<%= simple_form_for(@payment) do |f| %>
+  <%= f.error_notification %>
+  <div class="form-inputs">
+    <%= f.input :invoice, :collection => Invoice.all.select!{|h| h.balance_due > 0}, :selected => @payment.invoice.id %>
+    <%= f.association :account %>
+    <%= f.input :payment_date %>
+    <%= f.input :payment_type %>  
+    <%= f.input :reference_number %>
+    <%= f.input :amount %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, :class => "btn btn-primary" %>
+  </div>
+<% end %>

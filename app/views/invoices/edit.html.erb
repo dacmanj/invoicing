@@ -1,5 +1,10 @@
 <h1>Editing Invoice</h1>
-
+<div class="well">
+<%= link_to content_tag(:i, '', {:class => "glyphicon glyphicon-usd"} ), new_invoice_payment_path(@invoice), :class => "btn btn-primary" %>
+<%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-file"), invoice_path(@invoice, :format => :pdf), :class => "btn btn-primary", :target => "_BLANK" %>
+<%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-send"), {:id => @invoice.id,:action => "email"}, :class => "btn btn-primary" %>
+<%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-trash"), invoice_path(@invoice), method: :delete, confirm: 'Are you sure?', :class => "btn btn-danger" %>
+</div>
 <%= render 'form' %>
 
 <%= link_to content_tag(:i, 'Show', {:class => "glyphicon glyphicon-file"} ), @invoice, :class => "btn btn-default" %>

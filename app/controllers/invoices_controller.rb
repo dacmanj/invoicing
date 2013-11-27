@@ -4,13 +4,24 @@ class InvoicesController < ApplicationController
   # GET /invoices.json
   def index
     @invoices = Invoice.order("id DESC")
+
+    if (params[:id])
+      @invoices = @invoices.find_all_by_id(params[:id])
+    end
+
+    if (params[:account_id])
+      @invoices = @invoices.find_all_by_account_id(params[:account_id])
+    end
+
     if (params[:outstanding_balance] == "yes")
       @invoices = @invoices.select{|h| h.balance_due != 0}
     end
 
+
+
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @invoices }
+      format.json { render json: @invoices.to_json(:methods => [:name, :balance_due]) }
     end
   end
 

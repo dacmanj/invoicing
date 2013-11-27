@@ -26,10 +26,8 @@ class PaymentsController < ApplicationController
   # GET /payments/new.json
   def new
     @payment = Payment.new
-    unless params[:id].blank?
-      @payment.invoice = Invoice.find(params[:id]) 
-      @payment.account = @payment.invoice.account
-    end
+    @payment.invoice = Invoice.find(params[:id]) 
+    @payment.account = @payment.invoice.account unless @payment.invoice.blank?
 
 
     respond_to do |format|

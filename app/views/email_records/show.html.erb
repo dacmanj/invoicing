@@ -1,17 +1,17 @@
 <div class="page-header">
-  <%= link_to email_records_path, :class => 'btn btn-default' do %>
-    <i class="icon-list-alt"></i>
-    Back
-  <% end %>
-  <h1>Listing Email Record</h1>
+  <h1 Email Record</h1>
 </div>
 
 <dl>
   <dt>Account:</dt>
-  <dd><%= link_to email_record.account_id, account_path(email_record.account_id) %></dd>
+  <dd><%= link_to @email_record.account.name, edit_account_path(@email_record.account_id) unless @email_record.account.blank? %></dd>
 
   <dt>Invoice:</dt>
-  <dd><%= link_to email_record.invoice_id, invoice_path(email_record.invoice_id) %></dd>
+  <dd><%= link_to @email_record.invoice.name, edit_invoice_path(@email_record.invoice_id) unless @email_record.invoice.blank?%></dd>
+
+  <dt>Sent:</dt>
+  <dd><%= @email_record.created_at.localtime.strftime("%m/%d/%Y at %l:%m:%S %p") %></dd>
+
 
   <dt>Email:</dt>
   <dd><%= @email_record.email %></dd>

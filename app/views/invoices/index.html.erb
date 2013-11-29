@@ -46,6 +46,7 @@
       <th>Invoice Date</th>
       <th>Company</th>
       <th>Contact</th>
+      <th>Last Email</th>
       <th>Total</th>
       <th>Balance Due</th>
       <th style="min-width: 250px;"></th>
@@ -68,6 +69,10 @@
           <%= link_to invoice.contacts.first.name, edit_contact_path(invoice.contacts.first) %>
         <% end %>
       </td>
+      <td>
+        <%= link_to invoice.email_records.last.created_at.localtime.strftime("%m/%d/%Y"), email_record_path(invoice.email_records.last), :target => "_BLANK" unless invoice.email_records.blank?%>
+      </td>
+
       <td>
         <%= number_to_currency invoice.total %>
       </td>

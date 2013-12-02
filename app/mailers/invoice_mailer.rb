@@ -20,13 +20,17 @@ class InvoiceMailer < ActionMailer::Base
 	  	end
     end
 
-    email_record = EmailRecord.new
-    email_record.account = @invoice.account
-    email_record.invoice = @invoice
-    email_record.subject = @subject
-    email_record.message = @message
-    email_record.email = @email
-    email_record.save!
+    unless params[:test_email] == "yes"
+      email_record = EmailRecord.new do |e|
+        e.account = @invoice.account
+        e.invoice = @invoice
+        e.subject = @subject
+        e.message = @message
+        e.email = @email
+      end
+      email_record.save!
+
+    end
 
   end
 end

@@ -138,8 +138,16 @@ class InvoicesController < ApplicationController
   def edit_multiple
     @invoices = Invoice.find_all_by_id(params[:invoice_id])
     errors = Array.new
-
     email_template_id = params[:email_template_id]
+
+    errors.push("No invoices selected") unless @invoices.present?
+    errors.push("No template selected") unless params[:email_template_id].present?
+
+    if errors.present?
+      redirect_to invoices_url, notice: errors.join(", ")
+      return
+    end
+
     template = EmailTemplate.find(email_template_id)
 
     @invoices.each do |i| 
@@ -153,21 +161,23 @@ class InvoicesController < ApplicationController
         email[:email_cc] = "#{i.user.email unless i.user.blank? || params[:test_email]}"
 
         email[:email] = "#{current_user.name} <#{current_user.email}>"
-        if params[:test_email] != "yes" && (i.contacts.count == 0 || i.contacts.map{|h| h.address.email unless h.address.blank?})
+
+        if params[:test_email] != "yes" && (i.contacts.select{|h| h.address.present? && h.address.email.present? }.count == 0 )
           errors.push("No valid email addresses on invoice #{i.id}")
         else
-          email[:email] = i.contacts.map{|h| "#{h.address.name} <#{h.address.email}>" unless h.address.blank? || h.address.email.blank? }.push("#{i.user.email unless i.user.blank?}").join(",") unless params[:test_email] == "yes"
+          email[:test_email] = params[:test_email]
+          if params[:test_email] != "yes"
+            email[:email] = i.contacts.map{|h| "#{h.name} <#{h.address.email}>" unless (h.address.blank? || h.address.email.blank?) }
+            email[:email].push("#{i.user.name} <#{i.user.email}>") unless i.user.blank?
+            email[:email].join(",")
+          end
           InvoiceMailer.send_invoice(i,email).deliver
         end
 
     end
 
     message =  (errors.length > 0) ? errors.join(", ") : "Invoices successfully emailed."
-    if errors.length > 0
-      redirect_to invoices_url
-    else
-      redirect_to invoices_url, notice: message
-    end
+    redirect_to invoices_url, notice: message
   end
 
   # DELETE /invoices/1

@@ -16,9 +16,10 @@
 
 class Contact < ActiveRecord::Base
 	belongs_to :account
-	has_one :address
+	has_one :address, dependent: :destroy
 	accepts_nested_attributes_for :address
 	has_and_belongs_to_many :invoices
+
 
 	attr_accessible :active, :account_id, :database_id, :first_name, :last_name, :title, :address, :address_attributes
 

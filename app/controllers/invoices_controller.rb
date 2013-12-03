@@ -149,6 +149,7 @@ class InvoicesController < ApplicationController
     end
 
     template = EmailTemplate.find(email_template_id)
+    success_count = 0
 
     @invoices.each do |i| 
       if params[:delete] == "1"
@@ -172,11 +173,12 @@ class InvoicesController < ApplicationController
             email[:email].join(",")
           end
           InvoiceMailer.send_invoice(i,email).deliver
+          success_count += 1
         end
 
     end
 
-    message =  (errors.length > 0) ? errors.join(", ") : "Invoices successfully emailed."
+    message =  (errors.length > 0) ? errors.join(", ") : "#{success_count} invoice#{'s' unless success_count == 1} successfully emailed."
     redirect_to invoices_url, notice: message
   end
 

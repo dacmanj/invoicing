@@ -23,7 +23,6 @@ include ActionView::Helpers::NumberHelper
   has_many :payments
 
 	has_and_belongs_to_many :contacts
-	accepts_nested_attributes_for :lines, reject_if: proc { |attr| attr['description'].blank? && attr['quantity'].blank? && attr['item_id'].blank? && attr['unit_price'].blank? }, allow_destroy: true
 
   attr_accessible :account_id, :contact_ids, :user_id, :lines_attributes, :date, :primary_contact_id
 

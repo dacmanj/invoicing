@@ -30,12 +30,12 @@
 
   <div><%=f.simple_fields_for :lines do |lines_form| %>
     <div class="duplicatable_nested_form well">  
-      <%=   lines_form.input :item_id, collection: (Item.find_all_by_account_id(@invoice.account_id) || Item.all), label_method: :description %>
-      <%=   lines_form.input :quantity, :input_html => { min: 0 } %>
-      <%=   lines_form.input :unit_price %>
-      <%=   lines_form.input :hidden %> 
-    	<%=   lines_form.input :description, label: 'Line Text', :input_html => { :class => 'tinymce', :rows => 10 }  %>
-      <%=   lines_form.input :notes, label: 'Notes (internal)', :input_html => { :class => 'tinymce', :rows => 10 }  %>
+      <%=   lines_form.input :item_id, collection: (Item.find_all_by_account_id(@invoice.account_id) || Item.all), label_method: :description, :required => false %>
+      <%=   lines_form.input :quantity, :input_html => { min: 0 }, :required => false  %>
+      <%=   lines_form.input :unit_price, :required => false  %>
+      <%=   lines_form.input :hidden, :as => :boolean, :required => false  %> 
+    	<%=   lines_form.input :description, label: 'Line Text', :input_html => { :class => 'tinymce', :rows => 10 }, :as => :text, :required => false   %>
+      <%=   lines_form.input :notes, label: 'Notes (internal)', :input_html => { :class => 'tinymce', :rows => 10 }, :required => false   %>
       
       <% if lines_form.object.blank? || lines_form.object.new_record? %>
         <%= link_to content_tag(:i, "", class: "glyphicon glyphicon-trash"), '', :remote => true , :class => 'destroy_duplicate_nested_form btn btn-danger'%>

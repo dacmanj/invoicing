@@ -18,11 +18,14 @@ include ActionView::Helpers::NumberHelper
 	belongs_to :user
 
   has_many :email_records
-	has_many :lines, dependent: :destroy
+	has_many :lines
 	has_many :items, :through => :lines
   has_many :payments
 
 	has_and_belongs_to_many :contacts
+
+  accepts_nested_attributes_for :lines, reject_if: proc { |attr| attr['description'].blank? && attr['quantity'].blank? && attr['item_id'].blank? && attr['unit_price'].blank? }, allow_destroy: true
+  accepts_nested_attributes_for :contacts, :reject_if => :all_blank
 
   attr_accessible :account_id, :contact_ids, :user_id, :lines_attributes, :date, :primary_contact_id
 

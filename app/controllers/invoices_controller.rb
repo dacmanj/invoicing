@@ -94,7 +94,6 @@ class InvoicesController < ApplicationController
   # GET /invoices/1/edit
   def edit
     @invoice = Invoice.find(params[:id])
-    @invoice.lines.build
 
   end
 

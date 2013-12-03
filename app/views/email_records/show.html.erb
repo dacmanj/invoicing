@@ -13,8 +13,17 @@
   <dd><%= @email_record.created_at.localtime.strftime("%m/%d/%Y at %l:%m:%S %p") %></dd>
 
 
-  <dt>Email:</dt>
+  <dt>To:</dt>
   <dd><%= @email_record.email %></dd>
+
+
+  <dt>CC:</dt>
+  <dd><%= @email_record.cc %></dd>
+
+
+  <dt>BCC:</dt>
+  <dd><%= @email_record.bcc %></dd>
+
 
   <dt>Subject:</dt>
   <dd><%= @email_record.subject %></dd>

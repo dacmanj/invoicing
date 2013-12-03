@@ -9,11 +9,12 @@ class InvoiceMailer < ActionMailer::Base
     @message = params[:message]
     @email = params[:email]
     email_cc = params[:email_cc]
+    email_bcc = params[:email_bcc]
 
 
     #params[:email]
 
-  	mail(:subject => @subject, :to =>  @email, :cc => email_cc) do |format|
+  	mail(:subject => @subject, :to =>  @email, :cc => email_cc, :bcc => email_bcc) do |format|
 	    format.html
 	    format.pdf do
 	      attachments['invoice.pdf'] = WickedPdf.new.pdf_from_string(render_to_string(:pdf => "invoice", :template => 'invoices/show.pdf.erb', :layout => 'pdf.html', :formats => [:pdf]), :zoom => 0.75)
@@ -27,6 +28,8 @@ class InvoiceMailer < ActionMailer::Base
         e.subject = @subject
         e.message = @message
         e.email = @email
+        e.cc = email_cc
+        e.bcc = email_bcc
       end
       email_record.save!
 

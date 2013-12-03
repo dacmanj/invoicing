@@ -12,6 +12,8 @@
       <th>Account</th>
       <th>Invoice</th>
       <th>To</th>
+      <th>CC</th>
+      <th>BCC</th>
       <th>Subject</th>
       <th>Message</th>
       <th></th>
@@ -24,6 +26,9 @@
       <td><%= link_to email_record.account_id, account_path(email_record.account_id) %></td>
       <td><%= link_to email_record.invoice_id, invoice_path(email_record.invoice_id) %></td>
       <td><%= email_record.email %></td>
+      <td><%= email_record.cc %></td>
+      <td><%= email_record.bcc %></td>
+
       <td><%= email_record.subject %></td>
       <td><%= truncate email_record.message %></td>
 

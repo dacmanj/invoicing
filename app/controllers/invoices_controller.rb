@@ -50,8 +50,12 @@ class InvoicesController < ApplicationController
 
   def send_email
     @invoice = Invoice.find(params[:id])
-    InvoiceMailer.send_invoice(@invoice,params).deliver
-    redirect_to invoices_url, notice: "Invoice #{params[:id]} was successfully sent to #{params[:email]}." 
+    if @invoice.nil?
+      redirect_to invoices_url, notice: "Invoice not found." 
+    else
+      InvoiceMailer.send_invoice(@invoice,params).deliver
+      redirect_to invoices_url, notice: "Invoice #{params[:id]} was successfully sent to #{params[:email]}." 
+    end
   end
 
   # GET /invoices/new

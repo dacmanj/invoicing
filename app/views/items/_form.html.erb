@@ -5,7 +5,7 @@
     <%= f.association :account %>
     <%= f.association :lines %>
 
-    <%= f.input :description %>
+    <%= f.input :description, :input_html => { :class => 'tinymce', :rows => 10 }, :as => :text, :required => false %>
     <%= f.input :notes %>
     <%= f.input :revenue_gl_code %>
     <%= f.input :quantity %>

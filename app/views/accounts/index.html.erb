@@ -1,4 +1,4 @@
-<h1>Accounts (Companies)</h1>
+<h1>Accounts (Companies) <%= link_to content_tag(:i, '', :class => "glyphicon glyphicon-plus-sign"), new_account_path  %></h1>
 
 <%= form_tag accounts_path, :method => :get, :class => "form-inline well" do |f| %>
   <div class="form-group">

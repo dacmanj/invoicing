@@ -177,8 +177,8 @@ class InvoicesController < ApplicationController
         end
 
     end
-
-    message =  (errors.length > 0) ? errors.join(", ") : "#{success_count} invoice#{'s' unless success_count == 1} successfully emailed."
+    errors.push "#{success_count} invoice#{'s' unless success_count == 1} successfully emailed." unless success_count == 0
+    message =  errors.join(", ")
     redirect_to invoices_url, notice: message
   end
 

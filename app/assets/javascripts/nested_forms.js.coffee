@@ -51,7 +51,7 @@ $ ->
       load_items = (e) ->
         a = $("#invoice_account_id").val() 
         select_filter = (e) ->
-          $(this).attr("name").indexOf("invoice[lines_attributes]") == 0 && $(this).val() == "" 
+          $(this).attr("name").indexOf("invoice_lines_attributes") == 0 && $(this).val() == "" 
         if a? 
           $.ajax({ url: "/items.json", data: "account_id=#{a}" }).done (data) ->
             console.log data
@@ -78,7 +78,7 @@ $ ->
             true
 
       item_filter = (e) -> 
-        this.name.match(/invoice\[lines_attributes\]\[\d.*]\[item_id\]/)
+        this.name.match(/invoice_lines_attributes\]\[\d.*]\[item_id\]/)
 
       $('select').filter(item_filter).change(load_line_from_item)
 

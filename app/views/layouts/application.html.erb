@@ -25,12 +25,7 @@
           <%= render "layouts/navigation" %>
     <div class="row">
 
-      <% flash.each do |name, msg| %>
-            <%= content_tag :div, :class => "alert #{flash_class(name)}" do %>
-              <a class="close" data-dismiss="alert" href="#">×</a>
-                <%= msg %>
-            <% end %>
-      <% end %>
+        <%= render "layouts/messages" %>
       <%= yield %>
 
 

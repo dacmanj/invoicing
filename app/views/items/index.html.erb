@@ -1,4 +1,4 @@
-<h1>Invoice Items</h1>
+<h1>Invoice Items <%= link_to content_tag(:i, '', :class => "glyphicon glyphicon-plus-sign"), new_item_path  %></h1>
 
 <%= form_tag items_path, :method => :get, :class => "form-inline well" do |f| %>
   <div class="form-group">
@@ -81,11 +81,6 @@
 <% end %>
 <br />
 
-
-
-<h2>New Items</h2>
-
-<%= link_to 'New Item', new_item_path, :class => "btn btn-primary" %>
 
 <h2>Import Items</h2>
 

@@ -64,9 +64,12 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.new
     @invoice.user = current_user
 
-    if !params[:account_id].blank?
+    if params[:account_id].present?
       @invoice.account = Account.find(params[:account_id])
       @invoice.primary_contact_id = @invoice.account.contacts.first.id unless @invoice.account.blank? or @invoice.account.contacts.blank?
+      if @invoice.account.contacts && @invoice.account.contacts.count == 1
+        @invoice.contacts.push @invoice.account.contacts.first
+      end      
     end
 
     if params[:item_id]

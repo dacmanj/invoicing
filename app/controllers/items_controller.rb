@@ -3,7 +3,7 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = Item.includes(:lines).order("items.recurring, items.account_id, items.invoice_id")
+    @items = Item.includes(:lines).order("items.recurring DESC, items.account_id, items.invoice_id")
 
     item_id = params[:item_id]
     account_id = params[:account_id]
@@ -12,8 +12,8 @@ class ItemsController < ApplicationController
     notes = params[:notes]
     description = params[:description]
 
-    @items = @items.where("id = ?",item_id) unless item_id.blank?
-    @items = @items.where("account_id = ?",account_id) unless account_id.blank?
+    @items = @items.where("items.id = ?",item_id) unless item_id.blank?
+    @items = @items.where("account_id = ? OR recurring IS true",account_id) unless account_id.blank?
 
     if (assigned == "yes")
       @items = @items.where("lines.id IS NOT NULL")

@@ -61,7 +61,7 @@
             <%= link_to content_tag(:i, payment.payment_date.strftime("%m/%d/%Y"), :class => "glyphicon glyphicon-pencil"), edit_payment_path(payment.id) %>
           </td>        
           <td>
-            <%= link_to content_tag(:i, payment.invoice_id, :class => "glyphicon glyphicon-pencil"), {:id => payment.invoice_id,:action => "edit", :controller => "invoices"} %>
+            <%= link_to content_tag(:i, payment.invoice_id, :class => "glyphicon glyphicon-pencil"), {:id => payment.invoice_id,:action => "edit", :controller => "invoices"} unless payment.invoice_id.blank? %>
           </td>
           <td>
           	<%= payment.payment_type %>

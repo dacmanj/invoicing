@@ -8,6 +8,7 @@ class ItemsController < ApplicationController
     item_id = params[:item_id]
     account_id = params[:account_id]
     assigned = params[:assigned]
+    recurring = params[:recurring]
     notes = params[:notes]
     description = params[:description]
 
@@ -24,9 +25,14 @@ class ItemsController < ApplicationController
       else
         @items = @items.where("lines.id IS NULL")
       end
+      if (recurring == "yes")
+        @items = @items.where("recurring IS true")
+      else
+        @items = @items.where("recurring IS not true")
+      end
       @items = @items.where("items.notes ILIKE ?", "%#{notes}%") unless notes.blank?
       @items = @items.where("items.description ILIKE ?", "%#{description}%") unless description.blank?
-      @items = @items.where("account_id = ? OR recurring = true",account_id) unless account_id.blank?
+      @items = @items.where("account_id = ?",account_id) unless account_id.blank?
     end
     respond_to do |format|
       format.html # index.html.erb

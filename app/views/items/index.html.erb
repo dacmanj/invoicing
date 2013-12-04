@@ -13,6 +13,12 @@
       Assigned?
     </label>
   </div>
+  <div class="checkbox">
+    <label for="recurring">
+      <%= check_box_tag :recurring, "yes", (params[:recurring] == "yes") %>
+      Recurring?
+    </label>
+  </div>
   <div class="form-group">
     <%= submit_tag "Filter", :class => "btn btn-primary", :label => "Filter" %>
     <%= button_tag "Reset", :class => "btn btn-standard", :type => "reset" %>

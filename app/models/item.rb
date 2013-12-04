@@ -19,8 +19,7 @@
 #
 
 class Item < ActiveRecord::Base
-  require 'rubygems'
-  require 'nokogiri'
+
   belongs_to :account
   has_many :lines
 

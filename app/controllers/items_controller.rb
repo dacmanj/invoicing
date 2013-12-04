@@ -3,7 +3,7 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = Item.includes(:lines).order("items.account_id, items.invoice_id")
+    @items = Item.includes(:lines).order("items.recurring, items.account_id, items.invoice_id")
 
     item_id = params[:item_id]
     account_id = params[:account_id]
@@ -12,31 +12,25 @@ class ItemsController < ApplicationController
     notes = params[:notes]
     description = params[:description]
 
-    if item_id || account_id
-      if account_id
-        @items = @items.where("items.id = ?", item_id)
-      else
-        @items = @items.where("lines.id IS NULL and account.id = ?",account_id)
-      end
+    @items = @items.where("id = ?",item_id) unless item_id.blank?
+    @items = @items.where("account_id = ?",account_id) unless account_id.blank?
 
+    if (assigned == "yes")
+      @items = @items.where("lines.id IS NOT NULL")
     else
-      if (assigned == "yes")
-        @items = @items.where("lines.id IS NOT NULL")
-      else
-        @items = @items.where("lines.id IS NULL")
-      end
-      if (recurring == "yes")
-        @items = @items.where("recurring IS true")
-      else
-        @items = @items.where("recurring IS not true")
-      end
-      @items = @items.where("items.notes ILIKE ?", "%#{notes}%") unless notes.blank?
-      @items = @items.where("items.description ILIKE ?", "%#{description}%") unless description.blank?
-      @items = @items.where("account_id = ?",account_id) unless account_id.blank?
+      @items = @items.where("lines.id IS NULL")
     end
+
+    if (recurring == "yes")
+      @items = @items.where("recurring IS true")
+    end
+
+    @items = @items.where("items.notes ILIKE ?", "%#{notes}%") unless notes.blank?
+    @items = @items.where("items.description ILIKE ?", "%#{description}%") unless description.blank?
+
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @items }
+      format.json { render json: @items.to_json(:methods => [:name]) }
     end
   end
 

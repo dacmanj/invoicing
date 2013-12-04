@@ -53,11 +53,11 @@ $ ->
         select_filter = (e) ->
           $(this).attr("name").indexOf("invoice_lines_attributes") == 0 && $(this).val() == "" 
         if a? 
-          $.ajax({ url: "/items.json", data: "account_id=#{a}" }).done (data) ->
+          $.ajax({ url: "/items.json", data: "account_id=#{a}&recurring=yes" }).done (data) ->
             console.log data
             html = ""
             for item in data
-              html += "<option value=#{item.id} data-account-id=#{item.account_id}>#{item.description}</option>"
+              html += "<option value=#{item.id} data-account-id=#{item.account_id}>#{item.name}</option>"
             $("select").filter(select_filter).html(html).prepend("<option value></option>")
       $("#invoice_account_id").change(load_items)
 
@@ -78,7 +78,7 @@ $ ->
             true
 
       item_filter = (e) -> 
-        this.name.match(/invoice_lines_attributes\]\[\d.*]\[item_id\]/)
+        this.name.match(/invoice\[lines_attributes\]\[\d.*]\[item_id\]/)
 
       $('select').filter(item_filter).change(load_line_from_item)
 

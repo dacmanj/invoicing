@@ -19,6 +19,8 @@
 #
 
 class Item < ActiveRecord::Base
+  require 'rubygems'
+  require 'nokogiri'
   belongs_to :account
   has_many :lines
 
@@ -36,6 +38,15 @@ class Item < ActiveRecord::Base
 
   def unassigned
     line_item.blank? || line_item.invoice_id.blank?
+  end
+
+  def description_text
+    Nokogiri::HTML(self.description).text
+  end
+
+  def name
+    text = self.description_text
+    "#{self.notes + ": " unless self.notes.blank?}#{text}"
   end
 
   def assign_to_invoice(id)

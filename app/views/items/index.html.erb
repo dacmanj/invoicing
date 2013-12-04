@@ -70,7 +70,7 @@
       <td><%= check_box_tag 'item_id[]', item.id, false %></td>
       <td><%= item.account.name unless item.account.blank? %></td>
       <td><%= item.lines.map {|i| link_to i.invoice.id, edit_invoice_url(i.invoice.id)}.join(",").html_safe unless item.lines.blank? || item.lines.first.invoice.blank? %></td>
-      <td><%= truncate(item.description, :length => 30) %></td>
+      <td><%= truncate(item.description_text, :length => 30) %></td>
       <td><%= truncate(item.notes,:length => 30) %></td>
       <td><%= item.revenue_gl_code %></td>
       <td><%= item.quantity %></td>

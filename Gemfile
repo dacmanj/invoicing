@@ -13,6 +13,7 @@ end
 
 gem 'nokogiri'
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem "rspec-rails", ">= 2.12.2", :group => [:development, :test]
 gem "capybara", ">= 2.0.3", :group => :test
 gem "database_cleaner", ">= 1.0.0.RC1", :group => :test

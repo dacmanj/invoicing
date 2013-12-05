@@ -98,8 +98,19 @@ include ActionView::Helpers::NumberHelper
     paid
   end
 
-  def balance_due
-    balance_due = self.total - self.payments_total
+  def balance_due(date = nil)
+    if date.present?
+      as_of_date = Date.strptime(date,"%m/%d/%Y")
+      balance_due = 0
+      if self.date <= as_of_date
+        paid = 0
+        self.payments.select{|p| p.payment_date <= as_of_date}.each{|p| paid += p.amount }
+        balance_due = self.total - paid
+      end
+    else
+      balance_due = self.total - self.payments_total
+    end
+    balance_due
   end
 
   def unpaid?

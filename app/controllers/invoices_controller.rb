@@ -5,6 +5,10 @@ class InvoicesController < ApplicationController
   def index
     @invoices = Invoice.order("id DESC")
 
+    if (params[:balance_due_as_of_date])
+      @invoices = @invoices.select{|h| h.balance_due(params[:balance_due_as_of_date]) != 0}
+    end
+
     if (params[:id])
       @invoices = @invoices.find_all_by_id(params[:id])
     end

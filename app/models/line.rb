@@ -19,6 +19,20 @@ class Line < ActiveRecord::Base
 
   attr_accessible :description, :notes, :item_id, :quantity, :hidden, :unit_price, :invoice_id
 
+  before_save :assign_item
+
+  def assign_item
+    if self.item_id.present?
+      item = Item.find(self.item_id)
+      if item.recurring != true
+        item.invoice_id = self.invoice_id
+        item.account_id = self.account_id
+        item.save!
+      end
+    end
+
+  end
+
   def name
     if self.invoice.present?
       "#{self.invoice.name}-#{id}"

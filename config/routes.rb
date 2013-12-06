@@ -63,6 +63,7 @@ Invoicing::Application.routes.draw do
   match '/invoices/:id/send_email' => 'invoices#send_email'
   match '/auth/:provider/callback' => 'sessions#create'
   match '/signin' => 'sessions#new', :as => :signin
+  match '/signin/google' => 'sessions#new', :provider => 'google_oauth2'
   match '/signout' => 'sessions#destroy', :as => :signout
   match '/auth/failure' => 'sessions#failure'
 end

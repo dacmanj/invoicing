@@ -56,7 +56,7 @@ module SessionsHelper
     if signed_in?
       redirect_to work_logs_path, :notice => "Insufficient privileges to access that feature."
     else
-      redirect_to root_url, :notice => "Please sign in to access this page."
+      redirect_to signin_path
     end
   end
 

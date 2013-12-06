@@ -78,8 +78,7 @@ class ItemsController < ApplicationController
   end
 
   def import
-    errors = Item.import(params[:file],params[:override])
-    message =  (errors.length > 0) ? errors.join(", ") : "Items successfully imported."
+    message = Item.import(params[:file],params[:override])
     redirect_to items_url, notice: message
   end
 

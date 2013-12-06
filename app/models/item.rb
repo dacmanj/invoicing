@@ -79,6 +79,7 @@ class Item < ActiveRecord::Base
 
   def self.import file, override
   	errors = Array.new
+    imported = 0
   	CSV.foreach(file.path, headers: true) do |row|
   		if !(row['billable'] == "true")
   			next
@@ -93,8 +94,10 @@ class Item < ActiveRecord::Base
       item.account = a
 	    item.attributes = row.to_hash.slice(*accessible_attributes)
 	    item.revenue_gl_code = item.revenue_gl_code || "4442"
-	    item.save!
+	    if (item.save!)
+        imported += 1
+      end
 	end
-  errors
+  errors.push("Imported #{imported} item#{"s" unless imported>1}.")
   end
 end

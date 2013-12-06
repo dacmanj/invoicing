@@ -81,7 +81,7 @@ class Item < ActiveRecord::Base
   	errors = Array.new
     imported = 0
   	CSV.foreach(file.path, headers: true) do |row|
-  		if !(row['billable'] == "true")
+  		if !(row['billable'] == "TRUE")
   			next
   		end
   		item = (find_by_expensify_id(row["expensify_id"]) unless row["expensify_id"].blank? )

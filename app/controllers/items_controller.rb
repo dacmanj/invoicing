@@ -79,7 +79,7 @@ class ItemsController < ApplicationController
 
   def import
     message = Item.import(params[:file],params[:override])
-    redirect_to items_url, notice: message
+    redirect_to items_url, notice: message.join("<br>")
   end
 
   # PUT /items/1

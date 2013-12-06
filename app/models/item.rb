@@ -98,6 +98,6 @@ class Item < ActiveRecord::Base
         imported += 1
       end
 	end
-  errors.push("Imported #{imported} item#{"s" unless imported>1}.")
+  errors.push("Imported #{imported} item#{"s" unless imported == 1}.")
   end
 end

@@ -53,13 +53,20 @@ $ ->
         i = $("form.edit_invoice").attr("id").split("_")[2]
         select_filter = (e) ->
           this.name.match(/invoice\[lines_attributes\]\[\d.*]\[item_id\]/)
-        if a? 
+        if a?
           $.ajax({ url: "/items.json", data: "account_id=#{a}&invoice_id=#{i}" }).done (data) ->
+            selected_arr = []
+            $("select").filter(select_filter).each (e) ->
+              selected_arr.push $(this).val()  
+            console.log selected_arr
             console.log data
             html = ""
             for item in data
               html += "<option value=#{item.id} data-account-id=#{item.account_id}>#{item.name}</option>"
             $("select").filter(select_filter).html(html).prepend("<option value></option>")
+            $("select").filter(select_filter).each (i,v) ->
+              $(this).val(selected_arr[i])
+
       $("#invoice_account_id").change(load_items)
 
       load_line_from_item = (e) ->

@@ -26,7 +26,7 @@ class Line < ActiveRecord::Base
       item = Item.find(self.item_id)
       if item.recurring != true
         item.invoice_id = self.invoice_id
-        item.account_id = self.account_id
+        item.account_id = self.invoice.account.id unless self.invoice.blank? || self.invoice.account.blank?
         item.save!
       end
     end

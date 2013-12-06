@@ -32,7 +32,7 @@
 
   <div><%=f.simple_fields_for :lines do |lines_form| %>
     <div class="duplicatable_nested_form well">  
-      <%=   lines_form.input :item_id, collection: (Item.find_all_by_account_id(@invoice.account_id) || Item.all), label_method: :name, :required => false %>
+      <%=   lines_form.input :item_id, collection: (Item.find_all_by_account_id(@invoice.account_id) unless (@invoice.account_id.blank?)) || Item.all, label_method: :name, :required => false, :selected => lines_form.object.item_id unless lines_form.object.blank? %>
       <%=   lines_form.input :quantity, :input_html => { min: 0 }, :required => false  %>
       <%=   lines_form.input :unit_price, :required => false  %>
       <%=   lines_form.input :hidden, :as => :boolean, :required => false  %> 

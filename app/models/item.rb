@@ -62,8 +62,8 @@ class Item < ActiveRecord::Base
       line.unit_price = self.unit_price
       line.save!
 
-      if invoice.account_id?
-        self.account_id = invoice.account_id
+      if invoice.account.present?
+        self.account_id = invoice.account.id
       else
         invoice.account_id = self.account_id
         invoice.save!
@@ -85,7 +85,7 @@ class Item < ActiveRecord::Base
   			next
   		end
   		item = (find_by_expensify_id(row["expensify_id"]) unless row["expensify_id"].blank? )
-      a = Account.find_by_database_id(row["database_id"])
+      a = Account.find_by_database_id(row["database_id"]) unless row["database_id"].blank?
   		if item and !override
   			errors.push ("Ignoring potential duplicate #{row['expensify_id']}")
   			next

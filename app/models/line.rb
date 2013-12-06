@@ -20,7 +20,11 @@ class Line < ActiveRecord::Base
   attr_accessible :description, :notes, :item_id, :quantity, :hidden, :unit_price, :invoice_id
 
   def name
-    "#{self.invoice.name}-#{id}"
+    if self.invoice.present?
+      "#{self.invoice.name}-#{id}"
+    else
+      "#{id}"
+    end
   end
 
   def total

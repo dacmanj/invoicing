@@ -6,27 +6,38 @@ class ItemsController < ApplicationController
     @items = Item.includes(:lines).order("items.recurring DESC, items.account_id, items.invoice_id")
 
     item_id = params[:item_id]
+    invoice_id = params[:invoice_id]
     account_id = params[:account_id]
     assigned = params[:assigned]
     recurring = params[:recurring]
     notes = params[:notes]
     description = params[:description]
 
-    @items = @items.where("items.id = ?",item_id) unless item_id.blank?
-    @items = @items.where("account_id = ? OR recurring IS true",account_id) unless account_id.blank?
-
-    if (assigned == "yes")
-      @items = @items.where("lines.id IS NOT NULL")
+    if (item_id.present?)
+      @items = Item.where("id = ?",item_id)     
     else
-      @items = @items.where("lines.id IS NULL")
-    end
+  #    @items = @items.where("account_id = ? OR recurring IS true",account_id) unless account_id.blank?
+      #Item.where("recurring IS true").each{|i| @items.push(i)} unless recurring = "no"
 
-    if (recurring == "yes")
-      @items = @items.where("recurring IS true")
-    end
+      if (assigned != "yes")
+        @items = @items.where("lines.id IS NULL")
+      end
 
-    @items = @items.where("items.notes ILIKE ?", "%#{notes}%") unless notes.blank?
-    @items = @items.where("items.description ILIKE ?", "%#{description}%") unless description.blank?
+      Item.where("account_id = ?",invoice_id).each{|i| @items.push(i)} unless account_id.blank?
+      Item.includes(:lines).where("lines.invoice_id = ?",invoice_id).each{|i| @items.push(i)} unless invoice_id.blank?
+
+      if (recurring == "yes")
+        @items = @items.where("recurring IS true")
+      end
+
+      if (recurring == "no")
+        @items = @items.where("recurring IS false")
+      end
+
+
+      @items = @items.where("items.notes ILIKE ?", "%#{notes}%") unless notes.blank?
+      @items = @items.where("items.description ILIKE ?", "%#{description}%") unless description.blank?
+    end
 
     respond_to do |format|
       format.html # index.html.erb

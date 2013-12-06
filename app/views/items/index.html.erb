@@ -10,13 +10,13 @@
   <div class="checkbox">
     <label for="assigned">
       <%= check_box_tag :assigned, "yes", (params[:assigned] == "yes") %>
-      Assigned?
+      Include assigned?
     </label>
   </div>
   <div class="checkbox">
     <label for="recurring">
       <%= check_box_tag :recurring, "yes", (params[:recurring] == "yes") %>
-      Recurring?
+      Only recurring?
     </label>
   </div>
   <div class="form-group">

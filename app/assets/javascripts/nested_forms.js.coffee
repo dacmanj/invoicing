@@ -49,11 +49,12 @@ $ ->
       $("#invoice_account_id").change(load_contacts)
 
       load_items = (e) ->
-        a = $("#invoice_account_id").val() 
+        a = $("#invoice_account_id").val()
+        i = $("form.edit_invoice").attr("id").split("_")[2]
         select_filter = (e) ->
           this.name.match(/invoice\[lines_attributes\]\[\d.*]\[item_id\]/)
         if a? 
-          $.ajax({ url: "/items.json", data: "account_id=#{a}" }).done (data) ->
+          $.ajax({ url: "/items.json", data: "account_id=#{a}&invoice_id=#{i}" }).done (data) ->
             console.log data
             html = ""
             for item in data

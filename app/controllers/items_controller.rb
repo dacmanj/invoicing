@@ -12,14 +12,18 @@ class ItemsController < ApplicationController
     recurring = params[:recurring]
     notes = params[:notes]
     description = params[:description]
+    all = params[:all]
+    unlinked = params[:unlinked]
 
-    if (item_id.present?)
-      @items = Item.where("id = ?",item_id)     
+    if (item_id.present? || all == "yes" || unlinked == "yes")
+      @items = Item.where("id = ?",item_id) if item_id.present?
+      @items = Item.all if all == "yes"
+      @items = @items.where("lines.id IS NULL and recurring IS NOT true") if unlinked == "yes"
     else
   #    @items = @items.where("account_id = ? OR recurring IS true",account_id) unless account_id.blank?
       #Item.where("recurring IS true").each{|i| @items.push(i)} unless recurring = "no"
 
-      if (assigned != "yes")
+      if (assigned != "yes" )
         @items = @items.where("lines.id IS NULL")
       end
 

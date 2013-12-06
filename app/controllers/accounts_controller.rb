@@ -34,6 +34,7 @@ class AccountsController < ApplicationController
   # GET /account/new.json
   def new
     @account = Account.new
+    @account.default_account_ar_account = '1110'
     contact = @account.contacts.build
     contact.active = true
     contact.address = Address.new

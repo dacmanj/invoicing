@@ -26,7 +26,7 @@ class Account < ActiveRecord::Base
   
 
   	def self.valid_ar_accounts
-		valid_ar_accounts = ['1110'];
+		valid_ar_accounts = ['1110','1210','1211','1212', '1221'];
   		valid_ar_accounts.map {|h| [h, h]} # name, id
   	end
 

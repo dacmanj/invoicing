@@ -17,7 +17,7 @@
     <%= text_field_tag :balance_due_as_of_date, "#{params[:balance_due_as_of_date]}",:class => "datepicker" %>
   </div>
   <div class="form-group">
-      <%= select_tag :ar_account, options_for_select(['','1110','1210','1211','1212', '1221'],:selected => params[:ar_account]), :class => "col-md-4 select optional form-control" %>
+      <%= select_tag :ar_account, options_for_select(Account.valid_ar_accounts.insert(0,['','']),:selected => params[:ar_account]), :class => "col-md-4 select optional form-control" %>
   </div>
   <div class="form-group">
     <%= submit_tag "Filter", :class => "btn btn-primary", :label => "Filter" %>
@@ -104,7 +104,7 @@
   <tr>
   <td>
     <%= link_to "CSV", invoices_path(format: "csv") %>
-  </td
+  </td>
   <td colspan="6">
     Totals  
   </td>

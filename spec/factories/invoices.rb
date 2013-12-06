@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: invoices
+#
+#  id                 :integer          not null, primary key
+#  contact_id         :integer
+#  account_id         :integer
+#  user_id            :integer
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  date               :date
+#  primary_contact_id :integer
+#
+
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do

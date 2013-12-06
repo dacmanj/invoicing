@@ -5,6 +5,8 @@
 
     <%= f.association :account, { :collection => Account.all(order: :name), :class => "col-md-4"} %>
 
+    <%= f.input :ar_account, {:label => "AR Account", :collection => ['1110','1210','1211','1212', '1221'], :class => "col-md-4"} %>
+
     <% contact_pool = Contact.find_all_by_account_id(@invoice.account_id) || Contact.all %>
    <div class = "form-group">
       <label for="contacts">Primary Contact (printed on invoice)</label>

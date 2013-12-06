@@ -27,7 +27,7 @@ include ActionView::Helpers::NumberHelper
   accepts_nested_attributes_for :lines, reject_if: proc { |attr| attr['description'].blank? && attr['quantity'].blank? && attr['item_id'].blank? && attr['unit_price'].blank? }, allow_destroy: true
   accepts_nested_attributes_for :contacts, :reject_if => :all_blank
 
-  attr_accessible :account_id, :contact_ids, :user_id, :lines_attributes, :date, :primary_contact_id
+  attr_accessible :account_id, :contact_ids, :user_id, :lines_attributes, :date, :primary_contact_id, :ar_account
 
   before_save :set_account_if_blank, :set_primary_contact_if_blank
 
@@ -129,6 +129,16 @@ include ActionView::Helpers::NumberHelper
   def name
     account_name = (self.account.name unless self.account.blank?) || ""
     "#{account_name}-#{self.id}-#{self.date}-#{self.total}"
+  end
+
+  def self.to_csv
+    CSV.generate do |csv|
+      csv << ["ID","Account Name","AR Account", "Total Amount", "Balance Due"]
+      all.each do |invoice|
+        csv << [invoice.id, (invoice.account.name unless invoice.account.blank?) || "", invoice.ar_account, invoice.total, invoice.balance_due]
+      end
+    end
+
   end
 
 end

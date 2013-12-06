@@ -5,15 +5,19 @@ class InvoicesController < ApplicationController
   def index
     @invoices = Invoice.order("id DESC")
 
-    if (params[:balance_due_as_of_date])
+    if (params[:ar_account].present?)
+      @invoices = @invoices.find_all_by_ar_account(params[:ar_account])
+    end
+
+    if (params[:balance_due_as_of_date].present?)
       @invoices = @invoices.select{|h| h.balance_due(params[:balance_due_as_of_date]) != 0}
     end
 
-    if (params[:id])
+    if (params[:id].present?)
       @invoices = @invoices.find_all_by_id(params[:id])
     end
 
-    if (params[:account_id])
+    if (params[:account_id].present?)
       @invoices = @invoices.find_all_by_account_id(params[:account_id])
     end
 
@@ -29,6 +33,7 @@ class InvoicesController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @invoices.to_json(:methods => [:name, :balance_due]) }
+      format.csv { send_data @invoices.to_csv }
     end
   end
 
@@ -70,10 +75,11 @@ class InvoicesController < ApplicationController
 
     if params[:account_id].present?
       @invoice.account = Account.find(params[:account_id])
+      @invoice.ar_account = @invoice.account.default_account_ar_account
       @invoice.primary_contact_id = @invoice.account.contacts.first.id unless @invoice.account.blank? or @invoice.account.contacts.blank?
       if @invoice.account.contacts && @invoice.account.contacts.count == 1
         @invoice.contacts.push @invoice.account.contacts.first
-      end      
+      end
     end
 
     if params[:item_id]

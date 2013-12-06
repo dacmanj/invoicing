@@ -10,6 +10,8 @@
 #  message    :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  cc         :string(255)
+#  bcc        :string(255)
 #
 
 require 'spec_helper'

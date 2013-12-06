@@ -17,6 +17,9 @@
     <%= text_field_tag :balance_due_as_of_date, "#{params[:balance_due_as_of_date]}",:class => "datepicker" %>
   </div>
   <div class="form-group">
+      <%= select_tag :ar_account, options_for_select(['','1110','1210','1211','1212', '1221'],:selected => params[:ar_account]), :class => "col-md-4 select optional form-control" %>
+  </div>
+  <div class="form-group">
     <%= submit_tag "Filter", :class => "btn btn-primary", :label => "Filter" %>
   </div>
 <% end %>
@@ -46,6 +49,7 @@
         <%= check_box_tag 'select_all_invoice_id', '', false %>
       </th>
       <th>Invoice #</th>
+      <th>A/R Account</th>
       <th>Invoice Date</th>
       <th>Company</th>
       <th>Contact</th>
@@ -58,7 +62,11 @@
   <% @invoices.each do |invoice| %>
     <tr>
       <td><%= check_box_tag 'invoice_id[]', invoice.id, false %></td>
-      <td><%= link_to content_tag(:i, invoice.id, :class => "glyphicon glyphicon-pencil"), edit_invoice_path(invoice.id) %></td>
+      <td><%= link_to content_tag(:i, invoice.id, :class => "glyphicon glyphicon-pencil"), edit_invoice_path(invoice.id) %>
+      </td>
+      <td>
+        <%= invoice.ar_account %>
+      </td>
       <td>
         <%= invoice.date.strftime("%m/%d/%Y") unless invoice.date.blank? %>
       </td>
@@ -94,6 +102,9 @@
     </tr>
   <% end %>
   <tr>
+  <td>
+    <%= link_to "CSV", invoices_path(format: "csv") %>
+  </td
   <td colspan="6">
     Totals  
   </td>
@@ -107,4 +118,6 @@
   </td>
   </tr>
   </table>
+
+
 <% end %>

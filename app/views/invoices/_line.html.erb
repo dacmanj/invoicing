@@ -8,5 +8,5 @@
 	    	<%= number_to_currency line.unit_price unless line.quantity == 1 %>
 	    </div>
 	    <div class="col-md-1">
-	    	<%= number_to_currency line.total %>
+	    	<%= number_to_currency line.total unless line.total == 0 %>
 	    </div>

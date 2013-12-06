@@ -9,6 +9,6 @@
 	    	<%= number_to_currency line.unit_price unless line.quantity == 1  %>
 	    </td>
 	    <td>
-	    	<%= number_to_currency line.total %>    	
+	    	<%= number_to_currency line.total unless line.total == 0 %>    	
 	    </td>
 	</tr>

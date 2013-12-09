@@ -1,7 +1,7 @@
 <%= simple_form_for(@invoice, :defaults => { :input_html => { :class => 'input-xxlarge' } }) do |f| %>
   <%= f.error_notification %>
-    <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-edit"), '', :id => "invoice_account_edit", :class => "account_buttons" %>
-    <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-plus-sign"), new_account_path, :class => "account_buttons" %>
+    <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-edit"), '', :id => "invoice_account_edit", :class => "account_buttons", :target => "_blank" %>
+    <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-plus-sign"), new_account_path, :class => "account_buttons", :target => "_blank" %>
 
     <%= f.association :account, { :collection => Account.all(order: :name), :class => "col-md-4"} %>
 
@@ -10,8 +10,8 @@
     <% contact_pool = Contact.find_all_by_account_id(@invoice.account_id) || Contact.all %>
    <div class = "form-group">
       <label for="contacts">Primary Contact (printed on invoice)</label>
-      <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-edit"), '', :id => "invoice_primary_contact_edit", :class => "invoice_primary_contact_buttons" %>
-      <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-plus-sign"), new_contact_path(:id => "21"), :class => "invoice_primary_contact_buttons" %>
+      <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-edit"), '', :id => "invoice_primary_contact_edit", :class => "invoice_primary_contact_buttons", :target => "_blank" %>
+      <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-plus-sign"), new_contact_path(:id => "21"), :class => "invoice_primary_contact_buttons", :target => "_blank" %>
  
       <div class="input-group">
         <%= f.select :primary_contact_id, options_for_select(contact_pool.map {|r| [r.name, r.id, {'data-account-id' => r.account_id }]}, :selected => @invoice.primary_contact_id), {include_blank: true}, {:class => "select optional form-control input-xxlarge"} %>

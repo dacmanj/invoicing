@@ -3,7 +3,9 @@
 <%= render 'form' %>
 
 <div class="well">
-<h2>Invoices</h2>
+<h2>Invoices        
+  <%= link_to (content_tag :i, '', :class => "glyphicon glyphicon-plus-sign"), new_account_invoice_url(:account_id => @account.id)  %>
+</h2>
 
       <table class="table table-bordered table-striped">
         <tr>
@@ -44,7 +46,10 @@
       </table>
       </div>
       <div class="well">
-      <h2>Payments</h2>
+      <h2>Payments
+            <%= link_to (content_tag :i, '', :class => "glyphicon glyphicon-plus-sign"), new_account_payment_url(:account_id => @account.id)  %>
+
+      </h2>
 	    <table class="table table-bordered table-striped">
         <tr>
           <th>Date</th>

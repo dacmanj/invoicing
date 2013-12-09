@@ -50,7 +50,10 @@ $ ->
 
       load_items = (e) ->
         a = $("#invoice_account_id").val()
-        i = $("form.edit_invoice").attr("id").split("_")[2]
+        if $("form.edit_invoice").length > 0
+          i = $("form.edit_invoice").attr("id").split("_")[2] 
+        else
+          i = ""
         select_filter = (e) ->
           this.name.match(/invoice\[lines_attributes\]\[\d.*]\[item_id\]/)
         if a?

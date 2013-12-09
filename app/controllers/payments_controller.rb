@@ -27,7 +27,8 @@ class PaymentsController < ApplicationController
   def new
     @payment = Payment.new
     @payment.invoice = params[:id].blank? ? Invoice.new : Invoice.find(params[:id])
-    @payment.account = @payment.invoice.account unless @payment.invoice.blank?
+    (@payment.account = @payment.invoice.account) unless @payment.invoice.blank?
+    @payment.account = Account.find(params[:account_id]) unless params[:account_id].blank?
     @payment.amount = @payment.invoice.balance_due unless @payment.invoice.blank?
 
 

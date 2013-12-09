@@ -20,6 +20,9 @@ Invoicing::Application.routes.draw do
     end
   end
 
+
+  resources :payments
+
   resources :payments do
     collection do
         post :import
@@ -57,6 +60,8 @@ Invoicing::Application.routes.draw do
   match '/import' => 'static_pages#import'
   match '/accounts/:account_id/invoices/new' => 'invoices#new', :as => "new_account_invoice"
   match '/accounts/:id/contacts/new' => 'contacts#new', :as => "new_account_contact"
+  match '/accounts/:account_id/payments/new' => 'payments#new', :as => "new_account_payment"
+
   match '/invoices/:id/payments/new' => 'payments#new', :as => "new_invoice_payment"
   match '/invoices/:id/build' => 'invoices#build'
   match '/invoices/:id/email' => 'invoices#email'

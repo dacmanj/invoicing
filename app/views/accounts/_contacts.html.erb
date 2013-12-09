@@ -1,6 +1,8 @@
+
 <%= f.simple_fields_for :contacts do |f| %>
 
   <div class="form-inputs">
+    <%= f.input :suppress_account_name, as: :boolean, default: true %>
     <%= f.input :first_name, required: false %>
     <%= f.input :last_name, required: false %>
     <%= f.input :title, required: false %>

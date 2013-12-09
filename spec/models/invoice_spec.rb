@@ -10,6 +10,7 @@
 #  updated_at         :datetime         not null
 #  date               :date
 #  primary_contact_id :integer
+#  ar_account         :string(255)
 #
 
 require 'spec_helper'

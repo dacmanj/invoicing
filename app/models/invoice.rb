@@ -132,14 +132,4 @@ include ActionView::Helpers::NumberHelper
     "#{account_name}-#{self.id}-#{self.date}-#{self.total}"
   end
 
-  def self.to_csv
-    CSV.generate do |csv|
-      csv << ["ID","Account Name","AR Account", "Total Amount", "Balance Due"]
-      all.each do |invoice|
-        csv << [invoice.id, (invoice.account.name unless invoice.account.blank?) || "", invoice.ar_account, invoice.total, invoice.balance_due]
-      end
-    end
-
-  end
-
 end

@@ -4,16 +4,7 @@ class InvoicesController < ApplicationController
   # GET /invoices.json
   def index
 
-    case params[:sort]
-    when "date"
-      @invoices = Invoice.order("date DESC")
-    when "ar"
-      @invoices = Invoice.order("ar_account DESC")
-    when "lastemail"
-      @invoices = Invoice.includes(:email_records).order('email_records.created_at DESC NULLS LAST').uniq
-    else
-      @invoices = Invoice.order("id DESC")
-    end
+    @invoices = Invoice.includes(:email_records)
 
     if (params[:ar_account].present?)
       @invoices = @invoices.find_all_by_ar_account(params[:ar_account])
@@ -40,10 +31,32 @@ class InvoicesController < ApplicationController
     end
 
 
+    case params[:sort]
+    when "date"
+      @invoices = @invoices.sort{|a,b| b.date <=> a.date}
+    when "ar"
+      @invoices = @invoices.sort {|a,b| a.ar_account <=> b.ar_account}
+    when "last_email"
+#      @invoices = Invoice.includes(:email_records).order('email_records.created_at DESC NULLS LAST').uniq
+      @invoices = @invoices.sort{|a,b| 
+
+        (b.email_records.last.blank? ? DateTime.new : b.email_records.last.created_at) <=> (a.email_records.last.blank? ? DateTime.new : a.email_records.last.created_at)
+
+      }
+    when "total"
+      @invoices = @invoices.sort {|a,b| b.total <=> a.total}
+    when "balance_due"
+      @invoices = @invoices.sort {|a,b| b.balance_due <=> a.balance_due}
+    when "id"
+      @invoices = @invoices.sort {|a,b| b.id <=> a.id}
+    else
+      @invoices = @invoices.sort {|a,b| b.date <=> a.date}
+    end
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @invoices.to_json(:methods => [:name, :balance_due]) }
-      format.csv { send_data @invoices.to_csv }
+      format.csv { render csv: @invoices }
     end
   end
 

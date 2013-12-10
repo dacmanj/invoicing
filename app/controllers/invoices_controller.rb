@@ -3,7 +3,19 @@ class InvoicesController < ApplicationController
   # GET /invoices
   # GET /invoices.json
   def index
-    @invoices = Invoice.order("id DESC")
+
+    case params[:sort]
+    when "date"
+      @invoices = Invoice.order("date DESC")
+    when "ar"
+      @invoices = Invoice.order("ar_account DESC")
+    when "total"
+      @invoices = Invoice.order("total DESC")
+    when "lastemail"
+      @invoices = Invoice.includes(:email_records).order('email_records.created_at DESC NULLS LAST').uniq
+    else
+      @invoices = Invoice.order("id DESC")
+    end
 
     if (params[:ar_account].present?)
       @invoices = @invoices.find_all_by_ar_account(params[:ar_account])

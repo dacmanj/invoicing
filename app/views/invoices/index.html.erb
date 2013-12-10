@@ -49,12 +49,12 @@
         <%= check_box_tag 'select_all_invoice_id', '', false %>
       </th>
       <th>Invoice #</th>
-      <th>A/R Account</th>
-      <th>Invoice Date</th>
+      <th>A/R Account<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(:sort => "ar", :ar_account => params[:ar_account], :outstanding_balance => params[:outstanding_balance]) %></th>
+      <th>Invoice Date<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(:sort => "date", :ar_account => params[:ar_account], :outstanding_balance => params[:outstanding_balance]) %></th>
       <th>Company</th>
       <th>Contact</th>
-      <th>Last Email</th>
-      <th>Total</th>
+      <th>Last Email<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(:sort => "lastemail",:ar_account => params[:ar_account], :outstanding_balance => params[:outstanding_balance]) %></th>
+      <th>Total<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(:sort => 'total', :ar_account => params[:ar_account], :outstanding_balance => params[:outstanding_balance])%></th>
       <th>Balance Due</th>
       <th style="min-width: 250px;"></th>
     </tr>

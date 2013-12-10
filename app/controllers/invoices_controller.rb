@@ -9,8 +9,6 @@ class InvoicesController < ApplicationController
       @invoices = Invoice.order("date DESC")
     when "ar"
       @invoices = Invoice.order("ar_account DESC")
-    when "total"
-      @invoices = Invoice.order("total DESC")
     when "lastemail"
       @invoices = Invoice.includes(:email_records).order('email_records.created_at DESC NULLS LAST').uniq
     else

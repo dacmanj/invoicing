@@ -34,6 +34,9 @@ include ActionView::Helpers::NumberHelper
 
   def set_primary_contact_if_blank
       self.primary_contact_id = self.contacts.first.id if !self.contacts.blank? && self.primary_contact_id.blank?
+      if self.contacts.blank? and self.primary_contact_id.present?
+        self.contacts.push(Contact.find(primary_contact_id))
+      end
   end
 
   def set_account_if_blank
@@ -46,6 +49,13 @@ include ActionView::Helpers::NumberHelper
   		t += l.total
  	end
   	t
+  end
+
+  def primary_contact
+    if self.primary_contact_id.present?
+      Contact.find(self.primary_contact_id)
+    end
+    
   end
 
   def other_past_due_invoices_table

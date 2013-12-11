@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/mileszs/wicked_pdf.git
-  revision: bf701c889b5d616eb6702ece26a55b8c1b440339
+  revision: fdb4d8f1c0d5285f678b0015764ef2986323b6b0
   specs:
     wicked_pdf (0.9.8)
       rails

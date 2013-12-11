@@ -10,7 +10,7 @@
   <dd><%= link_to @email_record.invoice.name, edit_invoice_path(@email_record.invoice_id) unless @email_record.invoice.blank?%></dd>
 
   <dt>Sent:</dt>
-  <dd><%= @email_record.created_at.localtime.strftime("%m/%d/%Y at %l:%m:%S %p") %></dd>
+  <dd><%= @email_record.created_at.localtime.strftime("%m/%d/%Y at %l:%M:%S %p") %></dd>
 
 
   <dt>To:</dt>

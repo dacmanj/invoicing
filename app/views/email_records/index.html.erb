@@ -6,9 +6,12 @@
   <h1>Email Log</h1>
 </div>
 
+
+<%=Time.now.localtime.strftime("%m/%d/%Y at %l:%M:%S %p") %>
 <table class="table table-bordered table-striped">
   <thead>
     <tr>
+      <th>Updated At</th> 
       <th>Account</th>
       <th>Invoice</th>
       <th>To</th>
@@ -23,6 +26,7 @@
   <tbody>
 <% @email_records.each do |email_record| %>
     <tr>
+      <td><%= email_record.updated_at.localtime.strftime("%m/%d/%Y at %l:%M:%S %p")  %></td>
       <td><%= link_to email_record.account_id, account_path(email_record.account_id) %></td>
       <td><%= link_to email_record.invoice_id, invoice_path(email_record.invoice_id) %></td>
       <td><%= email_record.email %></td>

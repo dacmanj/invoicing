@@ -2,7 +2,7 @@ class EmailRecordsController < ApplicationController
   # GET /email_records
   # GET /email_records.json
   def index
-    @email_records = EmailRecord.all
+    @email_records = EmailRecord.order("created_at DESC")
 
     respond_to do |format|
       format.html # index.html.erb

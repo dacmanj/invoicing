@@ -83,7 +83,7 @@ $ ->
             $("input[name*=quantity]",context).val(item.quantity) if item.quantity? 
             $("input[name*=unit_price]",context).val(item.unit_price) if item.unit_price?
             description_id = $("textarea[name*=description]",context).attr("id")
-            tinymce.get(description_id).setContent(item.description) if description_id?
+            tinymce.get(description_id).setContent(item.description_with_receipt) if description_id?
             $("input[name*=notes]",context).val(item.notes) if item.notes?
             console.log item
             true

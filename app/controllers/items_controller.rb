@@ -45,7 +45,7 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @items.to_json(:methods => [:name]) }
+      format.json { render json: @items.to_json(:methods => [:name, :description_with_receipt]) }
     end
   end
 
@@ -56,7 +56,7 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @item }
+      format.json { render json: @item.to_json(:methods => [:name, :description_with_receipt]) }
     end
   end
 

@@ -43,6 +43,13 @@ class Item < ActiveRecord::Base
     Nokogiri::HTML(self.description).text
   end
 
+  def description_with_receipt
+    if self.item_image_url
+        img_link = "(<a href='#{self.item_image_url}'>Receipt</a>)"
+    end
+    "#{self.description} #{img_link}"
+  end
+
   def name
     text = self.description_text
     "#{self.notes + ": " unless self.notes.blank?}#{text}"
@@ -54,7 +61,7 @@ class Item < ActiveRecord::Base
       line = Line.new
       line.invoice_id = invoice.id
       if self.item_image_url
-        img_link = "(<a href='#{self.item_image_url}'>Receipt</a>)'"
+        img_link = "(<a href='#{self.item_image_url}'>Receipt</a>)"
       end
       line.description = "#{self.description} #{img_link}"
       line.item_id = self.id

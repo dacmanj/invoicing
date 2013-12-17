@@ -29,6 +29,7 @@ $ ->
           oldName = $(this).attr 'name'
           newName = oldName.replace(new RegExp(/\[[0-9]+\]/), "[#{formsOnPage}]")
           $(this).attr 'name', newName
+          $(this).val ''
 
         $( newNestedForm ).insertAfter( lastNestedForm )
         $( ".duplicatable_nested_form ").last().find("textarea").tinymce("tinymce_config")

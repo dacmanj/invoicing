@@ -16,4 +16,3 @@
 //= require bootstrap
 //= require tinymce-jquery
 //= require_tree .
-

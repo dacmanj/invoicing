@@ -27,8 +27,8 @@ class ItemsController < ApplicationController
         @items = @items.where("lines.id IS NULL")
       end
 
-      Item.where("account_id = ?",account_id).each{|i| @items.push(i)} unless account_id.blank?
-      Item.includes(:lines).where("lines.invoice_id = ?",invoice_id).each{|i| @items.push(i)} unless invoice_id.blank?
+      Item.where("account_id = ?",account_id).each{|i| @items.include?(i) || @items.push(i) } unless account_id.blank?
+      Item.includes(:lines).where("lines.invoice_id = ?",invoice_id).each{|i| @items.include?(i) ||  @items.push(i)} unless invoice_id.blank?
 
       if (recurring == "yes")
         @items = @items.where("recurring IS true")

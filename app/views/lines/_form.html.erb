@@ -6,6 +6,7 @@
     <%= f.input :item_id %>
     <%= f.input :quantity %>
     <%= f.input :unit_price %>
+    <%= f.input :position, :collection => 1..((@line.invoice.lines.count unless @line.invoice.blank?) || 1) %>
   </div>
 
   <div class="form-actions">

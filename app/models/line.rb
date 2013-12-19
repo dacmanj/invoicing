@@ -12,13 +12,13 @@
 #  invoice_id  :integer
 #  hidden      :boolean
 #  notes       :string(255)
+#  position    :integer
 #
 
 class Line < ActiveRecord::Base
 	belongs_to :invoice
 
-  attr_accessible :description, :notes, :item_id, :quantity, :hidden, :unit_price, :invoice_id
-
+  attr_accessible :description, :notes, :item_id, :quantity, :hidden, :unit_price, :invoice_id, :position
   before_save :assign_item
 
   def assign_item
@@ -30,7 +30,6 @@ class Line < ActiveRecord::Base
         item.save!
       end
     end
-
   end
 
   def name

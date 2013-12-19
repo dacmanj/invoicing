@@ -6,3 +6,5 @@ en:
     attributes:
       contact:
         database_id: Constituent ID
+      line:
+        position: Order

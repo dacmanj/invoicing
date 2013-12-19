@@ -12,6 +12,7 @@
 #  invoice_id  :integer
 #  hidden      :boolean
 #  notes       :string(255)
+#  position    :integer
 #
 
 require 'spec_helper'

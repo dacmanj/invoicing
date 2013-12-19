@@ -107,6 +107,7 @@ class InvoicesController < ApplicationController
 
     if params[:item_id]
       @items = Item.find_all_by_id(params[:item_id])
+      count = 0
       @items.each do |i|
         line = Line.new
         if i.item_image_url
@@ -117,6 +118,7 @@ class InvoicesController < ApplicationController
         line.notes = i.notes
         line.quantity = i.quantity
         line.unit_price = i.unit_price
+        line.position = count+=1
         @invoice.lines.push line
       end
     end

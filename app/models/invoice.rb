@@ -19,7 +19,8 @@ include ActionView::Helpers::NumberHelper
 	belongs_to :user
 
   has_many :email_records
-	has_many :lines
+	has_many :lines, :order => "position ASC"
+
 	has_many :items, :through => :lines
   has_many :payments
 

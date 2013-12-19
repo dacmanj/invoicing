@@ -34,6 +34,8 @@ $ ->
         $( newNestedForm ).insertAfter( lastNestedForm )
         $( ".duplicatable_nested_form ").last().find("textarea").tinymce("tinymce_config")
         load_items()
+        add_last_position()
+        assign_order()
         $('select').filter(item_filter).change(load_line_from_item)
 
 
@@ -94,7 +96,18 @@ $ ->
 
       $('select').filter(item_filter).change(load_line_from_item)
 
-      load_items()
+      add_last_position = (e) ->
+        last_position = $(".invoice_lines_position select").length
+        $(".invoice_lines_position select").each (i,k) ->
+          $(k).append($("<option/>").val(last_position).html(last_position))
 
+      assign_order = (e) ->
+        $(".invoice_lines_position select").each (index) ->
+          val = $(this).val()
+          if !!!val
+            $(this).val(index+1)
+
+      load_items()
+      assign_order()
 
 

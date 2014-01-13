@@ -33,6 +33,10 @@ include ActionView::Helpers::NumberHelper
 
   before_save :set_account_if_blank, :set_primary_contact_if_blank
 
+  def self.open_invoices_as_of(balance_date)
+    Invoice.select{|h| h.balance_due(balance_date) != 0}
+  end
+
   def set_primary_contact_if_blank
       self.primary_contact_id = self.contacts.first.id if !self.contacts.blank? && self.primary_contact_id.blank?
       if self.contacts.blank? and self.primary_contact_id.present?

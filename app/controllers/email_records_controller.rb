@@ -1,4 +1,5 @@
 class EmailRecordsController < ApplicationController
+  before_filter :authenticate
   # GET /email_records
   # GET /email_records.json
   def index

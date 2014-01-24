@@ -7,6 +7,7 @@ class PaymentsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
+      format.csv { render csv: @payments }
       format.json { render json: @payments }
     end
   end

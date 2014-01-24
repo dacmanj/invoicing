@@ -19,10 +19,10 @@ class SessionsController < ApplicationController
     # 2.8 Session Fixation – Countermeasures:
     # http://guides.rubyonrails.org/security.html#session-fixation-countermeasures
     return_to = session[:return_to]
+    redirect_back_or root_url, :notice => 'Signed in...'
     reset_session
     session[:user_id] = user.id
     session[:return_to] = return_to
-    redirect_back_or root_url, :notice => 'Signed in...'
 
   end
 

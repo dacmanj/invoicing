@@ -22,7 +22,6 @@ class SessionsController < ApplicationController
     redirect_back_or root_url, :notice => 'Signed in...'
     reset_session
     session[:user_id] = user.id
-    session[:return_to] = return_to
 
   end
 

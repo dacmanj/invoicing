@@ -8,8 +8,8 @@ module ApplicationHelper
     end
   end
   
-  def glyph(g)
-    content_tag(:i,"",:class=>"glyphicon glyphicon-"+g)
+  def glyph(g, interior_text="")
+    content_tag(:i,interior_text,:class=>"glyphicon glyphicon-"+g)
   end
   
   def logo

@@ -3,13 +3,17 @@ class InvoiceMailer < ActionMailer::Base
 
   def new_invoice_email(invoice)
     @invoice = invoice
+    email = User.notify_all.collect(&:email)
+    email.push(@invoice.user.email) unless @invoice.user.blank? || @invoice.user.email.blank?
+    @email = email.join(", ") 
+    
     if invoice.account.blank?
       @account_name = ""
     else
       @account_name = invoice.account.name 
     end
     @subject = "New Invoice Created for #{@account_name}"
-    @email = "dmanuel@pflag.org,awalker@pflag.org,vdiponio@pflag.org"
+
     mail(:subject => @subject, :to =>  @email, :cc => @email_cc, :bcc => @email_bcc)
 
   end
@@ -24,8 +28,10 @@ class InvoiceMailer < ActionMailer::Base
     else
       @account_name = @account.name 
     end
+    email = User.notify_all.collect(&:email)
+    email.push(@invoice.user.email) unless @invoice.user.blank? || @invoice.user.email.blank?
+    @email = email.join(", ") 
     @subject = "New Payment Posted for #{@account_name} by #{@username}"
-    @email = "dmanuel@pflag.org, awalker@pflag.org, vdiponio@pflag.org"
     mail(:subject => @subject, :to =>  @email, :cc => @email_cc, :bcc => @email_bcc)
 
   end
@@ -40,23 +46,24 @@ class InvoiceMailer < ActionMailer::Base
     else
       @account_name = @account.name 
     end
-    @subject = "Payment Edited for #{@account_name} by #{@username}"
-    @email = "dmanuel@pflag.org"
+    email = User.notify_all.collect(&:email)
+    email.push(@invoice.user.email) unless @invoice.user.blank? || @invoice.user.email.blank?
+    @email = email.join(", ") 
     mail(:subject => @subject, :to =>  @email, :cc => @email_cc, :bcc => @email_bcc)
   end
 
   def invoice_edited_email(invoice,current_user)
     @invoice = invoice
     @username = current_user.name
-    if invoice.account.blank?
+    if @invoice.account.blank?
       @account_name = ""
     else
       @account_name = invoice.account.name 
     end
     subject = "Invoice #{@invoice.id} Updated by #{@username}"
-    email = "dmanuel@pflag.org"
-    email_cc = ""
-    email_bcc = ""
+    email = User.notify_all.collect(&:email)
+    email.push(@invoice.user.email) unless @invoice.user.blank? || @invoice.user.email.blank?
+    @email = email.join(", ") 
     mail(:subject => @subject, :to =>  @email, :cc => @email_cc, :bcc => @email_bcc)
 
   end
@@ -94,4 +101,5 @@ class InvoiceMailer < ActionMailer::Base
     end
 
   end
+
 end

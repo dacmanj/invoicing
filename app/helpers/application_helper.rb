@@ -8,6 +8,10 @@ module ApplicationHelper
     end
   end
   
+  def glyph(g)
+    content_tag(:i,"",:class=>"glyphicon glyphicon-"+g)
+  end
+  
   def logo
     image_tag("logo.png", :width => "50px", :height => "50px", :alt => "PFLAG Logo", :class => "round")
   end

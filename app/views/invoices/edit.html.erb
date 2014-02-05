@@ -1,11 +1,55 @@
 <h1>Editing Invoice</h1>
+
 <div class="well">
-<%= link_to content_tag(:i, '', {:class => "glyphicon glyphicon-usd"} ), new_invoice_payment_path(@invoice), :class => "btn btn-primary" %>
-<%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-file"), invoice_path(@invoice, :format => :pdf), :class => "btn btn-primary", :target => "_BLANK" %>
-<%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-send"), {:id => @invoice.id,:action => "email"}, :class => "btn btn-primary" %>
-<%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-trash"), invoice_path(@invoice), method: :delete, confirm: 'Are you sure?', :class => "btn btn-danger" %>
+<%= link_to glyph("usd"), edit_invoice_path(@invoice, :anchor => "payments"), :class => "btn btn-primary" %>
+
+<%= link_to glyph("file"), invoice_path(@invoice, :format => :pdf), :class => "btn btn-primary", :target => "_BLANK" %>
+<%= link_to glyph("send"), {:id => @invoice.id,:action => "email"}, :class => "btn btn-primary" %>
+<%= link_to glyph("trash"), invoice_path(@invoice), method: :delete, confirm: 'Are you sure?', :class => "btn btn-danger" %>
 </div>
 <%= render 'form' %>
+
+
+<% if @invoice.payments.present? %>
+	<a name="payments"></a>
+	<div class="well">
+	<h2>Payments</h2>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Payment Date</th>
+				<th>Payment Type</th>
+				<th>Reference Number</th>
+				<th>Payment Amount</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<%@invoice.payments.each do |p| %>
+			<tr>
+				<td><%=l(p.payment_date)%></td>
+				<td><%=p.payment_type%></td>
+				<td><%=p.reference_number%></td>
+				<td><%=number_to_currency p.amount%></td>
+				<td>
+					<% if p.account.id != @invoice.account.id %>
+					<span class="alert-danger">Warning: Account does not match invoice</span>
+					<% end %>
+				</td>
+				<td><%=link_to glyph("pencil"), edit_payment_path(p.id), :class=>"btn btn-primary" %>
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
+	<dl>
+	<dt>Balance Due:</dt>
+	<dd><%=number_to_currency @invoice.balance_due%></dd>
+	</dl>
+	<%= link_to "New Payment", new_invoice_payment_path(@invoice), :class => "btn btn-primary" %>
+	</div>
+<% end %>
+
 
 <%= link_to content_tag(:i, 'Show', {:class => "glyphicon glyphicon-file"} ), @invoice, :class => "btn btn-default" %>
 <%= link_to 'Back', invoices_path, :class => "btn btn-default"  %>

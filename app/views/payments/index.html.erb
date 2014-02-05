@@ -6,33 +6,39 @@
 
 <table class="table table-striped">
   <tr>
-    <th>Invoice</th>
     <th>Payment ID</th>
-    <th>Accounts</th>
+    <th>Account</th>
+    <th>Invoice</th>
     <th>Payment date</th>
     <th>Payment type</th>
     <th>Reference number</th>
     <th>Amount</th>
+    <th></th>
     <th style="min-width: 100px;"></th>
 
   </tr>
 
 <% @payments.each do |payment| %>
   <tr>
-    <td>    
-        <%= link_to content_tag(:i, payment.invoice_id, :class => "glyphicon glyphicon-pencil"), {:id => payment.invoice_id,:action => "edit", :controller => "invoices"}  unless payment.invoice_id.blank? %>
-    </td>
     <td>        
         <%= link_to content_tag(:i, payment.id, :class => "glyphicon glyphicon-pencil"), edit_payment_path(payment.id) %>
     </td>
     <td><%= link_to payment.account.name, edit_account_path(payment.account_id) unless payment.account.blank? %></td>
+    <td>    
+        <%= link_to content_tag(:i, payment.invoice_id, :class => "glyphicon glyphicon-pencil"), {:id => payment.invoice_id,:action => "edit", :controller => "invoices"}  unless payment.invoice_id.blank? %>
+    </td>
     <td><%= payment.payment_date.strftime("%m/%d/%Y") unless payment.payment_date.blank? %></td>
     <td><%= payment.payment_type %></td>
     <td><%= payment.reference_number %></td>
     <td><%= number_to_currency(payment.amount) %></td>
     <td>
-        <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-pencil"), {:id => payment.id,:action => "edit"}, :class => "btn btn-primary" %>
-        <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-trash"), payment, confirm: 'Are you sure?', method: :delete, :class => "btn btn-danger" %>
+        <% if payment.account.present? and payment.invoice.present? and payment.account.id != payment.invoice.account.id %>
+        <span class="alert-danger">Warning: Account does not match invoice</span>
+        <% end %>
+    </td>
+    <td>
+        <%= link_to glyph("pencil"), {:id => payment.id,:action => "edit"}, :class => "btn btn-primary" %>
+        <%= link_to glyph("trash"), payment, confirm: 'Are you sure?', method: :delete, :class => "btn btn-danger" %>
     </td>
   </tr>
 <% end %>

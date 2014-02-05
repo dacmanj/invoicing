@@ -1,0 +1,4 @@
+"Invoice #", "Invoice Date", "Company","Payment #","A/R Account","Payment Date","Payment Type","Reference Number","Amount"
+<% @payments.each do |p| %>
+"<%=p.invoice.id unless p.invoice.blank?%>","<%=p.invoice.date.strftime("%m/%d/%Y") unless p.invoice.blank?%>","<%=p.account.name unless p.account.blank? %>","<%= p.id %>","<%= p.invoice.ar_account unless p.invoice.blank?%>","<%= p.payment_date.strftime("%m/%d/%Y") unless p.payment_date.blank? %>","<%= p.payment_type %>","<%= p.reference_number%>","<%=p.amount%>"
+<% end %>

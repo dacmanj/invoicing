@@ -53,6 +53,7 @@ class PaymentsController < ApplicationController
       if @payment.save
         format.html { redirect_to invoices_url, notice: 'Payment was successfully created.' }
         format.json { render json: @payment, status: :created, location: @payment }
+        InvoiceMailer.new_payment_email(@payment,current_user).deliver
       else
         format.html { render action: "new" }
         format.json { render json: @payment.errors, status: :unprocessable_entity }

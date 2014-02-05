@@ -146,6 +146,7 @@ class InvoicesController < ApplicationController
 
     respond_to do |format|
       if @invoice.save
+        InvoiceMailer.new_invoice_email(@invoice).deliver
         format.html { redirect_to invoices_url, notice: 'Invoice was successfully created.' }
         format.json { render json: @invoice, status: :created, location: @invoice }
       else
@@ -169,6 +170,7 @@ class InvoicesController < ApplicationController
       if @invoice.update_attributes(params[:invoice])
         format.html { redirect_to invoices_url, notice: 'Invoice was successfully updated.' }
         format.json { head :no_content }
+        InvoiceMailer.invoice_edited_email(@invoice,current_user).deliver
       else
         format.html { render action: "edit" }
         format.json { render json: @invoice.errors, status: :unprocessable_entity }

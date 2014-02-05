@@ -70,6 +70,7 @@ class PaymentsController < ApplicationController
       if @payment.update_attributes(params[:payment])
         format.html { redirect_to payments_url, notice: 'Payment was successfully updated.' }
         format.json { head :no_content }
+        InvoiceMailer.payment_edited_email(@payment,current_user).deliver
       else
         format.html { render action: "edit" }
         format.json { render json: @payment.errors, status: :unprocessable_entity }

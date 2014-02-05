@@ -30,6 +30,20 @@ class InvoiceMailer < ActionMailer::Base
 
   end
 
+  def payment_edited_email(payment,current_user)
+    @payment = payment
+    @invoice = payment.invoice
+    @account = payment.account
+    @username = current_user.name
+    if @account.blank?
+      @account_name = ""
+    else
+      @account_name = @account.name 
+    end
+    @subject = "Payment Edited for #{@account_name} by #{@username}"
+    @email = "dmanuel@pflag.org"
+    mail(:subject => @subject, :to =>  @email, :cc => @email_cc, :bcc => @email_bcc)
+  end
 
   def invoice_edited_email(invoice,current_user)
     @invoice = invoice

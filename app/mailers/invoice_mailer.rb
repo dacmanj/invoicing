@@ -93,8 +93,8 @@ class InvoiceMailer < ActionMailer::Base
         e.subject = @subject
         e.message = @message
         e.email = @email
-        e.cc = email_cc
-        e.bcc = email_bcc
+        e.cc = @email_cc
+        e.bcc = @email_bcc
       end
       email_record.save!
 

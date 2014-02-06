@@ -60,7 +60,7 @@ class InvoiceMailer < ActionMailer::Base
     else
       @account_name = invoice.account.name 
     end
-    subject = "Invoice #{@invoice.id} Updated by #{@username}"
+    @subject = "Invoice #{@invoice.id} Updated by #{@username}"
     email = User.notify_all.collect(&:email)
     email.push(@invoice.user.email) unless @invoice.user.blank? || @invoice.user.email.blank?
     @email = email.join(", ") 

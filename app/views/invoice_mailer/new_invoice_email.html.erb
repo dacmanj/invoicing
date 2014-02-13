@@ -4,7 +4,7 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-	<p>An invoice has been created for <%=@account_name%> in the amount of <%=@invoice.balance_due%>.</p>
+	<p>An invoice has been created for <%=@account_name%> in the amount of <%= number_to_currency @invoice.balance_due%>.</p>
 	<p>For details go to <%= edit_invoice_url @invoice.id %></p>
 
 

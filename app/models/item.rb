@@ -45,7 +45,7 @@ class Item < ActiveRecord::Base
 
   def description_with_receipt
     if self.item_image_url
-        img_link = "(<a href='#{self.item_image_url}'>Receipt</a>)"
+        img_link = "(<a href='#{self.item_image_url}'>Receipt</a>)" unless self.item_image_url.blank?
     end
     "#{self.description} #{img_link}"
   end

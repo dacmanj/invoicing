@@ -74,7 +74,7 @@
       <td><%= truncate(item.notes,:length => 30) %></td>
       <td><%= item.revenue_gl_code %></td>
       <td><%= item.quantity %></td>
-      <td><%= item.unit_price %></td>
+      <td><%= number_to_currency item.unit_price %></td>
       <td>
           <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-file"), item.item_image_url, html_options = { :target => "_BLANK", :class => "btn btn-primary"} %>
           <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-pencil"), {:id => item.id,:action => "edit"}, :class => "btn btn-primary" %>

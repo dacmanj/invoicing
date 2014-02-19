@@ -14,7 +14,6 @@ class ItemsController < ApplicationController
     description = params[:description]
     all = params[:all]
     unlinked = params[:unlinked]
-
     if (item_id.present? || all == "yes" || unlinked == "yes")
       @items = Item.where("id = ?",item_id) if item_id.present?
       @items = Item.all if all == "yes"
@@ -24,8 +23,9 @@ class ItemsController < ApplicationController
       #Item.where("recurring IS true").each{|i| @items.push(i)} unless recurring = "no"
 
       if (assigned != "yes" )
-        @items = @items.where("lines.id IS NULL")
+        @items = @items.select{|h| h.unassigned?}
       end
+
 
       Item.where("account_id = ?",account_id).each{|i| @items.include?(i) || @items.push(i) } unless account_id.blank?
       Item.includes(:lines).where("lines.invoice_id = ?",invoice_id).each{|i| @items.include?(i) ||  @items.push(i)} unless invoice_id.blank?

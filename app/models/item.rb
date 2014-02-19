@@ -25,9 +25,8 @@ class Item < ActiveRecord::Base
 
   scope :not_assigned_to_account, where("account_id is NULL")
   scope :not_assigned_to_line, where("line_id is NULL")
-  scope :unassigned, where(:unassigned => true)
   scope :active, where(:active => true) 
-
+  scope :recurring, where(:recurring => true)
 
   attr_accessible :description, :item_image_url, :quantity, :receivable_gl_code, :revenue_gl_code, :unit_price, :notes, :recurring, :expensify_id, :account_id, :line_ids
 
@@ -35,8 +34,8 @@ class Item < ActiveRecord::Base
   	quantity * unit_price
   end
 
-  def unassigned
-    line_item.blank? || line_item.invoice_id.blank?
+  def unassigned?
+    self.lines.blank? || self.recurring?
   end
 
   def description_text
@@ -69,14 +68,13 @@ class Item < ActiveRecord::Base
       line.unit_price = self.unit_price
       line.save!
 
-      if invoice.account.present?
-        self.account_id = invoice.account.id
-      else
+      if invoice.account.blank?
         invoice.account_id = self.account_id
         invoice.save!
       end
 
       unless self.recurring?
+        self.account_id = invoice.account.id
         self.line_id = line.id 
         self.invoice_id = invoice.id 
       end

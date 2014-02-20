@@ -3,6 +3,7 @@ class InvoiceMailer < ActionMailer::Base
 
   def new_invoice_email(invoice)
     @invoice = invoice
+    @username = invoice.user.name if invoice.user.present?
     email = User.notify_all.collect(&:email)
     email.push(@invoice.user.email) unless @invoice.user.blank? || @invoice.user.email.blank?
     @email = email.join(", ") 
@@ -12,7 +13,7 @@ class InvoiceMailer < ActionMailer::Base
     else
       @account_name = invoice.account.name 
     end
-    @subject = "New Invoice Created for #{@account_name}"
+    @subject = "New Invoice Created for #{@account_name} by #{@username}"
 
     mail(:subject => @subject, :to =>  @email, :cc => @email_cc, :bcc => @email_bcc)
 

@@ -119,7 +119,7 @@
             <%= email.subject %>
           </td>
           <td>
-            <%= email.message %>
+            <%= email.message.html_safe %>
           </td>
           <td>
             <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-trash"), email, confirm: 'Are you sure?', method: :delete, :class => "btn btn-danger" %>

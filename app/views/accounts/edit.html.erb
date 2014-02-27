@@ -9,6 +9,7 @@
 
       <table class="table table-bordered table-striped">
         <tr>
+          <th>Date</th>
           <th>Invoice #</th>
           <th>Company</th>
           <th>Contact</th>
@@ -18,6 +19,9 @@
 
       <% @invoices.each do |invoice| %>
         <tr>
+          <td>
+            <%= link_to content_tag(:i, payment.payment_date.strftime("%m/%d/%Y"), :class => "glyphicon glyphicon-pencil"), edit_payment_path(payment.id) %>
+          </td>
           <td><%= link_to content_tag(:i, invoice.id, :class => "glyphicon glyphicon-pencil"), edit_invoice_path(invoice.id) %></td>
           <td>
             <% unless invoice.account.blank? %>

@@ -1,9 +1,9 @@
 class InvoiceMailer < ActionMailer::Base
   default from: "PFLAG National <invoices@pflag.org>"
 
-  def new_invoice_email(invoice)
+  def new_invoice_email(invoice, current_user)
     @invoice = invoice
-    @username = invoice.user.name if invoice.user.present?
+    @username = current_user.name
     email = User.notify_all.collect(&:email)
     email.push(@invoice.user.email) unless @invoice.user.blank? || @invoice.user.email.blank?
     @email = email.join(", ") 

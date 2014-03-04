@@ -6,7 +6,7 @@
     <%= f.input :last_name %>
     <%= f.input :title %>
     <%= f.input :suppress_account_name, as: :boolean, default: true %>
-    <%= f.association :account %>
+    <%= f.association :account, :collection => Account.all(:order => 'name') %>
     <%= render 'address', :f => f %> 
     <%= f.input :active %>
     <%= f.input :database_id %>

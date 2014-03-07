@@ -15,17 +15,18 @@ class ItemsController < ApplicationController
     all = params[:all]
     unlinked = params[:unlinked]
 
-    @items = Item.all if all == "yes"
-    @items = @items.where("lines.id IS NULL and recurring IS NOT true") if unlinked == "yes"
-
-
-
-    if params[:commit] == "Filter"
-      operator = "AND" 
+    if all == "yes"
+      @items = Item.all
+    elsif unlinked == "yes" 
+      @items = @items.where("lines.id IS NULL and recurring IS NOT true") if unlinked == "yes"
     else
-      operator = "OR"
+      if params[:commit] == "Filter"
+        operator = "AND" 
+      else
+        operator = "OR"
+      end
+      @items = Item.search(params, operator)
     end
-    @items = Item.search(params, operator)
 
     respond_to do |format|
       format.html # index.html.erb

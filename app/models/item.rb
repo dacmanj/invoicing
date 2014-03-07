@@ -28,7 +28,7 @@ class Item < ActiveRecord::Base
   scope :active, where(:active => true) 
   scope :recurring, where(:recurring => true)
 
-  attr_accessible :description, :item_image_url, :quantity, :receivable_gl_code, :revenue_gl_code, :unit_price, :notes, :recurring, :expensify_id, :account_id, :line_ids
+  attr_accessible :description, :item_image_url, :quantity, :receivable_gl_code, :revenue_gl_code, :unit_price, :notes, :recurring, :expensify_id, :account_id, :line_id
 
   def total
   	quantity * unit_price
@@ -80,6 +80,50 @@ class Item < ActiveRecord::Base
       end
       self.save!
     end
+  end
+
+  def self.search(params, operator = "AND")
+    s = Array.new
+    p = Array.new
+    params.each_pair do |k,v|
+      v = "TRUE" if (v == "yes")
+      v = "FALSE" if (v == "no")
+      if k.in? Item.accessible_attributes and v != ''
+        if k.in? ["notes", "description"]
+          s.push("items.#{k} ILIKE ?")
+          p.push("\%#{v}\%")
+
+        else
+          if k != 'lines.id'
+            s.push("items.#{k} = ?")
+          else
+            s.push("#{k} = ?")
+          end
+          p.push(v)
+
+        end
+      end
+    end
+    s = s.join(" #{operator} ")
+    if params[:assigned].present?
+      if params[:commit] == "Filter"
+        s += " AND " unless s.blank?
+      else
+        s += " OR " unless s.blank?
+      end
+      s += "lines.id is NOT NULL"
+    end
+    if params[:recurring].blank? and params[:assigned].blank?
+      if params[:commit] == "Filter" 
+        s += " AND " unless s.blank?
+      else
+        s += " OR " unless s.blank?
+      end
+      s += "recurring = 'yes'" 
+    end
+
+    Item.includes(:lines).where(s,*p).order("items.recurring DESC, items.account_id, items.invoice_id")
+
   end
 
   def self.import file, override

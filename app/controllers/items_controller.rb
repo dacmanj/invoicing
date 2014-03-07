@@ -5,43 +5,27 @@ class ItemsController < ApplicationController
   def index
     @items = Item.includes(:lines).order("items.recurring DESC, items.account_id, items.invoice_id")
 
+    recurring = params[:recurring]
     item_id = params[:item_id]
-    invoice_id = params[:invoice_id]
+    line_id = params[:lines_id] || recurring == "yes" || params[:lines_id] = nil
     account_id = params[:account_id]
     assigned = params[:assigned]
-    recurring = params[:recurring]
     notes = params[:notes]
     description = params[:description]
     all = params[:all]
     unlinked = params[:unlinked]
-    if (item_id.present? || all == "yes" || unlinked == "yes")
-      @items = Item.where("id = ?",item_id) if item_id.present?
-      @items = Item.all if all == "yes"
-      @items = @items.where("lines.id IS NULL and recurring IS NOT true") if unlinked == "yes"
+
+    @items = Item.all if all == "yes"
+    @items = @items.where("lines.id IS NULL and recurring IS NOT true") if unlinked == "yes"
+
+
+
+    if params[:commit] == "Filter"
+      operator = "AND" 
     else
-  #    @items = @items.where("account_id = ? OR recurring IS true",account_id) unless account_id.blank?
-      #Item.where("recurring IS true").each{|i| @items.push(i)} unless recurring = "no"
-
-      if (assigned != "yes" )
-        @items = @items.select{|h| h.unassigned?}
-      end
-
-
-      Item.where("account_id = ?",account_id).each{|i| @items.include?(i) || @items.push(i) } unless account_id.blank?
-      Item.includes(:lines).where("lines.invoice_id = ?",invoice_id).each{|i| @items.include?(i) ||  @items.push(i)} unless invoice_id.blank?
-
-      if (recurring == "yes")
-        @items = @items.where("recurring IS true")
-      end
-
-      if (recurring == "no")
-        @items = @items.where("recurring IS false")
-      end
-
-
-      @items = @items.where("items.notes ILIKE ?", "%#{notes}%") unless notes.blank?
-      @items = @items.where("items.description ILIKE ?", "%#{description}%") unless description.blank?
+      operator = "OR"
     end
+    @items = Item.search(params, operator)
 
     respond_to do |format|
       format.html # index.html.erb

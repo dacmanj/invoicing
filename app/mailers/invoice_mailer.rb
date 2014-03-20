@@ -50,6 +50,7 @@ class InvoiceMailer < ActionMailer::Base
     email = User.notify_all.collect(&:email)
     email.push(@invoice.user.email) unless @invoice.user.blank? || @invoice.user.email.blank?
     @email = email.join(", ") 
+    @subject = "Payment for #{@account_name}, Inv #{@invoice.id} Edited by #{@username}"
     mail(:subject => @subject, :to =>  @email, :cc => @email_cc, :bcc => @email_bcc)
   end
 

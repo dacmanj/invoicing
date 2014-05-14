@@ -30,7 +30,7 @@
           </td>
           <td>
             <% unless invoice.contacts.blank? %>
-              <%= link_to invoice.contacts.first.name, edit_contact_path(invoice.contacts.first) %>
+              <%= link_to invoice.primary_contact.name, edit_contact_path(invoice.primary_contact) %>
             <% end %>
           </td>
           <td>

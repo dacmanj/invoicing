@@ -91,9 +91,9 @@ include ActionView::Helpers::NumberHelper
   def parse_template(msg)
 
     msg % {  :account_name => (self.account.name unless account.blank?) || "",
-             :contact_name => (self.contacts.first.name unless self.contacts.first.blank?) || "", 
-             :contact_first_name => (self.contacts.first.first_name unless self.contacts.first.blank?) || "", 
-             :contact_last_name => (self.contacts.first.last_name unless self.contacts.first.blank?) || "", 
+             :contact_name => (self.primary_contact.name unless self.primary_contact.blank?) || "", 
+             :contact_first_name => (self.primary_contact.first_name unless self.primary_contact.blank?) || "", 
+             :contact_last_name => (self.primary_contact.last_name unless self.primary_contact.blank?) || "", 
              :invoice_number => self.id,
              :invoice_total => number_to_currency(self.total),
              :balance_due => number_to_currency(self.balance_due),

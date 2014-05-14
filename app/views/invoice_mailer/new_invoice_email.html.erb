@@ -41,7 +41,7 @@
       <tbody>
         <tr>
           <td width="55%">
-            <%= render 'invoices/contact', :contact => @invoice.contacts.first %>
+            <%= render 'invoices/contact', :contact => @invoice.primary_contact  %>
           </td>
           <td width="45%">
             <p style="font-weight: bold;">MAKE CHECKS/REMITTANCE PAYABLE TO:<br>

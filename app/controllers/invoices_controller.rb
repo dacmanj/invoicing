@@ -70,7 +70,7 @@ class InvoicesController < ApplicationController
       format.json { render json: @invoice }
       format.pdf do
                             # always change zoom/parameters here in invoice_mailer.rb to ensure consistent invoices
-        render :pdf => "invoices", :layout => "pdf.html", :zoom => 0.75, :page_size => "letter", :show_as_html => params[:debug].present?, :locals => {:wicked_pdf => true}}}
+        render :pdf => "invoices", :layout => "pdf.html", :zoom => 0.75, :page_size => "letter", :show_as_html => params[:debug].present?, :locals => {:wicked_pdf => true}
         #, :show_as_html => true
       end
     end
@@ -170,7 +170,7 @@ class InvoicesController < ApplicationController
       if @invoice.update_attributes(params[:invoice])
         format.html { redirect_to invoices_url, notice: 'Invoice was successfully updated.' }
         format.json { head :no_content }
-        InvoiceMailer.invoice_edited_email(@invoice,current_user,@changes).deliver
+        InvoiceMailer.invoice_edited_email(@invoice,current_user).deliver
       else
         format.html { render action: "edit" }
         format.json { render json: @invoice.errors, status: :unprocessable_entity }

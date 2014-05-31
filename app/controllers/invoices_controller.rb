@@ -70,7 +70,7 @@ class InvoicesController < ApplicationController
       format.json { render json: @invoice }
       format.pdf do
                             # always change zoom/parameters here in invoice_mailer.rb to ensure consistent invoices
-        render :pdf => "invoices", :layout => "pdf.html", :zoom => 0.75, :page_size => "letter", :show_as_html => params[:debug].present?
+        render :pdf => "invoices", :layout => "pdf.html", :zoom => 0.75, :page_size => "letter", :show_as_html => params[:debug].present?, :locals => {:wicked_pdf => true}
         #, :show_as_html => true
       end
     end

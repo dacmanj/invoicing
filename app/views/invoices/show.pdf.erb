@@ -29,7 +29,7 @@
       <tbody>
         <tr>
           <td width="55%">
-            <%= render 'invoices/contact', :contact => (Contact.find(@invoice.primary_contact_id) unless @invoice.primary_contact_id.blank?) || @invoice.contacts.first %>
+            <%= render 'invoices/contact.pdf.erb', :contact => (Contact.find(@invoice.primary_contact_id) unless @invoice.primary_contact_id.blank?) || @invoice.contacts.first %>
           </td>
           <td width="45%">
             <p style="font-weight: bold;">MAKE CHECKS/REMITTANCE PAYABLE TO:<br>
@@ -40,10 +40,10 @@
       </tbody>
     </table>
 
-    <table width="100%" class="lines">
-          <%= render "invoices/lines", :lines => @invoice.lines %>      
+    <table width="100%" class="lines" style="border-collapse:collapse; border: 1px solid #ccc;">
+          <%= render "invoices/lines.pdf.erb",  :lines => @invoice.lines %>      
     </table>
 
-    <div style="text-align: right; background-color: #cccccc; padding: 5px;">
+    <div style="text-align: right; background-color: #cccccc; padding: 15px;">
       	<h3>Total: <%=number_to_currency @invoice.total%></h3>
 		</div>

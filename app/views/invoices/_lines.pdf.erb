@@ -1,21 +1,21 @@
 	    <thead>
 	    <tr>
-	  		<th>
+	  		<th style="border: 1px solid #ccc;">
 	  		   	Description
 	  		</th>
-	  		<th>
+	  		<th style="border: 1px solid #ccc;">
 		    	Qty	  			
 	  		</th>
-	  		<th>
+	  		<th style="border: 1px solid #ccc;">
 		    	Unit Price
 	  		</th>
-	  		<th>
+	  		<th style="border: 1px solid #ccc;">
 	    		Amount
 	  		</th>   	
 	    </tr>
 	    </thead>
 	    <tbody>
 			<% lines.each do |line| %>
-				<%= render "invoices/line", :line => line %>
+				<%= render "invoices/line.pdf.erb", :line => line %>
 			<% end %>
 		</tbody>

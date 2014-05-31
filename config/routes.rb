@@ -54,7 +54,7 @@ Invoicing::Application.routes.draw do
 
   end
 
-  root :to => "static_pages#home"
+  root :to => "invoices#index"
   resources :users
 
   match '/import' => 'static_pages#import'

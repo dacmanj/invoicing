@@ -1,14 +1,22 @@
 	<tr>
-	    <td>
-	    	<%= line.description.html_safe %>   	
+	    <td valign="top" style="vertical-align:top; padding: 0px 10px; border: 1px solid #ccc;">
+	    	<p>
+		    	<%= line.description.html_safe %>   	
+	    	</p>
 	    </td>
-	    <td class="number">
-	    	<%= line.quantity unless line.quantity == 1  %>    	
+	    <td valign="top" style="vertical-align:top; text-align:center; border: 1px solid #ccc;" class="number">
+	    	<p>
+	    		<%= line.quantity unless (line.quantity.in? [1,0])  %>    	
+	    	</p>
 	    </td>
-	    <td>
-	    	<%= number_to_currency line.unit_price unless line.quantity == 1  %>
+	    <td valign="top" style="vertical-align:top; text-align:center; border: 1px solid #ccc;" class="number">
+	    	<p>
+		    	<%= number_to_currency line.unit_price unless (line.quantity.in? [1,0])  %>
+		    </p>
 	    </td>
-	    <td>
-	    	<%= number_to_currency line.total unless line.total == 0 %>    	
+	    <td valign="top" style="vertical-align:top; text-align:center; border: 1px solid #ccc;" class="number">
+	    	<p>
+	    		<%= number_to_currency line.total unless line.total == 0 %>
+	    	</p>
 	    </td>
 	</tr>

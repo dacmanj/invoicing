@@ -15,7 +15,8 @@ class User < ActiveRecord::Base
   attr_accessible :provider, :uid, :name, :email
   validates_presence_of :name
 
-  scope :notify_all, lambda{ where("email IN(?)", ["dmanuel@pflag.org","awalker@pflag.org","eperry@pflag.org"])}
+#  scope :notify_all, lambda{ where("email IN(?)", ["dmanuel@pflag.org","awalker@pflag.org","eperry@pflag.org"])}
+  scope :notify_all, lambda{ where("email IN(?)", ["dmanuel@pflag.org"])}
 
   def self.create_with_omniauth(auth)
     email = auth["info"]["email"]

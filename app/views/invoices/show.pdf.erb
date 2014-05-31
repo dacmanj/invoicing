@@ -1,11 +1,8 @@
     <table width="100%">
       <tbody>
         <tr>
-          <td>Zoom:
-            <%= wicked_pdf %>
+          <td>
             <% if @wicked_pdf %>
-            Wicked!
-            raise "poop"
                <%= image_tag( 'file://' + Rails.root.join('app', 'assets', 'images', 'logo.png').to_s, width: '129', height: '120') %>
              <% else %>
                <%= image_tag 'logo.png', width: '129', height: '120' %>

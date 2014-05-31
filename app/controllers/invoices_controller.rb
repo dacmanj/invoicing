@@ -166,11 +166,14 @@ class InvoicesController < ApplicationController
   def update
     @invoice = Invoice.find(params[:id])
 
+
     respond_to do |format|
       if @invoice.update_attributes(params[:invoice])
+        @changes = @invoice.changed
+
         format.html { redirect_to invoices_url, notice: 'Invoice was successfully updated.' }
         format.json { head :no_content }
-        InvoiceMailer.invoice_edited_email(@invoice,current_user).deliver
+        InvoiceMailer.invoice_edited_email(@invoice,current_user,@changes).deliver
       else
         format.html { render action: "edit" }
         format.json { render json: @invoice.errors, status: :unprocessable_entity }

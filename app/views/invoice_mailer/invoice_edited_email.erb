@@ -7,7 +7,7 @@
 	<p>Invoice <%=@invoice.id%> has been edited for <%=@account_name%> by <%=@username%>.</p>
 	<p>For details go to <%= edit_invoice_url @invoice.id %></p>
 
-
+    <%= @changed%>
     <hr>
 
     <%= render :template => 'invoices/show', :formats => [:pdf], :invoice => @invoice %>

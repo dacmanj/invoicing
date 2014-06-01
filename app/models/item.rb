@@ -22,6 +22,7 @@ class Item < ActiveRecord::Base
 
   belongs_to :account
   has_many :lines
+  has_paper_trail
 
   scope :not_assigned_to_account, where("account_id is NULL")
   scope :not_assigned_to_line, where("line_id is NULL")

@@ -15,6 +15,7 @@
 
 class Invoice < ActiveRecord::Base
 include ActionView::Helpers::NumberHelper
+  has_paper_trail
 	belongs_to :account
 	belongs_to :user
 
@@ -145,6 +146,31 @@ include ActionView::Helpers::NumberHelper
   def name
     account_name = (self.account.name unless self.account.blank?) || ""
     "#{account_name}-#{self.id}-#{self.date}-#{self.total}"
+  end
+
+  def changes_to_s_arr
+    age = 10.seconds.ago
+    @invoice_changes = self.versions.last.changeset unless self.versions.empty? || self.versions.last.created_at < age
+    @lines_changes = []
+    @changes = []
+    self.lines.each do |l|
+      @lines_changes.push [l, l.versions.last.changeset] unless l.versions.empty? || l.versions.last.created_at < age
+    end
+    unless @invoice_changes.nil?
+      @invoice_changes.each do |k,v|
+        @changes << "#{k.titlecase} changed from #{v[0]} to #{v[1]}"
+      end 
+    end
+
+    #.created_at > 1.minutes.ago
+    unless @lines_changes.nil?
+      @lines_changes.each do |l|
+        l[1].each {|k,v|
+          @changes << "Line #{l[0].position}: #{k.titlecase} changed from #{v[0]} to #{v[1]}"
+        }
+      end 
+    end
+    @changes
   end
 
 end

@@ -57,6 +57,8 @@ class InvoiceMailer < ActionMailer::Base
   def invoice_edited_email(invoice,current_user)
     @invoice = invoice
     @username = current_user.name
+    @changes = @invoice.changes_to_s_arr.join("<br>")
+
     if @invoice.account.blank?
       @account_name = ""
     else

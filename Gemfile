@@ -11,6 +11,7 @@ group :assets do
 
 end
 
+gem 'paper_trail'
 gem 'nokogiri'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'

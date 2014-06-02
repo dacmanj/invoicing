@@ -38,7 +38,7 @@
       <%=   lines_form.input :hidden, :as => :boolean, :required => false  %> 
     	<%=   lines_form.input :description, label: 'Line Text', :input_html => { :class => 'tinymce', :rows => 10 }, :as => :text, :required => false   %>
       <%=   lines_form.input :notes, label: 'Notes (internal)', :input_html => { :class => 'tinymce', :rows => 10 }, :required => false   %>
-      <%= lines_form.input :position, :collection => 1..@invoice.lines.count %>
+      <%= lines_form.input :position, :collection => 1..[@invoice.lines.count,1].max %>
 
       <% if lines_form.object.blank? || lines_form.object.new_record? %>
         <%= link_to content_tag(:i, "", class: "glyphicon glyphicon-trash"), '', :remote => true , :class => 'destroy_duplicate_nested_form btn btn-danger'%>

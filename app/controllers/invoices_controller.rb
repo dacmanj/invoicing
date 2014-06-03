@@ -22,7 +22,8 @@ class InvoicesController < ApplicationController
       @invoices = @invoices.find_all_by_account_id(params[:account_id])
     end
 
-    if (params[:outstanding_balance] == "yes")
+    if (( params[:commit].blank? && params[:all].blank? ) || params[:outstanding_balance] == "yes")
+      @outstanding_balance = true
       @invoices = @invoices.select{|h| h.balance_due != 0}
     end
 

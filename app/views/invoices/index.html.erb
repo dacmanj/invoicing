@@ -9,7 +9,7 @@
   </div>
   <div class="checkbox">
     <label for="outstanding_balance">
-      <%= check_box_tag :outstanding_balance, "yes", (params[:outstanding_balance] == "yes") %>
+      <%= check_box_tag :outstanding_balance, "yes", (@outstanding_balance) %>
       Outstanding Balance?
     </label>
   </div>

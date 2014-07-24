@@ -60,7 +60,7 @@ class InvoicesController < ApplicationController
     end
 
     respond_to do |format|
-      flash.alert = error
+      flash.alert = error if error.present?
       format.html # index.html.erb
       format.json { render json: @invoices.to_json(:methods => [:name, :balance_due]) }
       format.csv { render csv: @invoices }

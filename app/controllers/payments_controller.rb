@@ -12,7 +12,7 @@ class PaymentsController < ApplicationController
 
 
     respond_to do |format|
-      flash.alert = error
+      flash.alert = error if error.present?
       format.html # index.html.erb
       format.csv { render csv: @payments }
       format.json { render json: @payments }

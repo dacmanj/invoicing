@@ -121,7 +121,7 @@ include ActionView::Helpers::NumberHelper
       balance_due = 0
       if self.date <= as_of_date
         paid = 0
-        self.payments.select{|p| p.payment_date <= as_of_date unless p.payment_date.blank? }.each{|p| paid += p.amount }
+        self.payments.select{|p| p.payment_date <= as_of_date }.each{|p| paid += p.amount }
         balance_due = self.total - paid
       end
     else

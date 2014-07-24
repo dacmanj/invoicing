@@ -111,7 +111,7 @@
   <% end %>
   <tr>
   <td>
-    <% csv_params_allowed = ["sort","ar_account","outstanding_balance","balance_due_as_of_date"] %>
+    <% csv_params_allowed = ["sort","ar_account","outstanding_balance","balance_due_as_of_date", "name", "utf8", "commit"] %>
     <%= link_to "CSV", invoices_path(params.reject{|k,v| !csv_params_allowed.include? k || v.empty? }.merge("format" => "csv")) %>
   </td>
   <td colspan="6">

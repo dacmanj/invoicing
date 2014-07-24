@@ -12,6 +12,9 @@ class InvoicesController < ApplicationController
 
     if (params[:balance_due_as_of_date].present?)
       @invoices = @invoices.select{|h| h.balance_due(params[:balance_due_as_of_date]) != 0}
+    elsif (( params[:commit].blank? && params[:all].blank? ) || params[:outstanding_balance] == "yes")
+      @outstanding_balance = true
+      @invoices = @invoices.select{|h| h.balance_due != 0}
     end
 
     if (params[:id].present?)
@@ -22,10 +25,7 @@ class InvoicesController < ApplicationController
       @invoices = @invoices.find_all_by_account_id(params[:account_id])
     end
 
-    if (( params[:commit].blank? && params[:all].blank? ) || params[:outstanding_balance] == "yes")
-      @outstanding_balance = true
-      @invoices = @invoices.select{|h| h.balance_due != 0}
-    end
+
 
     if (params[:name])
       @invoices = @invoices.select{|h| h.name.downcase.match(params[:name].downcase)}

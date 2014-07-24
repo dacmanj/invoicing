@@ -54,7 +54,13 @@ class InvoicesController < ApplicationController
       @invoices = @invoices.sort {|a,b| b.date <=> a.date}
     end
 
+    error = Payment.select{|p| p.payment_date.blank?}.map(&:id).join(", ")
+    if error.present?
+      error = "Payments missing payment_date: " + error
+    end
+
     respond_to do |format|
+      flash.alert = error
       format.html # index.html.erb
       format.json { render json: @invoices.to_json(:methods => [:name, :balance_due]) }
       format.csv { render csv: @invoices }

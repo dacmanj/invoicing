@@ -5,7 +5,14 @@ class PaymentsController < ApplicationController
   def index
     @payments = Payment.all
 
+    error = @payments.select{|p| p.payment_date.blank?}.map(&:id).join(", ")
+    if error.present?
+      error = "Payments missing payment_date: " + error
+    end
+
+
     respond_to do |format|
+      flash.alert = error
       format.html # index.html.erb
       format.csv { render csv: @payments }
       format.json { render json: @payments }

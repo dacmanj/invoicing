@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   validates_presence_of :name
 
   if Rails.env.production?
-    scope :notify_all, lambda{ where("email IN(?)", ["dmanuel@pflag.org","eperry@pflag.org"])}
+    scope :notify_all, lambda{ where("email IN(?)", ["dmanuel@pflag.org","eperry@pflag.org","procco@pflag.org"])}
   else
     scope :notify_all, lambda{ where("email IN(?)", ["dmanuel@pflag.org"])}
   end

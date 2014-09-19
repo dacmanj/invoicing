@@ -21,7 +21,7 @@
     <div class = "form-group">
       <label for="contacts">All Invoice Contacts (emailed reminders, etc.)</label>
       <div class="input-group">
-        <%= f.select :contact_ids, options_for_select(contact_pool.map { |r| [r.name, r.id, { 'data-account-id' => r.account.id }] }, :selected => @invoice.contacts.map{|c| c.id}), {include_blank: false}, {:multiple => true, :class => "select optional form-control input-xxlarge"} %>
+        <%= f.select :contact_ids, options_for_select(contact_pool.map { |r| [r.name, r.id, { 'data-account-id' => r.account_id }] }, :selected => @invoice.contacts.map{|c| c.id}), {include_blank: false}, {:multiple => true, :class => "select optional form-control input-xxlarge"} %>
       </div>
     </div>
 

@@ -82,8 +82,8 @@ $ ->
         console.log context
         console.log item_id
         if item_id? && item_id != ""
-          $.ajax({url: "/items.json", data: "item_id=#{item_id}"}).done (data) ->
-            item = data[0]
+          $.ajax({url: "/items/#{item_id}.json"}).done (data) ->
+            item = data
             $("input[name*=quantity]",context).val(item.quantity) if item.quantity? 
             $("input[name*=unit_price]",context).val(item.unit_price) if item.unit_price?
             description_id = $("textarea[name*=description]",context).attr("id")

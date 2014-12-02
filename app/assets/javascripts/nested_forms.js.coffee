@@ -4,6 +4,7 @@ $ ->
 
       nestedForm = $('.duplicatable_nested_form').last().clone()
 
+
       $('form').delegate '.destroy_duplicate_nested_form', 'click', (e) ->
         $(this).closest('.duplicatable_nested_form').slideUp().remove()
 
@@ -38,6 +39,18 @@ $ ->
         assign_order()
         $('select').filter(item_filter).change(load_line_from_item)
 
+      load_accounts = (e) ->
+        e.preventDefault()
+        selected = $("#invoice_account_id").val()
+        $.ajax({ url: "/accounts.json" }).done (data) ->
+          html = ""
+          for account in data
+            html += "<option value=#{account.id}>#{account.name}</option>"
+          $("select#invoice_account_id").html(html).prepend("<option value></option>")
+        $("select#invoice_account_id").val(selected)
+
+
+      $("a#refresh_accounts").click(load_accounts)
 
       load_contacts = (e) ->
         a = $("#invoice_account_id").val() 
@@ -65,8 +78,8 @@ $ ->
             selected_arr = []
             $("select").filter(select_filter).each (e) ->
               selected_arr.push $(this).val()  
-            console.log selected_arr
-            console.log data
+#            console.log selected_arr
+#            console.log data
             html = ""
             for item in data
               html += "<option value=#{item.id} data-account-id=#{item.account_id}>#{item.name}</option>"

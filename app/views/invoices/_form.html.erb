@@ -1,7 +1,9 @@
+
 <%= simple_form_for(@invoice, :defaults => { :input_html => { :class => 'input-xxlarge' } }) do |f| %>
   <%= f.error_notification %>
     <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-edit"), '', :id => "invoice_account_edit", :class => "account_buttons", :target => "_blank" %>
     <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-plus-sign"), new_account_path, :class => "account_buttons", :target => "_blank" %>
+    <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-refresh"), "", :class => :account_buttons, :id => "refresh_accounts" %>
 
     <%= f.association :account, { :collection => Account.all(order: :name), :class => "col-md-4"} %>
 

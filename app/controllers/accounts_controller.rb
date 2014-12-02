@@ -30,6 +30,19 @@ class AccountsController < ApplicationController
     end
   end
 
+
+  def new_modal
+    @account = Account.new
+    @account.default_account_ar_account = '1110'
+    contact = @account.contacts.build
+    contact.active = true
+    contact.address = Address.new
+    respond_to do |format|
+      format.html { render 'new', :layout => 'embed' }
+      format.json { render json: @hash }
+    end   
+  end
+
   # GET /account/new
   # GET /account/new.json
   def new

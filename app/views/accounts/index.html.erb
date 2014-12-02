@@ -2,7 +2,7 @@
 
 <%= form_tag accounts_path, :method => :get, :class => "form-inline well" do |f| %>
   <div class="form-group">
-    <%= text_field_tag :name, "#{params[:name]}",:placeholder => "Name" %>
+    <%= text_field_tag :name, "#{params[:name]}",:placeholder => "Name", :id => "account-search" %>
   </div>
   <div class="checkbox">
     <label for="outstanding_balance">
@@ -16,7 +16,7 @@
 <% end %>
 
 
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped" id="accounts-table">
   <tr>
     <th>Name</th>
     <th>Balance Due</th>
@@ -34,7 +34,7 @@
 			<% end %>
 
     </td>
-    <td>
+    <td width="105px">
       <%= link_to content_tag(:i, "", class: "glyphicon glyphicon-file"), new_account_invoice_path(account), :class => "btn btn-success" %>
       <%= link_to content_tag(:i, "", class: "glyphicon glyphicon-trash glyphicon-trash-white"), account, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %>
 

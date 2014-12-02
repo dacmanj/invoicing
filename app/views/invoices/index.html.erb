@@ -5,7 +5,7 @@
 
 <%= form_tag invoices_path, :method => :get, :class => "form-inline well" do |f| %>
   <div class="form-group">
-    <%= text_field_tag :name, "#{params[:name]}",:placeholder => "Name" %>
+    <%= text_field_tag :name, "#{params[:name]}",:placeholder => "Name", :id => "invoice-search" %>
   </div>
   <div class="checkbox">
     <label for="outstanding_balance">
@@ -43,7 +43,7 @@
   </div>
 
 
-  <table class="table table-bordered table-striped">
+  <table class="table table-bordered table-striped" id="invoices-table">
     <tr>
       <th>
         <%= check_box_tag 'select_all_invoice_id', '', false %>

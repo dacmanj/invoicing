@@ -61,6 +61,7 @@ Invoicing::Application.routes.draw do
   match '/accounts/:account_id/invoices/new' => 'invoices#new', :as => "new_account_invoice"
   match '/accounts/:id/contacts/new' => 'contacts#new', :as => "new_account_contact"
   match '/accounts/:account_id/payments/new' => 'payments#new', :as => "new_account_payment"
+  get 'new_account_modal' => 'accounts#new_modal'
 
   match '/invoices/:id/payments/new' => 'payments#new', :as => "new_invoice_payment"
   match '/invoices/:id/build' => 'invoices#build'

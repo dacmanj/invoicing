@@ -4,6 +4,7 @@ $ ->
 
       nestedForm = $('.duplicatable_nested_form').last().clone()
 
+
       $('form').delegate '.destroy_duplicate_nested_form', 'click', (e) ->
         $(this).closest('.duplicatable_nested_form').slideUp().remove()
 
@@ -38,6 +39,47 @@ $ ->
         assign_order()
         $('select').filter(item_filter).change(load_line_from_item)
 
+      modal_submit = (e) ->
+        e.preventDefault()
+        form = $(".modal-content form")
+        data = form.serialize()
+        url = $(".modal-content form").attr("action") + ".json"
+        $.post url, data, modal_create_success
+
+      modal_create_success = (data) ->
+        console.log data
+        id = data.id
+        $("select#invoice_account_id").prepend("<option value='#{data.id}'>#{data.name}</option>")
+        $("#invoice_account_id").val(id)
+        load_accounts()
+        $(".modal-content button.close").click()
+
+
+      $(".modal-content input.button[type=submit]").on("click", modal_submit)
+
+      new_account = (e) ->
+        e.preventDefault()
+        BootstrapDialog.show({
+            title: 'Create New Account',
+            message: $('<div></div>').load('/new_account_modal')
+        })
+
+      $("#new_account_button").on("click",new_account)
+
+      load_accounts = (e) ->
+        e.preventDefault() if e
+
+        selected = $("#invoice_account_id").val()
+        $.ajax({ url: "/accounts.json" }).done (data) ->
+          html = ""
+          for account in data
+            html += "<option value=#{account.id}>#{account.name}</option>"
+          $("select#invoice_account_id").html(html).prepend("<option value></option>")
+          $("select#invoice_account_id").val(selected)
+          load_contacts()
+          load_items()
+
+      $("a#refresh_accounts").click(load_accounts)
 
       load_contacts = (e) ->
         a = $("#invoice_account_id").val() 
@@ -65,8 +107,8 @@ $ ->
             selected_arr = []
             $("select").filter(select_filter).each (e) ->
               selected_arr.push $(this).val()  
-            console.log selected_arr
-            console.log data
+#            console.log selected_arr
+#            console.log data
             html = ""
             for item in data
               html += "<option value=#{item.id} data-account-id=#{item.account_id}>#{item.name}</option>"
@@ -82,8 +124,8 @@ $ ->
         console.log context
         console.log item_id
         if item_id? && item_id != ""
-          $.ajax({url: "/items.json", data: "item_id=#{item_id}"}).done (data) ->
-            item = data[0]
+          $.ajax({url: "/items/#{item_id}.json"}).done (data) ->
+            item = data
             $("input[name*=quantity]",context).val(item.quantity) if item.quantity? 
             $("input[name*=unit_price]",context).val(item.unit_price) if item.unit_price?
             description_id = $("textarea[name*=description]",context).attr("id")
@@ -109,6 +151,7 @@ $ ->
             $(this).val(index+1)
 
       load_items()
+      load_contacts()
       assign_order()
 
 

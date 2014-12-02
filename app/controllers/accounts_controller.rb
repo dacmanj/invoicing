@@ -15,7 +15,7 @@ class AccountsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @account }
+      format.json { render json: @accounts }
     end
   end
 
@@ -28,6 +28,19 @@ class AccountsController < ApplicationController
       format.html # show.html.erb
       format.json { render json: @account }
     end
+  end
+
+
+  def new_modal
+    @account = Account.new
+    @account.default_account_ar_account = '1110'
+    contact = @account.contacts.build
+    contact.active = true
+    contact.address = Address.new
+    respond_to do |format|
+      format.html { render 'new', :layout => 'embed' }
+      format.json { render json: @hash }
+    end   
   end
 
   # GET /account/new

@@ -89,6 +89,13 @@ class ContactsController < ApplicationController
     @contact = Contact.find(params[:id])
     @contact.destroy
 
+    @id = params[:id]
+    @invoices = Invoice.find(:all, :conditions => ["primary_contact_id = ?", @id])
+    @invoices.each do |h| 
+      h.primary_contact_id = nil
+      h.save
+    end
+
     respond_to do |format|
       format.html { redirect_to contacts_url }
       format.json { head :no_content }

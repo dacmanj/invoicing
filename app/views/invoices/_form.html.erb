@@ -1,11 +1,13 @@
+
 <%= simple_form_for(@invoice, :defaults => { :input_html => { :class => 'input-xxlarge' } }) do |f| %>
   <%= f.error_notification %>
     <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-edit"), '', :id => "invoice_account_edit", :class => "account_buttons", :target => "_blank" %>
-    <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-plus-sign"), new_account_path, :class => "account_buttons", :target => "_blank" %>
+    <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-plus-sign"), new_account_path, :class => "account_buttons", :id => "new_account_button", :target => "_blank" %>
+    <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-refresh"), "", :class => :account_buttons, :id => "refresh_accounts" %>
 
     <%= f.association :account, { :collection => Account.all(order: :name), :class => "col-md-4"} %>
 
-    <%= f.input :ar_account, {:label => "AR Account", :collection => Account.valid_ar_accounts, :class => "col-md-4"} %>
+    <%= f.input :ar_account, {:label => "AR Account", :collection => Account.valid_ar_accounts, :class => "col-md-4", :include_blank => false} %>
 
     <% contact_pool = Contact.find_all_by_account_id(@invoice.account_id) || Contact.all %>
    <div class = "form-group">
@@ -21,7 +23,7 @@
     <div class = "form-group">
       <label for="contacts">All Invoice Contacts (emailed reminders, etc.)</label>
       <div class="input-group">
-        <%= f.select :contact_ids, options_for_select(contact_pool.map { |r| [r.name, r.id, { 'data-account-id' => r.account.id }] }, :selected => @invoice.contacts.map{|c| c.id}), {include_blank: false}, {:multiple => true, :class => "select optional form-control input-xxlarge"} %>
+        <%= f.select :contact_ids, options_for_select(contact_pool.map { |r| [r.name, r.id, { 'data-account-id' => r.account_id }] }, :selected => @invoice.contacts.map{|c| c.id}), {include_blank: false}, {:multiple => true, :class => "select optional form-control input-xxlarge"} %>
       </div>
     </div>
 

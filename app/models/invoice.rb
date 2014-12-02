@@ -77,7 +77,7 @@ include ActionView::Helpers::NumberHelper
     due = 0
 
     other_invoices.each do |i|
-      html += "<tr><td>#{i.date.strftime("%m/%d/%Y")}</td><td>#{number_to_currency(i.balance_due)}</td></tr>"
+      html += "<tr><td>#{i.date.strftime("%m/%d/%Y")}</td><td>#{i.id}</td><td>#{number_to_currency(i.balance_due)}</td></tr>"
     end
 
     html += "</tbody></table>"

@@ -1,0 +1,18 @@
+<% mini = controller.action_name == "index" %>
+
+<% unless mini %>
+<div class="row invoice_action_bar">
+  <div class="well">
+<% end %>
+
+    <%= (link_to glyph("pencil", (mini ? "" : "Edit Invoice")), edit_invoice_path(invoice), :class => "btn btn-primary", :title => "Edit Invoice") if !controller.action_name.in? ["edit"] %>
+    <%= (link_to glyph("file", (mini ? "" : "View Invoice")), invoice_path(invoice), :class => "btn btn-primary", :title => "View Invoice") if controller.action_name != "show" %>
+    <%= (link_to glyph("file", (mini ? "" : "PDF")), invoice_path(invoice, :format => :pdf), :class => "btn btn-primary", :title => "Open PDF Full Size", :target => "_BLANK") if controller.action_name == "show" %>
+    <%= link_to glyph("usd",(mini ? "" : "Payments")), edit_invoice_path(invoice, :anchor => "payments", :title => "Go to Payments"), :class => "btn btn-primary" %>
+    <%= link_to glyph("send",(mini ? "" : "Send Invoice")), {:id => invoice.id,:action => "email"}, :class => "btn btn-primary", :title => "Email Invoice" %>
+    <%= link_to glyph("trash",(mini ? "" : "Delete")), invoice_path(invoice), method: :delete, confirm: 'Are you sure?', :class => "btn btn-danger", :title => "Delete Invoice" %>
+
+<% unless mini %>
+  </div>
+</div>
+<% end %>

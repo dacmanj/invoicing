@@ -36,4 +36,10 @@
 	   <% end %>
         </div>
 
+  <% if (controller.action_name.in? ["new","new_modal"]) %>
+  <div>
+      <%= f.button :submit, :class => "btn btn-primary" %>
+  </div>
+  <% end %>
+
 <% end %>

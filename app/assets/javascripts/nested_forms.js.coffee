@@ -77,7 +77,6 @@ $ ->
           $("select#invoice_account_id").html(html).prepend("<option value></option>")
           $("select#invoice_account_id").val(selected)
           load_contacts()
-          load_items()
 
       $("a#refresh_accounts").click(load_accounts)
 

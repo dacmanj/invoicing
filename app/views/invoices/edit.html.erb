@@ -1,12 +1,6 @@
 <h1>Editing Invoice</h1>
 
-<div class="well">
-<%= link_to glyph("usd"), edit_invoice_path(@invoice, :anchor => "payments"), :class => "btn btn-primary" %>
-
-<%= link_to glyph("file"), invoice_path(@invoice, :format => :pdf), :class => "btn btn-primary", :target => "_BLANK" %>
-<%= link_to glyph("send"), {:id => @invoice.id,:action => "email"}, :class => "btn btn-primary" %>
-<%= link_to glyph("trash"), invoice_path(@invoice), method: :delete, confirm: 'Are you sure?', :class => "btn btn-danger" %>
-</div>
+<%= render 'invoices/action_bar' %>
 <%= render 'form' %>
 
 

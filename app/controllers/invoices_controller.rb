@@ -73,7 +73,7 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.find(params[:id])
 
     respond_to do |format|
-      format.html { render layout: "invoice"}
+      format.html { render html: @invoice }
       format.json { render json: @invoice }
       format.pdf do
                             # always change zoom/parameters here in invoice_mailer.rb to ensure consistent invoices
@@ -154,7 +154,7 @@ class InvoicesController < ApplicationController
     respond_to do |format|
       if @invoice.save
         InvoiceMailer.new_invoice_email(@invoice, current_user).deliver
-        format.html { redirect_to invoices_url, notice: 'Invoice was successfully created.' }
+        format.html { redirect_to invoice_url(@invoice.id), notice: 'Invoice was successfully created.' }
         format.json { render json: @invoice, status: :created, location: @invoice }
       else
         format.html { render action: "new" }

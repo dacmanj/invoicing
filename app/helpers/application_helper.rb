@@ -9,7 +9,7 @@ module ApplicationHelper
   end
   
   def glyph(g, interior_text="")
-    content_tag(:i,interior_text,:class=>"glyphicon glyphicon-"+g)
+    (content_tag(:i,"",:class=>"glyphicon glyphicon-"+g) + " " + interior_text).html_safe
   end
   
   def logo

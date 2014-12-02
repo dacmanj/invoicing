@@ -1,49 +1,40 @@
-    <div class="row well">
-      <div class="col-xs-2 col-xs-offset-2" id="logo">
-        <%=image_tag("logo.png", width: '158', height: '147')%>
-      </div>
+<!--
+<iframe width="100%" height="1100px" src="<%= invoice_url(@invoice, :format=>:pdf) %>"/>
+-->
 
-      <div class="col-xs-4" id="pflag_address">
-        <center>
-          <h4>PFLAG National</h4>
-          <h4><i>Moving equality forward…</i></h4>
-          <h4>TAX ID # 95-3750694</h4>
-          <h4>Form W9: <a href="http://pflag.org/w9">pflag.org/w9</a></h4>
-          <p>
-            1828 L St NW, Ste 660<br>Washington, DC 20036<br>
-            (202) 467-8180 | Fax: (202) 467-8194<br>
-            <a href="mailto:info@pflag.org">INFO@PFLAG.ORG</a> | <a href="http://www.pflag.org">WWW.PFLAG.ORG</a>
-          </p>
-        </center>
-      </div>
-      <div id="invoice_info" class="col-xs-2" style="text-align: right;">
-        <h2 style="color: gray;">INVOICE</h2>
-        <p>Invoice #<span id="invoicenumber"><%= @invoice.id %></span></p>
-        <p>Date: <span id="invoicedate"><%= l @invoice.date, :format => "%m/%d/%Y" %></span></p>
+<script type="text/javascript">
+$().ready(function(){
+  //
+// Fetch the PDF document from the URL using promises
+//
+PDFJS.getDocument('<%= invoice_url(@invoice, :format=>:pdf) %>').then(function(pdf) {
+  // Using promise to fetch the page
+  pdf.getPage(1).then(function(page) {
+    var scale = 1.5;
+    var viewport = page.getViewport(scale);
 
-      </div>
-    </div>
-	
+    //
+    // Prepare canvas using PDF page dimensions
+    //
+    var canvas = document.getElementById('the-canvas');
+    var context = canvas.getContext('2d');
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
 
-    <div class="row">
-	    <div class="col-xs-offset-2 col-xs-4">
-          <%= render 'contact', :contact => (Contact.find(@invoice.primary_contact_id) unless @invoice.primary_contact_id.blank?) || @invoice.contacts.first %>
+    //
+    // Render PDF page into canvas context
+    //
+    var renderContext = {
+      canvasContext: context,
+      viewport: viewport
+    };
+    page.render(renderContext);
+  });
+});
 
-	    </div>
-	    <div class="col-xs-4">
-	    	<p style="font-weight: bold;">MAKE CHECKS/REMITTANCE PAYABLE TO:<br>
-			PFLAG National</p>
-			<p>If you have any questions concerning this invoice, contact us at (202)-467-8180 or <a href="mailto:invoices@pflag.org?subject=Invoice%20%23<%=@invoice.id%>">invoices@pflag.org</a></p>
+})
+</script>
 
-	    </div>
+<%= render 'invoices/action_bar' %>
 
-    </div>
-    <div class="row">
-    	<%= render "lines", :lines => @invoice.lines %>
-	</div>
-    <div class="row well">
-	    <div class="col-xs-offset-8 col-xs-4">
-	    	<h3>Total: <%=number_to_currency @invoice.total%></h3>
-
-		</div>
-	</div>
+  <canvas id="the-canvas" style="border:1px solid black;"/>

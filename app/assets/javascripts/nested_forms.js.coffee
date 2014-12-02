@@ -150,7 +150,7 @@ $ ->
             $(this).val(index+1)
 
       load_items()
-      load_contacts()
+#      load_contacts()
       assign_order()
 
 

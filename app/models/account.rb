@@ -72,4 +72,28 @@ class Account < ActiveRecord::Base
     errors
     end
 
+    def merge_into(id)
+      acct = Account.find(id)
+      self.contacts.each do |h|
+        h.account = acct
+        h.save
+      end
+
+      self.invoices.each do |h|
+        h.account = acct
+        h.save
+      end
+
+      self.payments.each do |h|
+        h.account = acct
+        h.save
+      end
+
+      self.email_records do |h|
+        h.account_id = id
+        h.save
+      end
+
+    end
+
 end

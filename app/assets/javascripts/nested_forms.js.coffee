@@ -47,13 +47,14 @@ $ ->
         $.post url, data, modal_create_success
 
       modal_create_success = (data) ->
-#        console.log data
+#        console.log data if console
         id = data.id
         $("select#invoice_account_id").prepend("<option value='#{data.id}'>#{data.name}</option>")
         $("#invoice_account_id").val(id)
         load_accounts()
+        BootstrapDialog.closeAll()
 
-      $(".modal-content input.button[type=submit]").on("click", modal_submit)
+      $("body").on("submit", ".modal-content form", modal_submit)
 
       new_account = (e) ->
         e.preventDefault()
@@ -62,7 +63,7 @@ $ ->
             message: $('<div></div>').load('/new_account_modal')
         })
 
-#      $("#new_account_button").on("click",new_account)
+      $("#new_account_button").on("click",new_account)
 
       load_accounts = (e) ->
         e.preventDefault() if e
@@ -105,8 +106,8 @@ $ ->
             selected_arr = []
             $("select").filter(select_filter).each (e) ->
               selected_arr.push $(this).val()  
-#            console.log selected_arr
-#            console.log data
+#            console.log selected_arr if console
+#            console.log data if console
             html = ""
             for item in data
               html += "<option value=#{item.id} data-account-id=#{item.account_id}>#{item.name}</option>"
@@ -119,8 +120,8 @@ $ ->
       load_line_from_item = (e) ->
         item_id = $(this).val()
         context = $(this).closest("div.duplicatable_nested_form")
-        console.log context
-        console.log item_id
+#        console.log context if console
+#        console.log item_id if console
         if item_id? && item_id != ""
           $.ajax({url: "/items/#{item_id}.json"}).done (data) ->
             item = data

@@ -38,7 +38,7 @@ class AccountsController < ApplicationController
     contact.active = true
     contact.address = Address.new
     respond_to do |format|
-      format.html { render 'new', :layout => 'embed' }
+      format.html { render 'new', :layout => 'modal' }
       format.json { render json: @hash }
     end   
   end

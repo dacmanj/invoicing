@@ -35,6 +35,6 @@ PDFJS.getDocument('<%= invoice_url(@invoice, :format=>:pdf) %>').then(function(p
 })
 </script>
 
-<%= render 'invoices/action_bar' %>
+<%= render 'invoices/action_bar', :invoice => @invoice %>
 
   <canvas id="the-canvas" style="border:1px solid black;"/>

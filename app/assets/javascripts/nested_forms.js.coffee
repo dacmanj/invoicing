@@ -47,13 +47,11 @@ $ ->
         $.post url, data, modal_create_success
 
       modal_create_success = (data) ->
-        console.log data
+#        console.log data
         id = data.id
         $("select#invoice_account_id").prepend("<option value='#{data.id}'>#{data.name}</option>")
         $("#invoice_account_id").val(id)
         load_accounts()
-        $(".modal-content button.close").click()
-
 
       $(".modal-content input.button[type=submit]").on("click", modal_submit)
 
@@ -64,7 +62,7 @@ $ ->
             message: $('<div></div>').load('/new_account_modal')
         })
 
-      $("#new_account_button").on("click",new_account)
+#      $("#new_account_button").on("click",new_account)
 
       load_accounts = (e) ->
         e.preventDefault() if e
@@ -77,6 +75,7 @@ $ ->
           $("select#invoice_account_id").html(html).prepend("<option value></option>")
           $("select#invoice_account_id").val(selected)
           load_contacts()
+          load_items()
 
       $("a#refresh_accounts").click(load_accounts)
 

@@ -210,6 +210,8 @@ en:
   activerecord:
     attributes:
       contact:
+        suppress_account_name: Suppress Account Name on Invoice
+        suppress_contact_name: Suppress Contact Name on Invoice
         database_id: Constituent ID
       line:
         position: Order

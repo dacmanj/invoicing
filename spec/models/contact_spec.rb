@@ -13,6 +13,7 @@
 #  updated_at            :datetime         not null
 #  title                 :string(255)
 #  suppress_account_name :boolean
+#  suppress_contact_name :boolean
 #
 
 require 'spec_helper'

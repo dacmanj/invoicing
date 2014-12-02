@@ -13,6 +13,7 @@
 #  updated_at            :datetime         not null
 #  title                 :string(255)
 #  suppress_account_name :boolean
+#  suppress_contact_name :boolean
 #
 
 class Contact < ActiveRecord::Base
@@ -22,7 +23,7 @@ class Contact < ActiveRecord::Base
 	has_and_belongs_to_many :invoices
 
 
-	attr_accessible :active, :account_id, :database_id, :first_name, :last_name, :title, :address, :address_attributes, :suppress_account_name
+	attr_accessible :active, :account_id, :database_id, :first_name, :last_name, :title, :address, :address_attributes, :suppress_account_name, :suppress_contact_name
 
 	scope :active, where(:active => true) 
 

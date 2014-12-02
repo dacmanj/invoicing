@@ -1,9 +1,9 @@
     <%= f.simple_fields_for :addresses do |a| %>
-	    <%= a.input :address_lines %>
+	    <%= a.input :address_lines, :input_html => { :rows => "2" } %>
 	    <%= a.input :city %>
-	    <%= a.input :state %>
+		<%= a.input :state, :collection => us_states %>
 	    <%= a.input :zip %>
-	    <%= a.input :email %>
+    	<%= a.input :email, required: false, type: :email %>
 	    <%= a.input :phone %>
 	    <%= a.input :fax %>
     <% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140601145517) do
+ActiveRecord::Schema.define(:version => 20141202230802) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(:version => 20140601145517) do
     t.datetime "updated_at",            :null => false
     t.string   "title"
     t.boolean  "suppress_account_name"
+    t.boolean  "suppress_contact_name"
   end
 
   create_table "contacts_invoices", :id => false, :force => true do |t|

@@ -13,6 +13,7 @@
 #  updated_at            :datetime         not null
 #  title                 :string(255)
 #  suppress_account_name :boolean
+#  suppress_contact_name :boolean
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl

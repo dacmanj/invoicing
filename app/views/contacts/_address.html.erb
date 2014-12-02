@@ -3,7 +3,7 @@
 	    <%= a.input :city %>
 		<%= a.input :state, :collection => us_states %>
 	    <%= a.input :zip %>
-	    <%= a.input :email %>
+    	<%= a.input :email, required: false, type: :email %>
 	    <%= a.input :phone %>
 	    <%= a.input :fax %>
     <% end %>

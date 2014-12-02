@@ -5,7 +5,7 @@
     <%= a.input :city, required: false %>
     <%= a.input :state, :collection => us_states %>
     <%= a.input :zip, required: false %>
-    <%= a.input :email, required: false %>
+    <%= a.input :email, required: false, type: :email %>
     <%= a.input :phone, required: false %>
     <%= a.input :fax, required: false %>
   </div>

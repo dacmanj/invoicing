@@ -14,6 +14,8 @@
       <label for="contacts">Primary Contact (printed on invoice)</label>
       <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-edit"), '', :id => "invoice_primary_contact_edit", :class => "invoice_primary_contact_buttons", :target => "_blank" %>
       <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-plus-sign"), new_contact_path, :id=> "invoice_primary_contact_new", :class => "invoice_primary_contact_buttons", :target => "_blank" %>
+      <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-refresh"), "", :class => :contact_buttons, :id => "refresh_contacts" %>
+
  
       <div class="input-group">
         <%= f.select :primary_contact_id, options_for_select(contact_pool.map {|r| [r.name, r.id, {'data-account-id' => r.account_id }]}, :selected => @invoice.primary_contact_id), {include_blank: true}, {:class => "select optional form-control input-xxlarge"} %>

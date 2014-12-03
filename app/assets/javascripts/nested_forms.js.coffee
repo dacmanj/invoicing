@@ -114,6 +114,8 @@ $ ->
       load_contacts = (e) ->
         e.preventDefault() if e
         a = $("#invoice_account_id").val() 
+        pc = $("#invoice_primary_contact_id").val()
+        c = $("#invoice_contact_ids").val()
         if a? 
           $.ajax({ url: "/contacts.json", data: "account_id=#{a}" }).done (data) ->
             html = ""
@@ -123,6 +125,9 @@ $ ->
             $('select#invoice_primary_contact_id').html(html).prepend("<option value></option>")
             $('select#invoice_contact_ids').html(html);
             $("#invoice_primary_contact_new").attr("href","/contacts/new?id=#{a}")
+            $("#invoice_primary_contact_id").val(pc)
+            $("#invoice_contact_ids").val(c)
+
       $("#invoice_account_id").change(load_contacts)
       $("a#refresh_contacts").click(load_contacts)
 

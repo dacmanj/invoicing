@@ -209,6 +209,8 @@ en:
   # remove these aliases after 'activemodel' and 'activerecord' namespaces are removed from Rails repository
   activerecord:
     attributes:
+      invoice:
+        void: Void this Invoice
       contact:
         suppress_account_name: Suppress Account Name on Invoice
         suppress_contact_name: Suppress Contact Name on Invoice

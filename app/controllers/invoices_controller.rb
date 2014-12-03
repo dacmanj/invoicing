@@ -5,6 +5,7 @@ class InvoicesController < ApplicationController
   def index
 
     @invoices = Invoice.includes(:email_records)
+    @invoices = @invoices.active unless params[:void].present?
 
     if (params[:ar_account].present?)
       @invoices = @invoices.find_all_by_ar_account(params[:ar_account])
@@ -238,7 +239,9 @@ class InvoicesController < ApplicationController
   # DELETE /invoices/1.json
   def destroy
     @invoice = Invoice.find(params[:id])
-    @invoice.destroy
+#    @invoice.destroy
+    @invoice.void = true
+    @invoice.save
 
     respond_to do |format|
       format.html { redirect_to invoices_url }

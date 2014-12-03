@@ -11,6 +11,7 @@
 #  date               :date
 #  primary_contact_id :integer
 #  ar_account         :string(255)
+#  void               :boolean
 #
 
 require 'spec_helper'

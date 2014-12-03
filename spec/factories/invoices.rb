@@ -11,6 +11,7 @@
 #  date               :date
 #  primary_contact_id :integer
 #  ar_account         :string(255)
+#  void               :boolean
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl

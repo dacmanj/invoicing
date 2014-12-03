@@ -11,6 +11,7 @@
 #  date               :date
 #  primary_contact_id :integer
 #  ar_account         :string(255)
+#  void               :boolean
 #
 
 class Invoice < ActiveRecord::Base
@@ -26,16 +27,18 @@ include ActionView::Helpers::NumberHelper
   has_many :payments
 
 	has_and_belongs_to_many :contacts
+  scope :active, where(void: false)
+  scope :void, where(void: true)
 
   accepts_nested_attributes_for :lines, reject_if: proc { |attr| attr['description'].blank? && attr['quantity'].blank? && attr['item_id'].blank? && attr['unit_price'].blank? }, allow_destroy: true
   accepts_nested_attributes_for :contacts, :reject_if => :all_blank
 
-  attr_accessible :account_id, :contact_ids, :user_id, :lines_attributes, :date, :primary_contact_id, :ar_account
+  attr_accessible :account_id, :contact_ids, :user_id, :lines_attributes, :date, :primary_contact_id, :ar_account, :void
 
   before_save :set_account_if_blank, :set_primary_contact_if_blank
 
   def self.open_invoices_as_of(balance_date)
-    Invoice.select{|h| h.balance_due(balance_date) != 0}
+    Invoice.active.select{|h| h.balance_due(balance_date) != 0}
   end
 
   def set_primary_contact_if_blank
@@ -66,7 +69,7 @@ include ActionView::Helpers::NumberHelper
 
   def other_past_due_invoices_table
 
-    other_invoices = self.account.invoices.select{|h| h.balance_due != 0 && h.id != self.id}
+    other_invoices = self.account.invoices.active.select{|h| h.balance_due != 0 && h.id != self.id}
     if other_invoices.length == 0
       return ""
     end

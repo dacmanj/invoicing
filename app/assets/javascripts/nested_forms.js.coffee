@@ -47,23 +47,41 @@ $ ->
         $.post url, data, modal_create_success
 
       modal_create_success = (data) ->
-#        console.log data if console
-        id = data.id
-        $("select#invoice_account_id").prepend("<option value='#{data.id}'>#{data.name}</option>")
-        $("#invoice_account_id").val(id)
-        load_accounts()
+        console.log data if console
+        if data && data.id
+          id = data.id
+          $("select#invoice_account_id").prepend("<option value='#{data.id}'>#{data.name}</option>")
+          $("#invoice_account_id").val(id)
+          load_accounts()
+        else
+          load_accounts()
         BootstrapDialog.closeAll()
 
       $("body").on("submit", ".modal-content form", modal_submit)
 
-      new_account = (e) ->
+      open_link_as_modal = (e) ->
         e.preventDefault()
+        url = $(this).attr("href")
+        title = $(this).attr("title") || ""
+        if (url == "")
+          return
+        url = url + "?modal=true"
         BootstrapDialog.show({
-            title: 'Create New Account',
-            message: $('<div></div>').load('/new_account_modal')
+            size: BootstrapDialog.SIZE_LARGE,
+            title: title, #todo get name
+            message: $('<div></div>').load(url),
         })
 
-      $("#new_account_button").on("click",new_account)
+      $(window).bind 'beforeunload', (e) ->
+        if $(".modal-dialog").length >= 1
+          msg = 'Leaving this page will not save your current edits.'
+        else
+          msg = undefined
+        return msg
+
+
+      $("#new_account_button").on("click",open_link_as_modal)
+      $("#edit_account_button").on("click",open_link_as_modal)
 
       load_accounts = (e) ->
         e.preventDefault() if e
@@ -78,7 +96,20 @@ $ ->
           load_contacts()
           load_items()
 
+
+
       $("a#refresh_accounts").click(load_accounts)
+      set_account_edit_link = (e) ->
+        selected = $("#invoice_account_id").val()
+        if (selected == "")
+          url = ""
+        else
+          url = "/accounts/" + selected + "/edit"
+        $("#edit_account_button").attr("href",url)
+
+      $("#invoice_account_id").on("change",set_account_edit_link)
+
+
 
       load_contacts = (e) ->
         a = $("#invoice_account_id").val() 
@@ -149,6 +180,7 @@ $ ->
           if !!!val
             $(this).val(index+1)
 
+      set_account_edit_link()
       load_items()
 #      load_contacts()
       assign_order()

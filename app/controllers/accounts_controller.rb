@@ -30,30 +30,19 @@ class AccountsController < ApplicationController
     end
   end
 
-
-  def new_modal
-    @account = Account.new
-    @account.default_account_ar_account = '1110'
-    contact = @account.contacts.build
-    contact.active = true
-    contact.address = Address.new
-    respond_to do |format|
-      format.html { render 'new', :layout => 'modal' }
-      format.json { render json: @hash }
-    end   
-  end
-
   # GET /account/new
   # GET /account/new.json
   def new
     @account = Account.new
     @account.default_account_ar_account = '1110'
+
+    modal = params[:modal]
     contact = @account.contacts.build
     contact.active = true
     contact.address = Address.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html { render 'new', :layout => modal ? 'modal' : 'application' }
       format.json { render json: @account }
     end
   end
@@ -61,10 +50,15 @@ class AccountsController < ApplicationController
   # GET /account/1/edit
   def edit
     @account = Account.find(params[:id])
+    modal = params[:modal]
     @contacts = @account.contacts
     @invoices = @account.invoices
     @payments = @account.payments
     @email_records = @account.email_records
+    respond_to do |format|
+      format.html { render 'edit', :layout => modal ? 'modal' : 'application' }
+    end
+
   end
 
   # POST /account

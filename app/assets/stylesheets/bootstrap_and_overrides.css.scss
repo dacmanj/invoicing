@@ -1,6 +1,6 @@
 
+@import "bootstrap-sprockets";
 @import "bootstrap";
-
 
 body { padding-top: 60px; }
 
@@ -34,6 +34,9 @@ textarea { height: 80px; }
     margin-bottom: 5px;
 }
 
+.radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"] {
+    margin: -5px 0px 0px 0px;
+}
 select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
   height: 32px;
 }

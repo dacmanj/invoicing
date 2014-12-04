@@ -47,7 +47,10 @@ class ContactsController < ApplicationController
   def edit
     @contact = Contact.find(params[:id])
     @address = @contact.address || Address.new
-
+    modal = params[:modal]
+    respond_to do |format|
+      format.html { render 'edit', :layout => modal ? 'modal' : 'application' }
+    end
   end
 
   # POST /contacts

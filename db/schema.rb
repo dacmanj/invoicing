@@ -88,12 +88,12 @@ ActiveRecord::Schema.define(:version => 20141203212049) do
     t.integer  "contact_id"
     t.integer  "account_id"
     t.integer  "user_id"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
     t.date     "date"
     t.integer  "primary_contact_id"
     t.string   "ar_account"
-    t.boolean  "void"
+    t.boolean  "void",               :default => false
   end
 
   create_table "items", :force => true do |t|

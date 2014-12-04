@@ -44,11 +44,16 @@ $ ->
         form = $(".modal-content form")
         data = form.serialize()
         url = $(".modal-content form").attr("action") + ".json"
-        $.post url, data, modal_create_success
+        $.post url, data, modal_success
 
-      modal_create_success = (data) ->
+      modal_success = (data) ->
         console.log data if console
-        if data && data.id
+        form = $(".modal-content form #modal_form")
+        if form
+          action = form.attr("data-action")
+          model = form.attr("data-model")
+        console.log url if console
+        if model == 'account' && data.id?
           id = data.id
           $("select#invoice_account_id").prepend("<option value='#{data.id}'>#{data.name}</option>")
           $("#invoice_account_id").val(id)
@@ -80,8 +85,7 @@ $ ->
         return msg
 
 
-      $("#new_account_button").on("click",open_link_as_modal)
-      $("#edit_account_button").on("click",open_link_as_modal)
+      $("a.modal_opener").on("click",open_link_as_modal)
 
       load_accounts = (e) ->
         e.preventDefault() if e
@@ -97,8 +101,8 @@ $ ->
           load_items()
 
 
-
       $("a#refresh_accounts").click(load_accounts)
+
       set_account_edit_link = (e) ->
         selected = $("#invoice_account_id").val()
         if (selected == "")

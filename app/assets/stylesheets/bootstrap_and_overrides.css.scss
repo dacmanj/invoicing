@@ -38,6 +38,6 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   height: 32px;
 }
 
-.modal-content .modal-hide {
+.modal-content .modal-hide, .modal-content H1 {
   display: none;
 }

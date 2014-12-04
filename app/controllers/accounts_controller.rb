@@ -87,6 +87,9 @@ class AccountsController < ApplicationController
         format.html { redirect_to accounts_url, notice: 'Account was successfully updated.' }
         format.json { render json: @account }
       else
+        @account.errors.each do |type,msg|
+          flash[:error] = "Error: #{type}: #{msg}"
+        end
         format.html { render action: "edit" }
         format.json { render json: @account.errors, status: :unprocessable_entity }
       end

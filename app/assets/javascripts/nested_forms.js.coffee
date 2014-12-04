@@ -93,6 +93,11 @@ $ ->
 
       $("body").on("submit", ".modal-content form", modal_submit)
 
+
+      modal_links_target_blank = (e) ->
+        links = $(".modal-content a[data-method!=delete]").attr("target","_BLANK")
+        console.log links
+
       open_link_as_modal = (e) ->
         e.preventDefault()
         url = $(this).attr("href")
@@ -107,6 +112,7 @@ $ ->
             size: BootstrapDialog.SIZE_LARGE,
             title: title, #todo get name
             message: $('<div></div>').load(url),
+            onshown: modal_links_target_blank
         })
 
       $(window).bind 'beforeunload', (e) ->

@@ -42,7 +42,7 @@ class AccountsController < ApplicationController
     contact.address = Address.new
 
     respond_to do |format|
-      format.html { render 'new', :layout => modal ? 'modal' : 'application' }
+      format.html { render modal ? '_form' : 'new', :layout => modal ? 'modal' : 'application' }
       format.json { render json: @account }
     end
   end
@@ -56,7 +56,7 @@ class AccountsController < ApplicationController
     @payments = @account.payments
     @email_records = @account.email_records
     respond_to do |format|
-      format.html { render 'edit', :layout => modal ? 'modal' : 'application' }
+      format.html { render modal ? '_form' : 'edit', :layout => modal ? 'modal' : 'application' }
     end
 
   end

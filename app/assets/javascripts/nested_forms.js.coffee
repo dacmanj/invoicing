@@ -45,7 +45,7 @@ $ ->
         form = $(".modal-content form")
         data = form.serialize()
         url = $(".modal-content form").attr("action") + ".json"
-        $.post url, data, modal_success
+        $.post(url, data, modal_success).fail(modal_error)
 
       modal_success = (data) ->
         console.log data if debug
@@ -61,6 +61,35 @@ $ ->
         else
           load_accounts()
         BootstrapDialog.closeAll()
+
+      modal_error = (request) ->
+        if console? && debug
+          console.log "ajax request"
+          console.log request
+        flash_div = $(".modal-content div#modal_error")
+        msg = decodeURIComponent(request.getResponseHeader("X-Message")) || ""
+        msg_type = request.getResponseHeader("X-Message-Type") || ""
+        if request.status == 500
+          msg = "500 Server Error"
+          msg_type = "error"
+        if msg?.length and msg_type?.length
+          console.log "Flash Message: #{msg}" if console? && debug
+
+          alert_type = 'alert-success'
+          alert_type = 'alert-danger' if msg_type.match("error") != null
+          console.log "Flash Message Type: #{alert_type}" if console? && debug
+          flash_div.html("
+                      <div class='alert " + alert_type + "'>
+                        <button type='button' class='close' data-dismiss='alert'>&times;</button>
+                        #{msg}
+                      </div>").show()
+        #delete the flash message (if it was there before) when an ajax request returns no flash message
+        else 
+          flash_div.html("").hide()
+        hideflash = -> flash_div.fadeOut()
+        setTimeout hideflash, 5000
+        true
+
 
       $("body").on("submit", ".modal-content form", modal_submit)
 

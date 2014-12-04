@@ -40,7 +40,7 @@ class ContactsController < ApplicationController
     @contact.active = true
 
     respond_to do |format|
-      format.html { render 'new', :layout => modal ? 'modal' : 'application' }
+      format.html { render modal ? '_form' : 'new', :layout => modal ? 'modal' : 'application' }
       format.json { render json: @contact }
     end
   end
@@ -51,7 +51,7 @@ class ContactsController < ApplicationController
     @address = @contact.address || Address.new
     modal = params[:modal]
     respond_to do |format|
-      format.html { render 'edit', :layout => modal ? 'modal' : 'application' }
+      format.html { render modal ? '_form' : 'edit', :layout => modal ? 'modal' : 'application' }
     end
   end
 
@@ -76,7 +76,6 @@ class ContactsController < ApplicationController
   # PUT /contacts/1.json
   def update
     @contact = Contact.find(params[:id])
-
     respond_to do |format|
       if @contact.update_attributes(params[:contact])
         format.html { redirect_to contacts_url, notice: 'Contact was successfully updated.' }

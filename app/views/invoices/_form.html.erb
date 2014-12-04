@@ -12,7 +12,7 @@
     <% contact_pool = Contact.find_all_by_account_id(@invoice.account_id) || Contact.all %>
    <div class = "form-group">
       <label for="contacts">Primary Contact (printed on invoice)</label>
-      <%= link_to glyph("edit"), edit_contact_path(@invoice.primary_contact_id), :id => "invoice_primary_contact_edit", :class => "invoice_primary_contact_buttons modal_opener", :title => "Edit Contact" %>
+      <%= link_to glyph("edit"), (edit_contact_path(@invoice.primary_contact_id) if @invoice.primary_contact_id) || "", :id => "invoice_primary_contact_edit", :class => "invoice_primary_contact_buttons modal_opener", :title => "Edit Contact" %>
       <%= link_to glyph("plus-sign"), new_contact_path, :id=> "invoice_primary_contact_new", :class => "invoice_primary_contact_buttons modal_opener", :title => "New Contact" %>
       <%= link_to glyph("refresh"), "", :class => :contact_buttons, :id => "refresh_contacts" %>
 

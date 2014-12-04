@@ -1,5 +1,6 @@
 $ ->
   $(document).ready ->
+    debug = console && false
     if $('.duplicatable_nested_form').length
 
       nestedForm = $('.duplicatable_nested_form').last().clone()
@@ -47,12 +48,11 @@ $ ->
         $.post url, data, modal_success
 
       modal_success = (data) ->
-        console.log data if console
+        console.log data if debug
         form = $(".modal-content form #modal_form")
         if form
           action = form.attr("data-action")
           model = form.attr("data-model")
-        console.log url if console
         if model == 'account' && data.id?
           id = data.id
           $("select#invoice_account_id").prepend("<option value='#{data.id}'>#{data.name}</option>")
@@ -70,7 +70,10 @@ $ ->
         title = $(this).attr("title") || ""
         if (url == "")
           return
-        url = url + "?modal=true"
+        if url.indexOf("?") > -1
+          url = url + "&modal=true"
+        else
+          url = url + "?modal=true"
         BootstrapDialog.show({
             size: BootstrapDialog.SIZE_LARGE,
             title: title, #todo get name
@@ -149,8 +152,8 @@ $ ->
             selected_arr = []
             $("select").filter(select_filter).each (e) ->
               selected_arr.push $(this).val()  
-#            console.log selected_arr if console
-#            console.log data if console
+            console.log selected_arr if debug
+            console.log data if debug
             html = ""
             for item in data
               html += "<option value=#{item.id} data-account-id=#{item.account_id}>#{item.name}</option>"
@@ -163,8 +166,8 @@ $ ->
       load_line_from_item = (e) ->
         item_id = $(this).val()
         context = $(this).closest("div.duplicatable_nested_form")
-#        console.log context if console
-#        console.log item_id if console
+        console.log context if debug
+        console.log item_id if debug
         if item_id? && item_id != ""
           $.ajax({url: "/items/#{item_id}.json"}).done (data) ->
             item = data
@@ -194,7 +197,7 @@ $ ->
 
       set_account_edit_link()
       load_items()
-#      load_contacts()
+      load_contacts()
       assign_order()
 
 

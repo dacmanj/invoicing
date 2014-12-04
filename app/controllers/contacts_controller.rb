@@ -31,6 +31,8 @@ class ContactsController < ApplicationController
   def new
     @contact = Contact.new
     @contact.address = @contact.build_address
+    modal = params[:modal]
+
     if !params[:id].blank?
       @contact.account_id = params[:id]
     end
@@ -38,7 +40,7 @@ class ContactsController < ApplicationController
     @contact.active = true
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html { render 'new', :layout => modal ? 'modal' : 'application' }
       format.json { render json: @contact }
     end
   end

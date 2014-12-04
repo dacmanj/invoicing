@@ -81,6 +81,9 @@ class ContactsController < ApplicationController
         format.html { redirect_to contacts_url, notice: 'Contact was successfully updated.' }
         format.json { head :no_content }
       else
+        @contact.errors.each do |type,msg|
+          flash[:error] = "Error: #{type}: #{msg}"
+        end
         format.html { render action: "edit" }
         format.json { render json: @contact.errors, status: :unprocessable_entity }
       end

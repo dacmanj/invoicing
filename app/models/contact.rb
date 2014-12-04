@@ -27,6 +27,9 @@ class Contact < ActiveRecord::Base
 
 	scope :active, where(:active => true) 
 
+	validates :database_id, :presence => true
+
+
 	def name
 		"#{first_name} #{last_name}"
 	end

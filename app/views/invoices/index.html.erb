@@ -48,20 +48,21 @@
       <th>
         <%= check_box_tag 'select_all_invoice_id', '', false %>
       </th>
-      <th>Invoice #<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(:sort => "id", :ar_account => params[:ar_account], :outstanding_balance => params[:outstanding_balance]) %>
+      <% sort_params = params.reject{|k,v| !["ar_account","outstanding_balance","balance_due_as_of_date", "name", "utf8", "commit", "all"].include? k || v.empty? } %>
+      <th>Invoice #<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "id")) %>
       </th>
-      <th>A/R Account<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(:sort => "ar", :ar_account => params[:ar_account], :outstanding_balance => params[:outstanding_balance]) %></th>
-      <th>Invoice Date<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(:sort => "date", :ar_account => params[:ar_account], :outstanding_balance => params[:outstanding_balance]) %></th>
+      <th>A/R Account<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "ar")) %></th>
+      <th>Invoice Date<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "date")) %></th>
       <th>Company</th>
       <th>Contact</th>
       <th>Last Email
-      <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(:sort => "last_email",:ar_account => params[:ar_account], :outstanding_balance => params[:outstanding_balance]) %>
+      <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "last_email")) %>
       </th>
       <th>Total
-      <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(:sort => "total",:ar_account => params[:ar_account], :outstanding_balance => params[:outstanding_balance]) %>
+      <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "total")) %>
       </th>
       <th>Balance Due
-      <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(:sort => "balance_due",:ar_account => params[:ar_account], :outstanding_balance => params[:outstanding_balance]) %>
+      <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "balance_due")) %>
 
       </th>
       <th style="min-width: 250px;"></th>

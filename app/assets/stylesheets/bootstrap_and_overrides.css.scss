@@ -44,3 +44,11 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 .modal-content .modal-hide {
   display: none;
 }
+
+.sortable-placeholder {
+   height: 100px
+}
+
+div#template.duplicatable_nested_form {
+    display:none;
+}

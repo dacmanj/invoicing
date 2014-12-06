@@ -2,7 +2,6 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-en:
   date:
     abbr_day_names:
     - Sun
@@ -216,4 +215,7 @@ en:
         suppress_contact_name: Suppress Contact Name on Invoice
         database_id: Constituent ID
       line:
-        position: Order
+        position: Line Number on Invoice
+        item_title: Choose a preset line item (and customize it) or leave this blank
+        position_title: Change this set the order you would like these to appear on the invoice
+      line_item: Use multiple lines to have multiple amounts on the invoice, otherwise just use one

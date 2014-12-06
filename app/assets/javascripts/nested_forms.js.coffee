@@ -3,13 +3,13 @@ $ ->
     debug = console && false
     if $('.duplicatable_nested_form').length
 
-      nestedForm = $('.duplicatable_nested_form').last().clone()
+      nestedForm = $('div#template.duplicatable_nested_form').clone().removeAttr("id")
 
 
       $('form').delegate '.destroy_duplicate_nested_form', 'click', (e) ->
         $(this).closest('.duplicatable_nested_form').slideUp().remove()
 
-      $('.duplicate_nested_form').click (e) ->
+      $('form').on 'click','.duplicate_nested_form', (e) ->
         e.preventDefault()
 
         lastNestedForm = $('.duplicatable_nested_form').last()
@@ -92,6 +92,23 @@ $ ->
 
 
       $("body").on("submit", ".modal-content form", modal_submit)
+      $("#line_items").sortable({
+              placeholder: "sortable-placeholder panel panel-default",
+              opacity: 0.75,
+              sortable: "div.panel"
+            })
+        
+#      $("#line_items").bind "sortactivate", (e) ->
+#        console.log "activated" if console
+#        $(".duplicatable_nested_form .panel-body").not(".ui-sortable-helper").not(".sortable-placeholder").slideUp()
+
+#      $("#line_items").bind "sortdeactivate", (e) ->
+#        console.log "deactivate" if console
+#        $(".duplicatable_nested_form .panel-body").slideDown()
+
+      $("#line_items").bind "sortupdate", (e) ->
+        assign_order()
+
 
 
       modal_links_target_blank = (e) ->
@@ -225,10 +242,8 @@ $ ->
           $(k).append($("<option/>").val(last_position).html(last_position))
 
       assign_order = (e) ->
-        $(".invoice_lines_position select").each (index) ->
-          val = $(this).val()
-          if !!!val
-            $(this).val(index+1)
+        $(".invoice_lines_position input").each (index) ->
+          $(this).val(index)
 
       set_account_edit_link()
       load_items()

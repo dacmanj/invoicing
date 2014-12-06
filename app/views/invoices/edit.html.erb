@@ -1,47 +1,45 @@
 <h1>Editing Invoice</h1>
 
 <%= render 'invoices/action_bar', :invoice => @invoice %>
-<%= render 'form' %>
-
-
-<a name="payments"></a>
-<div class="well">
-<h2>Payments</h2>
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th>Payment Date</th>
-			<th>Payment Type</th>
-			<th>Reference Number</th>
-			<th>Payment Amount</th>
-			<th></th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		<%@invoice.payments.each do |p| %>
-		<tr>
-			<td><%=l(p.payment_date)%></td>
-			<td><%=p.payment_type%></td>
-			<td><%=p.reference_number%></td>
-			<td><%=number_to_currency p.amount%></td>
-			<td>
-				<% if p.account.id != @invoice.account.id %>
-				<span class="alert-danger">Warning: Account does not match invoice</span>
-				<% end %>
-			</td>
-			<td><%=link_to glyph("pencil"), edit_payment_path(p.id), :class=>"btn btn-primary" %>
-		</tr>
-		<% end %>
-	</tbody>
-</table>
-<dl>
-<dt>Balance Due:</dt>
-<dd><%=number_to_currency @invoice.balance_due%></dd>
-</dl>
-<%= link_to "New Payment", new_invoice_payment_path(@invoice), :class => "btn btn-primary" %>
+<div class="col-md-6">
+    <%= render 'form' %>
 </div>
-
-
-<%= link_to glyph("file","Show"), @invoice, :class => "btn btn-default" %>
-<%= link_to 'Back', invoices_path, :class => "btn btn-default"  %>
+<div class="col-md-6">
+    <a name="payments"></a>
+    <div class="well">
+    <h2>Payments</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Payment Date</th>
+                <th>Payment Type</th>
+                <th>Reference Number</th>
+                <th>Payment Amount</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <%@invoice.payments.each do |p| %>
+            <tr data-id="payments.id">
+                <td><%=l(p.payment_date)%></td>
+                <td><%=p.payment_type%></td>
+                <td><%=p.reference_number%></td>
+                <td><%=number_to_currency p.amount%></td>
+                <td>
+                    <% if p.account.id != @invoice.account.id %>
+                    <span class="alert-danger">Warning: Account does not match invoice</span>
+                    <% end %>
+                </td>
+                <td><%=link_to glyph("pencil"), edit_payment_path(p.id), :class=>"btn btn-primary" %>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <dl>
+    <dt>Balance Due:</dt>
+    <dd><%=number_to_currency @invoice.balance_due%></dd>
+    </dl>
+    <%= link_to "New Payment", new_invoice_payment_path(@invoice), :class => "btn btn-primary" %>
+    </div>
+</div>

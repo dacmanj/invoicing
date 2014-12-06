@@ -178,7 +178,7 @@ class InvoicesController < ApplicationController
 
     respond_to do |format|
       if @invoice.update_attributes(params[:invoice])
-        format.html { redirect_to invoices_url, notice: 'Invoice was successfully updated.' }
+        format.html { redirect_to invoice_url(@invoice.id), notice: 'Invoice was successfully updated.' }
         format.json { head :no_content }
         InvoiceMailer.invoice_edited_email(@invoice,current_user).deliver
       else

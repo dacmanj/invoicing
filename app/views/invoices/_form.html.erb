@@ -35,31 +35,47 @@
 
     <%= f.input :date %>
 
+<% @invoice.lines.unshift(Line.new) %>
 
-  <div><%=f.simple_fields_for :lines do |lines_form| %>
-    <div class="duplicatable_nested_form well">  
-      <%=   lines_form.input :item_id, collection: (Item.find_all_by_account_id(@invoice.account_id) unless (@invoice.account_id.blank?)) || Item.all, label_method: :name, :required => false, :include_blank => true, :selected => lines_form.object.item_id unless lines_form.object.blank? %>
-      <%=   lines_form.input :quantity, :input_html => { min: 0 }, :required => false  %>
-      <%=   lines_form.input :unit_price, :required => false  %>
-      <%=   lines_form.input :hidden, :as => :boolean, :required => false  %> 
-    	<%=   lines_form.input :description, label: 'Line Text', :input_html => { :class => 'tinymce', :rows => 10 }, :as => :text, :required => false   %>
-      <%=   lines_form.input :notes, label: 'Notes (internal)', :input_html => { :class => 'tinymce', :rows => 10 }, :required => false   %>
-      <%= lines_form.input :position, :collection => 1..[@invoice.lines.count,1].max %>
+  <div id="line_items">
+      <% @invoice.lines.each.with_index do |line,index| %>
+      <%=f.simple_fields_for :lines, line do |lines_form| %>
+        <div class="duplicatable_nested_form panel panel-default" <%= raw('id="template"') if (index == 0)%>>  
+            <div class="panel-heading">
+                <h3 class="panel-title" title="<%=t('activerecord.attributes.line_item')%>"><%=glyph("move")%> Line Item
+                    <div class="pull-right">
+                        <%= link_to glyph("trash"), (invoice_line_path(@invoice, lines_form.object) unless lines_form.object.id.nil?), :method => :delete, :remote => true, :class => 'destroy_duplicate_nested_form' %>
+                        &nbsp;
+                        <%= link_to glyph("plus"), '', :class => "duplicate_nested_form" %>
 
-      <% if lines_form.object.blank? || lines_form.object.new_record? %>
-        <%= link_to content_tag(:i, "", class: "glyphicon glyphicon-trash"), '', :remote => true , :class => 'destroy_duplicate_nested_form btn btn-danger'%>
-      <% else %>
-        <%= link_to content_tag(:i, "", class: "glyphicon glyphicon-trash"), invoice_line_path(@invoice, lines_form.object), :method => :delete, :remote => true, :class => 'destroy_duplicate_nested_form btn btn-danger' %>
-        <%= lines_form.input :id, as: :hidden %>
-      <% end %>
+                    </div>
 
-    </div> 
+                </h3>
+
+            </div>
+            <div class="panel-body">
+              <%= lines_form.input :position, as: :hidden %>
+
+              <%=   lines_form.input :item_id, collection: (Item.find_all_by_account_id(@invoice.account_id) unless (@invoice.account_id.blank?)) || Item.all, label_method: :name, :required => false, :include_blank => true, :selected => (lines_form.object.item_id unless lines_form.object.blank?), input_html: { title: t("activerecord.attributes.line.item_title") } %>
+              <%=   lines_form.input :quantity, :input_html => { min: 0 }, :required => false  %>
+              <%=   lines_form.input :unit_price, :required => false  %>
+              <%=   lines_form.input :hidden, :as => :boolean, :required => false  %> 
+                <%=   lines_form.input :description, label: 'Line Text', :input_html => { :class => 'tinymce', :rows => 10 }, :as => :text, :required => false   %>
+              <%=   lines_form.input :notes, label: 'Notes (internal)', :input_html => { :class => 'tinymce', :rows => 10 }, :required => false   %>
+
+              <% unless lines_form.object.blank? || lines_form.object.new_record? %>
+                <%= lines_form.input :id, as: :hidden %>
+              <% end %>
+            </div>
+
+        </div> 
 	<% end %>
+    <% end %>
   </div>
 
 
   <div class="form-group well">
-  <%= link_to 'New Line Item', '', :class => "duplicate_nested_form btn btn-primary" %>
+  <%= link_to glyph("plus",'New Line Item'), '', :class => "duplicate_nested_form btn btn-primary" %>
   </div>
 
   <div class="form-group">

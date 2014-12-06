@@ -97,14 +97,22 @@ $ ->
               opacity: 0.75,
               sortable: "div.panel"
             })
-        
-#      $("#line_items").bind "sortactivate", (e) ->
-#        console.log "activated" if console
-#        $(".duplicatable_nested_form .panel-body").not(".ui-sortable-helper").not(".sortable-placeholder").slideUp()
 
-#      $("#line_items").bind "sortdeactivate", (e) ->
-#        console.log "deactivate" if console
+ 
+         
+      $("#line_items").bind "sortactivate", (e) ->
+        console.log "activated" if console
+#        $(".duplicatable_nested_form .panel-body").not(".ui-sortable-helper").not(".sortable-placeholder").slideUp()
+        $(this).find('textarea.tinymce').each (v) ->
+          tinyMCE.execCommand('mceRemoveEditor',true, $(this).attr('id'));
+          $(this).hide()
+
+      $("#line_items").bind "sortdeactivate", (e) ->
+        console.log "deactivate" if console
 #        $(".duplicatable_nested_form .panel-body").slideDown()
+        $(this).find('textarea.tinymce').each (v) ->
+          $(this).show()
+          tinyMCE.execCommand( 'mceAddEditor', true, $(this).attr('id') )
 
       $("#line_items").bind "sortupdate", (e) ->
         assign_order()

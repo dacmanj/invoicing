@@ -40,6 +40,15 @@ $ ->
         assign_order()
         $('select').filter(item_filter).change(load_line_from_item)
 
+      $("form").on 'click', '#line_items h3.panel-title', (e) ->
+        panel_body = $(this).closest("div.panel").find(".panel-body")
+        if panel_body.hasClass("hidden-panel")
+          panel_body.slideDown()
+          panel_body.removeClass("hidden-panel")
+        else
+          panel_body.slideUp()
+          panel_body.addClass("hidden-panel")
+
       modal_submit = (e) ->
         e.preventDefault()
         form = $(".modal-content form")

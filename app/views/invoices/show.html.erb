@@ -1,11 +1,7 @@
 <%= render 'invoices/action_bar', :invoice => @invoice %>
 
-<object data="<%= invoice_url(@invoice, :format=>:pdf) %>" type="application/pdf" width="850px" height="1100px">
- 
-  <p>It appears you don't have a PDF plugin for this browser.
-  <a href="<%= invoice_url(@invoice, :format=>:pdf) %>">Click here to download the PDF file.</a></p>
-  
-</object>
+        <iframe src="<%= invoice_url(@invoice, :format=>:pdf) %>" type="application/pdf" width="850px" height="1100px"></iframe>
+
 <!--
 
 <iframe width="100%" height="1100px" src="<%= invoice_url(@invoice, :format=>:pdf) %>"/>

@@ -106,8 +106,6 @@ $ ->
               opacity: 0.75,
               sortable: "div.panel"
             })
-
- 
          
       $("#line_items").bind "sortactivate", (e) ->
         console.log "activated" if console
@@ -126,11 +124,24 @@ $ ->
       $("#line_items").bind "sortupdate", (e) ->
         assign_order()
 
-
+      submit_ajax = (e) ->
+        e.preventDefault()
+        tinyMCE.triggerSave();
+        form = $(this)
+        url = form.attr('action') + ".json"
+        data = form.serialize()
+        $.post(url, data, submit_success).fail(submit_error)
+      
+      submit_success = (e,req) ->
+        $("#invoice-preview iframe").attr("src",$("#invoice-preview iframe").attr("src"))
+    
+      submit_error = (e) ->
+        console.log("error") if console
+            
+      $(".edit_invoice, .new_invoice").submit(submit_ajax)
 
       modal_links_target_blank = (e) ->
         links = $(".modal-content a[data-method!=delete]").attr("target","_BLANK")
-        console.log links
 
       open_link_as_modal = (e) ->
         e.preventDefault()

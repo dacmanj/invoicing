@@ -19,6 +19,10 @@ class Payment < ActiveRecord::Base
 	
   attr_accessible :amount, :account_id, :invoice_id, :invoice, :account, :payment_date, :payment_type, :reference_number
 
+  def self.valid_payment_types
+    ["Check","Credit Card","Cash","Adjustment"]    
+  end
+    
   def self.import file
   	errors = Array.new
   	CSV.foreach(file.path, headers: true) do |row|

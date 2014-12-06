@@ -9,7 +9,11 @@
     <%= (link_to glyph("file", (mini ? "" : "View Invoice")), invoice_path(invoice), :class => "btn btn-primary", :title => "View Invoice") if controller.action_name != "show" %>
     <%= (link_to glyph("file", (mini ? "" : "PDF")), invoice_path(invoice, :format => :pdf), :class => "btn btn-primary", :title => "Open PDF Full Size") if controller.action_name == "show" %>
     <%= (link_to glyph("download", (mini ? "" : "Download PDF")), invoice_path(invoice, :format => :pdf, :download => true), :class => "btn btn-primary", :title => "Download PDF") if controller.action_name == "show" %>
-    <%= link_to glyph("usd",(mini ? "" : "Payments")), edit_invoice_path(invoice, :anchor => "payments", :title => "Go to Payments"), :class => "btn btn-primary" %>
+    <% if invoice.payments.length > 0 and invoice.balance_due == 0 %>
+    	<%= link_to glyph("usd",(mini ? "" : "Payments")), edit_invoice_path(invoice, :anchor => "payments"), :title => "Go to Payments", :class => "btn btn-primary" %>
+    <% else %>
+    	<%= link_to glyph("usd",(mini ? "" : "Payments")), new_payment_path(:id => invoice.id), :title => "New Payments", :class => "btn btn-primary" %>
+    <% end %>
     <%= link_to glyph("send",(mini ? "" : "Send Invoice")), {:id => invoice.id,:action => "email"}, :class => "btn btn-primary", :title => "Email Invoice" %>
     <%= link_to glyph("trash",(mini ? "" : "Delete")), invoice_path(invoice), method: :delete, confirm: 'Are you sure?', :class => "btn btn-danger", :title => "Delete Invoice" %>
 

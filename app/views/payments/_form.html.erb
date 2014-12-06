@@ -1,11 +1,10 @@
 <%= simple_form_for(@payment) do |f| %>
   <%= f.error_notification %>
-
   <div class="form-inputs">
-    <%= f.association :invoice %>
+    <%= f.input :invoice_id, :collection => Invoice.all.select!{|h| h.balance_due > 0}, :selected => @payment.invoice.id %>
     <%= f.association :account %>
     <%= f.input :payment_date %>
-    <%= f.input :payment_type %>  
+    <%= f.input :payment_type, :collection => Payment.valid_payment_types %>  
     <%= f.input :reference_number %>
     <%= f.input :amount %>
   </div>

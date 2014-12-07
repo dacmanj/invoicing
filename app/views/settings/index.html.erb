@@ -17,9 +17,9 @@
   <tbody>
 <% @settings.each do |setting| %>
     <tr>
-      <td><%= setting.key %></td>
-      <td><%= setting.value %></td>
-      <td><%= link_to glyph("show",'Show'), setting %><%= link_to glyph("edit",'Edit'), edit_setting_path(setting) %><%= link_to glyph("trash"), setting, confirm: 'Are you sure?', method: :delete %></td>
+      <td><%= link_to setting.key, edit_setting_path(setting) %></td>
+      <td><%= setting.value.html_safe %></td>
+      <td><%= link_to glyph("edit"), edit_setting_path(setting), :class =>"btn btn-primary" %></td>
     </tr>
 <% end %>
   </tbody>

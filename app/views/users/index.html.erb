@@ -4,6 +4,8 @@
 <tr>
 	<th>User</th>
 	<th>Email</th>
+	<th>Admin?</th>
+	<th>Notify All?</th>
 	<th></th>
 
 </tr>
@@ -15,6 +17,13 @@
 	<td>
 	<%= user.email %>
 	</td>
+    <td>
+	<%= user.admin ? glyph("ok") : "" %>
+	</td>
+	<td>
+	<%= user.notify_on_all_actions ? glyph("ok") : "" %>
+	</td>
+
     <td><%= link_to  content_tag(:i, "", class: "glyphicon glyphicon-trash glyphicon-trash-white"), user, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %></td>
   </tr>
 

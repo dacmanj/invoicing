@@ -12,11 +12,11 @@
 #
 
 class User < ActiveRecord::Base
-  attr_accessible :provider, :uid, :name, :email
+  attr_accessible :provider, :uid, :name, :email, :admin, :notify_on_all_actions
   validates_presence_of :name
 
   if Rails.env.production?
-    scope :notify_all, lambda{ where("email IN(?)", ["dmanuel@pflag.org","eperry@pflag.org","procco@pflag.org"])}
+    scope :notify_all, lambda{ where("notify_on_all_actions IS true")}
   else
     scope :notify_all, lambda{ where("email IN(?)", ["dmanuel@pflag.org"])}
   end

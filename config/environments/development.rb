@@ -6,7 +6,7 @@ Invoicing::Application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
-  #fix wkhtmltopdf hang
+  #fix wkhtmltopdf hang on emailing -- breaks asset pipeline?
   config.threadsafe!
 
   # Log error messages when you accidentally call methods on nil.

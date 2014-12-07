@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141207150922) do
+ActiveRecord::Schema.define(:version => 20141207175315) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -88,12 +88,12 @@ ActiveRecord::Schema.define(:version => 20141207150922) do
     t.integer  "contact_id"
     t.integer  "account_id"
     t.integer  "user_id"
-    t.datetime "created_at",                            :null => false
-    t.datetime "updated_at",                            :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
     t.date     "date"
     t.integer  "primary_contact_id"
     t.string   "ar_account"
-    t.boolean  "void",               :default => false
+    t.boolean  "void"
   end
 
   create_table "items", :force => true do |t|
@@ -161,8 +161,10 @@ ActiveRecord::Schema.define(:version => 20141207150922) do
     t.string   "email"
     t.string   "provider"
     t.string   "uid"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
+    t.boolean  "notify_on_all_actions", :default => false
+    t.boolean  "admin"
   end
 
   create_table "versions", :force => true do |t|

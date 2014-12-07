@@ -1,0 +1,18 @@
+<div class="page-header">
+  <%= link_to edit_setting_path(@setting), :class => 'btn btn-primary' do %>
+    <i class="icon-pencil icon-white"></i>
+    Edit
+  <% end %>
+</div>
+
+<dl>
+  <dt>Key:</dt>
+  <dd><%= @setting.key %></dd>
+
+  <dt>Type:</dt>
+  <dd><%= @setting.category %></dd>
+    
+  <dt>Value:</dt>
+  <dd><%= @setting.value.html_safe %></dd>
+
+</dl>

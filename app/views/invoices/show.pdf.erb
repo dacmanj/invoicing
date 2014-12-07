@@ -2,24 +2,17 @@
       <tbody>
         <tr>
           <td>
-            <% if defined? wicked_pdf %>
-               <%= image_tag( 'file://' + Rails.root.join('app', 'assets', 'images', 'logo.png').to_s, width: '129', height: '120') %>
+            <% if defined? wicked_pdf %> 
+              <% # Rails.root.join('app', 'assets', 'images', 'logo.png').to_s 
+                    %>
+               <%= image_tag( 'file://' + Setting.find_template("logo_path"), width: '129', height: '120') %>
              <% else %>
-               <%= image_tag 'logo.png', width: '129', height: '120' %>
+               <%= image_tag Setting.find_template("logo_url"), width: '129', height: '120' %>
              <%end%>
           </td>
           <td>
-            <center>
-              <h4>PFLAG National<br>
-              <i>Moving equality forward&hellip;</i><br>
-              TAX ID # 95-3750694<br>
-              Download our W9 at <a href="http://pflag.org/w9">pflag.org/w9</a></h4>
-              <p>
-                1828 L St NW, Ste 660<br>Washington, DC 20036<br>
-                (202) 467-8180 | Fax: (202) 467-8194<br>
-                <a href="mailto:info@pflag.org">INFO@PFLAG.ORG</a> | <a href="http://www.pflag.org">WWW.PFLAG.ORG</a>
-              </p>
-            </center>
+              <%= Setting.find_template("masthead").html_safe %>
+
           </td>
           <td id="invoice_info" class="col-xs-2" style="text-align: right;">
             <h2 style="color: gray;">INVOICE</h2>
@@ -36,9 +29,8 @@
             <%= render 'invoices/contact.pdf.erb', :contact => (Contact.find(@invoice.primary_contact_id) unless @invoice.primary_contact_id.blank?) || @invoice.contacts.first %>
           </td>
           <td width="45%">
-            <p style="font-weight: bold;">MAKE CHECKS/REMITTANCE PAYABLE TO:<br>
-            PFLAG National</p>
-            <p>If you have any questions concerning this invoice, contact us at (202)-467-8180 or <a href="invoices@pflag.org?subject=Invoice%20%23<%=@invoice.id%>">invoices@pflag.org</a></p>
+            <%= Setting.find_template("remittance_block").html_safe %>
+
           </td>
         </tr>
       </tbody>

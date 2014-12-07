@@ -1,0 +1,26 @@
+<div class="page-header">
+  <%= link_to new_setting_path, :class => 'btn btn-primary' do %>
+    <i class="icon-plus icon-white"></i>
+    New Setting
+  <% end %>
+  <h1>Settings</h1>
+</div>
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Value</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+<% @settings.each do |setting| %>
+    <tr>
+      <td><%= setting.key %></td>
+      <td><%= setting.value %></td>
+      <td><%= link_to glyph("show",'Show'), setting %><%= link_to glyph("edit",'Edit'), edit_setting_path(setting) %><%= link_to glyph("trash"), setting, confirm: 'Are you sure?', method: :delete %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

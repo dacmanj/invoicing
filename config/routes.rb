@@ -1,4 +1,7 @@
 Invoicing::Application.routes.draw do
+  resources :settings
+
+
   resources :email_records
 
 

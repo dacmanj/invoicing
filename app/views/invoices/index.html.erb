@@ -69,7 +69,7 @@
     </tr>
 
   <% @invoices.each do |invoice| %>
-    <tr>
+    <tr class="invoice-row" data-id="<%=invoice.id%>" data-account-name="<%= invoice.account.name unless invoice.account.blank?%>" data-amount="<%= invoice.total %>" data-balance-due="<%= invoice.balance_due %>">
       <td><%= check_box_tag 'invoice_id[]', invoice.id, false %></td>
       <td><%= link_to content_tag(:i, invoice.id, :class => "glyphicon glyphicon-pencil"), edit_invoice_path(invoice.id) %>
       </td>

@@ -52,3 +52,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
 div#template.duplicatable_nested_form {
     display:none;
 }
+
+tr.filtered {
+    display: none;
+}

@@ -5,19 +5,21 @@ $.extend $.expr[":"], { "containsNC": (elem, i, match, array) ->
 
 $ ->
   $("#account-search").keyup (e) ->
-    rows = $("#accounts-table").find("tr").hide();
-    data = this.value.split(" ");
+    rows = $("tr.account-row").addClass("filtered")
+    data = this.value.split(" ")
     if (data.length == 1 && data[0] == "")
-      rows.show()
+      rows.removeClass("filtered")
     $.each data, (i, v) ->
-      rows.filter(":containsNC('" + v + "')").show();
+      rows.filter(":containsNC('" + v + "')").removeClass("filtered")
 
-$ ->
   $("#invoice-search").keyup (e) ->
-    rows = $("#invoices-table").find("tr").hide();
-    data = this.value.split(" ");
+    rows = $("tr.invoice-row").addClass("filtered")
+    data = this.value.split(" ")
     if (data.length == 1 && data[0] == "")
-      rows.show()
+      rows.removeClass("filtered")
     $.each data, (i, v) ->
-      rows.filter(":containsNC('" + v + "')").show();
-
+      rows.filter(":containsNC('" + v + "')").removeClass("filtered")
+    a = 0
+    $("tr.invoice-row").not(".filtered").each (v) -> 
+      a = a + $(this).attr("data-amount")*1
+    

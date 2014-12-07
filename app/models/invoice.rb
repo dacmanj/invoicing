@@ -47,6 +47,10 @@ include ActionView::Helpers::NumberHelper
         self.contacts.push(Contact.find(primary_contact_id))
       end
   end
+      
+  def date=(date)
+    write_attribute :date, Date.strptime(date,"%m/%d/%Y")
+  end
 
   def set_account_if_blank
       self.account_id = self.contacts.first.account_id if self.account_id.blank? and !self.contacts.blank?

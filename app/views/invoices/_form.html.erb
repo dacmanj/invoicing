@@ -1,4 +1,6 @@
-<h3><%= "Invoice ##{@invoice.id}" %> </h3>
+<% if @invoice %>
+<h3><%= "Invoice ##{@invoice.id}" %></h3>
+<% end %>
 
 <%= simple_form_for(@invoice, :defaults => { :input_html => { :class => 'input-xxlarge' } }) do |f| %>
   <%= f.error_notification %>
@@ -34,7 +36,8 @@
     <%= f.association :user, :label => "User (notified of invoice activity)" %>
     <%= f.input :void %>
 
-    <%= f.input :date %>
+    <%= f.input :date, as: :date_picker %>
+
 
 <% @invoice.lines.unshift(Line.new) %>
 

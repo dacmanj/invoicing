@@ -63,7 +63,7 @@
 
               <%=   lines_form.input :item_id, collection: (Item.find_all_by_account_id(@invoice.account_id) unless (@invoice.account_id.blank?)) || Item.all, label_method: :name, :required => false, :include_blank => true, :selected => (lines_form.object.item_id unless lines_form.object.blank?), input_html: { title: t("activerecord.attributes.line.item_title") } %>
               <%=   lines_form.input :quantity, :input_html => { min: 0 }, :required => false  %>
-              <%=   lines_form.input :unit_price, :required => false  %>
+              <%=   lines_form.input :unit_price, :required => false, :input_html => {value: number_with_precision(line.unit_price, precision: 2) } %>
               <%=   lines_form.input :hidden, :as => :boolean, :required => false  %> 
                 <%=   lines_form.input :description, label: 'Line Text', :input_html => { :class => 'tinymce', :rows => 10 }, :as => :text, :required => false   %>
               <%=   lines_form.input :notes, label: 'Notes (internal)', :input_html => { :class => 'tinymce', :rows => 10 }, :required => false   %>

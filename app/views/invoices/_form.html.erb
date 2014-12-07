@@ -46,7 +46,7 @@
       <%=f.simple_fields_for :lines, line do |lines_form| %>
         <div class="duplicatable_nested_form panel panel-default" <%= raw('id="template"') if (index == 0)%>>  
             <div class="panel-heading">
-                <h3 class="panel-title" title="<%=t('activerecord.attributes.line_item')%>"><%=glyph("move")%><span class="title-text">Line Item <%=glyph('chevron-right')%></span>
+                <h3 class="panel-title" title="<%=t('activerecord.attributes.line_item')%>"><%=glyph("move")%><span class="title-text">Line Item <span class="unit-price" style="display: none">()</span><%=glyph('chevron-right')%></span>
                     <div class="pull-right">
                         <%= link_to glyph("trash"), (invoice_line_path(@invoice, lines_form.object) unless lines_form.object.id.nil?), :method => :delete, :remote => true, :class => 'destroy_duplicate_nested_form' %>
                         &nbsp;

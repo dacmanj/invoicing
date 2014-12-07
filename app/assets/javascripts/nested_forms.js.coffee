@@ -42,12 +42,15 @@ $ ->
 
       $("form").on 'click', '#line_items h3.panel-title .title-text', (e) ->
         panel_body = $(this).closest("div.panel").find(".panel-body")
+        unit_price = panel_body.find("input[name*=unit_price]").val()
         if panel_body.hasClass("hidden-panel")
           panel_body.slideDown()
           panel_body.removeClass("hidden-panel")
+          $(this).find(".unit-price").hide()
         else
           panel_body.slideUp()
           panel_body.addClass("hidden-panel")
+          $(this).find(".unit-price").html("("+$.toCurrency(unit_price)+")").show()
 
       modal_submit = (e) ->
         e.preventDefault()

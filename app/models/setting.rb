@@ -21,12 +21,12 @@ class Setting < ActiveRecord::Base
             </center>',
       logo_url: 'logo.png',
       logo_path: Rails.root.join('app', 'assets', 'images', 'logo.png').to_s
-      
     }
+
     
     DEFAULT_CATEGORIES = { remittance_block: "html", masthead: "html", logo_url: "string", logo_path: "string" }
     
-    def self.reinitialized
+    def self.reinitialize
        Setting.all.each do |h| h.delete end
        self.initialize
     end

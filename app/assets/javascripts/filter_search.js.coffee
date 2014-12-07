@@ -22,4 +22,8 @@ $ ->
     a = 0
     $("tr.invoice-row").not(".filtered").each (v) -> 
       a = a + $(this).attr("data-amount")*1
-    
+    $("#total").html($.toCurrency(a))
+    bal = 0
+    $("tr.invoice-row").not(".filtered").each (v) -> 
+      bal = bal + $(this).attr("data-balance-due")*1
+    $("#balance-due").html($.toCurrency(bal))

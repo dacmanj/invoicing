@@ -113,10 +113,10 @@
   <td colspan="6">
     Totals  
   </td>
-  <td>
+  <td id="total">
     <%= number_to_currency(@invoices.map{|h| h.total}.inject{|sum,h| sum+h}) %>
   </td>
-  <td>
+  <td id="balance-due">
     <%= number_to_currency(@invoices.select{|h| h.balance_due(params[:balance_due_as_of_date]) > 0}.map{|h| h.balance_due(params[:balance_due_as_of_date])}.inject{|sum,h| sum+h}) %>
   </td>
   <td>

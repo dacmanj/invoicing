@@ -41,6 +41,7 @@
 
 <% @invoice.lines.unshift(Line.new) %>
 
+  <a id="toggle_line_items_collapsed" class="btn btn-default"><span id="expand">Expand All Lines <%=glyph("expand")%></span><span id="collapse">Collapse All Lines <%=glyph("collapse-up")%></span></a>
   <div id="line_items">
       <% @invoice.lines.each.with_index do |line,index| %>
       <%=f.simple_fields_for :lines, line do |lines_form| %>

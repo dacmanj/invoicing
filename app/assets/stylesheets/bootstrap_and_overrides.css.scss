@@ -58,3 +58,7 @@ tr.filtered {
 }
 
 .ui-datepicker{ z-index: 9999 !important;}
+
+#toggle_line_items_collapsed #expand {
+    display: none;
+}

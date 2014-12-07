@@ -40,24 +40,40 @@ $ ->
         assign_order()
         $('select').filter(item_filter).change(load_line_from_item)
 
-      $("form").on 'click', '#line_items h3.panel-title .title-text', (e) ->
-        collapse_line_items()
-    
+        collapse_line_item
+
+      $("form").on "click","#toggle_line_items_collapsed", (e) ->
+        expand = $("#toggle_line_items_collapsed #expand").is(":visible")
+        if expand == true
+          $("div.panel-body").slideDown().removeClass("hidden-panel")
+          $(".title-text .unit-price").hide()
+          $("#toggle_line_items_collapsed #expand").hide()
+          $("#toggle_line_items_collapsed #collapse").show()
+        else #collapse
+          $("div.panel-body").slideUp().addClass("hidden-panel")
+          $("div.panel").each (e,v) ->
+            unit_price = $(v).find("input[name*=unit_price]").val() || 0
+            $(v).find(".unit-price").html("("+$.toCurrency(unit_price)+")").show()
+          $("#toggle_line_items_collapsed #collapse").hide()
+          $("#toggle_line_items_collapsed #expand").show()
+
+
+            
       collapse_line_items = () ->
         $("#line_items div.panel").each (e,v) ->
           collapse_line_item $(this)
         
-      collapse_line_item = (elem) ->
-        panel_body = $(elem).closest("div.panel").find(".panel-body")
+      $("form").on 'click', '#line_items h3.panel-title .title-text', (e) ->
+        panel_body = $(this).closest("div.panel").find(".panel-body")
         unit_price = panel_body.find("input[name*=unit_price]").val() || 0
         if panel_body.hasClass("hidden-panel")
           panel_body.slideDown()
           panel_body.removeClass("hidden-panel")
-          $(elem).find(".unit-price").hide()
+          $(this).find(".unit-price").hide()
         else
           panel_body.slideUp()
           panel_body.addClass("hidden-panel")
-          $(elem).find(".unit-price").html("("+$.toCurrency(unit_price)+")").show()
+          $(this).find(".unit-price").html("("+$.toCurrency(unit_price)+")").show()
 
       modal_submit = (e) ->
         e.preventDefault()

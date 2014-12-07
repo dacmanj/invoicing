@@ -41,16 +41,23 @@ $ ->
         $('select').filter(item_filter).change(load_line_from_item)
 
       $("form").on 'click', '#line_items h3.panel-title .title-text', (e) ->
-        panel_body = $(this).closest("div.panel").find(".panel-body")
-        unit_price = panel_body.find("input[name*=unit_price]").val()
+        collapse_line_items()
+    
+      collapse_line_items = () ->
+        $("#line_items div.panel").each (e,v) ->
+          collapse_line_item $(this)
+        
+      collapse_line_item = (elem) ->
+        panel_body = $(elem).closest("div.panel").find(".panel-body")
+        unit_price = panel_body.find("input[name*=unit_price]").val() || 0
         if panel_body.hasClass("hidden-panel")
           panel_body.slideDown()
           panel_body.removeClass("hidden-panel")
-          $(this).find(".unit-price").hide()
+          $(elem).find(".unit-price").hide()
         else
           panel_body.slideUp()
           panel_body.addClass("hidden-panel")
-          $(this).find(".unit-price").html("("+$.toCurrency(unit_price)+")").show()
+          $(elem).find(".unit-price").html("("+$.toCurrency(unit_price)+")").show()
 
       modal_submit = (e) ->
         e.preventDefault()

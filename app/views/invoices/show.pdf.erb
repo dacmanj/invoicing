@@ -6,7 +6,7 @@
               <%=
                 # Rails.root.join('app', 'assets', 'images', 'logo.png').to_s 
                 #image_tag( 'file://' + Rails.root.join('app', 'assets', 'images', 'logo.png').to_s, width: '129', height: '120')
-                wicked_pdf_image_tag(Setting.find_template("logo_url"), width: '129', height: '120') 
+                image_tag(Setting.find_template("logo_path"), width: '129', height: '120') 
                %>
              <% else %>
                <%= image_tag Setting.find_template("logo_url"), width: '129', height: '120' %>

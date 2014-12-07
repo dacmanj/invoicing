@@ -157,7 +157,8 @@ class InvoicesController < ApplicationController
     respond_to do |format|
       if @invoice.save
         InvoiceMailer.new_invoice_email(@invoice, current_user).deliver
-        format.html { redirect_to invoice_url(@invoice.id), notice: 'Invoice was successfully created.' }
+        flash[:notice] = 'Invoice was successfully created'
+        format.html { redirect_to edit_invoice_url(@invoice.id), notice: flash[:notice] }
         format.json { render json: @invoice, status: :created, location: @invoice }
       else
         format.html { render action: "new" }

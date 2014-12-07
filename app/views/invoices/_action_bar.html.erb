@@ -4,7 +4,6 @@
 <div class="row invoice_action_bar">
   <div class="well">
 <% end %>
-
     <%= (link_to glyph("pencil", (mini ? "" : "Edit Invoice")), edit_invoice_path(invoice), :class => "btn btn-primary", :title => "Edit Invoice") if !controller.action_name.in? ["edit"] %>
     <%= (link_to glyph("file", (mini ? "" : "View Invoice")), invoice_path(invoice), :class => "btn btn-primary", :title => "View Invoice") if controller.action_name != "show" %>
     <%= (link_to glyph("file", (mini ? "" : "PDF")), invoice_path(invoice, :format => :pdf), :class => "btn btn-primary", :title => "Open PDF Full Size") if controller.action_name == "show" %>

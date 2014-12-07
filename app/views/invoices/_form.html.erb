@@ -1,3 +1,4 @@
+<h3><%= "Invoice ##{@invoice.id}" %> </h3>
 
 <%= simple_form_for(@invoice, :defaults => { :input_html => { :class => 'input-xxlarge' } }) do |f| %>
   <%= f.error_notification %>

@@ -12,7 +12,9 @@
 #
 
 class User < ActiveRecord::Base
-  attr_accessible :provider, :uid, :name, :email, :admin, :notify_on_all_actions
+  rolify
+  include Authority::UserAbilities
+  attr_accessible :provider, :uid, :name, :email, :admin, :notify_on_all_actions, :role_ids 
   validates_presence_of :name
 
   if Rails.env.production?

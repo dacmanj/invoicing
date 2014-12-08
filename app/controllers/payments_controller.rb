@@ -1,4 +1,5 @@
 class PaymentsController < ApplicationController
+  authorize_actions_for Payment
   before_filter :authenticate
   # GET /payments
   # GET /payments.json

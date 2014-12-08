@@ -1,4 +1,5 @@
 class EmailRecordsController < ApplicationController
+  authorize_actions_for EmailRecords
   before_filter :authenticate
   # GET /email_records
   # GET /email_records.json

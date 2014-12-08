@@ -1,5 +1,6 @@
 class InvoicesController < ApplicationController
   before_filter :authenticate
+  authorize_actions_for Invoice
   # GET /invoices
   # GET /invoices.json
   def index

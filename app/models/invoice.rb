@@ -15,18 +15,20 @@
 #
 
 class Invoice < ActiveRecord::Base
-include ActionView::Helpers::NumberHelper
+  resourcify
+  include Authority::Abilities
+  include ActionView::Helpers::NumberHelper
   has_paper_trail
-	belongs_to :account
-	belongs_to :user
+  belongs_to :account
+  belongs_to :user
 
   has_many :email_records
-	has_many :lines, :order => "position ASC"
+  has_many :lines, :order => "position ASC"
 
-	has_many :items, :through => :lines
+  has_many :items, :through => :lines
   has_many :payments
 
-	has_and_belongs_to_many :contacts
+  has_and_belongs_to_many :contacts
   scope :active, where(void: false)
   scope :void, where(void: true)
 

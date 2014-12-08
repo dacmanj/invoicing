@@ -1,8 +1,15 @@
 <div class="page-header">
 
-  <h1>Invoices  <%= link_to content_tag(:i, '', :class => "glyphicon glyphicon-plus-sign"), new_invoice_path  %></h1>
-  <h4>Total Outstanding Invoices <%= number_to_currency(Invoice.active.select{|h| h.balance_due > 0}.map{|h| h.balance_due}.inject{|sum,h| sum+h}) %></h4>
+  <h1>Invoices
+      <% if current_user.can_create? Invoice %>
+      <%= link_to content_tag(:i, '', :class => "glyphicon glyphicon-plus-sign"), new_invoice_path  %>
+      <% end %>
+  </h1>
 
+  <% if current_user.can_create? Invoice %>
+    <h4>Total Outstanding Invoices <%= number_to_currency(Invoice.active.select{|h| h.balance_due > 0}.map{|h| h.balance_due}.inject{|sum,h| sum+h}) %></h4>
+  <% end %>
+<% if current_user.can_create? Invoice %>
 <%= form_tag invoices_path, :method => :get, :class => "form-inline well" do |f| %>
   <div class="form-group">
     <%= text_field_tag :name, "#{params[:name]}",:placeholder => "Name", :id => "invoice-search" %>
@@ -23,7 +30,9 @@
     <%= submit_tag "Filter", :class => "btn btn-primary", :label => "Filter" %>
   </div>
 <% end %>
-
+<% end %>
+    
+<% if current_user.can_create? EmailRecord %>
 <%= form_tag edit_multiple_invoices_path do %>
   <div class="form-inline well">
     <div class="form-group col-md-3">
@@ -42,7 +51,8 @@
 
   </div>
 
-
+<% end %>
+    
   <table class="table table-bordered table-striped" id="invoices-table">
     <tr>
       <th>
@@ -55,9 +65,11 @@
       <th>Invoice Date<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "date")) %></th>
       <th>Company</th>
       <th>Contact</th>
+      <% unless current_user.has_role? :customer %>
       <th>Last Email
       <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "last_email")) %>
       </th>
+      <% end%>
       <th>Total
       <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "total")) %>
       </th>
@@ -89,9 +101,11 @@
           <%= link_to invoice.primary_contact.name, edit_contact_path(invoice.primary_contact) %>
         <% end %>
       </td>
+      <% unless current_user.has_role? :customer %>
       <td>
         <%= link_to invoice.email_records.last.created_at.localtime.strftime("%m/%d/%Y"), email_record_path(invoice.email_records.last), :target => "_BLANK" unless invoice.email_records.blank?%>
       </td>
+      <% end %>
 
       <td>
         <%= number_to_currency invoice.total %>

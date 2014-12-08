@@ -1,4 +1,5 @@
 class SettingsController < ApplicationController
+  authorize_actions_for Setting
   # GET /settings
   # GET /settings.json
   def index

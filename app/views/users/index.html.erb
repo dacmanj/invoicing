@@ -18,7 +18,7 @@
 	<%= user.email %>
 	</td>
     <td>
-	<%= user.admin ? glyph("ok") : "" %>
+	<%= (user.has_role? "admin") ? glyph("ok") : "" %>
 	</td>
 	<td>
 	<%= user.notify_on_all_actions ? glyph("ok") : "" %>

@@ -15,6 +15,9 @@
 #
 
 class EmailRecord < ActiveRecord::Base
+  resourcify
+  include Authority::Abilities
+
   belongs_to :account
   belongs_to :invoice
 

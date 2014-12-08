@@ -19,12 +19,11 @@ class Setting < ActiveRecord::Base
                 <a href="mailto:info@pflag.org">INFO@PFLAG.ORG</a> | <a href="http://www.pflag.org">WWW.PFLAG.ORG</a>
               </p>
             </center>',
-      logo_url: 'logo.png',
-      logo_path: Rails.root.join('app', 'assets', 'images', 'logo.png').to_s
+      logo_url: 'logo.png'
     }
 
     
-    DEFAULT_CATEGORIES = { remittance_block: "html", masthead: "html", logo_url: "string", logo_path: "string" }
+    DEFAULT_CATEGORIES = { remittance_block: "html", masthead: "html", logo_url: "string" }
     
     def self.reinitialize
        Setting.all.each do |h| h.delete end

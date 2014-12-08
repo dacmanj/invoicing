@@ -10,6 +10,9 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+
+gem 'rolify'
+gem 'authority'
 gem 'paper_trail'
 gem 'nokogiri'
 gem 'jquery-rails'

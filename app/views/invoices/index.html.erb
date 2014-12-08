@@ -35,7 +35,7 @@
 <% if current_user.can_create? EmailRecord %>
 <%= form_tag edit_multiple_invoices_path do %>
   <div class="form-inline well">
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-2">
       <label class="sr-only" for="account_id"> Bulk Email</label>
       <%= select_tag "email_template_id", options_for_select(EmailTemplate.order(:name).collect{ |a| [a.name, a.id] }.insert(0, ["Select Template...",""])), {:class => "select optional form-control"}%> 
     </div>

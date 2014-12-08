@@ -1,4 +1,7 @@
 class Setting < ActiveRecord::Base
+  resourcify
+  include Authority::Abilities
+
   attr_accessible :key, :value, :category
     
     

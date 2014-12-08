@@ -36,7 +36,7 @@
     </table>
     <dl>
     <dt>Balance Due:</dt>
-    <dd><%=number_to_currency @invoice.balance_due%></dd>
+    <dd class="balance_due"><%=number_to_currency @invoice.balance_due%></dd>
     </dl>
     <%= link_to "New Payment", new_invoice_payment_path(@invoice), :class => "btn btn-primary" %>
     </div>

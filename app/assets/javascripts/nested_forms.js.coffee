@@ -160,6 +160,7 @@ $ ->
       
       submit_success = (e,req) ->
         $("#invoice-preview iframe").attr("src",$("#invoice-preview iframe").attr("src"))
+        $("dd.balance_due").html($.toCurrency(e.balance_due)) unless isNaN(e.balance_due)
     
       submit_error = (e) ->
         console.log("error") if console

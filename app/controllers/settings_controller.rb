@@ -1,4 +1,5 @@
 class SettingsController < ApplicationController
+  before_filter :authenticate
   authorize_actions_for Setting
   # GET /settings
   # GET /settings.json

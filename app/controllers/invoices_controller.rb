@@ -14,6 +14,7 @@ class InvoicesController < ApplicationController
 
     if (params[:balance_due_as_of_date].present?)
       @invoices = @invoices.select{|h| h.balance_due(params[:balance_due_as_of_date]) != 0}
+      @outstanding_balance = true
     elsif (( params[:commit].blank? && params[:all].blank? ) || params[:outstanding_balance] == "yes")
       @outstanding_balance = true
       @invoices = @invoices.select{|h| h.balance_due != 0}

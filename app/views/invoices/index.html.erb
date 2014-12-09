@@ -10,21 +10,29 @@
     <h4>Total Outstanding Invoices <%= number_to_currency(Invoice.active.select{|h| h.balance_due > 0}.map{|h| h.balance_due}.inject{|sum,h| sum+h}) %></h4>
   <% end %>
 <% if current_user.can_create? Invoice %>
-<%= form_tag invoices_path, :method => :get, :class => "form-inline well" do |f| %>
+<%= form_tag invoices_path, :method => :get, :class => "form-inline" do |f| %>
   <div class="form-group">
     <%= text_field_tag :name, "#{params[:name]}",:placeholder => "Name", :id => "invoice-search" %>
   </div>
-  <div class="checkbox">
-    <label for="outstanding_balance">
-      <%= check_box_tag :outstanding_balance, "yes", (@outstanding_balance) %>
-      Outstanding Balance?
-    </label>
+    
+  <div class="input-group">
+      <label for="outstanding_balance">
+          &nbsp;
+          Outstanding Balance?
+          &nbsp;
+      </label>
+      <span class="input-group-addon">
+          <%= check_box_tag :outstanding_balance, "yes", (@outstanding_balance) %>
+      </span>
+      <%= text_field_tag :balance_due_as_of_date, "#{params[:balance_due_as_of_date]}",:class => "datepicker", :placeholder => "Due as of Date" %>
+
+      
+    </div>
+      
+  <div class="form-group">
   </div>
   <div class="form-group">
-    <%= text_field_tag :balance_due_as_of_date, "#{params[:balance_due_as_of_date]}",:class => "datepicker" %>
-  </div>
-  <div class="form-group">
-      <%= select_tag :ar_account, options_for_select(Account.valid_ar_accounts.insert(0,['','']),:selected => params[:ar_account]), :class => "col-md-4 select optional form-control" %>
+      <%= select_tag :ar_account, options_for_select(Account.valid_ar_accounts, :selected => params[:ar_account]), :prompt => "A/R Acct", :class => "select optional form-control", :style => "max-width: 150px" %>
   </div>
   <div class="form-group">
     <%= submit_tag "Filter", :class => "btn btn-primary", :label => "Filter" %>
@@ -34,7 +42,7 @@
     
 <% if current_user.can_create? EmailRecord %>
 <%= form_tag edit_multiple_invoices_path do %>
-  <div class="form-inline well">
+  <div class="form-inline well visible-md">
     <div class="form-group col-md-2">
       <label class="sr-only" for="account_id"> Bulk Email</label>
       <%= select_tag "email_template_id", options_for_select(EmailTemplate.order(:name).collect{ |a| [a.name, a.id] }.insert(0, ["Select Template...",""])), {:class => "select optional form-control"}%> 
@@ -53,20 +61,23 @@
 
 <% end %>
     
-  <table class="table table-bordered table-striped" id="invoices-table">
+  <table class="table table-bordered table-striped table-responsive" id="invoices-table">
     <tr>
-      <th>
+      <th class="visible-md visible-lg">
         <%= check_box_tag 'select_all_invoice_id', '', false %>
       </th>
       <% sort_params = params.reject{|k,v| !["ar_account","outstanding_balance","balance_due_as_of_date", "name", "utf8", "commit", "all"].include? k || v.empty? } %>
       <th>Invoice #<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "id")) %>
       </th>
-      <th>A/R Account<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "ar")) %></th>
+      <th class="visible-md visible-lg">A/R Acct <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "ar")) %></th>
       <th>Invoice Date<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "date")) %></th>
       <th>Company</th>
-      <th>Contact</th>
+      <th class="visible-md visible-lg">
+          Contact
+      </th>
       <% unless current_user.has_role? :customer %>
-      <th>Last Email
+      <th class="visible-md visible-lg">
+          Last Email
       <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "last_email")) %>
       </th>
       <% end%>
@@ -77,15 +88,15 @@
       <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "balance_due")) %>
 
       </th>
-      <th style="min-width: 250px;"></th>
+      <th style="min-width: 250px;" class="visible-md visible-lg"></th>
     </tr>
 
   <% @invoices.each do |invoice| %>
     <tr class="invoice-row" data-id="<%=invoice.id%>" data-account-name="<%= invoice.account.name unless invoice.account.blank?%>" data-amount="<%= invoice.total %>" data-balance-due="<%= invoice.balance_due %>">
-      <td><%= check_box_tag 'invoice_id[]', invoice.id, false %></td>
+      <td class="visible-md visible-lg"><%= check_box_tag 'invoice_id[]', invoice.id, false %></td>
       <td><%= link_to content_tag(:i, invoice.id, :class => "glyphicon glyphicon-pencil"), edit_invoice_path(invoice.id) %>
       </td>
-      <td>
+      <td class="visible-md visible-lg">
         <%= invoice.ar_account %>
       </td>
       <td>
@@ -96,13 +107,13 @@
           <%= link_to invoice.account.name, edit_account_path(invoice.account) %>
         <% end %>     
       </td>
-      <td>
+      <td class="visible-md visible-lg">
         <% unless invoice.primary_contact.blank? %>
           <%= link_to invoice.primary_contact.name, edit_contact_path(invoice.primary_contact) %>
         <% end %>
       </td>
       <% unless current_user.has_role? :customer %>
-      <td>
+      <td class="visible-md visible-lg">
         <%= link_to invoice.email_records.last.created_at.localtime.strftime("%m/%d/%Y"), email_record_path(invoice.email_records.last), :target => "_BLANK" unless invoice.email_records.blank?%>
       </td>
       <% end %>
@@ -113,7 +124,7 @@
       <td>
         <%= number_to_currency invoice.balance_due(params[:balance_due_as_of_date]) %>
       </td>
-      <td>
+      <td class="visible-md visible-lg">
         <%= render 'invoices/action_bar', :invoice => invoice %>
 
       </td>
@@ -124,16 +135,19 @@
     <% csv_params_allowed = ["sort","ar_account","outstanding_balance","balance_due_as_of_date", "name", "utf8", "commit", "all"] %>
     <%= link_to "CSV", invoices_path(params.reject{|k,v| !csv_params_allowed.include? k || v.empty? }.merge("format" => "csv")) %>
   </td>
-  <td colspan="6">
+  <td colspan="2" style="border-right: 0px" >
     Totals  
   </td>
+  <td colspan="4" style="border-left: 0px" class="visible-md visible-lg">
+      &nbsp;
+  </td>      
   <td id="total">
     <%= number_to_currency(@invoices.map{|h| h.total}.inject{|sum,h| sum+h}) %>
   </td>
   <td id="balance-due">
     <%= number_to_currency(@invoices.select{|h| h.balance_due(params[:balance_due_as_of_date]) > 0}.map{|h| h.balance_due(params[:balance_due_as_of_date])}.inject{|sum,h| sum+h}) %>
   </td>
-  <td>
+  <td class="visible-md visible-lg">
   </td>
   </tr>
   </table>

@@ -17,7 +17,9 @@
 #
 
 class Contact < ActiveRecord::Base
-	belongs_to :account
+    resourcify
+    include Authority::Abilities
+    belongs_to :account
 	has_one :address, dependent: :destroy
 	accepts_nested_attributes_for :address
 	has_and_belongs_to_many :invoices

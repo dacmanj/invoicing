@@ -6,7 +6,7 @@ class InvoiceAuthorizer < ApplicationAuthorizer
   end
 
   def self.readable_by?(user)
-    user.has_role? :staff
+    user.has_role? :staff or user.has_role? :auditor
   end
 
   def self.updatable_by?(user)

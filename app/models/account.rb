@@ -14,15 +14,17 @@
 #
 
 class Account < ActiveRecord::Base
-  has_many :email_records
-	has_many :contacts, dependent: :destroy
-	has_many :address, :through => :contacts
+    resourcify
+    include Authority::Abilities
+    has_many :email_records
+    has_many :contacts, dependent: :destroy
+    has_many :address, :through => :contacts
 	has_many :invoices
 	has_many :payments
 	
 	attr_accessible :address_id, :primary_contact_id, :contacts, :default_account_ar_account, :name, :contacts_attributes, :address_attributes, :database_id
-  accepts_nested_attributes_for :contacts, allow_destroy: true
-  accepts_nested_attributes_for :address, :reject_if => :all_blank, allow_destroy: true
+    accepts_nested_attributes_for :contacts, allow_destroy: true
+    accepts_nested_attributes_for :address, :reject_if => :all_blank, allow_destroy: true
   
 
   	def self.valid_ar_accounts

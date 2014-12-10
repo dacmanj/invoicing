@@ -71,22 +71,28 @@
   </div>
 
 <% end %>
+
     
-  <table class="table table-bordered table-striped table-responsive" id="invoices-table">
+<% end %>
+<table class="table table-bordered table-striped table-responsive" id="invoices-table">
     <tr>
+<% if current_user.can_create? EmailRecord %>
       <th class="visible-md visible-lg">
         <%= check_box_tag 'select_all_invoice_id', '', false %>
       </th>
+<% end %>
       <% sort_params = params.reject{|k,v| !["ar_account","outstanding_balance","balance_due_as_of_date", "name", "utf8", "commit", "all"].include? k || v.empty? } %>
       <th>Invoice #<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "id")) %>
       </th>
+<% if !current_user.has_role? :customer %>
       <th class="visible-md visible-lg">A/R Acct <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "ar")) %></th>
+<% end %>
       <th>Invoice Date<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "date")) %></th>
       <th>Company</th>
       <th class="visible-md visible-lg">
           Contact
       </th>
-      <% unless current_user.has_role? :customer %>
+      <% unless current_user.has_role? :customer or current_user.has_role? :auditor %>
       <th class="visible-md visible-lg">
           Last Email
       <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "last_email")) %>
@@ -104,26 +110,36 @@
 
   <% @invoices.each do |invoice| %>
     <tr class="invoice-row" data-id="<%=invoice.id%>" data-account-name="<%= invoice.account.name unless invoice.account.blank?%>" data-amount="<%= invoice.total %>" data-balance-due="<%= invoice.balance_due %>">
+<% if current_user.can_create? EmailRecord %>
       <td class="visible-md visible-lg"><%= check_box_tag 'invoice_id[]', invoice.id, false %></td>
-      <td><%= link_to content_tag(:i, invoice.id, :class => "glyphicon glyphicon-pencil"), edit_invoice_path(invoice.id) %>
-      </td>
+<% end %>
+      <td>
+<% if current_user.can_update? invoice %>
+          <%= link_to content_tag(:i, invoice.id, :class => "glyphicon glyphicon-pencil"), edit_invoice_path(invoice.id) %>
+<% else %>
+          <%= link_to invoice.id, invoice_path(invoice.id) %>
+
+<% end %>
+        </td>
+<% if !current_user.has_role? :customer %>
       <td class="visible-md visible-lg">
         <%= invoice.ar_account %>
       </td>
+<% end %>
       <td>
         <%= invoice.date.strftime("%m/%d/%Y") unless invoice.date.blank? %>
       </td>
       <td>
         <% unless invoice.account.blank? %>
-          <%= link_to invoice.account.name, edit_account_path(invoice.account) %>
+          <%= link_to invoice.account.name, (current_user.can_update? invoice.account) ? edit_account_path(invoice.account) : account_path(invoice.account) %>
         <% end %>     
       </td>
       <td class="visible-md visible-lg">
         <% unless invoice.primary_contact.blank? %>
-          <%= link_to invoice.primary_contact.name, edit_contact_path(invoice.primary_contact) %>
+          <%= link_to invoice.primary_contact.name, (current_user.can_update? invoice.account) ? edit_contact_path(invoice.primary_contact) : contact_path(invoice.primary_contact) %>
         <% end %>
       </td>
-      <% unless current_user.has_role? :customer %>
+      <% unless current_user.has_role? :customer or current_user.has_role? :auditor %>
       <td class="visible-md visible-lg">
         <%= link_to invoice.email_records.last.created_at.localtime.strftime("%m/%d/%Y"), email_record_path(invoice.email_records.last), :target => "_BLANK" unless invoice.email_records.blank?%>
       </td>
@@ -163,5 +179,3 @@
   </tr>
   </table>
 
-
-<% end %>

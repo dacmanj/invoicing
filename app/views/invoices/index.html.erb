@@ -9,35 +9,46 @@
   <% if current_user.can_create? Invoice %>
     <h4>Total Outstanding Invoices <%= number_to_currency(Invoice.active.select{|h| h.balance_due > 0}.map{|h| h.balance_due}.inject{|sum,h| sum+h}) %></h4>
   <% end %>
-<% if current_user.can_create? Invoice %>
-<%= form_tag invoices_path, :method => :get, :class => "form-inline" do |f| %>
-  <div class="form-group">
-    <%= text_field_tag :name, "#{params[:name]}",:placeholder => "Name", :id => "invoice-search" %>
-  </div>
-    
-  <div class="input-group">
-      <label for="outstanding_balance">
-          &nbsp;
-          Outstanding Balance?
-          &nbsp;
-      </label>
-      <span class="input-group-addon">
-          <%= check_box_tag :outstanding_balance, "yes", (@outstanding_balance) %>
-      </span>
-      <%= text_field_tag :balance_due_as_of_date, "#{params[:balance_due_as_of_date]}",:class => "datepicker", :placeholder => "Due as of Date" %>
 
+    
+<% if current_user.can_create? Invoice %>
+<div class="panel panel-default">
+  <div class="panel-body">
+
+
+    
+    <%= form_tag invoices_path, :method => :get, :class => "form-inline" do |f| %>
+      <div class="form-group">
+        <%= text_field_tag :name, "#{params[:name]}",:placeholder => "Name", :id => "invoice-search" %>
+      </div>
+
+      <div class="input-group">
+          <label for="outstanding_balance">
+              &nbsp;
+              Outstanding Balance?
+              &nbsp;
+          </label>
+          <span class="input-group-addon">
+              <%= check_box_tag :outstanding_balance, "yes", (@outstanding_balance) %>
+          </span>
+          <%= text_field_tag :balance_due_as_of_date, "#{params[:balance_due_as_of_date]}",:class => "datepicker", :placeholder => "Due as of Date" %>
+
+
+        </div>
+
+      <div class="form-group">
+      </div>
+      <div class="form-group">
+          <%= select_tag :ar_account, options_for_select(Account.valid_ar_accounts, :selected => params[:ar_account]), :prompt => "A/R Acct", :class => "select optional form-control", :style => "max-width: 150px" %>
+      </div>
+      <div class="form-group">
+        <%= submit_tag "Filter", :class => "btn btn-primary", :label => "Filter" %>
+      </div>
+    <% end %>
       
-    </div>
       
-  <div class="form-group">
   </div>
-  <div class="form-group">
-      <%= select_tag :ar_account, options_for_select(Account.valid_ar_accounts, :selected => params[:ar_account]), :prompt => "A/R Acct", :class => "select optional form-control", :style => "max-width: 150px" %>
-  </div>
-  <div class="form-group">
-    <%= submit_tag "Filter", :class => "btn btn-primary", :label => "Filter" %>
-  </div>
-<% end %>
+</div>
 <% end %>
     
 <% if current_user.can_create? EmailRecord %>

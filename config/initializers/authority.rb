@@ -26,10 +26,11 @@ config.controller_action_map = {
    :new     => 'create',
    :create  => 'create',
    :edit    => 'update',
+   :edit_multiple => 'update',
    :update  => 'update',
    :destroy => 'delete',
-   :email   => 'update',
-   :send_email => 'update'
+   :email   => 'email',
+   :send_email => 'email'
 }
 
   # ABILITIES
@@ -44,7 +45,8 @@ config.abilities =  {
    :create => 'creatable',
    :read   => 'readable',
    :update => 'updatable',
-   :delete => 'deletable'
+   :delete => 'deletable',
+   :email => 'emailable'
  }
 
   # LOGGER

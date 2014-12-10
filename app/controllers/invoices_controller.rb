@@ -7,28 +7,15 @@ class InvoicesController < ApplicationController
 
     @invoices = Invoice.includes(:email_records)
     @invoices = @invoices.active unless params[:void].present?
-
-    if (params[:ar_account].present?)
-      @invoices = @invoices.find_all_by_ar_account(params[:ar_account])
-    end
-
-    if (params[:balance_due_as_of_date].present?)
-      @invoices = @invoices.select{|h| h.balance_due(params[:balance_due_as_of_date]) != 0}
-      @outstanding_balance = true
-    elsif (( params[:commit].blank? && params[:all].blank? ) || params[:outstanding_balance] == "yes")
-      @outstanding_balance = true
-      @invoices = @invoices.select{|h| h.balance_due != 0}
-    end
+    @invoices = @invoices.ar_account(params[:ar_account]) if (params[:ar_account].present?)
 
     if (params[:id].present?)
-      @invoices = @invoices.find_all_by_id(params[:id])
+      @invoices = Invoices.find(params[:id])
     end
 
     if (params[:account_id].present?)
-      @invoices = @invoices.find_all_by_account_id(params[:account_id])
+      @invoices = @invoices.account_id(params[:account_id])
     end
-
-
 
     if (params[:name])
       @invoices = @invoices.select{|h| h.name.downcase.match(params[:name].downcase)}
@@ -62,6 +49,14 @@ class InvoicesController < ApplicationController
       error = "Payments missing payment_date: " + error
     end
 
+    if (params[:balance_due_as_of_date].present?)
+      @invoices = @invoices.find_all{|h| h.balance_due(params[:balance_due_as_of_date]) != 0}
+      @outstanding_balance = true
+    elsif (( params[:commit].blank? && params[:all].blank? ) || params[:outstanding_balance] == "yes")
+      @outstanding_balance = true
+      @invoices = @invoices.find_all{|h| h.balance_due != 0}
+    end
+      
     respond_to do |format|
       flash.alert = error if error.present?
       format.html # index.html.erb
@@ -79,7 +74,7 @@ class InvoicesController < ApplicationController
 
     respond_to do |format|
       format.html { render html: @invoice }
-      format.json { render json: @invoice }
+      format.json { render json: @invoice.to_json(:methods => :name) }
       format.pdf do
         # always change zoom/parameters here in invoice_mailer.rb to ensure consistent invoices
         render :pdf => "PFLAG Invoice #{@invoice.id}", :layout => "pdf.html", :zoom => 0.75, :page_size => "letter", :show_as_html => params[:debug].present?, :locals => {:wicked_pdf => true}, :disposition => disposition

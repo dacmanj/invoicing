@@ -15,5 +15,7 @@ class InvoiceAuthorizer < ApplicationAuthorizer
   def self.deletable_by?(user)
     user.has_role? :admin
   end
-    
+  def self.emailable_by?(user)
+    user.has_role? :staff
+  end
 end

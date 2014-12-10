@@ -14,6 +14,9 @@ $ ->
             html = ""
             for invoice in data
               html += "<option value=#{invoice.id} data-account-id=#{invoice.account_id}>#{invoice.name} (#{invoice.balance_due} due)</option>"
-            $("select#payment_invoice").html(html).prepend("<option value></option>")
+            $("select#payment_invoice_id").html(html).prepend("<option value></option>")
     $("#payment_account_id").change(load_invoices);
     $(".account_buttons").insertAfter("label[for=invoice_account_id]").css("padding","0px 5px")
+
+    $("input[name*=payment_date]").each (e) ->
+        this.setCustomValidity("Please enter the date in mm/dd/yyyy format.")

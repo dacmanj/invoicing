@@ -31,6 +31,9 @@ class Invoice < ActiveRecord::Base
   has_and_belongs_to_many :contacts
   scope :active, where(void: false)
   scope :void, where(void: true)
+  scope :account_id, -> (account_id) { where account_id: account_id }
+  scope :ar_account, -> (ar_account) { where ar_account: ar_account }
+  
 
   accepts_nested_attributes_for :lines, reject_if: proc { |attr| attr['description'].blank? && attr['quantity'].blank? && attr['item_id'].blank? && attr['unit_price'].blank? }, allow_destroy: true
   accepts_nested_attributes_for :contacts, :reject_if => :all_blank

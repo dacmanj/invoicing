@@ -24,6 +24,10 @@ class Payment < ActiveRecord::Base
   def self.valid_payment_types
     ["Check","Credit Card","Cash","Adjustment"]    
   end
+      
+  def date=(date)
+    write_attribute :date, Date.strptime(date,"%m/%d/%Y")
+  end
     
   def self.import file
   	errors = Array.new

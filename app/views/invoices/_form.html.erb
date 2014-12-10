@@ -34,9 +34,8 @@
 
 
     <%= f.association :user, :label => "User (notified of invoice activity)" %>
-    <%= f.input :void %>
 
-    <%= f.input :date, as: :date_picker %>
+    <%= f.input :date, as: :date_picker, :pattern =>"\d{1,2}/\d{1,2}/\d{4}", required: true %>
 
 
 <% @invoice.lines.unshift(Line.new) %>

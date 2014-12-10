@@ -39,7 +39,12 @@ class PaymentsController < ApplicationController
     (@payment.account = @payment.invoice.account) unless @payment.invoice.blank?
     @payment.account = Account.find(params[:account_id]) unless params[:account_id].blank?
     @payment.amount = @payment.invoice.balance_due unless @payment.invoice.blank?
-
+    
+    if @payment.account.present?
+        @invoices = @payment.account.invoices.select{|h| h.balance_due > 0}
+    else
+        @invoices = Invoices.all.select{|h| h.balance_due > 0 }
+    end
 
     respond_to do |format|
       format.html # new.html.erb

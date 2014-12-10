@@ -40,8 +40,6 @@ $ ->
         assign_order()
         $('select').filter(item_filter).change(load_line_from_item)
 
-        collapse_line_item
-
       $("form").on "click","#toggle_line_items_collapsed", (e) ->
         expand = $("#toggle_line_items_collapsed #expand").is(":visible")
         if expand == true
@@ -161,6 +159,29 @@ $ ->
       submit_success = (e,req) ->
         $("#invoice-preview iframe").attr("src",$("#invoice-preview iframe").attr("src"))
         $("dd.balance_due").html($.toCurrency(e.balance_due)) unless isNaN(e.balance_due)
+        update_lines(e.lines) if e.lines != undefined
+      
+      update_lines = (e) ->
+        $("#line_items .duplicatable_nested_form").not("#template").each () ->
+            position = $("[name*=position]",this).val()
+            replace_num = $("[name*=position]").attr("name").split("[")[2].split("]")[0]
+            $("input",this).each () -> 
+                name = $(this).attr("name")
+                console.log(name)
+                new_name = name.replace(replace_num,position)
+                console.log(new_name)
+                console.log($(this).attr("name",new_name))
+
+        for line in e
+          position = line.position
+          for k,v of line
+            id = "#invoice_lines_attributes_" + position + "_" + k
+            result = $(id).val(v).length
+            if (k == "id" && result == 0)
+              html_id="invoice_lines_attributes_#{position}_id"
+              name = "invoice[lines_attributes][#{position}][id]"
+              console.log $("<input type='hidden' id='#{html_id}' name='#{name}' value='#{v}'/>").insertAfter($("#invoice_lines_attributes_#{position}_notes").closest(".form-group"))
+            
     
       submit_error = (e) ->
         console.log("error") if console

@@ -178,7 +178,9 @@ class InvoicesController < ApplicationController
       if @invoice.update_attributes(params[:invoice])
         flash[:notice] = 'Invoice was successfully updated.'
         format.html { redirect_to invoice_url(@invoice.id) }
-        format.json { render json: @invoice.to_json(:methods => :balance_due) }
+        format.json { render json: @invoice.to_json(:methods => [:balance_due], :include => :lines)}
+#                format.json  { render :json => @birds.to_json(:include => {:bird_colorations => {:include => :color}, :seasons => {}, :habitats => {}, :image_holders => {}}) }
+
         InvoiceMailer.invoice_edited_email(@invoice,current_user).deliver
       else
         flash[:errors] = @invoice.errors

@@ -43,7 +43,7 @@ class PaymentsController < ApplicationController
     if @payment.account.present?
         @invoices = @payment.account.invoices.select{|h| h.balance_due > 0}
     else
-        @invoices = Invoices.all.select{|h| h.balance_due > 0 }
+        @invoices = Invoice.all.select{|h| h.balance_due > 0 }.sort!{ |x,y| x.name <=> y.name }
     end
 
     respond_to do |format|

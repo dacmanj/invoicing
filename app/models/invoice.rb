@@ -15,6 +15,7 @@
 #
 
 class Invoice < ActiveRecord::Base
+  include Filterable
   resourcify
   include Authority::Abilities
   include ActionView::Helpers::NumberHelper
@@ -33,6 +34,8 @@ class Invoice < ActiveRecord::Base
   scope :void, where(void: true)
   scope :account_id, -> (account_id) { where account_id: account_id }
   scope :ar_account, -> (ar_account) { where ar_account: ar_account }
+  scope :account_name, -> (account_name) { joins(:account).where('lower(accounts.name) like ?','%' + account_name.downcase + '%')}
+  scope :balance_due
   
 
   accepts_nested_attributes_for :lines, reject_if: proc { |attr| attr['description'].blank? && attr['quantity'].blank? && attr['item_id'].blank? && attr['unit_price'].blank? }, allow_destroy: true

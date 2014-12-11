@@ -3,8 +3,11 @@ class InvoicesController < ApplicationController
   authorize_actions_for Invoice
   # GET /invoices
   # GET /invoices.json
+#  def temp
+#      @invoices = Invoice.filter(params.slice(:id,:account_id,:ar_account,:void,:account_name))
+#      @invoices = @invoices.account_name(params[:name]) if (params[:name].present?)
+#  end
   def index
-
     @invoices = Invoice.includes(:email_records)
     @invoices = @invoices.active unless params[:void].present?
     @invoices = @invoices.ar_account(params[:ar_account]) if (params[:ar_account].present?)
@@ -20,7 +23,6 @@ class InvoicesController < ApplicationController
     if (params[:name])
       @invoices = @invoices.select{|h| h.name.downcase.match(params[:name].downcase)}
     end
-
 
     case params[:sort]
     when "date"

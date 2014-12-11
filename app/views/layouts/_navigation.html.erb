@@ -114,7 +114,7 @@
           </li>
           <% end %>
             <li>
-            <%= link_to 'Logged in as ' + current_user.name, users_path %>
+            <%= link_to 'Logged in as ' + current_user.name, edit_user_path(current_user) %>
             </li>
             <li>
             <%= link_to 'Logout', signout_path %>

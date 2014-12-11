@@ -9,7 +9,7 @@ class PaymentAuthorizer < ApplicationAuthorizer
   def self.updateable_by?(user)
     user.has_role? :staff
   end
-  def deletable_by?(user)
+  def self.deletable_by?(user)
     user.has_role? :admin
   end
 end

@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_filter :authenticate
+  authorize_actions_for User, :except => [:show, :edit, :update]
 
   def index
     @users = User.all
@@ -11,6 +12,7 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
+    authorize_action_for(@user)
   end
   def create
     @user = User.new(params[:user])
@@ -28,8 +30,12 @@ class UsersController < ApplicationController
   
   def update
     @user = User.find(params[:id])
+    authorize_action_for(@user)
+    [:role_ids,:provider,:uid].each { |h| params[:user].delete(h) } unless current_user.has_role? :admin
+    params[:user].delete(:notify_on_all_actions) unless (current_user.has_role? :staff or current_user.has_role? :admin)
+    
     if @user.update_attributes(params[:user])
-      redirect_to users_path
+      redirect_to edit_user_path @user
     else
       render :edit
     end
@@ -38,6 +44,7 @@ class UsersController < ApplicationController
 
 def show
     @user = User.find(params[:id])
+    authorize_action_for(@user)
   end
 
 end

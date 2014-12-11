@@ -8,7 +8,13 @@ class ApplicationController < ActionController::Base
 
   after_filter :flash_to_headers
 
-
+    # Send 'em back where they came from with a slap on the wrist
+    def authority_forbidden(error)
+      Authority.logger.warn(error.message)
+      Authority.logger.warn(error.resource)
+      Authority.logger.warn(error.user)
+      redirect_to request.referrer.presence || root_path, :alert => "You are not authorized to complete that action."
+    end
 
   private
     def current_user

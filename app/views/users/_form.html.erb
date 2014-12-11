@@ -1,12 +1,28 @@
 <%= simple_form_for(@user, :defaults => { :input_html => { :class => 'input-xxlarge' } }) do |f| %>
-  <div class="form-inputs">
+<div class="form-inputs col-md-4">
   <%= f.input :name %>
   <%= f.input :email %>
+  <%= f.input :notify_on_all_actions if current_user.has_role? :staff or current_user.has_role? :admin%>
+<% if current_user.has_role? :admin %>
+  <%= f.association :roles %>
   <%= f.input :provider %>
   <%= f.input :uid %>
-  <%= f.association :roles %>
-  <%= f.input :notify_on_all_actions %>
-      
+<% else %>
+  <div class="panel panel-default">
+      <div class="panel-heading">
+          <dt>Roles</dt>
+      </div>
+
+      <div class="panel-body">
+      <% for role in @user.roles %>
+      <dd><%=role.name.humanize%></dd>
+      <% end %>
+
+      </div>
+
   </div>
+
+<% end %>      
   <%= f.button :submit, :class => "btn btn-primary" %>
+  </div>
 <% end %>

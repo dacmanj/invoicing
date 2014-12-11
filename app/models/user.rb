@@ -12,8 +12,9 @@
 #
 
 class User < ActiveRecord::Base
-  rolify
   include Authority::UserAbilities
+  include Authority::Abilities
+  rolify
   attr_accessible :provider, :uid, :name, :email, :admin, :notify_on_all_actions, :role_ids 
   validates_presence_of :name
 

@@ -20,7 +20,8 @@ class Payment < ActiveRecord::Base
   belongs_to :account
 	
   attr_accessible :amount, :account_id, :invoice_id, :invoice, :account, :payment_date, :payment_type, :reference_number
-
+  after_save :update_balance
+    
   def self.valid_payment_types
     ["Check","Credit Card","Cash","Adjustment"]    
   end
@@ -44,4 +45,8 @@ class Payment < ActiveRecord::Base
 	end
   errors
   end
+  private
+    def update_balance
+        self.invoice.update_balance
+    end
 end

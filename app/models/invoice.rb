@@ -35,18 +35,24 @@ class Invoice < ActiveRecord::Base
   scope :account_id, -> (account_id) { where account_id: account_id }
   scope :ar_account, -> (ar_account) { where ar_account: ar_account }
   scope :account_name, -> (account_name) { joins(:account).where('lower(accounts.name) like ?','%' + account_name.downcase + '%')}
-  scope :balance_due
+  scope :balance_due, where("balance_due > 0")
+  scope :by_ar_account, order("ar_account ASC")
+  scope :by_total, order("balance_due DESC")
+  scope :by_balance_due, order("balance_due DESC")
+  scope :by_id, order("id ASC")
+  scope :by_date, order("date DESC")
+  scope :by_last_email, order("last_email DESC")
   
 
   accepts_nested_attributes_for :lines, reject_if: proc { |attr| attr['description'].blank? && attr['quantity'].blank? && attr['item_id'].blank? && attr['unit_price'].blank? }, allow_destroy: true
   accepts_nested_attributes_for :contacts, :reject_if => :all_blank
 
-  attr_accessible :account_id, :contact_ids, :user_id, :lines_attributes, :date, :primary_contact_id, :ar_account, :void
+  attr_accessible :account_id, :contact_ids, :user_id, :lines_attributes, :date, :primary_contact_id, :ar_account, :void, :balance_due,:last_email, :total
 
   before_save :set_account_if_blank, :set_primary_contact_if_blank
 
   def self.open_invoices_as_of(balance_date)
-    Invoice.active.select{|h| h.balance_due(balance_date) != 0}
+    Invoice.active.select{|h| h.balance_as_of(balance_date) != 0}
   end
 
   def set_primary_contact_if_blank
@@ -62,14 +68,6 @@ class Invoice < ActiveRecord::Base
 
   def set_account_if_blank
       self.account_id = self.contacts.first.account_id if self.account_id.blank? and !self.contacts.blank?
-  end
-
-  def total
-  	t = 0
-  	self.lines.each do |l|
-  		t += l.total
- 	end
-  	t
   end
 
   def primary_contact
@@ -129,20 +127,37 @@ class Invoice < ActiveRecord::Base
     self.payments.each{|p| paid += p.amount }
     paid
   end
+  def update_total
+  	t = 0
+  	self.lines.each do |l|
+  		t += l.total
+ 	end
+  	update_attributes(:total => t)
+  end
+  def update_balance
+     update_attributes(:balance_due => (self.total - self.payments_total))
+  end
+  def update_last_email
+     update_attributes(:last_email => email_records.last.created_at.to_date) unless email_records.blank?
+  end
 
-  def balance_due(date = nil)
+  def self.balance_due_as_of(date = nil)
+      invoices = all.select {|s| s.balance_due_as_of(date.to_s) > 0}
+  end
+
+  def balance_due_as_of(date = nil)
     if date.present?
       as_of_date = Date.strptime(date,"%m/%d/%Y")
-      balance_due = 0
+      balance = 0
       if self.date <= as_of_date
         paid = 0
-        self.payments.select{|p| p.payment_date <= as_of_date }.each{|p| paid += p.amount }
-        balance_due = self.total - paid
+        self.payments.where("payment_date <= ?",as_of_date ).each{|p| paid += p.amount }
+        balance = self.total - paid
       end
     else
-      balance_due = self.total - self.payments_total
+      balance = self.total - self.payments_total
     end
-    balance_due
+    balance
   end
 
   def unpaid?

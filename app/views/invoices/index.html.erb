@@ -7,7 +7,7 @@
   </h1>
 
   <% if current_user.can_create? Invoice %>
-    <h4>Total Outstanding Invoices <%= number_to_currency(Invoice.active.select{|h| h.balance_due > 0}.map{|h| h.balance_due}.inject{|sum,h| sum+h}) %></h4>
+    <h4>Total Outstanding Invoices <%= number_to_currency(Invoice.sum(:balance_due)) %></h4>
   <% end %>
 
     
@@ -85,7 +85,7 @@
       <th>Invoice #<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "id")) %>
       </th>
 <% if !current_user.has_role? :customer %>
-      <th class="visible-md visible-lg">A/R Acct <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "ar")) %></th>
+      <th class="visible-md visible-lg">A/R Acct <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "ar_account")) %></th>
 <% end %>
       <th>Invoice Date<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "date")) %></th>
       <th>Company</th>
@@ -149,7 +149,7 @@
         <%= number_to_currency invoice.total %>
       </td>
       <td>
-        <%= number_to_currency invoice.balance_due(params[:balance_due_as_of_date]) %>
+        <%= number_to_currency invoice.balance_due_as_of(params[:balance_due_as_of_date]) %>
       </td>
       <td class="visible-md visible-lg">
         <%= render 'invoices/action_bar', :invoice => invoice %>
@@ -172,7 +172,7 @@
     <%= number_to_currency(@invoices.map{|h| h.total}.inject{|sum,h| sum+h}) %>
   </td>
   <td id="balance-due">
-    <%= number_to_currency(@invoices.select{|h| h.balance_due(params[:balance_due_as_of_date]) > 0}.map{|h| h.balance_due(params[:balance_due_as_of_date])}.inject{|sum,h| sum+h}) %>
+    <%= number_to_currency(@invoices.select{|h| h.balance_due_as_of(params[:balance_due_as_of_date]) > 0}.map{|h| h.balance_due_as_of(params[:balance_due_as_of_date])}.inject{|sum,h| sum+h}) %>
   </td>
   <td class="visible-md visible-lg">
   </td>

@@ -3,13 +3,42 @@ class InvoicesController < ApplicationController
   authorize_actions_for Invoice
   # GET /invoices
   # GET /invoices.json
-#  def temp
-#      @invoices = Invoice.filter(params.slice(:id,:account_id,:ar_account,:void,:account_name))
-#      @invoices = @invoices.account_name(params[:name]) if (params[:name].present?)
-#  end
   def index
+    @invoices = Invoice.active unless params[:void].present?
+    @invoices = @invoices.filter(params.slice(:id,:account_id,:ar_account,:void,:account_name))
+    @invoices = @invoices.account_name(params[:name]) if (params[:name].present?)
+
+    if params[:sort].in? ["date","ar_account","last_email","total","balance_due","id"]
+        @invoices = @invoices.send("by_"+params[:sort])
+    else
+        @invoices = @invoices.by_date
+    end
+      
+    if (params[:balance_due_as_of_date].present? and params[:balance_due_as_of_date] != Date.today and params[:balance_due_as_of_date] != "today")
+      @invoices = @invoices.balance_due_as_of(params[:balance_due_as_of_date])
+      @outstanding_balance = true
+      @balance_due_as_of_date = params[:balance_due_as_of_date]
+    elsif (( params[:commit].blank? && params[:all].blank? ) || params[:outstanding_balance] == "yes")
+      @balance_due_as_of_date = Date.today
+      @outstanding_balance = true
+      @invoices = @invoices.balance_due
+    end
+
+
+    error = Payment.select{|p| p.payment_date.blank?}.map(&:id).join(", ")
+    if error.present?
+      error = "Payments missing payment_date: " + error
+    end
+
+    respond_to do |format|
+      flash.alert = error if error.present?
+      format.html # index.html.erb
+      format.json { render json: @invoices.to_json(:methods => [:name, :balance_due]) }
+      format.csv { render csv: @invoices }
+    end
+  end
+  def indexold
     @invoices = Invoice.includes(:email_records)
-    @invoices = @invoices.active unless params[:void].present?
     @invoices = @invoices.ar_account(params[:ar_account]) if (params[:ar_account].present?)
 
     if (params[:id].present?)
@@ -27,7 +56,7 @@ class InvoicesController < ApplicationController
     case params[:sort]
     when "date"
       @invoices = @invoices.sort{|a,b| b.date <=> a.date}
-    when "ar"
+    when "ar_account"
       @invoices = @invoices.sort {|a,b| a.ar_account <=> b.ar_account}
     when "last_email"
 #      @invoices = Invoice.includes(:email_records).order('email_records.created_at DESC NULLS LAST').uniq
@@ -52,7 +81,7 @@ class InvoicesController < ApplicationController
     end
 
     if (params[:balance_due_as_of_date].present?)
-      @invoices = @invoices.find_all{|h| h.balance_due(params[:balance_due_as_of_date]) != 0}
+      @invoices = @invoices.find_all{|h| h.balance_due_as_of(params[:balance_due_as_of_date]) != 0}
       @outstanding_balance = true
     elsif (( params[:commit].blank? && params[:all].blank? ) || params[:outstanding_balance] == "yes")
       @outstanding_balance = true

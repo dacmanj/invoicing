@@ -9,7 +9,7 @@ class InvoicesController < ApplicationController
     @invoices = @invoices.account_name(params[:name]) if (params[:name].present?)
 
     if params[:sort].in? ["date","ar_account","last_email","total","balance_due","id"]
-        @invoices = @invoices.send("by_"+params[:sort])
+        @invoices = @invoices.send("by_"+params[:sort],params[:dir])
     else
         @invoices = @invoices.by_date
     end

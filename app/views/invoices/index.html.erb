@@ -81,13 +81,23 @@
         <%= check_box_tag 'select_all_invoice_id', '', false %>
       </th>
 <% end %>
+      <% dir = params[:dir]
+         if (dir == "ASC")
+            dir = "DESC"
+         elsif (dir == "DESC")
+            dir = "ASC"
+         else 
+            dir = nil
+         end
+
+        %>
       <% sort_params = params.reject{|k,v| !["ar_account","outstanding_balance","balance_due_as_of_date", "name", "utf8", "commit", "all"].include? k || v.empty? } %>
-      <th>Invoice #<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "id")) %>
+      <th>Invoice #<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "id", :dir => dir || "DESC")) %>
       </th>
 <% if !current_user.has_role? :customer %>
-      <th class="visible-md visible-lg">A/R Acct <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "ar_account")) %></th>
+      <th class="visible-md visible-lg">A/R Acct <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "ar_account",:dir => dir || "ASC")) %></th>
 <% end %>
-      <th>Invoice Date<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "date")) %></th>
+      <th>Invoice Date<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "date",:dir => dir || "DESC")) %></th>
       <th>Company</th>
       <th class="visible-md visible-lg">
           Contact
@@ -95,14 +105,14 @@
       <% unless current_user.has_role? :customer or current_user.has_role? :auditor %>
       <th class="visible-md visible-lg">
           Last Email
-      <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "last_email")) %>
+      <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "last_email",:dir => dir || "DESC")) %>
       </th>
       <% end%>
       <th>Total
-      <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "total")) %>
+      <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "total",:dir => dir || "DESC")) %>
       </th>
       <th>Balance Due
-      <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "balance_due")) %>
+      <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "balance_due",:dir => dir || "DESC")) %>
 
       </th>
       <th style="min-width: 250px;" class="visible-md visible-lg"></th>

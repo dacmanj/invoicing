@@ -11,7 +11,10 @@
 #  date               :date
 #  primary_contact_id :integer
 #  ar_account         :string(255)
-#  void               :boolean
+#  void               :boolean          default(FALSE)
+#  balance_due        :integer
+#  last_email         :date
+#  total              :decimal(, )
 #
 
 require 'spec_helper'

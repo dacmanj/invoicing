@@ -11,7 +11,10 @@
 #  date               :date
 #  primary_contact_id :integer
 #  ar_account         :string(255)
-#  void               :boolean
+#  void               :boolean          default(FALSE)
+#  balance_due        :integer
+#  last_email         :date
+#  total              :decimal(, )
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl

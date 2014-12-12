@@ -34,7 +34,7 @@ class InvoicesController < ApplicationController
     respond_to do |format|
       flash.alert = error if error.present?
       format.html # index.html.erb
-      format.json { render json: @invoices.to_json(:methods => [:name, :balance_due]) }
+      format.json { render json: @invoices.to_json(:methods => [:name]) }
       format.csv { render csv: @invoices }
     end
   end
@@ -92,7 +92,7 @@ class InvoicesController < ApplicationController
     respond_to do |format|
       flash.alert = error if error.present?
       format.html # index.html.erb
-      format.json { render json: @invoices.to_json(:methods => [:name, :balance_due]) }
+      format.json { render json: @invoices.to_json(:methods => [:name]) }
       format.csv { render csv: @invoices }
     end
   end
@@ -207,10 +207,10 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.find(params[:id])
 
     respond_to do |format|
-      if @invoice.update_attributes(params[:invoice])
+      if @invoice.update_attributes!(params[:invoice])
         flash[:notice] = 'Invoice was successfully updated.'
         format.html { redirect_to invoice_url(@invoice.id) }
-        format.json { render json: @invoice.to_json(:methods => [:balance_due], :include => :lines)}
+        format.json { render json: @invoice.to_json(:include => :lines)}
 #                format.json  { render :json => @birds.to_json(:include => {:bird_colorations => {:include => :color}, :seasons => {}, :habitats => {}, :image_holders => {}}) }
 
         InvoiceMailer.invoice_edited_email(@invoice,current_user).deliver

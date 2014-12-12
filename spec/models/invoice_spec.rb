@@ -12,7 +12,7 @@
 #  primary_contact_id :integer
 #  ar_account         :string(255)
 #  void               :boolean          default(FALSE)
-#  balance_due        :integer
+#  balance_due        :decimal(, )
 #  last_email         :date
 #  total              :decimal(, )
 #

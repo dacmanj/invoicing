@@ -12,7 +12,7 @@
 #  primary_contact_id :integer
 #  ar_account         :string(255)
 #  void               :boolean          default(FALSE)
-#  balance_due        :integer
+#  balance_due        :decimal(, )
 #  last_email         :date
 #  total              :decimal(, )
 #
@@ -56,7 +56,7 @@ class Invoice < ActiveRecord::Base
     attr_accessible :account_id, :contact_ids, :user_id, :lines_attributes, :date, :primary_contact_id, :ar_account, :void, :balance_due,:last_email, :total
 
     #callbacks
-    before_save :set_account_if_blank, :set_primary_contact_if_blank
+    before_save :set_account_if_blank, :set_primary_contact_if_blank, :update_total_and_balance_before_save
 
     def self.open_invoices_as_of(balance_date)
         Invoice.active.select{|h| h.balance_as_of(balance_date) != 0}
@@ -72,7 +72,6 @@ class Invoice < ActiveRecord::Base
     def date=(date)
         write_attribute :date, Date.strptime(date,"%m/%d/%Y")
     end
-
 
     def set_account_if_blank
       self.account_id = self.contacts.first.account_id if self.account_id.blank? and !self.contacts.blank?
@@ -135,15 +134,28 @@ class Invoice < ActiveRecord::Base
         paid
     end
 
-    def update_total
-        t = 0
+    def total
+       t = 0
         self.lines.each do |l|
             t += l.total
         end
-        update_attributes(:total => t)
+       t
+    end
+
+    def balance_due
+        @balance = self.total - self.payments_total
+    end
+
+    def update_total
+        update_attributes(:total => self.total)
     end
     def update_balance
         update_attributes(:balance_due => (self.total - self.payments_total))
+    end
+
+    def update_total_and_balance_before_save
+        @balance = self.total - self.payments_total
+        @total = self.total
     end
 
     def update_last_email

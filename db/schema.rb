@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141212001559) do
+ActiveRecord::Schema.define(:version => 20141212222542) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -94,7 +94,7 @@ ActiveRecord::Schema.define(:version => 20141212001559) do
     t.integer  "primary_contact_id"
     t.string   "ar_account"
     t.boolean  "void",               :default => false
-    t.integer  "balance_due"
+    t.decimal  "balance_due"
     t.date     "last_email"
     t.decimal  "total"
   end

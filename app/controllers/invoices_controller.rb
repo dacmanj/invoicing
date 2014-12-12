@@ -4,8 +4,9 @@ class InvoicesController < ApplicationController
   # GET /invoices
   # GET /invoices.json
   def index
+    @filter_params = params.slice(:id,:account_id,:ar_account,:void,:account_name)
     @invoices = Invoice.active unless params[:void].present?
-    @invoices = @invoices.filter(params.slice(:id,:account_id,:ar_account,:void,:account_name))
+    @invoices = @invoices.filter(@filter_params)
     @invoices = @invoices.account_name(params[:name]) if (params[:name].present?)
 
     if params[:sort].in? ["date","ar_account","last_email","total","balance_due","id"]

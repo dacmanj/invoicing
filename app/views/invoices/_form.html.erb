@@ -38,6 +38,8 @@
     <%= f.input :date, as: :date_picker, :pattern =>"(?:(?:0[1-9]|1[0-2])[\/\\-. ]?(?:0[1-9]|[12][0-9])|(?:(?:0[13-9]|1[0-2])[\/\\-. ]?30)|(?:(?:0[13578]|1[02])[\/\\-. ]?31))[\/\\-. ]?(?:19|20)[0-9]{2}", required: true %>
 
 
+<%= f.input :void if current_user.has_role? :admin %>
+
 <% @invoice.lines.unshift(Line.new) %>
 
   <a id="toggle_line_items_collapsed" class="btn btn-default"><span id="expand">Expand All Lines <%=glyph("expand")%></span><span id="collapse">Collapse All Lines <%=glyph("collapse-up")%></span></a>

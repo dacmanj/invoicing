@@ -38,6 +38,7 @@ class Line < ActiveRecord::Base
   def update_invoice
     if self.invoice.present?
         invoice.update_total
+        invoice.update_balance
     end
   end
     
@@ -55,11 +56,6 @@ class Line < ActiveRecord::Base
   		t = self.quantity * self.unit_price 
   	end
   	t
-  end
-    
-  def update_invoice
-     self.invoice.update_balance
-     self.invoice.update_total
   end
 
 end

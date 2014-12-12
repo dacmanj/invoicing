@@ -21,6 +21,7 @@ class Payment < ActiveRecord::Base
 	
   attr_accessible :amount, :account_id, :invoice_id, :invoice, :account, :payment_date, :payment_type, :reference_number
   after_save :update_balance
+  after_destroy :update_balance
     
   def self.valid_payment_types
     ["Check","Credit Card","Cash","Adjustment"]    

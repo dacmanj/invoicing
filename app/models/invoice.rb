@@ -29,9 +29,9 @@ class Invoice < ActiveRecord::Base
     belongs_to :user
     has_and_belongs_to_many :contacts
     has_many :email_records
-    has_many :lines, :order => "position ASC"
+    has_many :lines, :order => "position ASC", :dependent => :delete_all
     has_many :items, :through => :lines
-    has_many :payments
+    has_many :payments, :dependent => :delete_all
 
     #filters
     scope :active, where(void: false)

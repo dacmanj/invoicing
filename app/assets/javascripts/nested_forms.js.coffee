@@ -186,7 +186,7 @@ $ ->
       submit_error = (e) ->
         console.log("error") if console
             
-      $(".edit_invoice, .new_invoice").submit(submit_ajax)
+      $(".edit_invoice").submit(submit_ajax)
 
       modal_links_target_blank = (e) ->
         links = $(".modal-content a[data-method!=delete]").attr("target","_BLANK")

@@ -2,6 +2,7 @@
 
 <table>
   <tr>
+    <th>Invoice #</th>
     <th>Description</th>
     <th>Item</th>
     <th>Quantity</th>
@@ -13,6 +14,7 @@
 
 <% @lines.each do |line| %>
   <tr>
+    <td><%= line.invoice_id%></td>
     <td><%= line.description %></td>
     <td><%= line.item_id %></td>
     <td><%= line.quantity %></td>

@@ -33,6 +33,13 @@ class Line < ActiveRecord::Base
     end
   end
 
+
+  def update_invoice
+    if self.invoice.present?
+        invoice.update_total
+    end
+  end
+    
   def name
     if self.invoice.present?
       "#{self.invoice.name}-#{id}"

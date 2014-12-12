@@ -81,29 +81,32 @@
         <%= check_box_tag 'select_all_invoice_id', '', false %>
       </th>
 <% end %>
+      <%= dir = params[:dir] %>
       <% sort_params = params.reject{|k,v| !["ar_account","outstanding_balance","balance_due_as_of_date", "name", "utf8", "commit", "all"].include? k || v.empty? } %>
-      <th>Invoice #<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "id")) %>
+      <th>Invoice # <%=toggle_sort_caret_link("id","DESC",params,sort_params)%>
       </th>
 <% if !current_user.has_role? :customer %>
-      <th class="visible-md visible-lg">A/R Acct <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "ar_account")) %></th>
+      <th class="visible-md visible-lg">A/R Acct <%=toggle_sort_caret_link("ar_account","ASC",params,sort_params) %>
+        </th>
 <% end %>
-      <th>Invoice Date<%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "date")) %></th>
+      <th>
+          Invoice Date
+          <%=toggle_sort_caret_link("date","DESC",params,sort_params) %>
+        </th>
       <th>Company</th>
       <th class="visible-md visible-lg">
           Contact
       </th>
       <% unless current_user.has_role? :customer or current_user.has_role? :auditor %>
       <th class="visible-md visible-lg">
-          Last Email
-      <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "last_email")) %>
+          Last Email <%=toggle_sort_caret_link("email","DESC",params,sort_params) %>
       </th>
       <% end%>
       <th>Total
-      <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "total")) %>
-      </th>
+          <%=toggle_sort_caret_link("total","DESC",params,sort_params) %>
+        </th>
       <th>Balance Due
-      <%= link_to content_tag(:b, '', :class => "caret"), invoices_path(sort_params.merge(:sort => "balance_due")) %>
-
+            <%=toggle_sort_caret_link("balance_due","DESC",params,sort_params) %>
       </th>
       <th style="min-width: 250px;" class="visible-md visible-lg"></th>
     </tr>

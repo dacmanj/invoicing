@@ -2,13 +2,14 @@
 #
 # Table name: users
 #
-#  id         :integer          not null, primary key
-#  name       :string(255)
-#  email      :string(255)
-#  provider   :string(255)
-#  uid        :string(255)
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id                    :integer          not null, primary key
+#  name                  :string(255)
+#  email                 :string(255)
+#  provider              :string(255)
+#  uid                   :string(255)
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  notify_on_all_actions :boolean          default(FALSE)
 #
 
 class User < ActiveRecord::Base

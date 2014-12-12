@@ -37,7 +37,7 @@ class Invoice < ActiveRecord::Base
   scope :account_name, -> (account_name) { joins(:account).where('lower(accounts.name) like ?','%' + account_name.downcase + '%')}
   scope :balance_due, where("balance_due > 0")
   scope :by_ar_account, order("ar_account ASC")
-  scope :by_total, order("balance_due DESC")
+  scope :by_total, order("total DESC")
   scope :by_balance_due, order("balance_due DESC")
   scope :by_id, order("id ASC")
   scope :by_date, order("date DESC")
@@ -50,7 +50,6 @@ class Invoice < ActiveRecord::Base
   attr_accessible :account_id, :contact_ids, :user_id, :lines_attributes, :date, :primary_contact_id, :ar_account, :void, :balance_due,:last_email, :total
 
   before_save :set_account_if_blank, :set_primary_contact_if_blank
-  after_save :update_total
 
   def self.open_invoices_as_of(balance_date)
     Invoice.active.select{|h| h.balance_as_of(balance_date) != 0}

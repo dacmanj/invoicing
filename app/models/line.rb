@@ -20,7 +20,8 @@ class Line < ActiveRecord::Base
   has_paper_trail
 
   attr_accessible :description, :notes, :item_id, :quantity, :hidden, :unit_price, :invoice_id, :position
-  before_save :assign_item, :update_invoice
+  before_save :assign_item
+  after_save :update_invoice
 
   def assign_item
     if self.item_id.present?

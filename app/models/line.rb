@@ -20,11 +20,9 @@ class Line < ActiveRecord::Base
   has_paper_trail
 
   attr_accessible :description, :notes, :item_id, :quantity, :hidden, :unit_price, :invoice_id, :position
-  before_save :assign_item, :update_total
+  before_validation :assign_item, :update_total
   after_save :update_invoice
-<<<<<<< HEAD
   after_destroy :update_invoice
-=======
     
   def name
     if self.invoice.present?
@@ -33,7 +31,6 @@ class Line < ActiveRecord::Base
       "#{id}"
     end
   end
->>>>>>> 070625f2a508d608f45522ad23cb6f4932fff92c
 
   private
     
@@ -46,14 +43,15 @@ class Line < ActiveRecord::Base
         item.save!
       end
     end
+    true
   end
 
 
   def update_invoice
     if self.invoice.present?
         invoice.update_total_and_balance
-        Rails.logger.info "updating invoice from line, invoice reporting #{invoice.total}"
     end
+    true
   end
   def update_total
   	t = 0
@@ -61,8 +59,7 @@ class Line < ActiveRecord::Base
   		t = (self.quantity || 1) * self.unit_price 
   	end
   	self.total = t
-    Rails.logger.info "updating total on line #{self.total}"
-
+    true
   end
 
 end

@@ -58,7 +58,7 @@ class Invoice < ActiveRecord::Base
 
     #callbacks
     before_save :set_account_if_blank, :set_primary_contact_if_blank
-
+            
     def self.open_invoices_as_of(balance_date)
         Invoice.active.select{|h| h.balance_as_of(balance_date) != 0}
     end
@@ -122,7 +122,7 @@ class Invoice < ActiveRecord::Base
         self.total = self.lines.sum(:total)
         self.balance_due = self.total - self.payments.sum(:amount)
         self.save
-        Rails.logger.info "external update to total #{self.total}"
+        true
     end
 
     def update_last_email
@@ -204,7 +204,6 @@ private
     end
 
     def update_total_and_balance_before_save
-        Rails.logger.debug "internal total update in Invoice #{self.total}"
         self.total = self.lines.sum(:total)
         self.balance_due = self.total - self.payments.sum(:amount)
     end

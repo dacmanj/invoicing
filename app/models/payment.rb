@@ -20,12 +20,8 @@ class Payment < ActiveRecord::Base
   belongs_to :account
 	
   attr_accessible :amount, :account_id, :invoice_id, :invoice, :account, :payment_date, :payment_type, :reference_number
-<<<<<<< HEAD
-  after_save :update_balance
-  after_destroy :update_balance
-=======
   after_save :update_invoice
->>>>>>> 070625f2a508d608f45522ad23cb6f4932fff92c
+  after_destroy :update_invoice
     
   def self.valid_payment_types
     ["Check","Credit Card","Cash","Adjustment"]    
@@ -53,5 +49,6 @@ class Payment < ActiveRecord::Base
   private
     def update_invoice
         self.invoice.update_total_and_balance
+        true
     end
 end

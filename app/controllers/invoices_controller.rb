@@ -212,7 +212,7 @@ class InvoicesController < ApplicationController
         flash[:notice] = 'Invoice was successfully updated.'
         format.html { redirect_to invoice_url(@invoice.id) }
         format.json { render json: @invoice.to_json(:include => :lines)}
-        #InvoiceMailer.invoice_edited_email(@invoice,current_user).deliver
+        InvoiceMailer.invoice_edited_email(@invoice,current_user).deliver
       else
         flash[:errors] = @invoice.errors
         format.html { render action: "edit" }

@@ -20,11 +20,24 @@ class Line < ActiveRecord::Base
   has_paper_trail
 
   attr_accessible :description, :notes, :item_id, :quantity, :hidden, :unit_price, :invoice_id, :position
-  before_save :assign_item
+  before_save :assign_item, :update_total
   after_save :update_invoice
+<<<<<<< HEAD
   after_destroy :update_invoice
+=======
+    
+  def name
+    if self.invoice.present?
+      "#{self.invoice.name}-#{id}"
+    else
+      "#{id}"
+    end
+  end
+>>>>>>> 070625f2a508d608f45522ad23cb6f4932fff92c
 
-  def assign_item
+  private
+    
+ def assign_item
     if self.item_id.present?
       item = Item.find(self.item_id)
       if item.recurring != true
@@ -38,25 +51,18 @@ class Line < ActiveRecord::Base
 
   def update_invoice
     if self.invoice.present?
-        invoice.update_total
-        invoice.update_balance
+        invoice.update_total_and_balance
+        Rails.logger.info "updating invoice from line, invoice reporting #{invoice.total}"
     end
   end
-    
-  def name
-    if self.invoice.present?
-      "#{self.invoice.name}-#{id}"
-    else
-      "#{id}"
-    end
-  end
-
-  def total
+  def update_total
   	t = 0
-  	unless self.quantity.blank? || self.unit_price.blank?
-  		t = self.quantity * self.unit_price 
+  	unless self.unit_price.blank?
+  		t = (self.quantity || 1) * self.unit_price 
   	end
-  	t
+  	self.total = t
+    Rails.logger.info "updating total on line #{self.total}"
+
   end
 
 end

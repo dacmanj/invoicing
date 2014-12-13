@@ -17,7 +17,11 @@ $ ->
             $("select#payment_invoice_id").html(html).prepend("<option value></option>")
     $("#payment_account_id").change(load_invoices)
     $(".account_buttons").insertAfter("label[for=invoice_account_id]").css("padding","0px 5px")
-
+    $("#payment_invoice").change(set_account)
+    set_account = (e) ->
+        console.log
+    
+    
     $("input[name*=payment_date]").each (v) ->
         $(this).oninvalid = (e) ->
           e.target.setCustomValidity("");

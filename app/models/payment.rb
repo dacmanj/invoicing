@@ -20,15 +20,19 @@ class Payment < ActiveRecord::Base
   belongs_to :account
 	
   attr_accessible :amount, :account_id, :invoice_id, :invoice, :account, :payment_date, :payment_type, :reference_number
+<<<<<<< HEAD
   after_save :update_balance
   after_destroy :update_balance
+=======
+  after_save :update_invoice
+>>>>>>> 070625f2a508d608f45522ad23cb6f4932fff92c
     
   def self.valid_payment_types
     ["Check","Credit Card","Cash","Adjustment"]    
   end
       
-  def date=(date)
-    write_attribute :date, Date.strptime(date,"%m/%d/%Y")
+  def payment_date=(date)
+    write_attribute :payment_date, Date.strptime(date,"%m/%d/%Y")
   end
     
   def self.import file
@@ -47,7 +51,7 @@ class Payment < ActiveRecord::Base
   errors
   end
   private
-    def update_balance
-        self.invoice.update_balance
+    def update_invoice
+        self.invoice.update_total_and_balance
     end
 end

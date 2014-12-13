@@ -2,11 +2,13 @@
 
 <table>
   <tr>
+    <th>Line #</th>
     <th>Invoice #</th>
     <th>Description</th>
     <th>Item</th>
     <th>Quantity</th>
     <th>Unit price</th>
+    <th>Total</th>
     <th></th>
     <th></th>
     <th></th>
@@ -14,11 +16,14 @@
 
 <% @lines.each do |line| %>
   <tr>
+    <td><%= line.id%></td>
     <td><%= line.invoice_id%></td>
     <td><%= line.description %></td>
     <td><%= line.item_id %></td>
     <td><%= line.quantity %></td>
     <td><%= line.unit_price %></td>
+    <td><%= line.total %></td>
+
     <td><%= link_to 'Show', line %></td>
     <td><%= link_to 'Edit', edit_line_path(line) %></td>
     <td><%= link_to 'Destroy', line, method: :delete, data: { confirm: 'Are you sure?' } %></td>

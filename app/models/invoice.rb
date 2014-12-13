@@ -40,6 +40,7 @@ class Invoice < ActiveRecord::Base
     scope :ar_account, -> (ar_account) { where ar_account: ar_account }
     scope :account_name, -> (account_name) { joins(:account).where('lower(accounts.name) like ?','%' + account_name.downcase + '%')}
     scope :balance_due, where("balance_due > 0")
+    scope :paid, where("balance_due <= 0")
 
     #sorting scopes
     scope :by_ar_account, -> (dir = "ASC") { order("ar_account #{dir}") }
@@ -56,25 +57,14 @@ class Invoice < ActiveRecord::Base
     attr_accessible :account_id, :contact_ids, :user_id, :lines_attributes, :date, :primary_contact_id, :ar_account, :void, :balance_due,:last_email, :total
 
     #callbacks
-    before_save :set_account_if_blank, :set_primary_contact_if_blank, :update_total_and_balance_before_save
+    before_save :set_account_if_blank, :set_primary_contact_if_blank
 
     def self.open_invoices_as_of(balance_date)
         Invoice.active.select{|h| h.balance_as_of(balance_date) != 0}
     end
 
-    def set_primary_contact_if_blank
-      self.primary_contact_id = self.contacts.first.id if !self.contacts.blank? && self.primary_contact_id.blank?
-      if self.contacts.blank? and self.primary_contact_id.present?
-        self.contacts.push(Contact.find(primary_contact_id))
-      end
-    end
-
     def date=(date)
         write_attribute :date, Date.strptime(date,"%m/%d/%Y")
-    end
-
-    def set_account_if_blank
-      self.account_id = self.contacts.first.account_id if self.account_id.blank? and !self.contacts.blank?
     end
 
     def primary_contact
@@ -128,34 +118,11 @@ class Invoice < ActiveRecord::Base
         templates = Hash[EmailTemplate.all.to_a.each_with_object({}){|c,h| h[c.id] = { :name => c.name, :message => parse_template(c.message), :subject => parse_template(c.subject) }}].to_json
     end
 
-    def payments_total
-        paid = 0
-        self.payments.each{|p| paid += p.amount }
-        paid
-    end
-
-    def total
-       t = 0
-        self.lines.each do |l|
-            t += l.total
-        end
-       t
-    end
-
-    def balance_due
-        @balance = self.total - self.payments_total
-    end
-
-    def update_total
-        update_attributes(:total => self.total)
-    end
-    def update_balance
-        update_attributes(:balance_due => (self.total - self.payments_total))
-    end
-
-    def update_total_and_balance_before_save
-        @balance = self.total - self.payments_total
-        @total = self.total
+    def update_total_and_balance
+        self.total = self.lines.sum(:total)
+        self.balance_due = self.total - self.payments.sum(:amount)
+        self.save
+        Rails.logger.info "external update to total #{self.total}"
     end
 
     def update_last_email
@@ -176,13 +143,13 @@ class Invoice < ActiveRecord::Base
             balance = self.total - paid
           end
         else
-          balance = self.total - self.payments_total
+          balance = self.balance_due
         end
         balance
     end
 
     def unpaid?
-        (self.total > self.payments_total)
+        (self.balance_due > 0)
     end
 
     def contact_email
@@ -222,6 +189,24 @@ class Invoice < ActiveRecord::Base
           end 
         end
         @changes
+    end
+
+private
+    def set_primary_contact_if_blank
+      self.primary_contact_id = self.contacts.first.id if !self.contacts.blank? && self.primary_contact_id.blank?
+      if self.contacts.blank? and self.primary_contact_id.present?
+        self.contacts.push(Contact.find(primary_contact_id))
+      end
+    end
+
+    def set_account_if_blank
+      self.account_id = self.contacts.first.account_id if self.account_id.blank? and !self.contacts.blank?
+    end
+
+    def update_total_and_balance_before_save
+        Rails.logger.debug "internal total update in Invoice #{self.total}"
+        self.total = self.lines.sum(:total)
+        self.balance_due = self.total - self.payments.sum(:amount)
     end
 
 end

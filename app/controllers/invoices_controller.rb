@@ -188,7 +188,7 @@ class InvoicesController < ApplicationController
         InvoiceMailer.new_invoice_email(@invoice, current_user).deliver
         flash[:notice] = 'Invoice was successfully created'
         format.html { redirect_to edit_invoice_url(@invoice.id), notice: flash[:notice] }
-        format.json { render json: @invoice, status: :created, location: @invoice }
+        format.json { render json: @invoice.reload.to_json(:include => :lines), status: :created, location: @invoice }
       else
         format.html { render action: "new" }
         format.json { render json: @invoice.errors, status: :unprocessable_entity }
@@ -205,14 +205,12 @@ class InvoicesController < ApplicationController
   # PUT /invoices/1.json
   def update
     @invoice = Invoice.find(params[:id])
-
     respond_to do |format|
-      if @invoice.update_attributes!(params[:invoice])
+      if @invoice.update_attributes(params[:invoice])
+        Rails.logger.debug("total in controller: #{@invoice.reload.total}")
         flash[:notice] = 'Invoice was successfully updated.'
         format.html { redirect_to invoice_url(@invoice.id) }
-        format.json { render json: @invoice.to_json(:include => :lines)}
-#                format.json  { render :json => @birds.to_json(:include => {:bird_colorations => {:include => :color}, :seasons => {}, :habitats => {}, :image_holders => {}}) }
-
+        format.json { render json: @invoice.reload.to_json(:include => :lines)}
         InvoiceMailer.invoice_edited_email(@invoice,current_user).deliver
       else
         flash[:errors] = @invoice.errors

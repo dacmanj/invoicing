@@ -16,7 +16,9 @@
 #
 
 class Line < ActiveRecord::Base
-	belongs_to :invoice
+  resourcify
+  include Authority::Abilities
+  belongs_to :invoice
   has_paper_trail
 
   attr_accessible :description, :notes, :item_id, :quantity, :hidden, :unit_price, :invoice_id, :position

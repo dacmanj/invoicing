@@ -1,4 +1,5 @@
 class LinesController < ApplicationController
+  authorize_actions_for Payment
   before_filter :authenticate
   # GET /lines
   # GET /lines.json

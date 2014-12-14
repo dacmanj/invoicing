@@ -28,8 +28,8 @@ class Account < ActiveRecord::Base
   
 
   	def self.valid_ar_accounts
-		valid_ar_accounts = ['1110','1111','1210','1211','1212', '1221'];
-  		valid_ar_accounts.map {|h| [h, h]} # name, id
+		valid_ar_accounts = Setting.find_by_key("valid_ar_accounts").value()
+  		valid_ar_accounts.split(',').map {|h| [h, h]} # name, id
   	end
 
   	def balance_due

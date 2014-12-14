@@ -34,11 +34,11 @@ class Setting < ActiveRecord::Base
                 <a href="mailto:info@pflag.org">INFO@PFLAG.ORG</a> | <a href="http://www.pflag.org">WWW.PFLAG.ORG</a>
               </p>
             </center>',
-      logo_url: 'logo.png'
+      logo_url: 'logo.png', valid_ar_accounts:'1110,1111,1210,1211,1212,1221'
     }
 
     
-    DEFAULT_CATEGORIES = { remittance_block: "html", masthead: "html", logo_url: "string" }
+    DEFAULT_CATEGORIES = { remittance_block: "html", masthead: "html", logo_url: "string", valid_ar_accounts: "string" }
     
     def self.reinitialize
        Setting.all.each do |h| h.delete end

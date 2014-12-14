@@ -82,21 +82,22 @@ $ ->
 
       modal_success = (data) ->
         console.log data if debug
-        form = $(".modal-content form #modal_form")
-        if form
-          action = form.attr("data-action")
-          model = form.attr("data-model")
-        if model == 'account' && data.id?
+        form = $(".modal-content form")
+        console.log("modal-success") if debug
+        if form != undefined
+          action = form.attr("action")
+        if action == '/accounts' && data.id?
           id = data.id
           $("select#invoice_account_id").prepend("<option value='#{data.id}'>#{data.name}</option>")
           $("#invoice_account_id").val(id)
+          console.log(id) if debug
           load_accounts()
         else
           load_accounts()
         BootstrapDialog.closeAll()
 
       modal_error = (request) ->
-        if console? && debug
+        if  debug
           console.log "ajax request"
           console.log request
         flash_div = $(".modal-content div#modal_error")
@@ -106,11 +107,11 @@ $ ->
           msg = "500 Server Error"
           msg_type = "error"
         if msg?.length and msg_type?.length
-          console.log "Flash Message: #{msg}" if console? && debug
+          console.log "Flash Message: #{msg}" if debug
 
           alert_type = 'alert-success'
           alert_type = 'alert-danger' if msg_type.match("error") != null
-          console.log "Flash Message Type: #{alert_type}" if console? && debug
+          console.log "Flash Message Type: #{alert_type}" if debug
           flash_div.html("
                       <div class='alert " + alert_type + "'>
                         <button type='button' class='close' data-dismiss='alert'>&times;</button>

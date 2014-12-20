@@ -3,11 +3,18 @@
 
   <div class="form-inputs">
     <%= f.input :key %>
-    <%= f.input :category, collection: [:string, :html] %>
-    <% unless @setting.category == "string" %>
+    <%= f.input :category, collection: [:string, :html, :file] %>
+    <% if @setting.category == "html" %>
       <%= f.input :value, input_html: {class: "tinymce"} %>
-    <% else %>
+    <% end %>
+    <% if @setting.category == "string" %>
         <%= f.input :value %>
+    <% end %>
+    <% if @setting.category == "file" %>
+        <% if @setting.file? %>
+            <%= image_tag @setting.value %>
+        <% end %>
+        <%= f.file_field :file %>
     <% end %>
   </div>
 

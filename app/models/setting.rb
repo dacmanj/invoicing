@@ -14,8 +14,16 @@ class Setting < ActiveRecord::Base
   resourcify
   include Authority::Abilities
 
-  attr_accessible :key, :value, :category
+  attr_accessible :key, :value, :category, :file
+  before_save :update_value_if_attached_file
     
+  has_attached_file :file,
+    :storage => :google_drive,
+    :google_drive_credentials => "#{Rails.root}/config/google_drive.yml",
+    :google_drive_options => {
+      :public_folder_id => "0Byxf7_dzGKoEVUg5X0FnOE02NmM",
+      :path => proc { |style| "#{id}_#{file.original_filename}" }
+   }
     
   DEFAULT_VALUES = { 
       
@@ -34,11 +42,11 @@ class Setting < ActiveRecord::Base
                 <a href="mailto:info@pflag.org">INFO@PFLAG.ORG</a> | <a href="http://www.pflag.org">WWW.PFLAG.ORG</a>
               </p>
             </center>',
-      logo_url: 'logo.png', valid_ar_accounts:'1110,1111,1210,1211,1212,1221'
+      logo: 'logo.png', valid_ar_accounts:'1110,1111,1210,1211,1212,1221'
     }
 
     
-    DEFAULT_CATEGORIES = { remittance_block: "html", masthead: "html", logo_url: "string", valid_ar_accounts: "string" }
+    DEFAULT_CATEGORIES = { remittance_block: "html", masthead: "html", logo: "file", valid_ar_accounts: "string" }
     
     def self.reinitialize
        Setting.all.each do |h| h.delete end
@@ -58,5 +66,8 @@ class Setting < ActiveRecord::Base
       setting = Setting.find_by_key(key)
       value = (setting.value unless setting.blank?) || DEFAULT_VALUES[key.to_sym] || "DEFAULTS MISSING, PLEASE INITIALIZE DB"
     end
-    
+    private
+    def update_value_if_attached_file
+        self.value = self.file.url    
+    end
 end

@@ -1,0 +1,4 @@
+client_id: <%= ENV["OMNIAUTH_PROVIDER_KEY"] %>
+client_secret: <%= ENV["OMNIAUTH_PROVIDER_SECRET"] %>
+access_token: <%= ENV["ACCESS_TOKEN"] %>
+refresh_token: <%= ENV["REFRESH_TOKEN"] %>

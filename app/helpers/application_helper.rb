@@ -13,7 +13,7 @@ module ApplicationHelper
   end
   
   def logo
-    image_tag("logo.png", :width => "50px", :height => "50px", :alt => "PFLAG Logo", :class => "round")
+    image_tag(Setting.find_template("logo"), :width => "129px", :height => "120px", :alt => "Logo", :class => "round")
   end
 
   def us_states

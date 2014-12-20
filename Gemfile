@@ -10,7 +10,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-
+gem 'paperclip-googledrive'
 gem 'rolify'
 gem 'authority'
 gem 'paper_trail'

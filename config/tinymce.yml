@@ -5,6 +5,7 @@ buttons3_add:
   - tablecontrols
   - fullscreen
 plugins:
+  - hr
   - table
   - image
   - link

@@ -20,7 +20,7 @@
   	</p>
   	<br>
   	<p>
-	  	The invoice has a balance due of <%= number_to_currency @invoice.balance_due %>
+	  	The invoice (dated: <%= l @invoice.date %>) has a balance due of <%= number_to_currency @invoice.balance_due %>
   	</p>
 	<p>
 		For invoice details go to <%= edit_invoice_url @invoice.id %>

@@ -1,3 +1,6 @@
+<% if @invoice.balance_due == 0 %>
+    <span style="font-size: 72px; color:red; position: absolute; margin-top: 400px; margin-left: 400px">PAID</span>
+<% end %>
     <table width="100%">
       <tbody>
         <tr>
@@ -37,3 +40,41 @@
     <div style="text-align: right; background-color: #cccccc; padding: 15px;">
       	<h3>Total: <%=number_to_currency @invoice.total%></h3>
 		</div>
+    <% if @invoice.payments.present? %>
+    <br><br>
+    <table width="100%" class="lines" style="border-collapse:collapse; border: 1px solid #ccc;">
+
+	    <thead>
+        <tr><th colspan="4" style="border: 1px solid #ccc;"><h2>Payments</h2></th></tr>
+        <tr>
+	  		<th style="border: 1px solid #ccc;">
+	  		   	Date
+	  		</th>
+	  		<th style="border: 1px solid #ccc;">
+		    	Type  			
+	  		</th>
+	  		<th style="border: 1px solid #ccc;">
+		    	Ref #
+	  		</th>
+	  		<th style="border: 1px solid #ccc;">
+	    		Amount
+	  		</th>   	
+
+        </tr>
+	    </thead>
+	    <tbody>
+            <%@invoice.payments.each do |p| %>
+            <tr data-id="payments.id">
+                <td><%=l(p.payment_date)%></td>
+                <td><%=p.payment_type%></td>
+                <td><%=p.reference_number%></td>
+                <td><%=number_to_currency p.amount%></td>
+            </tr>
+            <% end %>
+
+		</tbody>
+    </table>
+    <div style="text-align: right; background-color: #cccccc; padding: 15px;">
+      	<h3>Balance Due: <%=number_to_currency @invoice.balance_due%></h3>
+		</div>
+    <% end %>

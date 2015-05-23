@@ -42,11 +42,12 @@ class Setting < ActiveRecord::Base
                 <a href="mailto:info@pflag.org">INFO@PFLAG.ORG</a> | <a href="http://www.pflag.org">WWW.PFLAG.ORG</a>
               </p>
             </center>',
-      logo: 'logo.png', valid_ar_accounts:'1110,1111,1210,1211,1212,1221'
+      logo: 'https://ecd735437266b4c339db6d9df335075acfa27b05.googledrive.com/host/0Byxf7_dzGKoEN0dYVGpSNHZmd00/logo.png',
+      valid_ar_accounts:'1110,1111,1210,1211,1212,1221', valid_payment_types:'Check,Credit Card,ACH,Cash,Adjustment'
     }
 
     
-    DEFAULT_CATEGORIES = { remittance_block: "html", masthead: "html", logo: "file", valid_ar_accounts: "string" }
+    DEFAULT_CATEGORIES = { remittance_block: "html", masthead: "html", logo: "file", valid_ar_accounts: "string", valid_payment_types:"string" }
     
     def self.reinitialize
        Setting.all.each do |h| h.delete end
@@ -68,6 +69,6 @@ class Setting < ActiveRecord::Base
     end
     private
     def update_value_if_attached_file
-        self.value = self.file.url    
+        self.value = self.file.url if ENV["ACCESS_TOKEN"].present? && self.category == "file"
     end
 end

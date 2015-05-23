@@ -24,7 +24,8 @@ class Payment < ActiveRecord::Base
   after_destroy :update_invoice
     
   def self.valid_payment_types
-    ["Check","Credit Card","Cash","Adjustment"]    
+    valid_payment_types = Setting.find_by_key("valid_payment_types").value()
+    valid_payment_types.split(',').map {|h| [h]} # name, id  
   end
       
   def payment_date=(date)

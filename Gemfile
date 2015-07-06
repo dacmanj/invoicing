@@ -26,7 +26,7 @@ gem "simple_form", ">= 2.1.0"
 gem "figaro", ">= 0.6.3"
 gem 'wicked_pdf', :git => "git://github.com/mileszs/wicked_pdf.git"
 gem 'wkhtmltopdf-binary'
-
+gem 'htmlentities'
 
 gem 'pg', :group => [:production, :development]
 

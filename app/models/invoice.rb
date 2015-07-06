@@ -191,6 +191,14 @@ class Invoice < ActiveRecord::Base
         @changes
     end
 
+    def lines_summary
+        summary = ""
+        self.lines.each do |l|
+            summary << Nokogiri::HTML(l.description).text + "\n"
+        end
+        summary
+    end
+
 private
     def set_primary_contact_if_blank
       self.primary_contact_id = self.contacts.first.id if !self.contacts.blank? && self.primary_contact_id.blank?

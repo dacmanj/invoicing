@@ -119,7 +119,8 @@ class Invoice < ActiveRecord::Base
     end
 
     def update_total_and_balance
-        self.update_total_and_balance_before_save
+        self.total = self.lines.sum(:total)
+        self.balance_due = self.total - self.payments.sum(:amount)
         self.save
         true
     end

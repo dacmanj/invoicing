@@ -165,7 +165,7 @@
     <%= link_to "CSV", invoices_path(params.reject{|k,v| !csv_params_allowed.include? k || v.empty? }.merge("format" => "csv")) %>
   </td>
   <td colspan="2" style="border-right: 0px" >
-    Totals  
+      Totals <% if params[:balance_due_as_of_date].present? %>as of <%= params[:balance_due_as_of_date] %> <% end %>
   </td>
   <td colspan="4" style="border-left: 0px" class="visible-md visible-lg">
       &nbsp;

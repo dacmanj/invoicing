@@ -73,4 +73,9 @@ tr.filtered {
     .page-header {
         margin-top: 0px;   
     }
+    @media print {
+    a[href]:after {
+        content: none !important;
+      }
+    }
 }

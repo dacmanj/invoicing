@@ -19,7 +19,7 @@ module SortHelper
           chevron = {"ASC" => "chevron-up", "DESC" => "chevron-down", "" => "chevron-down"}[dir]
           style = "color: #ccc"
       end
-      link_to glyph(chevron), invoices_path(sort_params.merge(:sort => sort, :dir => dir)), :style => style
+      link_to glyph(chevron), invoices_path(sort_params.merge(:sort => sort, :dir => dir)), :style => style, :class => "noprint"
   end
 end
 

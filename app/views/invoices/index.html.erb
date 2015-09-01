@@ -81,7 +81,6 @@
         <%= check_box_tag 'select_all_invoice_id', '', false %>
       </th>
 <% end %>
-      <%= dir = params[:dir] %>
       <% sort_params = params.reject{|k,v| !["ar_account","outstanding_balance","balance_due_as_of_date", "name", "utf8", "commit", "all"].include? k || v.empty? } %>
       <th>Invoice # <%=toggle_sort_caret_link("id","DESC",params,sort_params)%>
       </th>

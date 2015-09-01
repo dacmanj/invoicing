@@ -34,7 +34,7 @@ $ ->
           $(this).val ''
 
         $( newNestedForm ).insertAfter( lastNestedForm )
-        $( ".duplicatable_nested_form ").last().find("textarea").tinymce("tinymce_config")
+        $("textarea.tinymce",newNestedForm).tinymce(tinymce_config.options)
         load_items()
         add_last_position()
         assign_order()

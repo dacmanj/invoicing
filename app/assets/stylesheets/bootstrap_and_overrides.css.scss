@@ -62,3 +62,15 @@ tr.filtered {
 #toggle_line_items_collapsed #expand {
     display: none;
 }
+
+@media print {
+    .navbar {
+        display: none;   
+    }
+    .noprint {
+        display: none;
+    }
+    .page-header {
+        margin-top: 0px;   
+    }
+}

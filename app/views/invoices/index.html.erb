@@ -2,7 +2,7 @@
 
   <h1>Invoices
       <% if current_user.can_create? Invoice %>
-      <%= link_to content_tag(:i, '', :class => "glyphicon glyphicon-plus-sign"), new_invoice_path  %>
+      <%= link_to content_tag(:i, '', :class => "glyphicon glyphicon-plus-sign noprint"), new_invoice_path  %>
       <% end %>
   </h1>
 
@@ -12,7 +12,7 @@
 
     
 <% if current_user.can_create? Invoice %>
-<div class="panel panel-default">
+<div class="panel panel-default noprint">
   <div class="panel-body">
 
 
@@ -77,7 +77,7 @@
 <table class="table table-bordered table-striped table-responsive" id="invoices-table">
     <tr>
 <% if current_user.can_create? EmailRecord %>
-      <th class="visible-md visible-lg">
+      <th class="visible-md visible-lg noprint">
         <%= check_box_tag 'select_all_invoice_id', '', false %>
       </th>
 <% end %>
@@ -114,7 +114,7 @@
   <% @invoices.each do |invoice| %>
     <tr class="invoice-row" data-id="<%=invoice.id%>" data-account-name="<%= invoice.account.name unless invoice.account.blank?%>" data-amount="<%= invoice.total %>" data-balance-due="<%= invoice.balance_due %>">
 <% if current_user.can_create? EmailRecord %>
-      <td class="visible-md visible-lg"><%= check_box_tag 'invoice_id[]', invoice.id, false %></td>
+      <td class="visible-md visible-lg noprint"><%= check_box_tag 'invoice_id[]', invoice.id, false %></td>
 <% end %>
       <td>
 <% if current_user.can_update? invoice %>

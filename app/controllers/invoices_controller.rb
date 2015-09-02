@@ -1,5 +1,7 @@
 class InvoicesController < ApplicationController
-  before_filter :authenticate
+  before_filter :authenticate, :except => [:index]
+  before_filter :check_key, :only => [:index]
+    
   authorize_actions_for Invoice
   # GET /invoices
   # GET /invoices.json
@@ -280,5 +282,14 @@ class InvoicesController < ApplicationController
       format.html { redirect_to invoices_url }
       format.json { head :no_content }
     end
+  end
+  private
+  def check_key
+      user = User.find_all_by_provider_and_uid("Token",params[:key]).first
+      if !params[:key].present? || user.nil?
+        authenticate
+      else #key present and user not nil
+        session[:user_id] = user.id
+      end
   end
 end

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 ruby '2.2.3'
-gem 'rails', '3.2.13'
+gem 'rails', '3.2.22'
 gem 'tinymce-rails'
 
 group :assets do
@@ -36,6 +36,7 @@ group :development do
   gem "better_errors", ">= 0.7.2"
   gem "quiet_assets", ">= 1.0.2"
   gem "annotate"
+  gem "test-unit"
 end
 
 group :test do

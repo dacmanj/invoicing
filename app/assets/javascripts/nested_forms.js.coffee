@@ -169,10 +169,10 @@ $ ->
             replace_num = $("[name*=position]").attr("name").split("[")[2].split("]")[0]
             $("input",this).each () -> 
                 name = $(this).attr("name")
-                console.log(name)
+                console.log(name) if debug
                 new_name = name.replace(replace_num,position)
-                console.log(new_name)
-                console.log($(this).attr("name",new_name))
+                console.log(new_name) if debug
+                console.log($(this).attr("name",new_name)) if debug
 
         for line in e
           position = line.position
@@ -182,7 +182,7 @@ $ ->
             if (k == "id" && result == 0)
               html_id="invoice_lines_attributes_#{position}_id"
               name = "invoice[lines_attributes][#{position}][id]"
-              console.log $("<input type='hidden' id='#{html_id}' name='#{name}' value='#{v}'/>").insertAfter($("#invoice_lines_attributes_#{position}_notes").closest(".form-group"))
+              console.log $("<input type='hidden' id='#{html_id}' name='#{name}' value='#{v}'/>").insertAfter($("#invoice_lines_attributes_#{position}_notes").closest(".form-group")) if debug
             
     
       submit_error = (e) ->
@@ -306,7 +306,7 @@ $ ->
             description_id = $("textarea[name*=description]",context).attr("id")
             tinymce.get(description_id).setContent(item.description_with_receipt) if description_id?
             $("input[name*=notes]",context).val(item.notes) if item.notes?
-            console.log item
+            console.log item if debug
             true
 
       item_filter = (e) -> 

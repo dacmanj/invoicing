@@ -158,7 +158,8 @@ $ ->
         $.post(url, data, submit_success).fail(submit_error)
       
       submit_success = (e,req) ->
-        $("#invoice-preview iframe").attr("src",$("#invoice-preview iframe").attr("src"))
+        tmp = $("#invoice-preview iframe").clone()
+        $("#invoice-preview iframe").replaceWith(tmp)
         $("dd.balance_due").html($.toCurrency(e.balance_due)) unless isNaN(e.balance_due)
         update_lines(e.lines) if e.lines != undefined
       

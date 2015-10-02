@@ -191,6 +191,13 @@ class Invoice < ActiveRecord::Base
         @changes
     end
 
+    def primary_contact_email
+        (self.primary_contact.address.email unless (self.primary_contact.blank? || self.primary_contact.address.blank?)) || ""
+    end
+    def primary_contact_phone
+        (self.primary_contact.address.phone unless (self.primary_contact.blank? || self.primary_contact.address.blank?)) || ""
+    end
+
     def lines_summary
         summary = ""
         self.lines.each do |l|

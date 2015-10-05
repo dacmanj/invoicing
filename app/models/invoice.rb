@@ -73,6 +73,26 @@ class Invoice < ActiveRecord::Base
         end
     end
 
+    def all_past_due_invoices_table
+
+        outstanding_invoices = self.account.invoices.active.select{|h| h.balance_due != 0 }
+        if outstanding_invoices.length == 0
+          return ""
+        end
+
+        html = "<h3>Outstanding Invoices</h3>"
+        html += "<table><tbody>"
+        html += "<thead><tr><th>Invoice Date</th><th>Invoice Number<th>Amount Due</th></tr></thead>"
+        due = 0
+
+        outstanding_invoices.each do |i|
+          html += "<tr><td>#{i.date.strftime("%m/%d/%Y")}</td><td>#{i.id}</td><td>#{number_to_currency(i.balance_due)}</td></tr>"
+        end
+
+        html += "</tbody></table>"
+
+    end
+
     def other_past_due_invoices_table
 
         other_invoices = self.account.invoices.active.select{|h| h.balance_due != 0 && h.id != self.id}
@@ -108,7 +128,8 @@ class Invoice < ActiveRecord::Base
                  :invoice_total => number_to_currency(self.total),
                  :balance_due => number_to_currency(self.balance_due),
                  :account_balance_due => self.account.balance_due,
-                 :other_invoices => self.other_past_due_invoices_table
+                 :other_invoices => self.other_past_due_invoices_table,
+                 :outstanding_invoices => self.all_past_due_invoices_table
 
         }
 

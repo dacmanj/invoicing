@@ -1,5 +1,5 @@
 class InvoiceMailer < ActionMailer::Base
-  default from: "PFLAG National <invoices@pflag.org>"
+    default from: "Jody Huckaby <invoices@pflag.org>"
 
   def new_invoice_email(invoice, current_user)
     @invoice = invoice

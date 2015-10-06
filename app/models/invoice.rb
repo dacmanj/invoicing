@@ -81,7 +81,7 @@ class Invoice < ActiveRecord::Base
         end
 
         html = "<h3>Outstanding Invoices</h3>"
-        html += "<table><tbody>"
+        html += "<table border=1><tbody>"
         html += "<thead><tr><th>Invoice Date</th><th>Invoice Number<th>Amount Due</th></tr></thead>"
         due = 0
 
@@ -101,7 +101,7 @@ class Invoice < ActiveRecord::Base
         end
 
         html = "<h3>Other Outstanding Invoices</h3>"
-        html += "<table><tbody>"
+        html += "<table border=1><tbody>"
         html += "<thead><tr><th>Invoice Date</th><th>Invoice Number<th>Amount Due</th></tr></thead>"
         due = 0
 
@@ -127,7 +127,7 @@ class Invoice < ActiveRecord::Base
                  :invoice_number => self.id,
                  :invoice_total => number_to_currency(self.total),
                  :balance_due => number_to_currency(self.balance_due),
-                 :account_balance_due => self.account.balance_due,
+                 :account_balance_due => number_to_currency(self.account.balance_due),
                  :other_invoices => self.other_past_due_invoices_table,
                  :outstanding_invoices => self.all_past_due_invoices_table
 

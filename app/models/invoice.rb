@@ -93,6 +93,25 @@ class Invoice < ActiveRecord::Base
 
     end
 
+    def all_past_due_pledges_table
+
+        outstanding_invoices = self.account.invoices.active.select{|h| h.balance_due != 0 }
+        if outstanding_invoices.length == 0
+          return ""
+        end
+
+        html = "<h3>Outstanding Pledges</h3>"
+        html += "<table border=1><tbody>"
+        html += "<thead><tr><th>Pledge Date</th><th>Invoice Number<th>Amount Due</th></tr></thead>"
+        due = 0
+
+        outstanding_invoices.each do |i|
+          html += "<tr><td>#{i.date.strftime("%m/%d/%Y")}</td><td>#{i.id}</td><td>#{number_to_currency(i.balance_due)}</td></tr>"
+        end
+
+        html += "</tbody></table>"
+
+    end
     def other_past_due_invoices_table
 
         other_invoices = self.account.invoices.active.select{|h| h.balance_due != 0 && h.id != self.id}
@@ -115,7 +134,7 @@ class Invoice < ActiveRecord::Base
 
     def template_keys
         template_keys = ["account_name", "contact_name", "contact_first_name", "contact_last_name",
-                      "invoice_number", "invoice_total", "balance_due", "account_balance_due", "other_invoices"];
+                      "invoice_number", "invoice_total", "balance_due", "account_balance_due", "other_invoices","outstanding_invoices","outstanding_pledges"];
     end
 
     def parse_template(msg)
@@ -123,14 +142,15 @@ class Invoice < ActiveRecord::Base
         msg % {  :account_name => (self.account.name unless account.blank?) || "",
                  :contact_name => (self.primary_contact.name unless self.primary_contact.blank?) || "", 
                  :contact_first_name => (self.primary_contact.first_name unless self.primary_contact.blank?) || "", 
-                 :contact_last_name => (self.primary_contact.last_name unless self.primary_contact.blank?) || "", 
+                 :contact_last_name => (self.primary_contact.last_name unless self.primary_contact.blank?) || "",
                  :invoice_number => self.id,
                  :invoice_total => number_to_currency(self.total),
                  :balance_due => number_to_currency(self.balance_due),
                  :account_balance_due => number_to_currency(self.account.balance_due),
                  :other_invoices => self.other_past_due_invoices_table,
-                 :outstanding_invoices => self.all_past_due_invoices_table
-
+                 :outstanding_invoices => self.all_past_due_invoices_table,
+                 :outstanding_pledges => self.all_past_due_pledges_table
+            
         }
 
     end

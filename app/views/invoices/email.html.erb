@@ -3,10 +3,16 @@
 </script>
 
 <%= form_tag({controller: "invoices", action: "send_email"}, method: "post", :role => "form", :class => "send_invoice_email") do %>
+
+  <div class="form-group">
+    <label for="from">Sender</label>
+      <% send_from = Setting.find_template("send_invoice_from") %> 
+      <input type="text" class="form-control" id="email" name="email" value="<%= send_from %>" readonly>
+  </div>
+
   <div class="form-group">
     <label for="email">Email address</label>
     <input type="text" class="form-control" id="email" name="email" value="<%= @invoice.contact_email%>">
-
   </div>
 
   <div class="form-group">

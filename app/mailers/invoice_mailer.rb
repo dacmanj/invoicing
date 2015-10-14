@@ -1,5 +1,5 @@
 class InvoiceMailer < ActionMailer::Base
-    default from: "Jody Huckaby <invoices@pflag.org>"
+    default from: "\"PFLAG National\" <invoices@pflag.org>"
 
   def new_invoice_email(invoice, current_user)
     @invoice = invoice
@@ -7,7 +7,6 @@ class InvoiceMailer < ActionMailer::Base
     email = User.notify_all.collect(&:email)
     email.push(@invoice.user.email) unless @invoice.user.blank? || @invoice.user.email.blank?
     @email = email.join(", ") 
-    
     if invoice.account.blank?
       @account_name = ""
     else
@@ -79,11 +78,10 @@ class InvoiceMailer < ActionMailer::Base
     @email = params[:email]
     @email_cc = params[:email_cc]
     @email_bcc = params[:email_bcc]
-    #@wicked_pdf = true
+    from_setting = Setting.find_by_key("send_invoice_from")
+    @from = (from_setting.value unless from_setting.blank?) || InvoiceMailer.default[:from]
 
-    #params[:email]
-      
-  	mail(:subject => @subject, :to =>  @email, :cc => @email_cc, :bcc => @email_bcc) do |format|
+    mail(:subject => @subject, :to =>  @email, :from => @from, :cc => @email_cc, :bcc => @email_bcc) do |format|
 	    format.html
 	    format.pdf do
             attachments['invoice.pdf'] = WickedPdf.new.pdf_from_string(render_to_string(pdf: "invoice", template: 'invoices/show.pdf.erb', layout: 'pdf.html', formats: [:pdf]), page_size: "letter", zoom: 0.75)

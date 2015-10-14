@@ -43,7 +43,8 @@ class Setting < ActiveRecord::Base
               </p>
             </center>',
       logo: 'https://ecd735437266b4c339db6d9df335075acfa27b05.googledrive.com/host/0Byxf7_dzGKoEN0dYVGpSNHZmd00/logo.png',
-      valid_ar_accounts:'1110,1111,1210,1211,1212,1221', valid_payment_types:'Check,Credit Card,ACH,Cash,Adjustment'
+      valid_ar_accounts:'1110,1111,1210,1211,1212,1221', valid_payment_types:'Check,Credit Card,ACH,Cash,Adjustment',
+      send_invoice_from:"\"PFLAG National\" <invoices@pflag.org>"
     }
 
     

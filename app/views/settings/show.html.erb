@@ -13,6 +13,6 @@
   <dd><%= @setting.category %></dd>
     
   <dt>Value:</dt>
-  <dd><%= @setting.value.html_safe %></dd>
+    <dd><%= @setting.value.html_safe unless @setting.value.blank? %></dd>
 
 </dl>

@@ -248,6 +248,7 @@ class InvoicesController < ApplicationController
                   :subject => i.parse_template(template.subject) }
 
         email[:email_cc] = "#{i.user.email unless i.user.blank? || params[:test_email]}"
+        email[:email_bcc] = "dmanuel@pflag.org, jodyhuckaby@pflag.org, asauerwalt@pflag.org"
 
         email[:email] = "#{current_user.name} <#{current_user.email}>"
 

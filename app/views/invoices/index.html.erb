@@ -51,8 +51,8 @@
 </div>
 <% end %>
     
-<% if current_user.can_create? EmailRecord %>
 <%= form_tag edit_multiple_invoices_path do %>
+<% if current_user.can_create? EmailRecord %>
   <div class="form-inline well visible-md visible-lg noprint">
     <div class="form-group">
       <label class="sr-only" for="account_id"> Bulk Email</label>
@@ -73,7 +73,6 @@
 <% end %>
 
     
-<% end %>
 <table class="table table-bordered table-striped table-responsive" id="invoices-table">
     <tr>
 <% if current_user.can_create? EmailRecord %>
@@ -180,4 +179,5 @@
   </td>
   </tr>
   </table>
+<% end %>
 

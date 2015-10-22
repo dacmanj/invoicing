@@ -17,7 +17,7 @@ Invoicing::Application.configure do
   config.asset_host = 'http://127.0.0.1:3000'
   config.action_mailer.delivery_method = :smtp
   # change to true to allow email to be sent during development
-    config.action_mailer.perform_deliveries = false
+    config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default :charset => "utf-8"
   config.action_mailer.default :content_type => "text/html"

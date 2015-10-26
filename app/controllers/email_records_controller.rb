@@ -9,6 +9,7 @@ class EmailRecordsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @email_records }
+        format.csv { render text: @email_records.to_csv }
     end
   end
 

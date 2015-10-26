@@ -26,4 +26,13 @@ class EmailRecord < ActiveRecord::Base
   def update_invoice
      invoice.update_last_email
   end
+    
+  def self.to_csv
+    CSV.generate do |csv|
+      csv << column_names
+        all.each do |email_record|
+            csv << email_record.attributes.values_at(*column_names)
+      end
+    end
+  end
 end

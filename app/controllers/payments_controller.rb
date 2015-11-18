@@ -4,7 +4,7 @@ class PaymentsController < ApplicationController
   # GET /payments
   # GET /payments.json
   def index
-    @payments = Payment.all
+      @payments = Payment.order('payment_date DESC')
 
     error = @payments.select{|p| p.payment_date.blank?}.map(&:id).join(", ")
     if error.present?

@@ -47,3 +47,5 @@
 <br />
 
 <%= link_to 'New Payment', new_payment_path, :class => "btn btn-primary" %>
+<% csv_params_allowed = ["id","payment_date","payment_type","reference_number","amount","invoice_id", "utf8", "commit", "all"] %>
+<%= link_to "CSV", payments_path(params.reject{|k,v| !csv_params_allowed.include? k || v.empty? }.merge("format" => "csv")) %>

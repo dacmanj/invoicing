@@ -50,7 +50,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title" title="<%=t('activerecord.attributes.line_item')%>"><%=glyph("move")%><span class="title-text">Line Item <span class="unit-price" style="display: none">()</span><%=glyph('chevron-right')%></span>
                     <div class="pull-right">
-                        <%= link_to glyph("trash"), (invoice_line_path(@invoice, lines_form.object) unless lines_form.object.id.nil?), :method => :delete, :remote => true, :class => 'destroy_duplicate_nested_form' %>
+                        <%= link_to glyph("trash"), (invoice_line_path(@invoice, lines_form.object) unless lines_form.object.id.nil?), :method => :delete, :remote => true, :class => 'destroy_duplicate_nested_form', "data-line-id" => lines_form.object.id unless lines_form.object.blank? %>
                         &nbsp;
                         <%= link_to glyph("plus"), '', :class => "duplicate_nested_form" %>
 

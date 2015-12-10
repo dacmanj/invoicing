@@ -1,5 +1,4 @@
 class LinesController < ApplicationController
-  authorize_actions_for Payment
   before_filter :authenticate
   # GET /lines
   # GET /lines.json
@@ -75,11 +74,10 @@ class LinesController < ApplicationController
   # DELETE /lines/1.json
   def destroy
     @line = Line.find(params[:id])
-    @line.destroy
-
+      @line.destroy
     respond_to do |format|
-      format.html { redirect_to lines_url }
       format.json { head :no_content }
+      format.html { redirect_to lines_url }
     end
   end
 end

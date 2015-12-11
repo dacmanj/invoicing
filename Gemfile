@@ -25,8 +25,9 @@ gem "omniauth-google-oauth2"
 gem "simple_form", ">= 2.1.0"
 gem "figaro", ">= 0.6.3"
 gem 'wicked_pdf', :git => "git://github.com/mileszs/wicked_pdf.git"
-#gem 'wkhtmltopdf-binary'
-gem 'wkhtmltopdf-heroku'
+
+gem 'wkhtmltopdf-binary', :group => [:test, :development]
+gem 'wkhtmltopdf-heroku', :group => :production
 
 gem 'htmlentities'
 

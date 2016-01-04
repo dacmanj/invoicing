@@ -15,6 +15,7 @@
             <h2 style="color: gray;">INVOICE</h2>
             <p>Invoice #<span id="invoicenumber"><%= @invoice.id %></span></p>
             <p>Date: <span id="invoicedate"><%= l @invoice.date, :format => "%m/%d/%Y" %></span></p>
+            <p><span id="terms" style="font-size: 8pt;">DUE UPON RECEIPT</span></p>
           </td>
         </tr>
       </tbody>
@@ -34,7 +35,7 @@
     </table>
 
     <table width="100%" class="lines" style="border-collapse:collapse; border: 1px solid #ccc;">
-          <%= render "invoices/lines.pdf.erb",  :lines => @invoice.lines %>      
+          <%= render "invoices/lines.pdf.erb",  :lines => @invoice.lines %>
     </table>
 
     <div style="text-align: right; background-color: #cccccc; padding: 15px;">
@@ -51,14 +52,14 @@
 	  		   	Date
 	  		</th>
 	  		<th style="border: 1px solid #ccc;">
-		    	Type  			
+		    	Type
 	  		</th>
 	  		<th style="border: 1px solid #ccc;">
 		    	Ref #
 	  		</th>
 	  		<th style="border: 1px solid #ccc;">
 	    		Amount
-	  		</th>   	
+	  		</th>
 
         </tr>
 	    </thead>

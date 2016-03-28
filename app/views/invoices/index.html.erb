@@ -10,13 +10,13 @@
     <h4>Total Outstanding Invoices <%= number_to_currency(Invoice.sum(:balance_due)) %></h4>
   <% end %>
 
-    
+
 <% if current_user.can_create? Invoice %>
 <div class="panel panel-default noprint">
   <div class="panel-body">
 
 
-    
+
     <%= form_tag invoices_path, :method => :get, :class => "form-inline" do |f| %>
       <div class="form-group">
         <%= text_field_tag :name, "#{params[:name]}",:placeholder => "Name", :id => "invoice-search" %>
@@ -45,24 +45,24 @@
         <%= submit_tag "Filter", :class => "btn btn-primary", :label => "Filter" %>
       </div>
     <% end %>
-      
-      
+
+
   </div>
 </div>
 <% end %>
-    
+
 <%= form_tag edit_multiple_invoices_path do %>
 <% if current_user.can_create? EmailRecord %>
   <div class="form-inline well visible-md visible-lg noprint">
     <div class="form-group">
       <label class="sr-only" for="account_id"> Bulk Email</label>
-      <%= select_tag "email_template_id", options_for_select(EmailTemplate.order(:name).collect{ |a| [a.name, a.id] }.insert(0, ["Select Template...",""])), {:class => "select optional form-control"}%> 
+      <%= select_tag "email_template_id", options_for_select(EmailTemplate.order(:name).collect{ |a| [a.name, a.id] }.insert(0, ["Select Template...",""])), {:class => "select optional form-control"}%>
     <div class="form-group">
       <label for="test_email">
         <%= check_box_tag :test_email, "yes", (params[:test_email] == "yes") %>
         Test Email
       </label>
-    </div>    
+    </div>
     <div class="form-group">
         <%= submit_tag "Send Email", :class => "btn btn-danger" %>
     </div>
@@ -72,7 +72,7 @@
 
 <% end %>
 
-    
+
 <table class="table table-bordered table-striped table-responsive" id="invoices-table">
     <tr>
 <% if current_user.can_create? EmailRecord %>
@@ -133,7 +133,7 @@
       <td>
         <% unless invoice.account.blank? %>
           <%= link_to invoice.account.name, (current_user.can_update? invoice.account) ? edit_account_path(invoice.account) : account_path(invoice.account) %>
-        <% end %>     
+        <% end %>
       </td>
       <td class="visible-md visible-lg">
         <% unless invoice.primary_contact.blank? %>
@@ -168,7 +168,7 @@
   </td>
   <td colspan="4" style="border-left: 0px" class="visible-md visible-lg">
       &nbsp;
-  </td>      
+  </td>
   <td id="total">
     <%= number_to_currency(@invoices.map{|h| h.total}.inject{|sum,h| sum+h}) %>
   </td>
@@ -180,4 +180,3 @@
   </tr>
   </table>
 <% end %>
-

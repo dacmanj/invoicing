@@ -58,7 +58,7 @@ class Invoice < ActiveRecord::Base
 
     #callbacks
     before_save :set_account_if_blank, :set_primary_contact_if_blank
-            
+
     def self.open_invoices_as_of(balance_date)
         Invoice.active.select{|h| h.balance_as_of(balance_date) != 0}
     end
@@ -140,8 +140,8 @@ class Invoice < ActiveRecord::Base
     def parse_template(msg)
 
         msg % {  :account_name => (self.account.name unless account.blank?) || "",
-                 :contact_name => (self.primary_contact.name unless self.primary_contact.blank?) || "", 
-                 :contact_first_name => (self.primary_contact.first_name unless self.primary_contact.blank?) || "", 
+                 :contact_name => (self.primary_contact.name unless self.primary_contact.blank?) || "",
+                 :contact_first_name => (self.primary_contact.first_name unless self.primary_contact.blank?) || "",
                  :contact_last_name => (self.primary_contact.last_name unless self.primary_contact.blank?) || "",
                  :invoice_number => self.id,
                  :invoice_total => number_to_currency(self.total),
@@ -150,7 +150,7 @@ class Invoice < ActiveRecord::Base
                  :other_invoices => self.other_past_due_invoices_table,
                  :outstanding_invoices => self.all_past_due_invoices_table,
                  :outstanding_pledges => self.all_past_due_pledges_table
-            
+
         }
 
     end
@@ -161,7 +161,7 @@ class Invoice < ActiveRecord::Base
 
     def update_total_and_balance
         self.total = self.lines.sum(:total)
-        self.balance_due = self.total - self.payments.sum(:amount)
+        self.balance_due = (self.total - self.payments.sum(:amount)) || 0
         self.save
         true
     end
@@ -218,7 +218,7 @@ class Invoice < ActiveRecord::Base
         unless @invoice_changes.nil?
           @invoice_changes.each do |k,v|
             @changes << "#{k.titlecase} changed from #{v[0]} to #{v[1]}"
-          end 
+          end
         end
 
         #.created_at > 1.minutes.ago
@@ -227,7 +227,7 @@ class Invoice < ActiveRecord::Base
             l[1].each {|k,v|
               @changes << "Line #{l[0].position}: #{k.titlecase} changed from #{v[0]} to #{v[1]}"
             }
-          end 
+          end
         end
         @changes
     end

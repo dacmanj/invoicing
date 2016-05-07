@@ -116,7 +116,7 @@
 <% end %>
       <td>
 <% if current_user.can_update? invoice %>
-          <%= link_to content_tag(:i, invoice.id, :class => "glyphicon glyphicon-pencil"), edit_invoice_path(invoice.id) %>
+          <%= link_to glyph("pencil") + invoice.id.to_s, edit_invoice_path(invoice.id) %>
 <% else %>
           <%= link_to invoice.id, invoice_path(invoice.id) %>
 

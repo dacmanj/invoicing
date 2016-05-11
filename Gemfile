@@ -10,7 +10,7 @@ group :assets do
 end
 
 gem 'rails_12factor'
-gem 'google-api-client', '~> 0.7.1'
+gem 'google-api-client', '~> 0.8.6'
 gem 'paperclip-googledrive'
 
 gem 'rolify'

@@ -7,11 +7,11 @@ module ApplicationHelper
     when :alert then "alert-warning"
     end
   end
-  
+
   def glyph(g, interior_text="")
-    (content_tag(:i,"",:class=>"glyphicon glyphicon-"+g) + " " + interior_text).html_safe
+    (content_tag(:i,"",:class=>"glyphicon glyphicon-"+g.to_s) + " " + interior_text.to_s).html_safe
   end
-  
+
   def logo
     image_tag(Setting.find_template("logo"), :width => "129px", :height => "120px", :alt => "Logo", :class => "round")
   end

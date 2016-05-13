@@ -24,7 +24,7 @@
 	<%= user.notify_on_all_actions ? glyph("ok") : "" %>
 	</td>
 
-    <td><%= link_to  content_tag(:i, "", class: "glyphicon glyphicon-trash glyphicon-trash-white"), user, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %></td>
+    <td><%= link_to  glyph(:trash), user, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %></td>
   </tr>
 
   <% end %>

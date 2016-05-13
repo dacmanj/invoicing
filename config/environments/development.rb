@@ -14,7 +14,7 @@ Invoicing::Application.configure do
   config.action_controller.perform_caching = false
 
   # ActionMailer Config
-  config.asset_host = 'http://127.0.0.1:3000'
+#   config.asset_host = 'http://127.0.0.1:3000'
   config.action_mailer.delivery_method = :smtp
   # change to true to allow email to be sent during development
     config.action_mailer.perform_deliveries = true

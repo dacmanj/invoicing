@@ -25,8 +25,8 @@
     </td>
 
     <td>
-    <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-pencil"), {:id => contact.id,:action => "edit"}, :class => "btn btn-primary" %>
-    <%= link_to content_tag(:i, "", class: "glyphicon glyphicon-trash"), contact, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %></td>
+    <%= link_to glyph(:pencil), {:id => contact.id,:action => "edit"}, :class => "btn btn-primary" %>
+    <%= link_to glyph(:trash), contact, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %></td>
   </tr>
 <% end %>
 </table>

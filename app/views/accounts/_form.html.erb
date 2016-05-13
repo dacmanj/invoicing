@@ -27,8 +27,8 @@
             <td><%= (link_to simple_format([contact.address.address_lines, contact.address.city_state_zip].join("\n")), edit_contact_path(contact.id)) unless contact.address.blank? %></td>
 
             <td>
-              <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-pencil"), {:id => contact.id,:action => "edit", :controller => :contacts }, :class => "btn btn-primary" %>
-              <%= link_to content_tag(:i, "", class: "glyphicon glyphicon-trash"), contact, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %>
+              <%= link_to glyph(:pencil), {:id => contact.id,:action => "edit", :controller => :contacts }, :class => "btn btn-primary" %>
+              <%= link_to glyph(:trash), contact, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %>
             </td>
           </tr>
         <% end %>

@@ -22,8 +22,8 @@
       <td><%= template.subject %></td>
       <td><%= template.message.html_safe %></td>
       <td>
-        <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-pencil"), edit_email_template_path(template.id), :class => "btn btn-primary" %>
-        <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-trash"), template, confirm: 'Are you sure?', method: :delete, :class => "btn btn-danger" %>
+        <%= link_to glyph(:pencil), edit_email_template_path(template.id), :class => "btn btn-primary" %>
+        <%= link_to glyph(:trash), template, confirm: 'Are you sure?', method: :delete, :class => "btn btn-danger" %>
       </td>
     </tr>
 <% end %>

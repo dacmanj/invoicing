@@ -6,7 +6,7 @@
 
   <div class="form-group">
     <label for="from">Sender</label>
-      <% send_from = Setting.find_template("send_invoice_from") %> 
+      <% send_from = Setting.find_template("send_invoice_from") %>
       <input type="text" class="form-control" id="email" name="email" value="<%= send_from %>" readonly>
   </div>
 
@@ -46,7 +46,7 @@
     <textarea class="form-control tinymce" id="message" name="message" placeholder="Email"></textarea>
   </div>
 
-  <p> Attachment: <%= link_to "Invoice.pdf ".html_safe + content_tag(:i, "", :class => "glyphicon glyphicon-file"), invoice_path(@invoice, :format => :pdf).html_safe, :target => "_BLANK" %> </p> 
+  <p> Attachment: <%= link_to "Invoice.pdf ".html_safe + glyph(:file), invoice_path(@invoice, :format => :pdf).html_safe, :target => "_BLANK" %> </p> 
 
 
 

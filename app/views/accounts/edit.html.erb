@@ -3,8 +3,8 @@
 <%= render 'form' %>
 
 <div class="well">
-<h2>Invoices        
-  <%= link_to (content_tag :i, '', :class => "glyphicon glyphicon-plus-sign"), new_account_invoice_url(:account_id => @account.id)  %>
+<h2>Invoices
+  <%= link_to glyph("plus-sign"), new_account_invoice_url(:account_id => @account.id)  %>
 </h2>
 
       <table class="table table-bordered table-striped">
@@ -20,9 +20,9 @@
       <% @invoices.each do |invoice| %>
         <tr>
           <td>
-            <%= link_to content_tag(:i, invoice.date.strftime("%m/%d/%Y"), :class => "glyphicon glyphicon-pencil"), edit_invoice_path(invoice.id) %>
+            <%= link_to glyph(:pencil,invoice.date.strftime("%m/%d/%Y")), edit_invoice_path(invoice.id) %>
           </td>
-          <td><%= link_to content_tag(:i, invoice.id, :class => "glyphicon glyphicon-pencil"), edit_invoice_path(invoice.id) %></td>
+          <td><%= link_to glyph(:pencil, invoice.id), edit_invoice_path(invoice.id) %></td>
           <td>
             <% unless invoice.account.blank? %>
               <%= link_to invoice.account.name, edit_account_path(invoice.account) %>
@@ -37,11 +37,11 @@
             <%= number_to_currency invoice.total %>
           </td>
           <td class="modal-hide">
-          <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-usd"), new_invoice_payment_path(:id => invoice.id), :class => "btn btn-primary" %>
-          <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-pencil"), {:id => invoice.id,:action => "edit", :controller => "invoices"}, :class => "btn btn-primary" %>
-          <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-file"), invoice_path(invoice, :format => :pdf), :class => "btn btn-primary" %>
-          <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-send"), {:id => invoice.id,:action => "email", :controller => "invoices"}, :class => "btn btn-primary" %>
-          <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-trash"), invoice, confirm: 'Are you sure?', method: :delete, :class => "btn btn-danger" %>
+          <%= link_to glyph(:usd), new_invoice_payment_path(:id => invoice.id), :class => "btn btn-primary" %>
+          <%= link_to glyph(:pencil), {:id => invoice.id,:action => "edit", :controller => "invoices"}, :class => "btn btn-primary" %>
+          <%= link_to glyph(:file), invoice_path(invoice, :format => :pdf), :class => "btn btn-primary" %>
+          <%= link_to glyph(:send), {:id => invoice.id,:action => "email", :controller => "invoices"}, :class => "btn btn-primary" %>
+          <%= link_to glyph(:trash), invoice, confirm: 'Are you sure?', method: :delete, :class => "btn btn-danger" %>
 
 
           </td>
@@ -51,7 +51,7 @@
       </div>
       <div class="well">
       <h2>Payments
-            <%= link_to (content_tag :i, '', :class => "glyphicon glyphicon-plus-sign"), new_account_payment_url(:account_id => @account.id)  %>
+            <%= link_to glyph("plus-sign"), new_account_payment_url(:account_id => @account.id)  %>
 
       </h2>
 	    <table class="table table-bordered table-striped">
@@ -67,10 +67,10 @@
       <% @payments.each do |payment| %>
         <tr>
           <td>
-            <%= link_to content_tag(:i, payment.payment_date.strftime("%m/%d/%Y"), :class => "glyphicon glyphicon-pencil"), edit_payment_path(payment.id) %>
-          </td>        
+            <%= link_to glyph(:pencil, payment.payment_date.strftime("%m/%d/%Y")), edit_payment_path(payment.id) %>
+          </td>
           <td>
-            <%= link_to content_tag(:i, payment.invoice_id, :class => "glyphicon glyphicon-pencil"), {:id => payment.invoice_id,:action => "edit", :controller => "invoices"} unless payment.invoice_id.blank? %>
+            <%= link_to glyph(:pencil, payment.invoice_id), {:id => payment.invoice_id,:action => "edit", :controller => "invoices"} unless payment.invoice_id.blank? %>
           </td>
           <td>
           	<%= payment.payment_type %>
@@ -82,8 +82,8 @@
             <%= number_to_currency payment.amount %>
           </td>
           <td class="modal-hide">
-          <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-pencil"), {:id => payment.id,:action => "edit", :controller => "payments"}, :class => "btn btn-primary" %>
-          <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-trash"), payment, confirm: 'Are you sure?', method: :delete, :class => "btn btn-danger" %>
+          <%= link_to glyph(:pencil), {:id => payment.id,:action => "edit", :controller => "payments"}, :class => "btn btn-primary" %>
+          <%= link_to glyph(:trash), payment, confirm: 'Are you sure?', method: :delete, :class => "btn btn-danger" %>
 
 
           </td>
@@ -108,9 +108,9 @@
         <tr>
           <td>
             <%= link_to email.created_at.strftime("%m/%d/%y %l:%M %P"), email_record_path(email.id) %>
-          </td>        
+          </td>
           <td>
-            <%= link_to content_tag(:i, email.invoice_id, :class => "glyphicon glyphicon-pencil"), {:id => email.invoice_id,:action => "edit", :controller => "invoices"} %>
+            <%= link_to glyph(:pencil,email.invoice_id), {:id => email.invoice_id,:action => "edit", :controller => "invoices"} %>
           </td>
           <td>
             <%= email.email %>
@@ -122,7 +122,7 @@
             <%= email.message.html_safe %>
           </td>
           <td class="modal-hide">
-            <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-trash"), email, confirm: 'Are you sure?', method: :delete, :class => "btn btn-danger" %>
+            <%= link_to glyph(:trash), email, confirm: 'Are you sure?', method: :delete, :class => "btn btn-danger" %>
           </td>
         </tr>
       <% end %>

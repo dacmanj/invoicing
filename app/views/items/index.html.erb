@@ -1,4 +1,4 @@
-<h1>Invoice Items <%= link_to content_tag(:i, '', :class => "glyphicon glyphicon-plus-sign"), new_item_path  %></h1>
+<h1>Invoice Items <%= link_to glyph("plus-sign"), new_item_path  %></h1>
 
 <%= form_tag items_path, :method => :get, :class => "form-inline well" do |f| %>
   <div class="form-group">
@@ -29,11 +29,11 @@
 
     <div class="form-group col-md-3">
       <label class="sr-only" for="account_id">Assign Account</label>
-      <%= select_tag "account_id", options_for_select(Account.order(:name).collect{ |a| [a.name, a.id] }.insert(0, ["Assign Account...",""])), {:class => "select optional form-control"}%> 
+      <%= select_tag "account_id", options_for_select(Account.order(:name).collect{ |a| [a.name, a.id] }.insert(0, ["Assign Account...",""])), {:class => "select optional form-control"}%>
     </div>
     <div class="form-group col-md-3">
       <label class="sr-only" for="account">Assign Invoice</label>
-      <%= select_tag "invoice_id", options_for_select(Invoice.order("id DESC").collect{ |a| ["#{a.id}-#{a.name}", a.id] }.insert(0, ["Assign Invoice...",""])), {:class => "select optional form-control"}%> 
+      <%= select_tag "invoice_id", options_for_select(Invoice.order("id DESC").collect{ |a| ["#{a.id}-#{a.name}", a.id] }.insert(0, ["Assign Invoice...",""])), {:class => "select optional form-control"}%>
     </div>
     <div class="checkbox">
       <label class="sr_only" for="new_invoice" style="padding: 1px 5px">
@@ -76,9 +76,9 @@
       <td><%= item.quantity %></td>
       <td><%= number_to_currency item.unit_price %></td>
       <td>
-          <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-file"), item.item_image_url, html_options = { :target => "_BLANK", :class => "btn btn-primary"} %>
-          <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-pencil"), {:id => item.id,:action => "edit"}, :class => "btn btn-primary" %>
-          <%= link_to content_tag(:i, "", :class => "glyphicon glyphicon-trash"), item, confirm: 'Are you sure?', method: :delete, :class => "btn btn-danger" %>
+          <%= link_to glyph(:file), item.item_image_url, html_options = { :target => "_BLANK", :class => "btn btn-primary"} %>
+          <%= link_to glyph(:pencil), {:id => item.id,:action => "edit"}, :class => "btn btn-primary" %>
+          <%= link_to glyph(:trash), item, confirm: 'Are you sure?', method: :delete, :class => "btn btn-danger" %>
       </td>
     </tr>
   <% end %>

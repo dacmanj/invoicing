@@ -25,8 +25,9 @@ gem 'omniauth', '>= 1.1.3'
 gem 'omniauth-google-oauth2'
 gem 'simple_form', '>= 2.1.0'
 gem 'figaro', '>= 0.6.3'
-gem 'wicked_pdf', git: 'git://github.com/mileszs/wicked_pdf.git'
 
+# , git: 'git://github.com/mileszs/wicked_pdf.git'
+gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary', group: [:test, :development]
 gem 'wkhtmltopdf-heroku', group: :production
 
@@ -35,6 +36,7 @@ gem 'htmlentities'
 gem 'pg', group: [:production, :development]
 
 group :development do
+  gem 'rsense'
   gem 'binding_of_caller'
   gem 'webrick', '~> 1.3.1'
   gem 'better_errors', '>= 0.7.2'

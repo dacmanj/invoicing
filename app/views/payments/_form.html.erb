@@ -1,11 +1,11 @@
 <%= simple_form_for(@payment) do |f| %>
   <%= f.error_notification %>
   <div class="form-inputs">
-    <%= f.input :invoice_id, :collection => @invoices, :selected => @payment.invoice.id, required: true, include_blank: true  %>
+    <%= f.input :invoice_id, :collection => @invoices, :selected => @payment.invoice.id, required: true, include_blank: true, html: { data: { super_cool_key: "secret" } }  %>
     <%= f.association :account, :collection => Account.order(:name), required: true  %>
     <%= f.input :payment_date, as: :date_picker, input_html: {:pattern =>"(?:(?:0[1-9]|1[0-2])[\/\\-. ]?(?:0[1-9]|[12][0-9])|(?:(?:0[13-9]|1[0-2])[\/\\-. ]?30)|(?:(?:0[13578]|1[02])[\/\\-. ]?31))[\/\\-. ]?(?:19|20)[0-9]{2}", :placeholder => "mm/dd/yyyy"}, required: true %>
 
-    <%= f.input :payment_type, :collection => Payment.valid_payment_types, required: true %>  
+    <%= f.input :payment_type, :collection => Payment.valid_payment_types, required: true %>
     <%= f.input :reference_number %>
     <%= f.input :amount, required: true  %>
   </div>

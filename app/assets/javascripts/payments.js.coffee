@@ -1,39 +1,37 @@
 $ ->
-	i = $("#payment_invoice_id").val()
-	filter_invoices = (e) ->
+	#initially selected invoice
+	#initalInv = $("#payment_invoice_id").val()
+	#acctInitial = $("#payment_account_id").val()
+	accounts = {}
+	invoices = {}
+	debug = false
+
+	load_data = () ->
+		$.ajax({ url: "/invoices.json"}).done (data) ->
+			invoices = data
+			load_invoices
+
+		$.ajax({ url: "/accounts.json"}).done (data) ->
+			accounts = data
+
+	load_invoices = () ->
 		a = $("#payment_account_id").val()
-		b = $("#payment_invoice_id option").filter () ->
-			a == $(this).attr("data-account-id")
-#		console.log "Activating #{a}"
-		$("#payment_invoice_id option:enabled").attr('disabled',true)
-		b.removeAttr('disabled')
-		$(this).attr("data-account-id") == undefined
-		$("#payment_invoice_id option:enabled").eq(0).prop('selected',true)
-		$("#payment_invoice_id option").eq(0).removeAttr('disabled')
+		if console? && debug = true
+			console.log "Loading Invoices for account #{a}"
+		#, data: "account_id=#{a}"
+		html = "<option value></option>"
+		for invoice in invoices
+			if +invoice.account_id != +a && a != ""
+				continue
+			html += "<option value=#{invoice.id} data-account-id=#{invoice.account_id}>#{invoice.name} (#{invoice.balance_due} due)</option>"
+		$("select#payment_invoice_id").html(html).val(a)
+		$(".account_buttons").insertAfter("label[for=invoice_account_id]").css("padding","0px 5px")
 
-
-	load_account = (e) ->
-        a = $("#payment_invoice").val()
-        if a?
-          $.ajax({ url: "/invoices.json", data: "id=#{a}" }).done (data) ->
-            $("option[value=#{data[0].account_id}]","#payment_account_id").attr("selected",true)
-    $("#payment_invoice").change(load_account)
-
-	load_invoices = (e) ->
-    a = $("#payment_account_id").val()
-    $.ajax({ url: "/invoices.json", data: "account_id=#{a}" }).done (data) ->
-      html = ""
-      for invoice in data
-        html += "<option value=#{invoice.id} data-account-id=#{invoice.account_id}>#{invoice.name} (#{invoice.balance_due} due)</option>"
-      $("select#payment_invoice_id").html(html).prepend("<option value></option>").val("");
-
-    $("#payment_account_id").change(filter_invoices)
-    $(".account_buttons").insertAfter("label[for=invoice_account_id]").css("padding","0px 5px")
-    $("#payment_invoice_id").change(set_account)
-
-  set_account = (e) ->
-      $("#payment_account_id").val($("select#payment_invoice_id option:selected").attr("data-account-id"))
-			filter_invoices()
+	set_account = () ->
+		a = $("#payment_invoice_id option:selected").attr("data-account-id")
+		if console? && debug = true
+			console.log("setting account to #{a}")
+		$("#payment_account_id").val(a)
 
   $("input[name*=payment_date]").each (v) ->
       $(this).oninvalid = (e) ->
@@ -43,5 +41,6 @@ $ ->
       $(this).oninput = (e) ->
         e.target.setCustomValidity("")
 
-#	load_invoices()
-	$("#payment_invoice_id").val(i)
+	load_data()
+	$("#payment_account_id").change(load_invoices)
+	$("#payment_invoice_id").change(set_account)

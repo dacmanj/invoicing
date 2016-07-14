@@ -1,9 +1,10 @@
 $ ->
+	i = $("#payment_invoice_id").val()
 	filter_invoices = (e) ->
 		a = $("#payment_account_id").val()
 		b = $("#payment_invoice_id option").filter () ->
 			a == $(this).attr("data-account-id")
-		console.log "Activating #{a}"
+#		console.log "Activating #{a}"
 		$("#payment_invoice_id option:enabled").attr('disabled',true)
 		b.removeAttr('disabled')
 		$(this).attr("data-account-id") == undefined
@@ -21,7 +22,6 @@ $ ->
 	load_invoices = (e) ->
     a = $("#payment_account_id").val()
     $.ajax({ url: "/invoices.json", data: "account_id=#{a}" }).done (data) ->
-      console.log data
       html = ""
       for invoice in data
         html += "<option value=#{invoice.id} data-account-id=#{invoice.account_id}>#{invoice.name} (#{invoice.balance_due} due)</option>"
@@ -43,8 +43,5 @@ $ ->
       $(this).oninput = (e) ->
         e.target.setCustomValidity("")
 
-
-
-
-	load_invoices()
-#        this.setCustomValidity("Please enter the date in mm/dd/yyyy format.")
+#	load_invoices()
+	$("#payment_invoice_id").val(i)

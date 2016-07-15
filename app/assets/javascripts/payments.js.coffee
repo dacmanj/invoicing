@@ -30,7 +30,7 @@ $ ->
 
 	set_account = () ->
 		a = $("#payment_invoice_id option:selected").attr("data-account-id")
-		if console? && debug = true
+		if console? && debug == true
 			console.log("setting account to #{a}")
 		if a?
 			$("#payment_account_id").val(a)

@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   helper_method :user_signed_in?
   helper_method :correct_user?
+  before_filter :set_paper_trail_whodunnit
 
   after_filter :flash_to_headers
 
@@ -59,7 +60,7 @@ class ApplicationController < ActionController::Base
       end
 
       unless message.blank?
-      # We need encode our message, because we can't use      
+      # We need encode our message, because we can't use
       # unicode symbols in headers
         response.headers['X-Message'] = URI::encode message
         response.headers['X-Message-Type'] = message_type

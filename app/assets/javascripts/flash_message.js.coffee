@@ -8,17 +8,20 @@ debug = false
 $ -> 
   console.log "ajaxFlashLoading..." if console? && debug
   flash_msg_event = (event, request) ->
+    msg = decodeURIComponent(request.getResponseHeader("X-Message")) || ""
+    msg_type = request.getResponseHeader("X-Message-Type") || ""
     if console? && debug
       console.log "ajax request"
       console.log request
       console.log request.getAllResponseHeaders()
-  
-    msg = decodeURIComponent(request.getResponseHeader("X-Message")) || ""
-    msg_type = request.getResponseHeader("X-Message-Type") || ""
+      console.log "message: #{msg}"
+      console.log "message_type: #{msg_type}"
+
+
     if request.status == 500
       msg = "500 Server Error"
       msg_type = "error"
-    if msg?.length and msg_type?.length
+    if msg?.present?
       console.log "Flash Message: #{msg}" if console? && debug
 
       alert_type = 'alert-success'
@@ -30,11 +33,9 @@ $ ->
                     #{msg}
                   </div>").show()
       $("body").scrollTop(0)
-    #delete the flash message (if it was there before) when an ajax request returns no flash message
-    else 
-      $("#flash-message").html("").hide()
-    hideflash = -> $("#flash-message").fadeOut()
-    setTimeout hideflash, 5000
+      hideflash = -> $("#flash-message").fadeOut()
+      setTimeout hideflash, 5000
+
     true
 
   file_upload_event = (e,r) ->

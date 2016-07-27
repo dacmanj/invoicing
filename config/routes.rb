@@ -61,6 +61,7 @@ Invoicing::Application.routes.draw do
   resources :users
 
   match '/import' => 'static_pages#import'
+  match '/home' => 'static_pages#home'
   match '/accounts/:account_id/invoices/new' => 'invoices#new', :as => "new_account_invoice"
   match '/accounts/:id/contacts/new' => 'contacts#new', :as => "new_account_contact"
   match '/accounts/:account_id/payments/new' => 'payments#new', :as => "new_account_payment"

@@ -2,7 +2,7 @@ class StaticPagesController < ApplicationController
   before_filter :authenticate
   skip_before_filter :authenticate, :only => [:home]
   def home
-  	redirect_to invoices_url if !current_user.blank?
+ # 	redirect_to invoices_url if !current_user.blank?
   end
 
   def import

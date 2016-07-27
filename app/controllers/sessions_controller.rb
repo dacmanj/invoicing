@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
       user = User.where(:provider => auth['provider'], :uid => auth['uid'].to_s).first || User.create_with_omniauth(auth)
       rescue UserDomainError => e
         flash[:error] = e.message
-        redirect_to root_url
+        redirect_to '/home'
       return
     end
 
@@ -27,11 +27,11 @@ class SessionsController < ApplicationController
 
   def destroy
     reset_session
-    redirect_to root_url, :notice => 'Signed out!'
+    redirect_to '/home', :notice => 'Signed out!'
   end
 
   def failure
-    redirect_to root_url, :alert => "Authentication error: #{params[:message].humanize}"
+    redirect_to '/home', :alert => "Authentication error: #{params[:message].humanize}"
   end
 
 end

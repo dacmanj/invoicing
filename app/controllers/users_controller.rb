@@ -41,8 +41,22 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    @user = User.find(params[:id])
+    authorize_action_for(@user)
+    respond_to do |format|
+      if @user.destroy
+        format.html { redirect_to users_path, notice: 'User was successfully deleted.' }
+        format.json { render json: @user, status: :created }
+      else
+        format.html { redirect_to users_path, notice: 'User could not be deleted.' }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
 
-def show
+  end
+
+  def show
     @user = User.find(params[:id])
     authorize_action_for(@user)
   end
